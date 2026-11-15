@@ -1,22 +1,25 @@
-# CLAREMM Scan — prototipo funcional
+# CLAREMM Scan v2
 
-Aplicación web instalable (PWA) para fotografiar etiquetas de calzado, revisar los campos detectados, guardar registros y exportar Excel.
+Aplicación estática para Vercel. Coloca estos cuatro archivos en la raíz del proyecto publicado, o configura **Root Directory** en Vercel para apuntar a la carpeta que los contiene. No requiere build.
 
-## Iniciar
+## Funciones
+- Cámara en vivo (HTTPS o localhost) y captura de múltiples fotografías.
+- Carga de imágenes desde el dispositivo.
+- OCR Tesseract.js, reconocimiento heurístico de posibles etiquetas y revisión en tabla antes de guardar.
+- Captura manual, edición, suma de cantidades ante duplicados, exportación XLSX/CSV/JSON y restauración de JSON.
+- Mantiene la clave `claremmscan-v1` de localStorage para preservar los registros del navegador existente.
 
-En la carpeta del proyecto:
+## Limitaciones importantes
+El OCR **no detecta de forma confiable todas las etiquetas de una foto** ni garantiza asociación correcta de código, color y talla cuando hay varias cajas en columnas, etiquetas solapadas o texto inclinado. El parser genera candidatos y requiere revisión. No se deben guardar automáticamente como datos verificados. Para producción conviene detección por regiones (visión artificial) y pruebas con fotos reales.
 
-```bash
-npx serve . -l 5174
-```
+El inventario se guarda **solo en el navegador/dispositivo**. Vercel no sincroniza los datos entre usuarios. Para inventario compartido agrega un backend con base de datos y autenticación.
 
-Abre `http://localhost:5174` en tu PC. Para usar la cámara e instalarla en Android, publícala en un dominio HTTPS (por ejemplo Vercel) y abre esa URL en Chrome > menú > Agregar a pantalla principal.
+## Uso
+1. Abre la app desde HTTPS.
+2. Pulsa Abrir cámara > Capturar foto (repite si quieres) o Cargar fotografías.
+3. Pulsa Leer etiquetas.
+4. Revisa y corrige los resultados, marca las filas y guarda.
+5. Exporta a Excel o realiza respaldo JSON.
 
-En Vercel: importa el repositorio con estos archivos, Framework Preset: Other, sin build, Output Directory: `.`.
-
-## Importante
-
-- Los registros se guardan en el almacenamiento local del navegador, **no en una base de datos compartida**. No se sincronizan entre dispositivos y se perderán si borras los datos del navegador. Exporta respaldos periódicamente.
-- OCR mediante Tesseract.js, descargado desde CDN; requiere internet para cargar el motor y puede fallar con etiquetas borrosas. Revisa siempre antes de guardar.
-- El reconocimiento del código es heurístico y se orienta a estilos LAP, UN, ANG, SP y UNGOLD; puedes editar cualquier campo manualmente.
-- Para sincronización multiusuario y almacenamiento confiable se necesita backend/API, base de datos y autenticación.
+## Seguridad
+No incluyas claves de API en JavaScript público. Los scripts Tesseract y XLSX se cargan desde CDN. Para un despliegue de producción, fija y audita dependencias. El OCR se ejecuta en el navegador.
