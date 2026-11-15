@@ -1,1 +1,28 @@
-{"name":"CLAREMM Scan","short_name":"CLAREMM","start_url":"./","display":"standalone","background_color":"#f3f6f8","theme_color":"#182b38","lang":"es","description":"Captura de inventario de calzado mediante fotografías"}
+{
+  "id": "./",
+  "name": "CLAREMM Scan",
+  "short_name": "CLAREMM",
+  "description": "Captura de inventario de calzado mediante fotografías",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f3f6f8",
+  "theme_color": "#182b38",
+  "lang": "es",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

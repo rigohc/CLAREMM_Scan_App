@@ -24,5 +24,10 @@ Las imágenes se guardan por separado en IndexedDB. El respaldo JSON no las incl
 4. Revisa y corrige los resultados, marca las filas y guarda.
 5. Exporta a Excel o realiza respaldo JSON.
 
+## Instalación como app
+- Android (Chrome/Samsung Internet): abre la versión HTTPS y pulsa **Instalar app**.
+- iPhone/iPad: abre la versión HTTPS, toca **Compartir** y elige **Agregar a pantalla de inicio**.
+- La instalación no funciona abriendo `index.html` directamente con `file://`; usa Vercel o un servidor HTTPS.
+
 ## Seguridad
 No incluyas claves de API en JavaScript público. Los scripts Tesseract y XLSX se cargan desde CDN. Para un despliegue de producción, fija y audita dependencias. El OCR se ejecuta en el navegador.
