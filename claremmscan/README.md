@@ -7,12 +7,15 @@ Aplicación estática para Vercel. Coloca estos cuatro archivos en la raíz del 
 - Carga de imágenes desde el dispositivo.
 - OCR Tesseract.js, reconocimiento heurístico de posibles etiquetas y revisión en tabla antes de guardar.
 - Captura manual, edición, suma de cantidades ante duplicados, exportación XLSX/CSV/JSON y restauración de JSON.
+- Imagen opcional por estilo + color, convertida a PNG de máximo 100 KB y exportación conjunta en ZIP.
 - Mantiene la clave `claremmscan-v1` de localStorage para preservar los registros del navegador existente.
 
 ## Limitaciones importantes
 El OCR **no detecta de forma confiable todas las etiquetas de una foto** ni garantiza asociación correcta de código, color y talla cuando hay varias cajas en columnas, etiquetas solapadas o texto inclinado. El parser genera candidatos y requiere revisión. No se deben guardar automáticamente como datos verificados. Para producción conviene detección por regiones (visión artificial) y pruebas con fotos reales.
 
 El inventario se guarda **solo en el navegador/dispositivo**. Vercel no sincroniza los datos entre usuarios. Para inventario compartido agrega un backend con base de datos y autenticación.
+
+Las imágenes se guardan por separado en IndexedDB. El respaldo JSON no las incluye; usa **Exportar imágenes (.zip)** para respaldarlas.
 
 ## Uso
 1. Abre la app desde HTTPS.
