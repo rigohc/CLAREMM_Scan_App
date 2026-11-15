@@ -1,0 +1,3 @@
+/claremmscan/tests/prueba/
+/claremmscan/.env*
+!/claremmscan/.env.example

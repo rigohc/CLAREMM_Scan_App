@@ -1,17 +1,27 @@
-# CLAREMM Scan v2
+# CLAREMM Scan v14
 
-Aplicación estática para Vercel. Coloca estos cuatro archivos en la raíz del proyecto publicado, o configura **Root Directory** en Vercel para apuntar a la carpeta que los contiene. No requiere build.
+Aplicación PWA para Vercel. Configura **Root Directory** en Vercel para que apunte a `claremmscan`. No requiere build; la función `api/ocr.js` procesa el reconocimiento por visión sin exponer la clave en el navegador.
 
 ## Funciones
 - Cámara en vivo (HTTPS o localhost) y captura de múltiples fotografías.
 - Carga de imágenes desde el dispositivo.
-- OCR Tesseract.js, reconocimiento heurístico de posibles etiquetas y revisión en tabla antes de guardar.
+- Visión en servidor para leer las etiquetas y OCR Tesseract.js como respaldo local.
 - Captura manual, edición, suma de cantidades ante duplicados, exportación XLSX/CSV/JSON y restauración de JSON.
 - Imagen opcional por estilo + color, convertida a PNG de máximo 100 KB y exportación conjunta en ZIP.
 - Mantiene la clave `claremmscan-v1` de localStorage para preservar los registros del navegador existente.
 
+## Configurar el reconocimiento por visión
+
+1. Crea `claremmscan/.env.local` a partir de `.env.example` y agrega tu clave real. `.env.local` está excluido de Git.
+2. Para ejecutar las cinco pruebas reales de `tests/prueba`, entra a `claremmscan` y ejecuta `node --env-file=.env.local scripts/test-vision.js`.
+3. En Vercel agrega `OPENAI_API_KEY` en **Settings → Environment Variables** para Production, Preview y Development, y vuelve a desplegar.
+4. `OPENAI_VISION_MODEL` es opcional; el valor predeterminado es `gpt-6-luna`.
+
+Nunca pongas la clave en `app.js`, `index.html`, una captura de pantalla o un commit.
+
 ## Limitaciones importantes
-El OCR **no detecta de forma confiable todas las etiquetas de una foto** ni garantiza asociación correcta de código, color y talla cuando hay varias cajas en columnas, etiquetas solapadas o texto inclinado. El parser genera candidatos y requiere revisión. No se deben guardar automáticamente como datos verificados. Para producción conviene detección por regiones (visión artificial) y pruebas con fotos reales.
+
+Aunque la visión mejora considerablemente fotos inclinadas o con poco contraste, cada lectura sigue requiriendo revisión. Si la función de visión no está configurada o falla, la app usa Tesseract local; ese respaldo no reconoce de forma confiable todas las etiquetas.
 
 El inventario se guarda **solo en el navegador/dispositivo**. Vercel no sincroniza los datos entre usuarios. Para inventario compartido agrega un backend con base de datos y autenticación.
 
@@ -30,4 +40,5 @@ Las imágenes se guardan por separado en IndexedDB. El respaldo JSON no las incl
 - La instalación no funciona abriendo `index.html` directamente con `file://`; usa Vercel o un servidor HTTPS.
 
 ## Seguridad
-No incluyas claves de API en JavaScript público. Los scripts Tesseract y XLSX se cargan desde CDN. Para un despliegue de producción, fija y audita dependencias. El OCR se ejecuta en el navegador.
+
+La clave solo se lee en la función de servidor `api/ocr.js`; el navegador nunca la recibe. Las respuestas no se almacenan mediante la opción `store: false`. Los scripts Tesseract, XLSX y JSZip se cargan desde CDN; para un despliegue de producción, fija y audita dependencias.
