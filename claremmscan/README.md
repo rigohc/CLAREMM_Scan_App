@@ -1,21 +1,22 @@
-# CLAREMM Scan v14
+# CLAREMM Scan v15
 
 Aplicación PWA para Vercel. Configura **Root Directory** en Vercel para que apunte a `claremmscan`. No requiere build; la función `api/ocr.js` procesa el reconocimiento por visión sin exponer la clave en el navegador.
 
 ## Funciones
 - Cámara en vivo (HTTPS o localhost) y captura de múltiples fotografías.
 - Carga de imágenes desde el dispositivo.
-- Visión en servidor para leer las etiquetas y OCR Tesseract.js como respaldo local.
+- Gemini en servidor para leer las etiquetas, OpenAI como respaldo opcional y OCR Tesseract.js como respaldo local.
 - Captura manual, edición, suma de cantidades ante duplicados, exportación XLSX/CSV/JSON y restauración de JSON.
 - Imagen opcional por estilo + color, convertida a PNG de máximo 100 KB y exportación conjunta en ZIP.
 - Mantiene la clave `claremmscan-v1` de localStorage para preservar los registros del navegador existente.
 
 ## Configurar el reconocimiento por visión
 
-1. Crea `claremmscan/.env.local` a partir de `.env.example` y agrega tu clave real. `.env.local` está excluido de Git.
+1. Crea `claremmscan/.env.local` a partir de `.env.example` y agrega `GEMINI_API_KEY`. `.env.local` está excluido de Git.
 2. Para ejecutar las cinco pruebas reales de `tests/prueba`, entra a `claremmscan` y ejecuta `node --env-file=.env.local scripts/test-vision.js`.
-3. En Vercel agrega `OPENAI_API_KEY` en **Settings → Environment Variables** para Production, Preview y Development, y vuelve a desplegar.
-4. `OPENAI_VISION_MODEL` es opcional; el valor predeterminado es `gpt-6-luna`.
+3. En Vercel agrega `GEMINI_API_KEY` en **Settings → Environment Variables** para Production, Preview y Development, y vuelve a desplegar.
+4. `GEMINI_VISION_MODEL` es opcional; el valor predeterminado es `gemini-3.5-flash-lite`.
+5. `OPENAI_API_KEY` es opcional y solo se usa como segundo proveedor si Gemini falla.
 
 Nunca pongas la clave en `app.js`, `index.html`, una captura de pantalla o un commit.
 
@@ -41,4 +42,4 @@ Las imágenes se guardan por separado en IndexedDB. El respaldo JSON no las incl
 
 ## Seguridad
 
-La clave solo se lee en la función de servidor `api/ocr.js`; el navegador nunca la recibe. Las respuestas no se almacenan mediante la opción `store: false`. Los scripts Tesseract, XLSX y JSZip se cargan desde CDN; para un despliegue de producción, fija y audita dependencias.
+Las claves solo se leen en la función de servidor `api/ocr.js`; el navegador nunca las recibe. En OpenAI las respuestas no se almacenan mediante la opción `store: false`. Los scripts Tesseract, XLSX y JSZip se cargan desde CDN; para un despliegue de producción, fija y audita dependencias.
