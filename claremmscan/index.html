@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="tokens.css?v=17-authresend">
+  <link rel="stylesheet" href="tokens.css?v=17-inventory-tools">
   <style>
     /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 · genre: atmospheric · macrostructure: Workbench · theme: Midnight · enrichment: none · nav: N9 · footer: Ft2 · contrast: pass (40–41) · slop: pass (42–49) · mobile: pass (34,49–57) */
     *,*::before,*::after{box-sizing:border-box}
@@ -86,7 +86,7 @@
     #debug{max-height:14rem;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;padding:var(--space-sm);border-radius:var(--radius-sm);background:var(--color-paper);color:var(--color-neutral);font-size:var(--text-xs)}
     .grid{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-md)}
     .imageField{display:grid;gap:var(--space-sm)}
-    .imageActions,.formActions,.reviewActions,.exportActions{display:flex;flex-wrap:wrap;gap:var(--space-xs);align-items:center}
+    .imageActions,.formActions,.reviewActions,.exportActions,.inventoryPrimaryActions{display:flex;flex-wrap:wrap;gap:var(--space-xs);align-items:center}
     #productImagePreview{display:block;max-width:100%;max-height:14rem;object-fit:contain;border:var(--rule-thin) solid var(--color-rule);border-radius:var(--radius-input);background:var(--color-paper)}
     #editNotice{display:block;margin-block-start:var(--space-sm);color:var(--color-ai)}
     .tablewrap{min-width:0;max-width:100%;overflow:visible}
@@ -102,15 +102,28 @@
     #reviewCard input[type=checkbox]{width:2rem;height:2rem;accent-color:var(--color-accent)}
     #reviewCard td:last-child{color:var(--color-warning);font-weight:600}
     .inventoryPanel td:last-child{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-xs)}
+    .inventoryPanel td:last-child::before{grid-column:1/-1}
     .inventoryPanel td:last-child button{width:100%;padding-inline:var(--space-xs)}
     .exportMenu{margin-block:0 var(--space-md)}
     .exportMenu summary{width:max-content;max-width:100%;min-height:var(--control-height);padding-inline:var(--space-md);border:var(--rule-thin) solid var(--color-accent);border-radius:var(--radius-input);background:var(--color-accent);color:var(--color-accent-ink);font-family:var(--font-display);font-weight:700;list-style:none}
     .exportMenu summary::-webkit-details-marker{display:none}
     .exportActions{margin-block-start:var(--space-sm);padding:var(--space-sm);border:var(--rule-thin) solid var(--color-rule);border-radius:var(--radius-input);background:var(--color-field)}
+    .inventoryPrimaryActions{margin-block-end:var(--space-md)}
+    .inventoryPrimaryActions button{width:100%}
+    .inventoryPrimaryActions small{flex:1 1 16rem}
+    .inventoryFilters{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-sm);margin-block:var(--space-md)}
+    .inventoryResultInfo{margin-block:0 var(--space-sm);color:var(--color-neutral)}
+    .inventoryPagination{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:var(--space-xs);margin-block-start:var(--space-md)}
+    .pageNumbers{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:var(--space-2xs)}
+    .inventoryPagination button{min-width:var(--control-height);padding-inline:var(--space-sm)}
+    .inventoryPagination button[aria-current="page"]{border-color:var(--color-ai);background:var(--color-ai-surface);color:var(--color-ai)}
+    .pageGap{display:grid;place-items:center;min-width:var(--space-lg);height:var(--control-height);color:var(--color-muted)}
+    .emptyRow{color:var(--color-muted);text-align:center}
+    .emptyRow::before{display:none!important}
     .footLine{width:min(100%,var(--page-max));margin-inline:auto;padding-block:var(--space-lg);padding-inline:max(var(--space-md),env(safe-area-inset-left)) max(var(--space-md),env(safe-area-inset-right));border-block-start:var(--rule-thin) solid var(--color-rule);color:var(--color-muted);font-size:var(--text-sm)}
     @media (hover:hover) and (pointer:fine){button:hover{background:var(--color-accent-hover);transform:translateY(-1px)}button.secondary:hover{background:var(--color-paper-3)}button.danger:hover{background:var(--color-danger-surface);color:var(--color-danger-hover)}button.aiAction:hover{background:var(--color-warning-surface)}input:hover,select:hover{background:var(--color-paper-3)}}
-    @media (min-width:40rem){.headerInner{padding-block:var(--space-xl)}.headerTop{flex-direction:row;align-items:flex-start}.metrics{grid-template-columns:repeat(4,minmax(0,10rem));gap:var(--space-sm)}.cloudAuth{grid-template-columns:repeat(2,minmax(0,1fr))}.cloudAuth button{width:100%}.toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.imageField{grid-column:1/-1}.tablewrap tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-sm)}#reviewCard td:nth-child(9),.inventoryPanel td:nth-child(9){grid-column:1/-1}.card{padding:var(--space-xl)}}
-    @media (min-width:60rem){.workspace{grid-template-columns:minmax(20rem,.82fr) minmax(0,1.45fr);grid-template-areas:"scan inventory" "review review" "manual .";gap:var(--space-lg)}.scanPanel{position:relative;top:auto}.cloudAuth{grid-template-columns:minmax(11rem,1fr) minmax(11rem,1fr) repeat(3,auto)}.tablewrap{overflow:auto;overscroll-behavior-inline:contain}table{display:table;width:100%;white-space:nowrap}#reviewCard table{min-width:64rem}.inventoryPanel table{min-width:56rem}thead{display:table-header-group}tbody{display:table-row-group}tr,.tablewrap tr{display:table-row;width:auto;margin:0;padding:0;border:0;background:transparent}th,td{display:table-cell;width:auto;padding:var(--space-sm);border-block-end:var(--rule-thin) solid var(--color-rule);text-align:start;vertical-align:middle}th{background:var(--color-paper-3);font-family:var(--font-display);font-size:var(--text-sm)}td::before{display:none!important}.inventoryPanel td:last-child{display:table-cell}.inventoryPanel td:last-child button{width:auto}.inventoryPanel{min-height:38rem}#reviewCard{scroll-margin-block-start:var(--space-md)}}
+    @media (min-width:40rem){.headerInner{padding-block:var(--space-xl)}.headerTop{flex-direction:row;align-items:flex-start}.metrics{grid-template-columns:repeat(4,minmax(0,10rem));gap:var(--space-sm)}.cloudAuth{grid-template-columns:repeat(2,minmax(0,1fr))}.cloudAuth button{width:100%}.toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.imageField{grid-column:1/-1}.inventoryPrimaryActions button{width:auto}.inventoryFilters{grid-template-columns:minmax(0,1fr) minmax(11rem,.35fr)}.tablewrap tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-sm)}#reviewCard td:nth-child(9),.inventoryPanel td:nth-child(9){grid-column:1/-1}.card{padding:var(--space-xl)}}
+    @media (min-width:60rem){.workspace{grid-template-columns:minmax(20rem,.82fr) minmax(0,1.45fr);grid-template-areas:"scan inventory" "review review" "manual .";gap:var(--space-lg)}.scanPanel{position:relative;top:auto}.cloudAuth{grid-template-columns:minmax(11rem,1fr) minmax(11rem,1fr) repeat(3,auto)}.tablewrap{overflow:auto;overscroll-behavior-inline:contain}table{display:table;width:100%;white-space:nowrap}#reviewCard table{min-width:64rem}.inventoryPanel table{min-width:52rem}thead{display:table-header-group}tbody{display:table-row-group}tr,.tablewrap tr{display:table-row;width:auto;margin:0;padding:0;border:0;background:transparent}th,td{display:table-cell;width:auto;padding:var(--space-sm);border-block-end:var(--rule-thin) solid var(--color-rule);text-align:start;vertical-align:middle}th{background:var(--color-paper-3);font-family:var(--font-display);font-size:var(--text-sm)}td::before{display:none!important}.inventoryPanel td:last-child{display:table-cell;white-space:nowrap}.inventoryPanel td:last-child button{width:auto}.inventoryPanel{min-height:38rem}#reviewCard{scroll-margin-block-start:var(--space-md)}}
     @media (min-width:90rem){.workspace{grid-template-columns:minmax(24rem,.78fr) minmax(0,1.55fr)}.manualPanel .grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media (pointer:coarse){button,input,select,summary{min-height:3rem}}
     @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:150ms!important;animation-iteration-count:1!important;transition-duration:150ms!important;scroll-behavior:auto!important}}
@@ -192,9 +205,15 @@
       </section>
       <section class="card inventoryPanel">
         <div class="cardHead"><h2>4. Inventario <span id="count">(0)</span></h2><small>Stock actual</small></div>
-        <details class="exportMenu"><summary>Exportar y respaldo</summary><div class="exportActions"><button id="xlsx">Excel (.xlsx)</button><button id="csv" class="secondary">CSV</button><button id="exportImages">Imágenes (.zip)</button><button id="backup" class="secondary">Respaldo JSON</button><button id="restore" class="secondary">Restaurar respaldo</button><input id="restoreFile" type="file" accept="application/json,.json" hidden><button id="clear" class="danger">Borrar todo</button></div></details>
-        <small>Las imágenes se exportan por separado del respaldo JSON.</small>
+        <div class="inventoryPrimaryActions"><button id="exportImages" type="button">Exportar imágenes</button><small id="imageExportInfo">Crea un ZIP únicamente con imágenes PNG de máximo 100 KB.</small></div>
+        <div class="inventoryFilters">
+          <label for="inventorySearch">Buscar inventario<input id="inventorySearch" type="search" autocomplete="off" placeholder="Estilo, color, talla, material…"></label>
+          <label for="inventorySearchScope">Buscar en<select id="inventorySearchScope"><option value="all">Todos los campos</option><option value="style">Solo estilo</option></select></label>
+        </div>
+        <p id="inventoryResultInfo" class="inventoryResultInfo" aria-live="polite">Mostrando todos los registros.</p>
+        <details class="exportMenu"><summary>Exportar datos y respaldo</summary><div class="exportActions"><button id="xlsx">Excel (.xlsx)</button><button id="csv" class="secondary">CSV</button><button id="backup" class="secondary">Respaldo JSON</button><button id="restore" class="secondary">Restaurar respaldo</button><input id="restoreFile" type="file" accept="application/json,.json" hidden><button id="clear" class="danger">Borrar todo</button></div></details>
         <div class="tablewrap"><table><thead><tr><th>Estilo</th><th>Color</th><th>Línea</th><th>Talla</th><th>Cantidad</th><th>Material</th><th>Precio</th><th>Imagen</th><th>Acciones</th></tr></thead><tbody id="rows"></tbody></table></div>
+        <nav id="inventoryPagination" class="inventoryPagination" aria-label="Páginas del inventario" hidden><button id="pagePrev" type="button" class="secondary">Anterior</button><div id="pageNumbers" class="pageNumbers"></div><button id="pageNext" type="button" class="secondary">Siguiente</button></nav>
       </section>
     </div>
   </main>
@@ -203,7 +222,7 @@
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <script src="app.js?v=17-authresend"></script>
-  <script src="supabase-sync.js?v=17-authresend"></script>
+  <script src="app.js?v=17-inventory-tools"></script>
+  <script src="supabase-sync.js?v=17-inventory-tools"></script>
 </body>
 </html>
