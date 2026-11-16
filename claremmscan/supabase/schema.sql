@@ -8,6 +8,7 @@ create table if not exists public.inventory_items (
   user_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
   item_key text not null,
   estilo text not null,
+  marca text not null default '',
   color text not null,
   linea text not null default '',
   talla text not null,
@@ -18,6 +19,10 @@ create table if not exists public.inventory_items (
   updated_at timestamptz not null default now(),
   unique (user_id, item_key)
 );
+
+-- Migración segura para proyectos que ya tenían la tabla creada.
+alter table public.inventory_items
+  add column if not exists marca text not null default '';
 
 create index if not exists inventory_items_user_id_idx on public.inventory_items(user_id);
 alter table public.inventory_items enable row level security;

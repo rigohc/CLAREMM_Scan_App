@@ -6,7 +6,8 @@ Aplicación PWA para Vercel. Configura **Root Directory** en Vercel para que apu
 - Cámara en vivo (HTTPS o localhost) y captura de múltiples fotografías.
 - Carga de imágenes desde el dispositivo.
 - Gemini en servidor para leer las etiquetas, OpenAI como respaldo opcional y OCR Tesseract.js como respaldo local.
-- Captura manual, edición, suma de cantidades ante duplicados, exportación XLSX/CSV/JSON y restauración de JSON.
+- Captura manual con marca, edición, suma de cantidades ante duplicados, exportación XLSX/CSV/JSON y restauración de JSON.
+- Limpia automáticamente la fotografía de etiqueta después de guardar para preparar el siguiente producto.
 - Imagen opcional por estilo + color, convertida a PNG de máximo 100 KB y exportación conjunta en ZIP.
 - Respaldo y sincronización con Supabase mediante correo/contraseña, RLS y Storage privado.
 - Interfaz oscura tipo estación de trabajo, adaptable a teléfonos de 320 px, tablets y escritorio.
@@ -15,7 +16,7 @@ Aplicación PWA para Vercel. Configura **Root Directory** en Vercel para que apu
 ## Configurar Supabase
 
 1. Crea un proyecto en Supabase.
-2. Abre **SQL Editor**, pega y ejecuta todo [supabase/schema.sql](supabase/schema.sql). Esto crea la tabla, el bucket privado y las políticas RLS.
+2. Abre **SQL Editor**, pega y ejecuta todo [supabase/schema.sql](supabase/schema.sql). Esto crea la tabla, el bucket privado y las políticas RLS. Si ya habías creado la tabla, vuelve a ejecutar el archivo para agregar `marca`; la migración usa `add column if not exists` y no borra tus registros.
 3. En **Authentication → URL Configuration**, configura **Site URL** como `https://scamapp-phi.vercel.app/` y agrega esa misma dirección en **Redirect URLs**. Si también registrarás cuentas desde previews de Vercel, agrega el patrón de preview que corresponda a tu proyecto.
 4. Si personalizaste la plantilla **Confirm signup**, usa `{{ .ConfirmationURL }}` en el enlace. Si construiste el enlace manualmente, usa `{{ .RedirectTo }}` en lugar de `{{ .SiteURL }}` para respetar la URL enviada por la app.
 5. En Vercel agrega `SUPABASE_URL` y `SUPABASE_PUBLISHABLE_KEY` para Production, Preview y Development.

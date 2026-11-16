@@ -15,6 +15,7 @@ const outputSchema = {
         additionalProperties: false,
         properties: {
           style: { type: 'string' },
+          brand: { type: 'string' },
           color: { type: 'string' },
           line: { type: 'string' },
           size: { type: 'string' },
@@ -22,7 +23,7 @@ const outputSchema = {
           quantity: { type: 'integer' },
           confidence: { type: 'number' },
         },
-        required: ['style', 'color', 'line', 'size', 'material', 'quantity', 'confidence'],
+        required: ['style', 'brand', 'color', 'line', 'size', 'material', 'quantity', 'confidence'],
       },
     },
     raw_text: { type: 'string' },
@@ -34,6 +35,7 @@ const instructions = `Lee exclusivamente las etiquetas blancas de inventario vis
 
 Reglas de extracción:
 - STYLE/estilo es el código alfanumérico impreso al inicio de la primera línea, normalmente en la esquina superior izquierda de la etiqueta. Debe contener letras seguidas por dígitos. Ejemplos de formato: ROD410, GIO130, PA0071, OLP505. Los ejemplos solo explican el formato: nunca los copies si no están visibles.
+- BRAND/marca es el nombre de marca o modelo comercial visible en la etiqueta, normalmente en la línea posterior al estilo y color. Transcribe únicamente lo visible y déjalo vacío si no se distingue; no asumas que el logotipo del fabricante de la etiqueta es la marca del producto.
 - COLOR es la palabra o palabras inmediatamente posteriores al estilo en esa misma primera línea. No confundas color con marca, modelo, material ni texto de otra caja.
 - SIZE/talla es el número grande de talla, normalmente entre 15.0 y 32.0 y terminado en .0 o .5.
 - MATERIAL solo puede salir del texto visible, por ejemplo PIEL o SINTETICO. Déjalo vacío si no aparece.
