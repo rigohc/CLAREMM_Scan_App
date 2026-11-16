@@ -7,6 +7,8 @@ Aplicación PWA para Vercel. Configura **Root Directory** en Vercel para que apu
 - Carga de imágenes desde el dispositivo.
 - Gemini en servidor para leer las etiquetas, OpenAI como respaldo opcional y OCR Tesseract.js como respaldo local.
 - Captura manual con marca, edición, suma de cantidades ante duplicados, exportación XLSX/CSV/JSON y restauración de JSON.
+- Importación masiva desde JSON, CSV o Excel con validación previa y elección explícita entre reemplazar o sumar.
+- Al reemplazar el inventario descarga automáticamente una copia JSON de seguridad de los datos anteriores.
 - Limpia automáticamente la fotografía de etiqueta después de guardar para preparar el siguiente producto.
 - Imagen opcional por estilo + color, convertida a PNG de máximo 100 KB y exportación conjunta en ZIP.
 - Respaldo y sincronización con Supabase mediante correo/contraseña, RLS y Storage privado.
@@ -50,6 +52,15 @@ Las imágenes se guardan por separado en IndexedDB. El respaldo JSON no las incl
 3. Pulsa Leer etiquetas.
 4. Revisa y corrige los resultados, marca las filas y guarda.
 5. Exporta a Excel o realiza respaldo JSON.
+
+## Importación masiva
+
+Pulsa **Importar inventario** y selecciona un archivo `.json`, `.csv`, `.xlsx` o `.xls`. La app muestra registros, pares, valor, duplicados y filas inválidas antes de hacer cambios.
+
+Las columnas compatibles son: `Estilo`, `Marca`, `Color`, `Tipo de línea`, `Talla`, `Cantidad`, `Material`, `Precio` y `Notas`. En JSON también se aceptan las claves internas en minúsculas: `estilo`, `marca`, `color`, `linea`, `talla`, `cantidad`, `material`, `precio` y `notas`.
+
+- **Reemplazar todo:** crea primero un respaldo JSON automático y sustituye el inventario.
+- **Sumar al inventario:** agrega registros nuevos y acumula cantidades cuando coinciden estilo, color y talla.
 
 ## Instalación como app
 - Android (Chrome/Samsung Internet): abre la versión HTTPS y pulsa **Instalar app**.
