@@ -21,6 +21,8 @@ Aplicación PWA para Vercel. Configura **Root Directory** en Vercel para que apu
 5. En Vercel agrega `SUPABASE_URL` y `SUPABASE_PUBLISHABLE_KEY` para Production, Preview y Development.
 6. Vuelve a desplegar. Crea una cuenta desde la app, confirma el correo y pulsa **Sincronizar ahora**.
 
+Si el enlace indica `otp_expired`, escribe el correo en la app y pulsa **Reenviar correo**. Abre únicamente el mensaje más reciente: los enlaces anteriores dejan de ser válidos.
+
 La primera sincronización sube los registros e imágenes que ya existan localmente. Después, cada cambio queda en una cola local hasta que Supabase confirma que se guardó.
 
 ## Configurar el reconocimiento por visión

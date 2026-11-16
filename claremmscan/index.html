@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="tokens.css?v=17-authlayout">
+  <link rel="stylesheet" href="tokens.css?v=17-authresend">
   <style>
     /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 · genre: atmospheric · macrostructure: Workbench · theme: Midnight · enrichment: none · nav: N9 · footer: Ft2 · contrast: pass (40–41) · slop: pass (42–49) · mobile: pass (34,49–57) */
     *,*::before,*::after{box-sizing:border-box}
@@ -110,7 +110,7 @@
     .footLine{width:min(100%,var(--page-max));margin-inline:auto;padding-block:var(--space-lg);padding-inline:max(var(--space-md),env(safe-area-inset-left)) max(var(--space-md),env(safe-area-inset-right));border-block-start:var(--rule-thin) solid var(--color-rule);color:var(--color-muted);font-size:var(--text-sm)}
     @media (hover:hover) and (pointer:fine){button:hover{background:var(--color-accent-hover);transform:translateY(-1px)}button.secondary:hover{background:var(--color-paper-3)}button.danger:hover{background:var(--color-danger-surface);color:var(--color-danger-hover)}button.aiAction:hover{background:var(--color-warning-surface)}input:hover,select:hover{background:var(--color-paper-3)}}
     @media (min-width:40rem){.headerInner{padding-block:var(--space-xl)}.headerTop{flex-direction:row;align-items:flex-start}.metrics{grid-template-columns:repeat(4,minmax(0,10rem));gap:var(--space-sm)}.cloudAuth{grid-template-columns:repeat(2,minmax(0,1fr))}.cloudAuth button{width:100%}.toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.imageField{grid-column:1/-1}.tablewrap tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-sm)}#reviewCard td:nth-child(9),.inventoryPanel td:nth-child(9){grid-column:1/-1}.card{padding:var(--space-xl)}}
-    @media (min-width:60rem){.workspace{grid-template-columns:minmax(20rem,.82fr) minmax(0,1.45fr);grid-template-areas:"scan inventory" "review review" "manual .";gap:var(--space-lg)}.scanPanel{position:relative;top:auto}.cloudAuth{grid-template-columns:minmax(11rem,1fr) minmax(11rem,1fr) auto auto}.tablewrap{overflow:auto;overscroll-behavior-inline:contain}table{display:table;width:100%;white-space:nowrap}#reviewCard table{min-width:64rem}.inventoryPanel table{min-width:56rem}thead{display:table-header-group}tbody{display:table-row-group}tr,.tablewrap tr{display:table-row;width:auto;margin:0;padding:0;border:0;background:transparent}th,td{display:table-cell;width:auto;padding:var(--space-sm);border-block-end:var(--rule-thin) solid var(--color-rule);text-align:start;vertical-align:middle}th{background:var(--color-paper-3);font-family:var(--font-display);font-size:var(--text-sm)}td::before{display:none!important}.inventoryPanel td:last-child{display:table-cell}.inventoryPanel td:last-child button{width:auto}.inventoryPanel{min-height:38rem}#reviewCard{scroll-margin-block-start:var(--space-md)}}
+    @media (min-width:60rem){.workspace{grid-template-columns:minmax(20rem,.82fr) minmax(0,1.45fr);grid-template-areas:"scan inventory" "review review" "manual .";gap:var(--space-lg)}.scanPanel{position:relative;top:auto}.cloudAuth{grid-template-columns:minmax(11rem,1fr) minmax(11rem,1fr) repeat(3,auto)}.tablewrap{overflow:auto;overscroll-behavior-inline:contain}table{display:table;width:100%;white-space:nowrap}#reviewCard table{min-width:64rem}.inventoryPanel table{min-width:56rem}thead{display:table-header-group}tbody{display:table-row-group}tr,.tablewrap tr{display:table-row;width:auto;margin:0;padding:0;border:0;background:transparent}th,td{display:table-cell;width:auto;padding:var(--space-sm);border-block-end:var(--rule-thin) solid var(--color-rule);text-align:start;vertical-align:middle}th{background:var(--color-paper-3);font-family:var(--font-display);font-size:var(--text-sm)}td::before{display:none!important}.inventoryPanel td:last-child{display:table-cell}.inventoryPanel td:last-child button{width:auto}.inventoryPanel{min-height:38rem}#reviewCard{scroll-margin-block-start:var(--space-md)}}
     @media (min-width:90rem){.workspace{grid-template-columns:minmax(24rem,.78fr) minmax(0,1.55fr)}.manualPanel .grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media (pointer:coarse){button,input,select,summary{min-height:3rem}}
     @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:150ms!important;animation-iteration-count:1!important;transition-duration:150ms!important;scroll-behavior:auto!important}}
@@ -142,6 +142,7 @@
         <label for="cloudPassword">Contraseña<input id="cloudPassword" type="password" minlength="6" autocomplete="current-password" placeholder="6 caracteres o más"></label>
         <button id="cloudLogin" type="button">Iniciar sesión</button>
         <button id="cloudRegister" type="button" class="secondary">Crear cuenta</button>
+        <button id="cloudResend" type="button" class="secondary">Reenviar correo</button>
       </div>
       <div id="cloudSignedIn" class="cloudSession" hidden><strong id="cloudUser"></strong><button id="cloudSync" type="button">Sincronizar ahora</button><button id="cloudLogout" type="button" class="secondary">Cerrar sesión</button></div>
       <p id="cloudStatus" class="muted" aria-live="polite">Comprobando Supabase…</p>
@@ -202,7 +203,7 @@
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <script src="app.js?v=17-authlayout"></script>
-  <script src="supabase-sync.js?v=17-authlayout"></script>
+  <script src="app.js?v=17-authresend"></script>
+  <script src="supabase-sync.js?v=17-authresend"></script>
 </body>
 </html>

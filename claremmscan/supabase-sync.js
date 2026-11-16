@@ -24,6 +24,14 @@
     url.pathname = url.pathname.replace(/index\.html$/, '');
     return url.toString();
   };
+  const authErrorFromFragment = () => {
+    const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+    const code = params.get('error_code');
+    if (!code) return '';
+    if (code === 'otp_expired') return 'El enlace de confirmación venció o ya fue utilizado. Escribe tu correo y pulsa “Reenviar correo”.';
+    return params.get('error_description') || 'No se pudo confirmar el correo. Solicita un enlace nuevo.';
+  };
+  const initialAuthError = authErrorFromFragment();
   const clearAuthFragment = () => {
     if (!/access_token=|refresh_token=|error_code=|error_description=/.test(window.location.hash)) return;
     window.history.replaceState(null, document.title, `${window.location.pathname}${window.location.search}`);
@@ -43,6 +51,9 @@
     }
     if (message.toLowerCase().includes('bucket') && message.toLowerCase().includes('not found')) {
       return 'Falta crear el almacén de imágenes. Ejecuta supabase/schema.sql en el SQL Editor de Supabase.';
+    }
+    if (/rate limit|too many requests|email rate/i.test(message)) {
+      return 'Supabase limitó temporalmente los correos. Espera unos minutos antes de volver a intentarlo.';
     }
     return message;
   };
@@ -274,7 +285,30 @@
     });
     byId('cloudRegister').disabled = false;
     if (error) return alert('No se pudo crear la cuenta: ' + error.message);
-    if (!data.session) alert('Cuenta creada. Revisa tu correo y confirma la dirección antes de iniciar sesión.');
+    if (!data.session) {
+      setCloudStatus('Solicitud recibida. Si la cuenta está pendiente recibirás un correo; si ya fue confirmada, inicia sesión.', 'ok');
+      alert('Revisa el correo y la carpeta de spam. Si esta cuenta ya fue confirmada, no se enviará otro mensaje: inicia sesión directamente.');
+    }
+  };
+
+  byId('cloudResend').onclick = async () => {
+    if (!client) return alert('Supabase aún no está configurado.');
+    const email = byId('cloudEmail').value.trim();
+    if (!email || !email.includes('@')) return alert('Escribe el correo de la cuenta que quieres confirmar.');
+    byId('cloudResend').disabled = true;
+    setCloudStatus('Solicitando un correo de confirmación nuevo…');
+    const { error } = await client.auth.resend({
+      type: 'signup',
+      email,
+      options: { emailRedirectTo: authRedirectUrl() },
+    });
+    byId('cloudResend').disabled = false;
+    if (error) {
+      const message = cloudErrorMessage(error);
+      setCloudStatus(message, 'warn');
+      return alert(message);
+    }
+    setCloudStatus('Solicitud aceptada. Revisa la bandeja de entrada y spam; abre solamente el mensaje más reciente.', 'ok');
   };
 
   byId('cloudLogout').onclick = async () => { if (client) await client.auth.signOut(); };
@@ -294,6 +328,10 @@
       const { data } = await client.auth.getSession();
       if (data.session) clearAuthFragment();
       await handleSession(data.session);
+      if (!data.session && initialAuthError) {
+        clearAuthFragment();
+        setCloudStatus(initialAuthError, 'warn');
+      }
     } catch {
       updateAuthUi();
       setCloudStatus('Supabase no está configurado; los datos siguen guardándose localmente.', 'muted');
