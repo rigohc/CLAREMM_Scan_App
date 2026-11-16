@@ -1,4 +1,4 @@
-# CLAREMM Scan v16
+# CLAREMM Scan v17
 
 Aplicación PWA para Vercel. Configura **Root Directory** en Vercel para que apunte a `claremmscan`. No requiere build; la función `api/ocr.js` procesa el reconocimiento por visión sin exponer la clave en el navegador.
 
@@ -9,15 +9,17 @@ Aplicación PWA para Vercel. Configura **Root Directory** en Vercel para que apu
 - Captura manual, edición, suma de cantidades ante duplicados, exportación XLSX/CSV/JSON y restauración de JSON.
 - Imagen opcional por estilo + color, convertida a PNG de máximo 100 KB y exportación conjunta en ZIP.
 - Respaldo y sincronización con Supabase mediante correo/contraseña, RLS y Storage privado.
+- Interfaz oscura tipo estación de trabajo, adaptable a teléfonos de 320 px, tablets y escritorio.
 - Mantiene la clave `claremmscan-v1` de localStorage para preservar los registros del navegador existente.
 
 ## Configurar Supabase
 
 1. Crea un proyecto en Supabase.
 2. Abre **SQL Editor**, pega y ejecuta todo [supabase/schema.sql](supabase/schema.sql). Esto crea la tabla, el bucket privado y las políticas RLS.
-3. En **Authentication → URL Configuration**, configura como Site URL la dirección de producción de Vercel.
-4. En Vercel agrega `SUPABASE_URL` y `SUPABASE_PUBLISHABLE_KEY` para Production, Preview y Development.
-5. Vuelve a desplegar. Crea una cuenta desde la app, confirma el correo y pulsa **Sincronizar ahora**.
+3. En **Authentication → URL Configuration**, configura **Site URL** como `https://scamapp-phi.vercel.app/` y agrega esa misma dirección en **Redirect URLs**. Si también registrarás cuentas desde previews de Vercel, agrega el patrón de preview que corresponda a tu proyecto.
+4. Si personalizaste la plantilla **Confirm signup**, usa `{{ .ConfirmationURL }}` en el enlace. Si construiste el enlace manualmente, usa `{{ .RedirectTo }}` en lugar de `{{ .SiteURL }}` para respetar la URL enviada por la app.
+5. En Vercel agrega `SUPABASE_URL` y `SUPABASE_PUBLISHABLE_KEY` para Production, Preview y Development.
+6. Vuelve a desplegar. Crea una cuenta desde la app, confirma el correo y pulsa **Sincronizar ahora**.
 
 La primera sincronización sube los registros e imágenes que ya existan localmente. Después, cada cambio queda en una cola local hasta que Supabase confirma que se guardó.
 

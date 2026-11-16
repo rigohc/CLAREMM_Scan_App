@@ -17,6 +17,17 @@
     catch { return emptyQueue(); }
   };
   const saveQueue = queue => localStorage.setItem(QUEUE_KEY, JSON.stringify(queue));
+  const authRedirectUrl = () => {
+    const url = new URL(window.location.href);
+    url.hash = '';
+    url.search = '';
+    url.pathname = url.pathname.replace(/index\.html$/, '');
+    return url.toString();
+  };
+  const clearAuthFragment = () => {
+    if (!/access_token=|refresh_token=|error_code=|error_description=/.test(window.location.hash)) return;
+    window.history.replaceState(null, document.title, `${window.location.pathname}${window.location.search}`);
+  };
   const chunks = (values, size) => Array.from({ length: Math.ceil(values.length / size) }, (_, i) => values.slice(i * size, (i + 1) * size));
   const setCloudStatus = (message, kind = '') => {
     const el = byId('cloudStatus');
@@ -256,7 +267,11 @@
     const email = byId('cloudEmail').value.trim(), password = byId('cloudPassword').value;
     if (!email || password.length < 6) return alert('Usa un correo válido y una contraseña de al menos 6 caracteres.');
     byId('cloudRegister').disabled = true;
-    const { data, error } = await client.auth.signUp({ email, password });
+    const { data, error } = await client.auth.signUp({
+      email,
+      password,
+      options: { emailRedirectTo: authRedirectUrl() },
+    });
     byId('cloudRegister').disabled = false;
     if (error) return alert('No se pudo crear la cuenta: ' + error.message);
     if (!data.session) alert('Cuenta creada. Revisa tu correo y confirma la dirección antes de iniciar sesión.');
@@ -272,8 +287,12 @@
       const config = await response.json();
       if (!window.supabase?.createClient) throw new Error('library_unavailable');
       client = window.supabase.createClient(config.url, config.publishableKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
-      client.auth.onAuthStateChange((_event, session) => setTimeout(() => handleSession(session), 0));
+      client.auth.onAuthStateChange((_event, session) => setTimeout(() => {
+        if (session) clearAuthFragment();
+        handleSession(session);
+      }, 0));
       const { data } = await client.auth.getSession();
+      if (data.session) clearAuthFragment();
       await handleSession(data.session);
     } catch {
       updateAuthUi();

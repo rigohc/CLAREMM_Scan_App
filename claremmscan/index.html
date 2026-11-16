@@ -1,11 +1,208 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#182b38"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="CLAREMM"><title>CLAREMM Scan v16 Supabase</title><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><style>
-*{box-sizing:border-box}body{margin:0;background:#f3f6f8;color:#1b2933;font:15px system-ui}header{background:#182b38;color:#fff;padding:18px}.headerRow{display:flex;align-items:center;justify-content:space-between;gap:12px}.headerText{min-width:0}#installApp{flex:0 0 auto;background:#38b2c4;color:#10232f;margin:0}#installHelp{display:block;margin-top:6px;color:#d7e6ec}#installHelp[hidden],#installApp[hidden]{display:none}h1{margin:0;font-size:23px}main{max-width:1050px;margin:auto;padding:14px}.card{background:#fff;padding:16px;border-radius:14px;margin:12px 0;box-shadow:0 2px 12px #0001}label{display:block;font-weight:600;margin:9px 0 3px}input,select{width:100%;padding:10px;border:1px solid #cbd5dc;border-radius:8px;font-size:16px}button{padding:11px 14px;background:#1e6378;border:0;color:#fff;border-radius:9px;font-weight:600;cursor:pointer;margin:5px 4px 5px 0}button:disabled{opacity:.5;cursor:wait}.secondary{background:#607684}.danger{background:#b63d43}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.cloudAuth{display:grid;grid-template-columns:minmax(180px,1fr) minmax(160px,1fr) auto auto;gap:8px;align-items:end}.cloudAuth label{margin:0}.cloudSession{display:flex;align-items:center;flex-wrap:wrap;gap:8px}.imageField{grid-column:1/-1}.imageActions{display:flex;flex-wrap:wrap;gap:6px;align-items:center}#productImagePreview{display:block;max-width:220px;max-height:180px;margin-top:8px;border-radius:10px;object-fit:contain;border:1px solid #dbe3e8}#productImagePreview[hidden]{display:none}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;white-space:nowrap}th,td{padding:9px;border-bottom:1px solid #ddd;text-align:left}th{background:#eaf0f3}small{color:#637682}#preview,#camera{max-width:100%;max-height:420px;object-fit:contain;border-radius:10px}#camera{display:none;background:#111;width:100%}#preview{display:none}#status{font-weight:600}.hint{background:#fff7d9;padding:10px;border-radius:8px}.ok{background:#e6f6ec;padding:10px;border-radius:8px}.warn{color:#9a4e00;font-weight:600}.review input,.review select{min-width:100px;padding:7px;font-size:14px}.review input[type=checkbox]{width:auto}.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:5px}.muted{color:#607684}#debug{white-space:pre-wrap;max-height:180px;overflow:auto;font-size:12px}#captureCanvas{display:none}
-@media(max-width:700px){body{font-size:14px}header{padding:14px 12px}.headerRow{align-items:stretch;flex-direction:column}#installApp{width:100%}h1{font-size:21px}main{padding:6px}.card{padding:12px;border-radius:10px;margin:8px 0}h2{font-size:20px}.cloudAuth{grid-template-columns:1fr}.cloudAuth button{width:100%;margin:0}.toolbar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.toolbar button,#scan{width:100%;margin:0}#preview,#camera{width:100%;height:auto}.hint{line-height:1.4}#reviewCard .tablewrap{overflow:visible}#reviewCard table,#reviewCard tbody{display:block;width:100%;white-space:normal}#reviewCard thead{display:none}#reviewCard tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:12px;margin:10px 0;background:#f7f9fa;border:1px solid #dbe3e8;border-radius:10px}#reviewCard td{display:block;min-width:0;padding:0;border:0}#reviewCard td::before{display:block;margin-bottom:4px;color:#607684;font-size:12px;font-weight:700}#reviewCard td:nth-child(1)::before{content:'Incluir'}#reviewCard td:nth-child(2)::before{content:'Estilo'}#reviewCard td:nth-child(3)::before{content:'Color'}#reviewCard td:nth-child(4)::before{content:'Línea'}#reviewCard td:nth-child(5)::before{content:'Talla'}#reviewCard td:nth-child(6)::before{content:'Cantidad'}#reviewCard td:nth-child(7)::before{content:'Material'}#reviewCard td:nth-child(8)::before{content:'Precio'}#reviewCard td:nth-child(9)::before{content:'Revisión'}#reviewCard td:nth-child(9){grid-column:1/-1}#reviewCard input,#reviewCard select{width:100%;min-width:0;max-width:100%}#reviewCard input[type=checkbox]{width:24px;height:24px}#reviewCard>button{width:100%;margin:6px 0 0}#debug{font-size:11px;overflow-wrap:anywhere}}@media(max-width:420px){.toolbar,#reviewCard tr{grid-template-columns:1fr}.grid{grid-template-columns:1fr}#reviewCard td:nth-child(9){grid-column:auto}button{width:100%;margin:5px 0}}
-</style></head><body><header><div class="headerRow"><div class="headerText"><h1>📦 CLAREMM Scan v16 Supabase</h1><div>Cámara · Nube segura · Revisión · Excel</div><small id="installHelp" hidden></small></div><button id="installApp" type="button" hidden>⬇ Instalar app</button></div></header><main>
-<section class="card" id="cloudCard"><h2>☁️ Respaldo y sincronización</h2><div id="cloudSignedOut" class="cloudAuth"><label>Correo<input id="cloudEmail" type="email" autocomplete="email"></label><label>Contraseña<input id="cloudPassword" type="password" minlength="6" autocomplete="current-password"></label><button id="cloudLogin" type="button">Iniciar sesión</button><button id="cloudRegister" type="button" class="secondary">Crear cuenta</button></div><div id="cloudSignedIn" class="cloudSession" hidden><strong id="cloudUser"></strong><button id="cloudSync" type="button">Sincronizar ahora</button><button id="cloudLogout" type="button" class="secondary">Cerrar sesión</button></div><p id="cloudStatus" class="muted">Comprobando Supabase…</p><small>El inventario sigue guardándose localmente y se respalda en Supabase al iniciar sesión.</small></section>
-<section class="card"><h2>1. Escanear etiquetas</h2><div class="toolbar"><button id="openCamera">📷 Abrir cámara</button><button id="take" disabled>Capturar foto</button><button id="closeCamera" class="secondary" disabled>Cerrar cámara</button><button id="choose" class="secondary">🖼️ Cargar fotografías</button></div><input id="photo" type="file" accept="image/*" multiple hidden><video id="camera" autoplay playsinline muted></video><canvas id="captureCanvas"></canvas><p><img id="preview" alt="Fotografía seleccionada"></p><p id="fileInfo" class="muted"></p><button id="scan">🔎 Leer etiquetas</button><p id="status" role="status">Listo para capturar.</p><p class="hint">La app usa Gemini desde una función segura para leer estilo, color y talla; OpenAI y OCR local quedan como respaldos. Verifica cada resultado antes de guardar. La cámara requiere HTTPS o localhost.</p><details id="ocrDetails"><summary>Ver detalle del reconocimiento</summary><pre id="debug"></pre></details></section>
-<section class="card" id="reviewCard" hidden><h2>2. Revisar etiquetas detectadas <span id="pendingCount"></span></h2><p>Corrige cualquier campo antes de importar. Marca solo las filas correctas. Si una foto contiene varias etiquetas, cada una aparece como registro independiente cuando se reconoce su estilo.</p><div class="tablewrap"><table><thead><tr><th>Incluir</th><th>Estilo</th><th>Color</th><th>Línea</th><th>Talla</th><th>Cantidad</th><th>Material</th><th>Precio</th><th>Revisión</th></tr></thead><tbody id="pendingRows"></tbody></table></div><button id="importPending">Guardar seleccionados</button><button id="discardPending" class="secondary">Descartar lecturas</button></section>
-<datalist id="lineOptions"><option value="Tenis"></option><option value="Zapato"></option><option value="Bota"></option><option value="Huarache"></option><option value="Sandalia"></option><option value="Otro"></option></datalist>
-<section class="card"><h2>3. Captura / edición manual</h2><div class="grid"><div><label>Estilo alfanumérico</label><input id="estilo" placeholder="LAP603"></div><div><label>Color</label><input id="color" placeholder="NEGRO"></div><div><label>Tipo de línea</label><input id="linea" list="lineOptions" placeholder="Selecciona o escribe una línea"></div><div><label>Talla</label><input id="talla" inputmode="decimal" placeholder="27.5"></div><div><label>Material</label><input id="material"></div><div><label>Cantidad</label><input id="cantidad" type="number" min="1" value="1"></div><div><label>Precio</label><input id="precio" inputmode="decimal"></div><div><label>Notas</label><input id="notas"></div><div class="imageField"><label>Imagen del producto (opcional)</label><div class="imageActions"><button id="chooseProductImage" type="button">Agregar imagen</button><button id="removeProductImage" type="button" class="secondary" disabled>Quitar imagen</button></div><input id="productImage" type="file" accept="image/*" hidden><img id="productImagePreview" alt="Vista previa del producto" hidden><small id="productImageInfo">Sin imagen seleccionada.</small></div></div><button id="save">Guardar registro</button><button id="reset" class="secondary">Limpiar formulario</button><small id="editNotice"></small></section>
-<section class="card"><h2>4. Inventario <span id="count">(0)</span></h2><button id="xlsx">Exportar Excel (.xlsx)</button><button id="csv" class="secondary">Exportar CSV</button><button id="exportImages">Exportar imágenes (.zip)</button><button id="backup" class="secondary">Respaldo JSON</button><button id="restore" class="secondary">Restaurar respaldo</button><input id="restoreFile" type="file" accept="application/json,.json" hidden><button id="clear" class="danger">Borrar todo</button><small>Las imágenes se guardan en este dispositivo y se exportan por separado del respaldo JSON.</small><div class="tablewrap"><table><thead><tr><th>Estilo</th><th>Color</th><th>Línea</th><th>Talla</th><th>Cantidad</th><th>Material</th><th>Precio</th><th>Imagen</th><th>Acciones</th></tr></thead><tbody id="rows"></tbody></table></div></section></main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="app.js?v=16-supabase"></script><script src="supabase-sync.js?v=16-supabase"></script></body></html>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0e2632">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CLAREMM">
+  <title>CLAREMM Scan v17</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css?v=17-authlayout">
+  <style>
+    /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 · genre: atmospheric · macrostructure: Workbench · theme: Midnight · enrichment: none · nav: N9 · footer: Ft2 · contrast: pass (40–41) · slop: pass (42–49) · mobile: pass (34,49–57) */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{overflow-x:clip}
+    html{background:var(--color-paper)}
+    body{margin:0;min-width:20rem;background:var(--color-paper);color:var(--color-ink);font-family:var(--font-body);font-size:var(--text-base);line-height:1.5;padding-bottom:max(var(--space-md),env(safe-area-inset-bottom))}
+    button,input,select,summary{font:inherit}
+    button,input,select{min-width:0}
+    [hidden]{display:none!important}
+    h1,h2,h3{margin:0;font-family:var(--font-display);font-style:normal;line-height:1.15;letter-spacing:-.025em;overflow-wrap:anywhere;min-width:0}
+    h1{font-size:clamp(var(--text-xl),6vw,var(--text-2xl))}
+    h2{font-size:clamp(var(--text-lg),4.8vw,var(--text-xl))}
+    p{margin-block:0 var(--space-md)}
+    small,.muted{color:var(--color-muted)}
+    strong{font-weight:600}
+    .appHeader{background:var(--color-paper-2);color:var(--color-ink);border-block-end:var(--rule-thin) solid var(--color-rule)}
+    .headerInner{width:min(100%,var(--page-max));margin-inline:auto;padding:var(--space-lg) max(var(--space-md),env(safe-area-inset-right)) var(--space-xl) max(var(--space-md),env(safe-area-inset-left));display:grid;gap:var(--space-lg)}
+    .headerTop{display:flex;flex-direction:column;align-items:stretch;justify-content:space-between;gap:var(--space-md)}
+    .brandLine{display:flex;align-items:baseline;flex-wrap:wrap;gap:var(--space-xs) var(--space-md);min-width:0}
+    .brandLine h1 span{color:var(--color-ai)}
+    .tagline{color:var(--color-muted);font-size:var(--text-sm)}
+    #installHelp{display:block;margin-block-start:var(--space-xs);max-width:56ch;color:var(--color-neutral)}
+    .metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-xs)}
+    .metric{padding:var(--space-sm) var(--space-md);border-radius:var(--radius-input);background:var(--color-paper-3);color:var(--color-ink);min-width:0}
+    .metric span{display:block;color:var(--color-muted);font-family:var(--font-display);font-size:var(--text-xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+    .metric strong{display:block;font-family:var(--font-display);font-size:var(--text-lg);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+    main{width:min(100%,var(--page-max));margin-inline:auto;padding:var(--space-md) max(var(--space-md),env(safe-area-inset-right)) var(--space-2xl) max(var(--space-md),env(safe-area-inset-left))}
+    .workspace{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"scan" "review" "manual" "inventory";gap:var(--space-md);align-items:start}
+    .card{min-width:0;background:var(--color-paper-2);color:var(--color-ink);border:var(--rule-thin) solid var(--color-rule);border-radius:var(--radius-card);padding:var(--space-lg)}
+    .cardHead{display:flex;align-items:center;justify-content:space-between;gap:var(--space-md);margin-block-end:var(--space-lg)}
+    .scanPanel{grid-area:scan}.manualPanel{grid-area:manual}.inventoryPanel{grid-area:inventory}#reviewCard{grid-area:review}
+    #cloudCard{margin-block-end:var(--space-md);padding:var(--space-md)}
+    #cloudCard .cardHead{margin-block-end:var(--space-md)}
+    #cloudCard h2{font-size:var(--text-md)}
+    .cloudAuth{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-sm);align-items:end}
+    .cloudSession{display:flex;align-items:center;flex-wrap:wrap;gap:var(--space-sm)}
+    #cloudStatus{margin-block:var(--space-sm) var(--space-xs);padding:var(--space-sm);border-radius:var(--radius-sm);background:var(--color-field);color:var(--color-neutral)}
+    #cloudStatus.ok{background:var(--color-success-surface);color:var(--color-success)}
+    #cloudStatus.warn{background:var(--color-warning-surface);color:var(--color-warning);font-weight:600}
+    label{display:grid;gap:var(--space-xs);font-family:var(--font-display);font-size:var(--text-sm);font-weight:600;color:var(--color-neutral)}
+    input,select{width:100%;height:var(--control-height);padding-inline:var(--space-sm);border:var(--rule-thin) solid var(--color-rule-strong);outline:2px solid transparent;outline-offset:1px;border-radius:var(--radius-input);background:var(--color-field);color:var(--color-ink);font-size:var(--text-base);transition:background-color var(--dur-short) var(--ease-out)}
+    input::placeholder{color:var(--color-muted);opacity:1}
+    input:focus-visible,select:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--color-focus);outline-offset:2px}
+    input:disabled,select:disabled{opacity:.55;cursor:not-allowed;background:var(--color-paper-3)}
+    input[aria-invalid="true"],input:user-invalid,select[aria-invalid="true"]{border-color:var(--color-danger)}
+    input[data-state="success"],select[data-state="success"]{border-color:var(--color-success)}
+    button{min-height:var(--control-height);padding-inline:var(--space-md);border:var(--rule-thin) solid var(--color-accent);border-radius:var(--radius-input);background:var(--color-accent);color:var(--color-accent-ink);font-family:var(--font-display);font-weight:700;white-space:nowrap;cursor:pointer;transition:background-color var(--dur-short) var(--ease-out),transform var(--dur-micro) var(--ease-out)}
+    button.secondary{border-color:var(--color-rule-strong);background:var(--color-field);color:var(--color-ink)}
+    button.danger{border-color:var(--color-danger);background:var(--color-danger-surface);color:var(--color-danger)}
+    button.aiAction{border-color:var(--color-ai);background:var(--color-ai-surface);color:var(--color-ai)}
+    button:active{transform:translateY(1px)}
+    button:disabled{opacity:.48;cursor:not-allowed;transform:none;background:var(--color-paper-3);color:var(--color-muted);border-color:var(--color-rule)}
+    button[aria-busy="true"]{cursor:wait}
+    .toolbar{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-xs)}
+    .captureStage{position:relative;display:grid;place-items:center;width:100%;height:clamp(17rem,45vw,24rem);min-width:0;margin-block:var(--space-md);padding:var(--space-lg);border-radius:var(--radius-input);background:linear-gradient(var(--color-ai),var(--color-ai)) left top/2.5rem var(--space-2xs) no-repeat,linear-gradient(var(--color-ai),var(--color-ai)) left top/var(--space-2xs) 2.5rem no-repeat,linear-gradient(var(--color-ai),var(--color-ai)) right top/2.5rem var(--space-2xs) no-repeat,linear-gradient(var(--color-ai),var(--color-ai)) right top/var(--space-2xs) 2.5rem no-repeat,linear-gradient(var(--color-ai),var(--color-ai)) left bottom/2.5rem var(--space-2xs) no-repeat,linear-gradient(var(--color-ai),var(--color-ai)) left bottom/var(--space-2xs) 2.5rem no-repeat,linear-gradient(var(--color-ai),var(--color-ai)) right bottom/2.5rem var(--space-2xs) no-repeat,linear-gradient(var(--color-ai),var(--color-ai)) right bottom/var(--space-2xs) 2.5rem no-repeat,var(--color-field);overflow:clip}
+    .capturePlaceholder{max-width:30ch;text-align:center;color:var(--color-muted)}
+    .capturePlaceholder svg{width:3rem;height:3rem;margin-block-end:var(--space-sm);color:var(--color-ai)}
+    .captureStage:has(#preview[style*="block"]),.captureStage:has(#camera[style*="block"]){padding:var(--space-md)}
+    .captureStage:has(#preview[style*="block"]) .capturePlaceholder,.captureStage:has(#camera[style*="block"]) .capturePlaceholder{display:none}
+    #preview,#camera{position:absolute;inset:var(--space-md);z-index:var(--z-base);display:none;width:calc(100% - (var(--space-md) * 2));height:calc(100% - (var(--space-md) * 2));min-width:0;min-height:0;max-width:none;max-height:none;object-fit:contain;border-radius:var(--radius-sm);background:var(--color-paper)}
+    #captureCanvas{display:none}
+    #scan{width:100%;margin-block-start:var(--space-xs)}
+    #status{display:flex;align-items:center;gap:var(--space-xs);margin-block:var(--space-md);font-weight:600;color:var(--color-neutral)}
+    #status::before{content:"";width:var(--space-sm);height:var(--space-sm);border-radius:var(--radius-pill);background:var(--color-success);flex:0 0 auto}
+    .hint{margin:0;padding:var(--space-md);border-radius:var(--radius-input);background:var(--color-warning-surface);color:var(--color-neutral)}
+    details{margin-block-start:var(--space-md)}
+    summary{min-height:2.75rem;display:flex;align-items:center;color:var(--color-neutral);cursor:pointer;font-weight:600;white-space:nowrap}
+    #debug{max-height:14rem;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;padding:var(--space-sm);border-radius:var(--radius-sm);background:var(--color-paper);color:var(--color-neutral);font-size:var(--text-xs)}
+    .grid{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-md)}
+    .imageField{display:grid;gap:var(--space-sm)}
+    .imageActions,.formActions,.reviewActions,.exportActions{display:flex;flex-wrap:wrap;gap:var(--space-xs);align-items:center}
+    #productImagePreview{display:block;max-width:100%;max-height:14rem;object-fit:contain;border:var(--rule-thin) solid var(--color-rule);border-radius:var(--radius-input);background:var(--color-paper)}
+    #editNotice{display:block;margin-block-start:var(--space-sm);color:var(--color-ai)}
+    .tablewrap{min-width:0;max-width:100%;overflow:visible}
+    table,tbody,tr,td{display:block;width:100%}
+    table{border-collapse:collapse;white-space:normal}
+    thead{display:none}
+    tr{margin-block:var(--space-sm);padding:var(--space-md);border:var(--rule-thin) solid var(--color-rule);border-radius:var(--radius-input);background:var(--color-field)}
+    td{min-width:0;padding-block:var(--space-xs);border:0;overflow-wrap:anywhere}
+    td::before{display:block;margin-block-end:var(--space-2xs);color:var(--color-muted);font-size:var(--text-xs);font-family:var(--font-display);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+    #reviewCard td:nth-child(1)::before{content:"Incluir"}#reviewCard td:nth-child(2)::before{content:"Estilo"}#reviewCard td:nth-child(3)::before{content:"Color"}#reviewCard td:nth-child(4)::before{content:"Línea"}#reviewCard td:nth-child(5)::before{content:"Talla"}#reviewCard td:nth-child(6)::before{content:"Cantidad"}#reviewCard td:nth-child(7)::before{content:"Material"}#reviewCard td:nth-child(8)::before{content:"Precio"}#reviewCard td:nth-child(9)::before{content:"Revisión"}
+    .inventoryPanel td:nth-child(1)::before{content:"Estilo"}.inventoryPanel td:nth-child(2)::before{content:"Color"}.inventoryPanel td:nth-child(3)::before{content:"Línea"}.inventoryPanel td:nth-child(4)::before{content:"Talla"}.inventoryPanel td:nth-child(5)::before{content:"Cantidad"}.inventoryPanel td:nth-child(6)::before{content:"Material"}.inventoryPanel td:nth-child(7)::before{content:"Precio"}.inventoryPanel td:nth-child(8)::before{content:"Imagen"}.inventoryPanel td:nth-child(9)::before{content:"Acciones"}
+    #reviewCard input{height:2.75rem}
+    #reviewCard input[type=checkbox]{width:2rem;height:2rem;accent-color:var(--color-accent)}
+    #reviewCard td:last-child{color:var(--color-warning);font-weight:600}
+    .inventoryPanel td:last-child{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-xs)}
+    .inventoryPanel td:last-child button{width:100%;padding-inline:var(--space-xs)}
+    .exportMenu{margin-block:0 var(--space-md)}
+    .exportMenu summary{width:max-content;max-width:100%;min-height:var(--control-height);padding-inline:var(--space-md);border:var(--rule-thin) solid var(--color-accent);border-radius:var(--radius-input);background:var(--color-accent);color:var(--color-accent-ink);font-family:var(--font-display);font-weight:700;list-style:none}
+    .exportMenu summary::-webkit-details-marker{display:none}
+    .exportActions{margin-block-start:var(--space-sm);padding:var(--space-sm);border:var(--rule-thin) solid var(--color-rule);border-radius:var(--radius-input);background:var(--color-field)}
+    .footLine{width:min(100%,var(--page-max));margin-inline:auto;padding-block:var(--space-lg);padding-inline:max(var(--space-md),env(safe-area-inset-left)) max(var(--space-md),env(safe-area-inset-right));border-block-start:var(--rule-thin) solid var(--color-rule);color:var(--color-muted);font-size:var(--text-sm)}
+    @media (hover:hover) and (pointer:fine){button:hover{background:var(--color-accent-hover);transform:translateY(-1px)}button.secondary:hover{background:var(--color-paper-3)}button.danger:hover{background:var(--color-danger-surface);color:var(--color-danger-hover)}button.aiAction:hover{background:var(--color-warning-surface)}input:hover,select:hover{background:var(--color-paper-3)}}
+    @media (min-width:40rem){.headerInner{padding-block:var(--space-xl)}.headerTop{flex-direction:row;align-items:flex-start}.metrics{grid-template-columns:repeat(4,minmax(0,10rem));gap:var(--space-sm)}.cloudAuth{grid-template-columns:repeat(2,minmax(0,1fr))}.cloudAuth button{width:100%}.toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.imageField{grid-column:1/-1}.tablewrap tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-sm)}#reviewCard td:nth-child(9),.inventoryPanel td:nth-child(9){grid-column:1/-1}.card{padding:var(--space-xl)}}
+    @media (min-width:60rem){.workspace{grid-template-columns:minmax(20rem,.82fr) minmax(0,1.45fr);grid-template-areas:"scan inventory" "review review" "manual .";gap:var(--space-lg)}.scanPanel{position:relative;top:auto}.cloudAuth{grid-template-columns:minmax(11rem,1fr) minmax(11rem,1fr) auto auto}.tablewrap{overflow:auto;overscroll-behavior-inline:contain}table{display:table;width:100%;white-space:nowrap}#reviewCard table{min-width:64rem}.inventoryPanel table{min-width:56rem}thead{display:table-header-group}tbody{display:table-row-group}tr,.tablewrap tr{display:table-row;width:auto;margin:0;padding:0;border:0;background:transparent}th,td{display:table-cell;width:auto;padding:var(--space-sm);border-block-end:var(--rule-thin) solid var(--color-rule);text-align:start;vertical-align:middle}th{background:var(--color-paper-3);font-family:var(--font-display);font-size:var(--text-sm)}td::before{display:none!important}.inventoryPanel td:last-child{display:table-cell}.inventoryPanel td:last-child button{width:auto}.inventoryPanel{min-height:38rem}#reviewCard{scroll-margin-block-start:var(--space-md)}}
+    @media (min-width:90rem){.workspace{grid-template-columns:minmax(24rem,.78fr) minmax(0,1.55fr)}.manualPanel .grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (pointer:coarse){button,input,select,summary{min-height:3rem}}
+    @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:150ms!important;animation-iteration-count:1!important;transition-duration:150ms!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <header class="appHeader">
+    <div class="headerInner">
+      <div class="headerTop">
+        <div class="headerText">
+          <div class="brandLine"><h1>CLAREMM Scan <span>v17</span></h1><div class="tagline">Cámara · Lectura con IA · Revisión · Excel</div></div>
+          <small id="installHelp" hidden></small>
+        </div>
+        <button id="installApp" type="button" class="secondary" hidden>Instalar app</button>
+      </div>
+      <div class="metrics" aria-label="Resumen del inventario">
+        <div class="metric"><span>Registros</span><strong id="statRecords">0</strong></div>
+        <div class="metric"><span>Pares</span><strong id="statPairs">0</strong></div>
+        <div class="metric"><span>Estilos</span><strong id="statStyles">0</strong></div>
+        <div class="metric"><span>Valor</span><strong id="statValue">$0.00</strong></div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section class="card" id="cloudCard">
+      <div class="cardHead"><h2>Respaldo y sincronización</h2><small>Nube privada</small></div>
+      <div id="cloudSignedOut" class="cloudAuth">
+        <label for="cloudEmail">Correo electrónico<input id="cloudEmail" type="email" autocomplete="email" placeholder="nombre@empresa.com"></label>
+        <label for="cloudPassword">Contraseña<input id="cloudPassword" type="password" minlength="6" autocomplete="current-password" placeholder="6 caracteres o más"></label>
+        <button id="cloudLogin" type="button">Iniciar sesión</button>
+        <button id="cloudRegister" type="button" class="secondary">Crear cuenta</button>
+      </div>
+      <div id="cloudSignedIn" class="cloudSession" hidden><strong id="cloudUser"></strong><button id="cloudSync" type="button">Sincronizar ahora</button><button id="cloudLogout" type="button" class="secondary">Cerrar sesión</button></div>
+      <p id="cloudStatus" class="muted" aria-live="polite">Comprobando Supabase…</p>
+      <small>El inventario queda en este dispositivo y se respalda en Supabase cuando inicias sesión.</small>
+    </section>
+    <div class="workspace">
+      <section class="card scanPanel">
+        <div class="cardHead"><h2>1. Escanear etiquetas</h2><small>Lectura con IA</small></div>
+        <div class="captureStage">
+          <div class="capturePlaceholder" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none"><path d="M14 9H9v5M34 9h5v5M14 39H9v-5M34 39h5v-5M17 20h14v8H17z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <strong>Encuadra la etiqueta de la caja</strong><br>La IA leerá estilo, color y talla.
+          </div>
+          <video id="camera" autoplay playsinline muted></video>
+          <img id="preview" alt="Fotografía seleccionada">
+        </div>
+        <canvas id="captureCanvas"></canvas>
+        <div class="toolbar"><button id="openCamera">Abrir cámara</button><button id="choose" class="secondary">Cargar fotos</button><button id="take" disabled>Capturar foto</button><button id="closeCamera" class="secondary" disabled>Cerrar cámara</button></div>
+        <input id="photo" type="file" accept="image/*" multiple hidden>
+        <p id="fileInfo" class="muted"></p>
+        <button id="scan" class="aiAction">Leer etiquetas con IA</button>
+        <p id="status" role="status">Listo para capturar.</p>
+        <p class="hint">Gemini lee estilo, color y talla; OpenAI y OCR local funcionan como respaldo. Verifica cada resultado antes de guardarlo.</p>
+        <details id="ocrDetails"><summary>Ver detalle del reconocimiento</summary><pre id="debug"></pre></details>
+      </section>
+      <section class="card" id="reviewCard" hidden>
+        <div class="cardHead"><h2>2. Revisar etiquetas <span id="pendingCount"></span></h2><small>Borradores</small></div>
+        <p>Corrige los campos y marca solamente las filas que quieras guardar.</p>
+        <div class="tablewrap"><table><thead><tr><th>Incluir</th><th>Estilo</th><th>Color</th><th>Línea</th><th>Talla</th><th>Cantidad</th><th>Material</th><th>Precio</th><th>Revisión</th></tr></thead><tbody id="pendingRows"></tbody></table></div>
+        <div class="reviewActions"><button id="importPending">Guardar seleccionados</button><button id="discardPending" class="secondary">Descartar lecturas</button></div>
+      </section>
+      <datalist id="lineOptions"><option value="Tenis"></option><option value="Zapato"></option><option value="Bota"></option><option value="Huarache"></option><option value="Sandalia"></option><option value="Otro"></option></datalist>
+      <section class="card manualPanel">
+        <div class="cardHead"><h2>3. Captura / edición manual</h2><small id="editNotice"></small></div>
+        <div class="grid">
+          <label for="estilo">Estilo alfanumérico<input id="estilo" placeholder="LAP603" aria-required="true"></label>
+          <label for="color">Color<input id="color" placeholder="NEGRO" aria-required="true"></label>
+          <label for="linea">Tipo de línea<input id="linea" list="lineOptions" placeholder="Tenis, bota…"></label>
+          <label for="talla">Talla<input id="talla" inputmode="decimal" placeholder="27.5" aria-required="true"></label>
+          <label for="material">Material<input id="material" placeholder="PIEL"></label>
+          <label for="cantidad">Cantidad<input id="cantidad" type="number" min="1" value="1" aria-required="true"></label>
+          <label for="precio">Precio<input id="precio" inputmode="decimal" placeholder="770"></label>
+          <label for="notas">Notas<input id="notas" placeholder="Opcional"></label>
+          <div class="imageField"><label>Imagen del producto (opcional)</label><div class="imageActions"><button id="chooseProductImage" type="button">Agregar imagen</button><button id="removeProductImage" type="button" class="secondary" disabled>Quitar imagen</button></div><input id="productImage" type="file" accept="image/*" hidden><img id="productImagePreview" alt="Vista previa del producto" hidden><small id="productImageInfo">Sin imagen seleccionada.</small></div>
+        </div>
+        <div class="formActions"><button id="save">Guardar registro</button><button id="reset" class="secondary">Limpiar formulario</button></div>
+      </section>
+      <section class="card inventoryPanel">
+        <div class="cardHead"><h2>4. Inventario <span id="count">(0)</span></h2><small>Stock actual</small></div>
+        <details class="exportMenu"><summary>Exportar y respaldo</summary><div class="exportActions"><button id="xlsx">Excel (.xlsx)</button><button id="csv" class="secondary">CSV</button><button id="exportImages">Imágenes (.zip)</button><button id="backup" class="secondary">Respaldo JSON</button><button id="restore" class="secondary">Restaurar respaldo</button><input id="restoreFile" type="file" accept="application/json,.json" hidden><button id="clear" class="danger">Borrar todo</button></div></details>
+        <small>Las imágenes se exportan por separado del respaldo JSON.</small>
+        <div class="tablewrap"><table><thead><tr><th>Estilo</th><th>Color</th><th>Línea</th><th>Talla</th><th>Cantidad</th><th>Material</th><th>Precio</th><th>Imagen</th><th>Acciones</th></tr></thead><tbody id="rows"></tbody></table></div>
+      </section>
+    </div>
+  </main>
+  <footer class="footLine">CLAREMM Scan v17 · Inventario local con respaldo privado en Supabase.</footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="app.js?v=17-authlayout"></script>
+  <script src="supabase-sync.js?v=17-authlayout"></script>
+</body>
+</html>
