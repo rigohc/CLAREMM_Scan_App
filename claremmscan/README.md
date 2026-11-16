@@ -1,4 +1,4 @@
-# CLAREMM Scan v15
+# CLAREMM Scan v16
 
 Aplicación PWA para Vercel. Configura **Root Directory** en Vercel para que apunte a `claremmscan`. No requiere build; la función `api/ocr.js` procesa el reconocimiento por visión sin exponer la clave en el navegador.
 
@@ -8,7 +8,18 @@ Aplicación PWA para Vercel. Configura **Root Directory** en Vercel para que apu
 - Gemini en servidor para leer las etiquetas, OpenAI como respaldo opcional y OCR Tesseract.js como respaldo local.
 - Captura manual, edición, suma de cantidades ante duplicados, exportación XLSX/CSV/JSON y restauración de JSON.
 - Imagen opcional por estilo + color, convertida a PNG de máximo 100 KB y exportación conjunta en ZIP.
+- Respaldo y sincronización con Supabase mediante correo/contraseña, RLS y Storage privado.
 - Mantiene la clave `claremmscan-v1` de localStorage para preservar los registros del navegador existente.
+
+## Configurar Supabase
+
+1. Crea un proyecto en Supabase.
+2. Abre **SQL Editor**, pega y ejecuta todo [supabase/schema.sql](supabase/schema.sql). Esto crea la tabla, el bucket privado y las políticas RLS.
+3. En **Authentication → URL Configuration**, configura como Site URL la dirección de producción de Vercel.
+4. En Vercel agrega `SUPABASE_URL` y `SUPABASE_PUBLISHABLE_KEY` para Production, Preview y Development.
+5. Vuelve a desplegar. Crea una cuenta desde la app, confirma el correo y pulsa **Sincronizar ahora**.
+
+La primera sincronización sube los registros e imágenes que ya existan localmente. Después, cada cambio queda en una cola local hasta que Supabase confirma que se guardó.
 
 ## Configurar el reconocimiento por visión
 
@@ -24,7 +35,7 @@ Nunca pongas la clave en `app.js`, `index.html`, una captura de pantalla o un co
 
 Aunque la visión mejora considerablemente fotos inclinadas o con poco contraste, cada lectura sigue requiriendo revisión. Si la función de visión no está configurada o falla, la app usa Tesseract local; ese respaldo no reconoce de forma confiable todas las etiquetas.
 
-El inventario se guarda **solo en el navegador/dispositivo**. Vercel no sincroniza los datos entre usuarios. Para inventario compartido agrega un backend con base de datos y autenticación.
+El inventario mantiene una copia local para trabajar sin conexión. Al iniciar sesión también se guarda en Supabase y puede recuperarse en otro dispositivo con la misma cuenta.
 
 Las imágenes se guardan por separado en IndexedDB. El respaldo JSON no las incluye; usa **Exportar imágenes (.zip)** para respaldarlas.
 
@@ -42,4 +53,4 @@ Las imágenes se guardan por separado en IndexedDB. El respaldo JSON no las incl
 
 ## Seguridad
 
-Las claves solo se leen en la función de servidor `api/ocr.js`; el navegador nunca las recibe. En OpenAI las respuestas no se almacenan mediante la opción `store: false`. Los scripts Tesseract, XLSX y JSZip se cargan desde CDN; para un despliegue de producción, fija y audita dependencias.
+Las claves privadas de visión solo se leen en `api/ocr.js`. La clave publicable de Supabase puede llegar al navegador porque RLS protege cada fila; nunca uses `service_role` en la aplicación. En OpenAI las respuestas no se almacenan mediante `store: false`. Los scripts Supabase, Tesseract, XLSX y JSZip se cargan desde CDN; para producción, fija y audita dependencias.
