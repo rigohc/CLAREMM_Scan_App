@@ -11,6 +11,8 @@ Aplicación PWA para Vercel. Configura **Root Directory** en Vercel para que apu
 - Al reemplazar el inventario descarga automáticamente una copia JSON de seguridad de los datos anteriores.
 - Limpia automáticamente la fotografía de etiqueta después de guardar para preparar el siguiente producto.
 - Imagen opcional por estilo + color, convertida a PNG de máximo 100 KB y exportación conjunta en ZIP.
+- Captura directa de la imagen del producto con la cámara trasera del teléfono, además de selección desde la galería.
+- Al editar un precio, lo aplica a todas las tallas que coinciden en estilo y color.
 - Respaldo y sincronización con Supabase mediante correo/contraseña, RLS y Storage privado.
 - Interfaz oscura tipo estación de trabajo, adaptable a teléfonos de 320 px, tablets y escritorio.
 - Mantiene la clave `claremmscan-v1` de localStorage para preservar los registros del navegador existente.
@@ -52,6 +54,8 @@ Las imágenes se guardan por separado en IndexedDB. El respaldo JSON no las incl
 3. Pulsa Leer etiquetas.
 4. Revisa y corrige los resultados, marca las filas y guarda.
 5. Exporta a Excel o realiza respaldo JSON.
+
+En celulares y tablets, cada tarjeta tiene un botón **Ocultar/Mostrar** para reducir el desplazamiento. La app recuerda qué secciones cerraste en ese dispositivo; las secciones de revisión y edición se abren automáticamente cuando el flujo las necesita.
 
 ## Importación masiva
 
