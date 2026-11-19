@@ -6,6 +6,7 @@ create extension if not exists pgcrypto;
 create table if not exists public.inventory_items (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
+  sucursal text not null default 'CLAREMM ZAPATERIA JUAREZ',
   item_key text not null,
   estilo text not null,
   marca text not null default '',
@@ -22,9 +23,23 @@ create table if not exists public.inventory_items (
 
 -- Migración segura para proyectos que ya tenían la tabla creada.
 alter table public.inventory_items
-  add column if not exists marca text not null default '';
+  add column if not exists marca text not null default '',
+  add column if not exists sucursal text not null default 'CLAREMM ZAPATERIA JUAREZ';
+
+alter table public.inventory_items
+  alter column sucursal set default 'CLAREMM ZAPATERIA JUAREZ';
+
+update public.inventory_items
+set sucursal = 'CLAREMM ZAPATERIA JUAREZ'
+where nullif(trim(sucursal), '') is null or upper(trim(sucursal)) = 'MATRIZ';
+
+-- La clave incluye sucursal para que la misma talla pueda existir en varias tiendas.
+update public.inventory_items
+set item_key = upper(trim(sucursal)) || '|' || upper(trim(estilo)) || '|' || upper(trim(color)) || '|' || upper(trim(talla))
+where item_key is distinct from upper(trim(sucursal)) || '|' || upper(trim(estilo)) || '|' || upper(trim(color)) || '|' || upper(trim(talla));
 
 create index if not exists inventory_items_user_id_idx on public.inventory_items(user_id);
+create index if not exists inventory_items_user_branch_idx on public.inventory_items(user_id, sucursal);
 alter table public.inventory_items enable row level security;
 revoke all on table public.inventory_items from anon, authenticated;
 grant select, insert, update, delete on table public.inventory_items to authenticated;

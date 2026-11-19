@@ -4,6 +4,7 @@
   const QUEUE_KEY = 'claremmscan-cloud-queue-v1';
   const OWNER_KEY = 'claremmscan-cloud-owner-v1';
   const BUCKET = 'product-images';
+  const DEFAULT_BRANCH = 'CLAREMM ZAPATERIA JUAREZ';
   const store = window.ClaremmStore;
   let client = null;
   let user = null;
@@ -46,8 +47,8 @@
   const cloudErrorMessage = error => {
     const code = String(error?.code || '');
     const message = String(error?.message || error || 'Error desconocido');
-    if (code === 'PGRST204' || /marca.*column|column.*marca/i.test(message)) {
-      return 'Falta agregar la columna Marca en Supabase. Vuelve a ejecutar supabase/schema.sql en el SQL Editor; no borrará tus registros.';
+    if (code === 'PGRST204' || /(?:marca|sucursal).*column|column.*(?:marca|sucursal)/i.test(message)) {
+      return 'Falta actualizar las columnas Marca/Sucursal en Supabase. Vuelve a ejecutar supabase/schema.sql en el SQL Editor; no borrará tus registros.';
     }
     if (code === 'PGRST205' || code === '42P01' || message.includes('inventory_items')) {
       return 'Falta crear la tabla de inventario. Ejecuta supabase/schema.sql en el SQL Editor de Supabase.';
@@ -64,6 +65,7 @@
   const toRow = item => ({
     user_id: user.id,
     item_key: recordKey(item),
+    sucursal: String(item.sucursal || DEFAULT_BRANCH).toUpperCase() === 'MATRIZ' ? DEFAULT_BRANCH : String(item.sucursal || DEFAULT_BRANCH),
     estilo: String(item.estilo || ''),
     marca: String(item.marca || ''),
     color: String(item.color || ''),
@@ -76,7 +78,7 @@
     updated_at: new Date().toISOString(),
   });
   const fromRow = row => ({
-    estilo: row.estilo || '', marca: row.marca || '', color: row.color || '', linea: row.linea || '', talla: row.talla || '',
+    estilo: row.estilo || '', marca: row.marca || '', sucursal: String(row.sucursal || DEFAULT_BRANCH).toUpperCase() === 'MATRIZ' ? DEFAULT_BRANCH : String(row.sucursal || DEFAULT_BRANCH), color: row.color || '', linea: row.linea || '', talla: row.talla || '',
     cantidad: String(row.cantidad || 1), material: row.material || '', precio: row.precio || '', notas: row.notas || '',
   });
 
@@ -196,7 +198,7 @@
     const rows = [];
     for (let from = 0; ; from += 1000) {
       const { data, error } = await client.from('inventory_items')
-        .select('item_key,estilo,marca,color,linea,talla,cantidad,material,precio,notas,updated_at')
+        .select('item_key,sucursal,estilo,marca,color,linea,talla,cantidad,material,precio,notas,updated_at')
         .eq('user_id', user.id).order('item_key').range(from, from + 999);
       if (error) throw error;
       rows.push(...(data || []));

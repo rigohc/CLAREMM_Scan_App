@@ -14,17 +14,20 @@ Aplicación PWA para Vercel. Configura **Root Directory** en Vercel para que apu
 - Captura directa de la imagen del producto con la cámara trasera del teléfono, además de selección desde la galería.
 - Al editar un precio, lo aplica a todas las tallas que coinciden en estilo y color.
 - Respaldo y sincronización con Supabase mediante correo/contraseña, RLS y Storage privado.
+- Existencias separadas por sucursal; el stock actual se asigna a `CLAREMM ZAPATERIA JUAREZ`.
+- Esquema relacional para catálogo SAZ, tallas, sucursales, existencias y movimientos históricos.
 - Interfaz oscura tipo estación de trabajo, adaptable a teléfonos de 320 px, tablets y escritorio.
 - Mantiene la clave `claremmscan-v1` de localStorage para preservar los registros del navegador existente.
 
 ## Configurar Supabase
 
 1. Crea un proyecto en Supabase.
-2. Abre **SQL Editor**, pega y ejecuta todo [supabase/schema.sql](supabase/schema.sql). Esto crea la tabla, el bucket privado y las políticas RLS. Si ya habías creado la tabla, vuelve a ejecutar el archivo para agregar `marca`; la migración usa `add column if not exists` y no borra tus registros.
-3. En **Authentication → URL Configuration**, configura **Site URL** como `https://scamapp-phi.vercel.app/` y agrega esa misma dirección en **Redirect URLs**. Si también registrarás cuentas desde previews de Vercel, agrega el patrón de preview que corresponda a tu proyecto.
-4. Si personalizaste la plantilla **Confirm signup**, usa `{{ .ConfirmationURL }}` en el enlace. Si construiste el enlace manualmente, usa `{{ .RedirectTo }}` en lugar de `{{ .SiteURL }}` para respetar la URL enviada por la app.
-5. En Vercel agrega `SUPABASE_URL` y `SUPABASE_PUBLISHABLE_KEY` para Production, Preview y Development.
-6. Vuelve a desplegar. Crea una cuenta desde la app, confirma el correo y pulsa **Sincronizar ahora**.
+2. Abre **SQL Editor**, pega y ejecuta todo [supabase/schema.sql](supabase/schema.sql). Esto actualiza la tabla compatible, agrega `marca` y `sucursal`, crea el bucket privado y conserva los registros existentes.
+3. Para el catálogo final SAZ y existencias por sucursal, ejecuta también [supabase/relational-schema.sql](supabase/relational-schema.sql) y sigue [la guía de migración relacional](supabase/RELATIONAL_MIGRATION.md). Este esquema no borra `inventory_items` durante la transición.
+4. En **Authentication → URL Configuration**, configura **Site URL** como `https://scamapp-phi.vercel.app/` y agrega esa misma dirección en **Redirect URLs**. Si también registrarás cuentas desde previews de Vercel, agrega el patrón de preview que corresponda a tu proyecto.
+5. Si personalizaste la plantilla **Confirm signup**, usa `{{ .ConfirmationURL }}` en el enlace. Si construiste el enlace manualmente, usa `{{ .RedirectTo }}` en lugar de `{{ .SiteURL }}` para respetar la URL enviada por la app.
+6. En Vercel agrega `SUPABASE_URL` y `SUPABASE_PUBLISHABLE_KEY` para Production, Preview y Development.
+7. Vuelve a desplegar. Crea una cuenta desde la app, confirma el correo y pulsa **Sincronizar ahora**.
 
 Si el enlace indica `otp_expired`, escribe el correo en la app y pulsa **Reenviar correo**. Abre únicamente el mensaje más reciente: los enlaces anteriores dejan de ser válidos.
 
@@ -61,10 +64,10 @@ En celulares y tablets, cada tarjeta tiene un botón **Ocultar/Mostrar** para re
 
 Pulsa **Importar inventario** y selecciona un archivo `.json`, `.csv`, `.xlsx` o `.xls`. La app muestra registros, pares, valor, duplicados y filas inválidas antes de hacer cambios.
 
-Las columnas compatibles son: `Estilo`, `Marca`, `Color`, `Tipo de línea`, `Talla`, `Cantidad`, `Material`, `Precio` y `Notas`. En JSON también se aceptan las claves internas en minúsculas: `estilo`, `marca`, `color`, `linea`, `talla`, `cantidad`, `material`, `precio` y `notas`.
+Las columnas compatibles son: `Sucursal`, `Estilo`, `Marca`, `Color`, `Tipo de línea`, `Talla`, `Cantidad`, `Material`, `Precio` y `Notas`. En JSON también se aceptan las claves internas en minúsculas: `sucursal`, `estilo`, `marca`, `color`, `linea`, `talla`, `cantidad`, `material`, `precio` y `notas`. Si un archivo anterior no contiene `Sucursal`, se asigna `CLAREMM ZAPATERIA JUAREZ`; cualquier valor provisional `MATRIZ` también se convierte automáticamente.
 
 - **Reemplazar todo:** crea primero un respaldo JSON automático y sustituye el inventario.
-- **Sumar al inventario:** agrega registros nuevos y acumula cantidades cuando coinciden estilo, color y talla.
+- **Sumar al inventario:** agrega registros nuevos y acumula cantidades cuando coinciden sucursal, estilo, color y talla.
 
 ## Instalación como app
 - Android (Chrome/Samsung Internet): abre la versión HTTPS y pulsa **Instalar app**.
