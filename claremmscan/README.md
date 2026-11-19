@@ -16,6 +16,10 @@ Aplicación PWA para Vercel. Configura **Root Directory** en Vercel para que apu
 - Respaldo y sincronización con Supabase mediante correo/contraseña, RLS y Storage privado.
 - Existencias separadas por sucursal; el stock actual se asigna a `CLAREMM ZAPATERIA JUAREZ`.
 - Esquema relacional para catálogo SAZ, tallas, sucursales, existencias y movimientos históricos.
+- Control de envío a SAZ por registro: `Pendiente`/`Cargado`, fecha de carga y origen, sin mezclar la tabla histórica de Supabase con las fuentes SQLite/Excel.
+- Registro oficial de lotes SAZ, búsqueda indexada por estilo + color e indicadores de pares registrados, pendientes y porcentaje de avance.
+- Módulo independiente de carga por sucursal: búsqueda del catálogo, captura individual, importación masiva y descarga de productos desconocidos.
+- El buscador del inventario consulta también el catálogo y las existencias relacionales de Supabase, y muestra esos resultados en una sección separada del inventario histórico.
 - Interfaz oscura tipo estación de trabajo, adaptable a teléfonos de 320 px, tablets y escritorio.
 - Mantiene la clave `claremmscan-v1` de localStorage para preservar los registros del navegador existente.
 
@@ -24,10 +28,12 @@ Aplicación PWA para Vercel. Configura **Root Directory** en Vercel para que apu
 1. Crea un proyecto en Supabase.
 2. Abre **SQL Editor**, pega y ejecuta todo [supabase/schema.sql](supabase/schema.sql). Esto actualiza la tabla compatible, agrega `marca` y `sucursal`, crea el bucket privado y conserva los registros existentes.
 3. Para el catálogo final SAZ y existencias por sucursal, ejecuta también [supabase/relational-schema.sql](supabase/relational-schema.sql) y sigue [la guía de migración relacional](supabase/RELATIONAL_MIGRATION.md). Este esquema no borra `inventory_items` durante la transición.
-4. En **Authentication → URL Configuration**, configura **Site URL** como `https://scamapp-phi.vercel.app/` y agrega esa misma dirección en **Redirect URLs**. Si también registrarás cuentas desde previews de Vercel, agrega el patrón de preview que corresponda a tu proyecto.
-5. Si personalizaste la plantilla **Confirm signup**, usa `{{ .ConfirmationURL }}` en el enlace. Si construiste el enlace manualmente, usa `{{ .RedirectTo }}` en lugar de `{{ .SiteURL }}` para respetar la URL enviada por la app.
-6. En Vercel agrega `SUPABASE_URL` y `SUPABASE_PUBLISHABLE_KEY` para Production, Preview y Development.
-7. Vuelve a desplegar. Crea una cuenta desde la app, confirma el correo y pulsa **Sincronizar ahora**.
+4. Si las tablas ya existían antes del control de SAZ, ejecuta [supabase/saz-status-migration.sql](supabase/saz-status-migration.sql). Todos los registros de `inventory_items` existentes quedan como `Pendiente de SAZ` y con origen `supabase_legacy`; no se copian a las tablas relacionales.
+5. Para incorporar archivos confirmados como cargados en SAZ, ejecuta [supabase/saz-registered-schema.sql](supabase/saz-registered-schema.sql). Crea el registro oficial por estilo + color, existencias SAZ por sucursal, auditoría de archivos e índices de búsqueda.
+6. En **Authentication → URL Configuration**, configura **Site URL** como `https://scamapp-phi.vercel.app/` y agrega esa misma dirección en **Redirect URLs**. Si también registrarás cuentas desde previews de Vercel, agrega el patrón de preview que corresponda a tu proyecto.
+7. Si personalizaste la plantilla **Confirm signup**, usa `{{ .ConfirmationURL }}` en el enlace. Si construiste el enlace manualmente, usa `{{ .RedirectTo }}` en lugar de `{{ .SiteURL }}` para respetar la URL enviada por la app.
+8. En Vercel agrega `SUPABASE_URL` y `SUPABASE_PUBLISHABLE_KEY` para Production, Preview y Development.
+9. Vuelve a desplegar. Crea una cuenta desde la app, confirma el correo y pulsa **Sincronizar ahora**.
 
 Si el enlace indica `otp_expired`, escribe el correo en la app y pulsa **Reenviar correo**. Abre únicamente el mensaje más reciente: los enlaces anteriores dejan de ser válidos.
 
@@ -64,10 +70,23 @@ En celulares y tablets, cada tarjeta tiene un botón **Ocultar/Mostrar** para re
 
 Pulsa **Importar inventario** y selecciona un archivo `.json`, `.csv`, `.xlsx` o `.xls`. La app muestra registros, pares, valor, duplicados y filas inválidas antes de hacer cambios.
 
-Las columnas compatibles son: `Sucursal`, `Estilo`, `Marca`, `Color`, `Tipo de línea`, `Talla`, `Cantidad`, `Material`, `Precio` y `Notas`. En JSON también se aceptan las claves internas en minúsculas: `sucursal`, `estilo`, `marca`, `color`, `linea`, `talla`, `cantidad`, `material`, `precio` y `notas`. Si un archivo anterior no contiene `Sucursal`, se asigna `CLAREMM ZAPATERIA JUAREZ`; cualquier valor provisional `MATRIZ` también se convierte automáticamente.
+Las columnas compatibles son: `Sucursal`, `Estilo`, `Marca`, `Color`, `Tipo de línea`, `Talla`, `Cantidad`, `Material`, `Precio`, `Notas`, `Cargado en SAZ`, `Fecha carga SAZ` y `Origen`. En JSON también se aceptan las claves internas en minúsculas. Si un archivo anterior no contiene `Sucursal`, se asigna `CLAREMM ZAPATERIA JUAREZ`; cualquier valor provisional `MATRIZ` también se convierte automáticamente. Si no incluye estado SAZ, se importa como pendiente.
 
 - **Reemplazar todo:** crea primero un respaldo JSON automático y sustituye el inventario.
 - **Sumar al inventario:** agrega registros nuevos y acumula cantidades cuando coinciden sucursal, estilo, color y talla.
+
+## Carga de existencias por sucursal
+
+El botón **Carga por sucursal** abre un espacio separado del inventario principal. La tienda base `CLAREMM ZAPATERIA JUAREZ` queda excluida: el módulo solo se habilita cuando existe otra sucursal activa en la tabla relacional `branches`.
+
+- **Captura individual:** busca el catálogo por estilo o color, selecciona la ficha, escribe talla y cantidad, y elige entre establecer la existencia o sumar una entrada.
+- **Importación masiva:** acepta JSON, CSV y Excel con una fila por talla. Las columnas mínimas son `Estilo`, `Color`, `Talla` y `Cantidad`; la sucursal se selecciona una sola vez en la app.
+- **Productos desconocidos:** se detienen y pueden descargarse en `CLAREMM_Productos_Desconocidos.xlsx`. Para reimportarlos, completa `Marca`, `Tipo de línea` y `Material`, cambia `Crear producto` a `SI` y activa la autorización dentro de la app.
+- **Casos ambiguos:** si estilo + color apunta a más de una ficha y no existe una relación oficial, no se crea un duplicado; queda pendiente para revisión manual.
+- **Establecer cantidades:** cambia solamente las variantes incluidas en el archivo y no elimina tallas ausentes.
+- **Sumar entrada:** agrega la cantidad indicada a la existencia actual de cada talla.
+
+Puedes descargar la plantilla directamente desde el módulo. Cada operación genera movimientos relacionales en Supabase para conservar el historial.
 
 ## Instalación como app
 - Android (Chrome/Samsung Internet): abre la versión HTTPS y pulsa **Instalar app**.
