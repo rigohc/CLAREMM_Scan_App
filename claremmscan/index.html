@@ -34,6 +34,8 @@
     .appHeader{background:var(--color-paper-2);color:var(--color-ink);border-block-end:var(--rule-thin) solid var(--color-rule)}
     .headerInner{width:min(100%,var(--page-max));margin-inline:auto;padding:var(--space-lg) max(var(--space-md),env(safe-area-inset-right)) var(--space-xl) max(var(--space-md),env(safe-area-inset-left));display:grid;gap:var(--space-lg)}
     .headerTop{display:flex;flex-direction:column;align-items:stretch;justify-content:space-between;gap:var(--space-md)}
+    .headerActions{display:flex;flex-wrap:wrap;gap:var(--space-xs)}
+    .headerActions button{flex:1 1 auto}
     .brandLine{display:flex;align-items:baseline;flex-wrap:wrap;gap:var(--space-xs) var(--space-md);min-width:0}
     .brandLine h1 span{color:var(--color-ai)}
     .tagline{color:var(--color-muted);font-size:var(--text-sm)}
@@ -98,13 +100,17 @@
     td{min-width:0;padding-block:var(--space-xs);border:0;overflow-wrap:anywhere}
     td::before{display:block;margin-block-end:var(--space-2xs);color:var(--color-muted);font-size:var(--text-xs);font-family:var(--font-display);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
     #reviewCard td:nth-child(1)::before{content:"Incluir"}#reviewCard td:nth-child(2)::before{content:"Estilo"}#reviewCard td:nth-child(3)::before{content:"Marca"}#reviewCard td:nth-child(4)::before{content:"Sucursal"}#reviewCard td:nth-child(5)::before{content:"Color"}#reviewCard td:nth-child(6)::before{content:"Línea"}#reviewCard td:nth-child(7)::before{content:"Talla"}#reviewCard td:nth-child(8)::before{content:"Cantidad"}#reviewCard td:nth-child(9)::before{content:"Material"}#reviewCard td:nth-child(10)::before{content:"Precio"}#reviewCard td:nth-child(11)::before{content:"Revisión"}
-    .inventoryPanel td:nth-child(1)::before{content:"Estilo"}.inventoryPanel td:nth-child(2)::before{content:"Marca"}.inventoryPanel td:nth-child(3)::before{content:"Sucursal"}.inventoryPanel td:nth-child(4)::before{content:"Color"}.inventoryPanel td:nth-child(5)::before{content:"Línea"}.inventoryPanel td:nth-child(6)::before{content:"Talla"}.inventoryPanel td:nth-child(7)::before{content:"Cantidad"}.inventoryPanel td:nth-child(8)::before{content:"Material"}.inventoryPanel td:nth-child(9)::before{content:"Precio"}.inventoryPanel td:nth-child(10)::before{content:"Imagen"}.inventoryPanel td:nth-child(11)::before{content:"Acciones"}
+    .inventoryPanel td:nth-child(1)::before{content:"Estilo"}.inventoryPanel td:nth-child(2)::before{content:"Marca"}.inventoryPanel td:nth-child(3)::before{content:"Sucursal"}.inventoryPanel td:nth-child(4)::before{content:"Color"}.inventoryPanel td:nth-child(5)::before{content:"Línea"}.inventoryPanel td:nth-child(6)::before{content:"Talla"}.inventoryPanel td:nth-child(7)::before{content:"Cantidad"}.inventoryPanel td:nth-child(8)::before{content:"Material"}.inventoryPanel td:nth-child(9)::before{content:"Precio"}.inventoryPanel td:nth-child(10)::before{content:"Imagen"}.inventoryPanel td:nth-child(11)::before{content:"Estado SAZ"}.inventoryPanel td:nth-child(12)::before{content:"Acciones"}
     #reviewCard input{height:2.75rem}
     #reviewCard input[type=checkbox]{width:2rem;height:2rem;accent-color:var(--color-accent)}
     #reviewCard td:last-child{color:var(--color-warning);font-weight:600}
     .inventoryPanel td:last-child{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-xs)}
     .inventoryPanel td:last-child::before{grid-column:1/-1}
     .inventoryPanel td:last-child button{width:100%;padding-inline:var(--space-xs)}
+    .sazStatus{display:inline-flex;align-items:center;min-height:2rem;margin-inline-end:var(--space-xs);padding:.25rem .65rem;border-radius:var(--radius-pill);font-size:var(--text-xs);font-weight:700}
+    .sazStatus.isPending{background:var(--color-warning-surface);color:var(--color-warning)}
+    .sazStatus.isLoaded{background:var(--color-success-surface);color:var(--color-success)}
+    .sazToggle{min-height:2.25rem;padding-inline:var(--space-sm);font-size:var(--text-xs)}
     .exportMenu{margin-block:0 var(--space-md)}
     .exportMenu summary{width:max-content;max-width:100%;min-height:var(--control-height);padding-inline:var(--space-md);border:var(--rule-thin) solid var(--color-accent);border-radius:var(--radius-input);background:var(--color-accent);color:var(--color-accent-ink);font-family:var(--font-display);font-weight:700;list-style:none}
     .exportMenu summary::-webkit-details-marker{display:none}
@@ -130,6 +136,36 @@
     .importErrors summary{white-space:normal}
     #importErrorList{max-height:10rem;margin:var(--space-xs) 0 0;padding-inline-start:var(--space-lg);overflow:auto;color:var(--color-neutral);font-size:var(--text-sm)}
     .importDialogActions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:var(--space-xs)}
+    .branchStockDialog{width:min(calc(100% - (var(--space-sm) * 2)),72rem)}
+    .branchStockBody{display:grid;gap:var(--space-lg);padding:var(--space-lg)}
+    .branchStockIntro{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-sm);padding:var(--space-md);border:var(--rule-thin) solid var(--color-rule);border-radius:var(--radius-input);background:var(--color-field)}
+    .branchStockIntro p{margin:0;color:var(--color-neutral)}
+    .branchStockGate{padding:var(--space-md);border-radius:var(--radius-input);background:var(--color-warning-surface);color:var(--color-warning);font-weight:600}
+    .branchStockWorkspace{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-md)}
+    .branchStockPanel{min-width:0;padding:var(--space-md);border:var(--rule-thin) solid var(--color-rule);border-radius:var(--radius-card);background:var(--color-paper-3)}
+    .branchStockPanel h3{margin-block-end:var(--space-xs);font-size:var(--text-md)}
+    .branchStockPanel>p{color:var(--color-neutral)}
+    .branchStockForm{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-sm)}
+    .catalogResults{display:grid;gap:var(--space-xs);max-height:18rem;margin-block:var(--space-sm);overflow:auto}
+    .catalogResult{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--space-xs);align-items:center;width:100%;height:auto;min-height:var(--control-height);padding:var(--space-sm);text-align:start;border-color:var(--color-rule-strong);background:var(--color-field);color:var(--color-ink);white-space:normal}
+    .catalogResult strong,.catalogResult small{display:block;overflow-wrap:anywhere}
+    .catalogResult small{color:var(--color-muted);font-family:var(--font-body);font-weight:400}
+    .catalogResult.isSelected{border-color:var(--color-ai);background:var(--color-ai-surface);color:var(--color-ai)}
+    .catalogResultMark{font-size:var(--text-xs);white-space:nowrap}
+    .branchStockActions{display:flex;flex-wrap:wrap;gap:var(--space-xs);align-items:center;margin-block-start:var(--space-sm)}
+    .branchStockActions button{flex:1 1 10rem}
+    .branchStockMode{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-xs)}
+    .branchStockMode label{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;padding:var(--space-sm);border:var(--rule-thin) solid var(--color-rule);border-radius:var(--radius-input);background:var(--color-field)}
+    .branchStockMode input{width:1.25rem;height:1.25rem;padding:0;accent-color:var(--color-accent)}
+    .branchStockStats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-xs);margin-block:var(--space-sm)}
+    .branchStockStat{padding:var(--space-sm);border-radius:var(--radius-input);background:var(--color-field)}
+    .branchStockStat span{display:block;color:var(--color-muted);font-family:var(--font-display);font-size:var(--text-xs);font-weight:700;text-transform:uppercase}
+    .branchStockStat strong{display:block;font-family:var(--font-display);font-size:var(--text-lg)}
+    .branchStockUnknown{padding:var(--space-sm);border-radius:var(--radius-input);background:var(--color-warning-surface)}
+    .branchStockUnknown p{margin-block-end:var(--space-sm)}
+    .branchStockStatus{margin:0;padding:var(--space-sm);border-radius:var(--radius-input);background:var(--color-field);color:var(--color-neutral)}
+    .branchStockStatus.ok{background:var(--color-success-surface);color:var(--color-success)}
+    .branchStockStatus.warn{background:var(--color-warning-surface);color:var(--color-warning)}
     .inventoryFilters{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-sm);margin-block:var(--space-md)}
     .inventoryResultInfo{margin-block:0 var(--space-sm);color:var(--color-neutral)}
     .inventoryPagination{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:var(--space-xs);margin-block-start:var(--space-md)}
@@ -142,8 +178,8 @@
     .footLine{width:min(100%,var(--page-max));margin-inline:auto;padding-block:var(--space-lg);padding-inline:max(var(--space-md),env(safe-area-inset-left)) max(var(--space-md),env(safe-area-inset-right));border-block-start:var(--rule-thin) solid var(--color-rule);color:var(--color-muted);font-size:var(--text-sm)}
     @media (hover:hover) and (pointer:fine){button:hover{background:var(--color-accent-hover);transform:translateY(-1px)}button.secondary:hover{background:var(--color-paper-3)}button.danger:hover{background:var(--color-danger-surface);color:var(--color-danger-hover)}button.aiAction:hover{background:var(--color-warning-surface)}input:hover,select:hover{background:var(--color-paper-3)}}
     @media (max-width:59.999rem){.cardHead{flex-wrap:wrap;gap:var(--space-xs) var(--space-sm)}.cardHead h2{flex:1 1 10rem}.cardToggle{display:inline-flex;align-items:center;justify-content:center;min-height:2.5rem;margin-inline-start:auto;padding-inline:var(--space-sm);font-size:var(--text-xs)}.card.isCollapsed>.cardHead{margin-block-end:0}.card.isCollapsed>:not(.cardHead){display:none!important}}
-    @media (min-width:40rem){.headerInner{padding-block:var(--space-xl)}.headerTop{flex-direction:row;align-items:flex-start}.metrics{grid-template-columns:repeat(4,minmax(0,10rem));gap:var(--space-sm)}.cloudAuth{grid-template-columns:repeat(2,minmax(0,1fr))}.cloudAuth button{width:100%}.toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.imageField{grid-column:1/-1}.inventoryPrimaryActions button{width:auto}.inventoryFilters{grid-template-columns:minmax(0,1fr) minmax(11rem,.35fr)}.tablewrap tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-sm)}#reviewCard td:nth-child(11),.inventoryPanel td:nth-child(11){grid-column:1/-1}.card{padding:var(--space-xl)}}
-    @media (min-width:60rem){.workspace{grid-template-columns:minmax(20rem,.82fr) minmax(0,1.45fr);grid-template-areas:"scan inventory" "review review" "manual .";gap:var(--space-lg)}.scanPanel{position:relative;top:auto}.cloudAuth{grid-template-columns:minmax(11rem,1fr) minmax(11rem,1fr) repeat(3,auto)}.tablewrap{overflow:auto;overscroll-behavior-inline:contain}table{display:table;width:100%;white-space:nowrap}#reviewCard table{min-width:70rem}.inventoryPanel table{min-width:58rem}thead{display:table-header-group}tbody{display:table-row-group}tr,.tablewrap tr{display:table-row;width:auto;margin:0;padding:0;border:0;background:transparent}th,td{display:table-cell;width:auto;padding:var(--space-sm);border-block-end:var(--rule-thin) solid var(--color-rule);text-align:start;vertical-align:middle}th{background:var(--color-paper-3);font-family:var(--font-display);font-size:var(--text-sm)}td::before{display:none!important}.inventoryPanel td:last-child{display:table-cell;white-space:nowrap}.inventoryPanel td:last-child button{width:auto}.inventoryPanel{min-height:38rem}#reviewCard{scroll-margin-block-start:var(--space-md)}}
+    @media (min-width:40rem){.headerInner{padding-block:var(--space-xl)}.headerTop{flex-direction:row;align-items:flex-start}.headerActions button{flex:0 0 auto}.metrics{grid-template-columns:repeat(4,minmax(0,10rem));gap:var(--space-sm)}.cloudAuth{grid-template-columns:repeat(2,minmax(0,1fr))}.cloudAuth button{width:100%}.toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.imageField{grid-column:1/-1}.inventoryPrimaryActions button{width:auto}.inventoryFilters{grid-template-columns:minmax(0,1fr) repeat(2,minmax(10rem,.35fr))}.tablewrap tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-sm)}#reviewCard td:nth-child(11),.inventoryPanel td:nth-child(12){grid-column:1/-1}.card{padding:var(--space-xl)}.branchStockIntro{grid-template-columns:minmax(0,1fr) minmax(14rem,.5fr);align-items:end}.branchStockForm{grid-template-columns:repeat(2,minmax(0,1fr))}.branchStockForm .wide{grid-column:1/-1}.branchStockMode{grid-template-columns:repeat(2,minmax(0,1fr))}.branchStockStats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+    @media (min-width:60rem){.workspace{grid-template-columns:minmax(20rem,.82fr) minmax(0,1.45fr);grid-template-areas:"scan inventory" "review review" "manual .";gap:var(--space-lg)}.scanPanel{position:relative;top:auto}.cloudAuth{grid-template-columns:minmax(11rem,1fr) minmax(11rem,1fr) repeat(3,auto)}.tablewrap{overflow:auto;overscroll-behavior-inline:contain}table{display:table;width:100%;white-space:nowrap}#reviewCard table{min-width:70rem}.inventoryPanel table{min-width:72rem}thead{display:table-header-group}tbody{display:table-row-group}tr,.tablewrap tr{display:table-row;width:auto;margin:0;padding:0;border:0;background:transparent}th,td{display:table-cell;width:auto;padding:var(--space-sm);border-block-end:var(--rule-thin) solid var(--color-rule);text-align:start;vertical-align:middle}th{background:var(--color-paper-3);font-family:var(--font-display);font-size:var(--text-sm)}td::before{display:none!important}.inventoryPanel td:last-child{display:table-cell;white-space:nowrap}.inventoryPanel td:last-child button{width:auto}.inventoryPanel{min-height:38rem}#reviewCard{scroll-margin-block-start:var(--space-md)}}
     @media (min-width:90rem){.workspace{grid-template-columns:minmax(24rem,.78fr) minmax(0,1.55fr)}.manualPanel .grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media (pointer:coarse){button,input,select,summary{min-height:3rem}}
     @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:150ms!important;animation-iteration-count:1!important;transition-duration:150ms!important;scroll-behavior:auto!important}}
@@ -157,13 +193,16 @@
           <div class="brandLine"><h1>CLAREMM Scan <span>v17</span></h1><div class="tagline">Cámara · Lectura con IA · Revisión · Excel</div></div>
           <small id="installHelp" hidden></small>
         </div>
-        <button id="installApp" type="button" class="secondary" hidden>Instalar app</button>
+        <div class="headerActions"><button id="branchStockOpen" type="button" class="secondary">Carga por sucursal</button><button id="installApp" type="button" class="secondary" hidden>Instalar app</button></div>
       </div>
       <div class="metrics" aria-label="Resumen del inventario">
         <div class="metric"><span>Registros</span><strong id="statRecords">0</strong></div>
         <div class="metric"><span>Pares</span><strong id="statPairs">0</strong></div>
         <div class="metric"><span>Estilos</span><strong id="statStyles">0</strong></div>
         <div class="metric"><span>Valor</span><strong id="statValue">$0.00</strong></div>
+        <div class="metric"><span>Pares en SAZ</span><strong id="statSazPairs">0</strong></div>
+        <div class="metric"><span>Pares pendientes</span><strong id="statSazPending">0</strong></div>
+        <div class="metric"><span>Avance SAZ</span><strong id="statSazProgress">0.0%</strong></div>
       </div>
     </div>
   </header>
@@ -232,10 +271,11 @@
         <div class="inventoryFilters">
           <label for="inventorySearch">Buscar inventario<input id="inventorySearch" type="search" autocomplete="off" placeholder="Estilo, sucursal, marca, color, talla…"></label>
           <label for="inventorySearchScope">Buscar en<select id="inventorySearchScope"><option value="all">Todos los campos</option><option value="style">Solo estilo</option></select></label>
+          <label for="inventorySazFilter">Estado SAZ<select id="inventorySazFilter"><option value="all">Todos</option><option value="pending">Pendientes</option><option value="loaded">Cargados</option></select></label>
         </div>
         <p id="inventoryResultInfo" class="inventoryResultInfo" aria-live="polite">Mostrando todos los registros.</p>
         <details class="exportMenu"><summary>Exportar datos y respaldo</summary><div class="exportActions"><button id="xlsx">Excel (.xlsx)</button><button id="csv" class="secondary">CSV</button><button id="backup" class="secondary">Respaldo JSON</button><button id="clear" class="danger">Borrar todo</button></div></details>
-        <div class="tablewrap"><table><thead><tr><th>Estilo</th><th>Marca</th><th>Sucursal</th><th>Color</th><th>Línea</th><th>Talla</th><th>Cantidad</th><th>Material</th><th>Precio</th><th>Imagen</th><th>Acciones</th></tr></thead><tbody id="rows"></tbody></table></div>
+        <div class="tablewrap"><table><thead><tr><th>Estilo</th><th>Marca</th><th>Sucursal</th><th>Color</th><th>Línea</th><th>Talla</th><th>Cantidad</th><th>Material</th><th>Precio</th><th>Imagen</th><th>Estado SAZ</th><th>Acciones</th></tr></thead><tbody id="rows"></tbody></table></div>
         <nav id="inventoryPagination" class="inventoryPagination" aria-label="Páginas del inventario" hidden><button id="pagePrev" type="button" class="secondary">Anterior</button><div id="pageNumbers" class="pageNumbers"></div><button id="pageNext" type="button" class="secondary">Siguiente</button></nav>
       </section>
     </div>
@@ -256,8 +296,61 @@
         <label class="importOption"><input type="radio" name="importMode" value="merge"><span>Sumar al inventario<small>Agrega registros nuevos y acumula cantidades cuando coincidan sucursal, estilo, color y talla.</small></span></label>
       </fieldset>
       <details id="importErrors" class="importErrors" hidden><summary>Ver filas que no se pueden importar</summary><ul id="importErrorList"></ul></details>
-      <small>Columnas compatibles: Sucursal, Estilo, Marca, Color, Tipo de línea, Talla, Cantidad, Material, Precio y Notas. Si falta Sucursal se usa la sucursal activa.</small>
+      <small>Columnas compatibles: Sucursal, Estilo, Marca, Color, Tipo de línea, Talla, Cantidad, Material, Precio, Notas, Cargado en SAZ, Fecha carga SAZ y Origen. Si falta Sucursal se usa la sucursal activa.</small>
       <div class="importDialogActions"><button id="importCancel" type="button" class="secondary">Cancelar</button><button id="importConfirm" type="button">Reemplazar inventario</button></div>
+    </div>
+  </dialog>
+  <dialog id="branchStockDialog" class="branchStockDialog" aria-labelledby="branchStockTitle">
+    <div class="branchStockBody">
+      <div class="cardHead"><div><h2 id="branchStockTitle">Carga por sucursal</h2><small>Existencias sobre el catálogo maestro</small></div><button id="branchStockClose" type="button" class="secondary">Cerrar</button></div>
+      <div class="branchStockIntro">
+        <p>Selecciona una sucursal distinta de JUÁREZ. Aquí solo se actualizan existencias; los productos ya existentes se relacionan por estilo y color.</p>
+        <label for="branchStockBranch">Sucursal destino<select id="branchStockBranch"><option value="">Inicia sesión para consultar sucursales</option></select></label>
+      </div>
+      <p id="branchStockGate" class="branchStockGate">Inicia sesión para consultar el catálogo y las sucursales.</p>
+      <div id="branchStockWorkspace" class="branchStockWorkspace" hidden>
+        <section class="branchStockPanel" aria-labelledby="branchStockManualTitle">
+          <h3 id="branchStockManualTitle">Captura individual</h3>
+          <p>Busca un estilo o color existente y agrega la existencia de una talla.</p>
+          <div class="branchStockForm">
+            <label for="branchStockStyle">Estilo<input id="branchStockStyle" type="search" autocomplete="off" placeholder="ROD410"></label>
+            <label for="branchStockColor">Color<input id="branchStockColor" type="search" autocomplete="off" placeholder="NEGRO"></label>
+            <label for="branchStockSize">Talla<input id="branchStockSize" inputmode="decimal" placeholder="26.5" list="branchSizeOptions"></label>
+            <label for="branchStockQuantity">Cantidad<input id="branchStockQuantity" type="number" min="0" step="1" value="1"></label>
+          </div>
+          <datalist id="branchSizeOptions"></datalist>
+          <div id="branchCatalogResults" class="catalogResults" aria-live="polite"><small>Escribe al menos dos caracteres para buscar.</small></div>
+          <div class="branchStockMode" aria-label="Modo de carga individual">
+            <label><input type="radio" name="branchManualMode" value="set" checked><span>Establecer cantidad</span></label>
+            <label><input type="radio" name="branchManualMode" value="add"><span>Sumar entrada</span></label>
+          </div>
+          <div class="branchStockActions"><button id="branchStockSaveOne" type="button" disabled>Guardar existencia</button><button id="branchStockQueueUnknown" type="button" class="secondary" disabled>Guardar como desconocido</button></div>
+        </section>
+        <section class="branchStockPanel" aria-labelledby="branchStockBulkTitle">
+          <h3 id="branchStockBulkTitle">Importación masiva</h3>
+          <p>Una fila por talla. La sucursal seleccionada se aplica a todo el archivo.</p>
+          <div class="branchStockActions"><button id="branchStockTemplate" type="button" class="secondary">Descargar plantilla</button><button id="branchStockChooseFile" type="button">Elegir archivo</button><button id="branchStockReload" type="button" class="secondary">Actualizar catálogo</button></div>
+          <input id="branchStockFile" type="file" accept=".json,.csv,.xlsx,.xls,application/json,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" hidden>
+          <small id="branchStockFileName">Columnas: Estilo, Color, Talla y Cantidad. Admite Excel, CSV y JSON.</small>
+          <div class="branchStockStats" aria-label="Resumen de la carga">
+            <div class="branchStockStat"><span>Filas</span><strong id="branchStockRows">0</strong></div>
+            <div class="branchStockStat"><span>Encontradas</span><strong id="branchStockKnown">0</strong></div>
+            <div class="branchStockStat"><span>Desconocidas</span><strong id="branchStockUnknownCount">0</strong></div>
+            <div class="branchStockStat"><span>Pares</span><strong id="branchStockPairs">0</strong></div>
+          </div>
+          <div id="branchStockUnknownBox" class="branchStockUnknown" hidden>
+            <p><strong>Hay productos desconocidos.</strong> Descarga el Excel, completa Marca, Tipo de línea y Material, cambia “Crear producto” a SI y vuelve a cargarlo.</p>
+            <div class="branchStockActions"><button id="branchStockDownloadUnknown" type="button" class="secondary">Descargar desconocidos</button></div>
+          </div>
+          <label class="importOption"><input id="branchStockAllowCreate" type="checkbox"><span>Crear productos desconocidos autorizados<small>Solo crea filas con “Crear producto = SI” y los datos requeridos completos. Los casos ambiguos siempre se detienen para revisión.</small></span></label>
+          <div class="branchStockMode" aria-label="Modo de importación">
+            <label><input type="radio" name="branchBulkMode" value="set" checked><span>Establecer cantidades</span></label>
+            <label><input type="radio" name="branchBulkMode" value="add"><span>Sumar entrada</span></label>
+          </div>
+          <div class="branchStockActions"><button id="branchStockApplyFile" type="button" disabled>Aplicar archivo</button></div>
+        </section>
+      </div>
+      <p id="branchStockStatus" class="branchStockStatus" role="status" aria-live="polite">Módulo listo para iniciar.</p>
     </div>
   </dialog>
   <footer class="footLine">CLAREMM Scan v17 · Inventario local con respaldo privado en Supabase.</footer>
@@ -265,7 +358,8 @@
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <script src="app.js?v=17-juarez-branch"></script>
-  <script src="supabase-sync.js?v=17-juarez-branch"></script>
+  <script src="app.js?v=17-branch-stock"></script>
+  <script src="supabase-sync.js?v=17-branch-stock"></script>
+  <script src="branch-stock.js?v=17-branch-stock"></script>
 </body>
 </html>
