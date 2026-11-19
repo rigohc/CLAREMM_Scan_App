@@ -11,6 +11,7 @@
   let syncing = false;
   let flushTimer = null;
   let branchStockContext = null;
+  const relationalImageUrls = new Map();
 
   const byId = id => document.getElementById(id);
   const emptyQueue = () => ({ upserts: {}, deletes: {}, images: {}, imageClear: false });
@@ -41,6 +42,7 @@
   const chunks = (values, size) => Array.from({ length: Math.ceil(values.length / size) }, (_, i) => values.slice(i * size, (i + 1) * size));
   const catalogText = value => String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toUpperCase().replace(/\s+/g, ' ');
   const productLookupKey = value => `${catalogText(value?.estilo)}|${catalogText(value?.color)}`;
+  const imageNamePart = value => catalogText(value).replace(/[^A-Z0-9]+/g, '-').replace(/^-|-$/g, '');
   const setCloudStatus = (message, kind = '') => {
     const el = byId('cloudStatus');
     if (!el) return;
@@ -124,7 +126,7 @@
     if (!organization) throw new Error('No se encontró la organización CLAREMM.');
     const [{ data: branches, error: branchError }, products, registry, variants] = await Promise.all([
       client.from('branches').select('id,code,name,active').eq('organization_id', organization.id).eq('active', true).order('name'),
-      pagedQuery(() => client.from('products').select('id,estilo,color,marca,linea,acabado,precio,proveedor,source_system').eq('organization_id', organization.id).eq('activo', true).order('estilo')),
+      pagedQuery(() => client.from('products').select('id,estilo,color,marca,linea,acabado,precio,proveedor,source_system,imagen').eq('organization_id', organization.id).eq('activo', true).order('estilo')),
       pagedQuery(() => client.from('saz_product_registry').select('product_id,lookup_key').eq('organization_id', organization.id)),
       pagedQuery(() => client.from('product_variants').select('id,product_id,size,products!inner(organization_id)').eq('products.organization_id', organization.id)),
     ]);
@@ -165,13 +167,25 @@
     }).slice(0, 40).map(product => ({ ...product, sizes: (context.variantsByProduct.get(product.id) || []).map(variant => variant.size) }));
   }
 
-  async function searchRelationalInventory(query, scope = 'all') {
+  async function signedRelationalImage(path, refresh = false) {
+    if (!path) return '';
+    if (!refresh && relationalImageUrls.has(path)) return relationalImageUrls.get(path);
+    const { data, error } = await client.storage.from(BUCKET).createSignedUrl(path, 3600);
+    if (error) throw error;
+    const url = data?.signedUrl || '';
+    relationalImageUrls.set(path, url);
+    return url;
+  }
+
+  async function searchRelationalInventory(query, scope = 'all', sazFilter = 'all') {
     const context = await loadBranchStockContext();
     const terms = catalogText(query).split(' ').filter(Boolean);
     if (!terms.length) return [];
     const products = context.products.filter(product => {
       const haystack = scope === 'style' ? catalogText(product.estilo) : catalogText([product.estilo, product.color, product.marca, product.proveedor, product.linea, product.acabado].join(' '));
-      return terms.every(term => haystack.includes(term));
+      const registered = context.registryByKey.get(productLookupKey(product)) === product.id;
+      const matchesStatus = sazFilter === 'loaded' ? registered : sazFilter === 'pending' ? !registered : true;
+      return matchesStatus && terms.every(term => haystack.includes(term));
     }).slice(0, 80);
     const variantIds = products.flatMap(product => (context.variantsByProduct.get(product.id) || []).map(variant => variant.id));
     const levels = [];
@@ -196,9 +210,32 @@
       result.sizes.push({ size: variant.size, quantity });
       result.totalQuantity += quantity;
     }
-    return [...grouped.values()]
+    const results = [...grouped.values()]
       .map(result => ({ ...result, sizes: result.sizes.sort((a, b) => Number(a.size) - Number(b.size)) }))
       .sort((a, b) => catalogText(`${a.product.estilo}|${a.product.color}|${a.branch.name}`).localeCompare(catalogText(`${b.product.estilo}|${b.product.color}|${b.branch.name}`)));
+    return Promise.all(results.map(async result => ({
+      ...result,
+      sazRegistered: context.registryByKey.get(productLookupKey(result.product)) === result.product.id,
+      imageUrl: result.product.imagen ? await signedRelationalImage(result.product.imagen).catch(() => '') : '',
+    })));
+  }
+
+  async function uploadRelationalProductImage({ productId, blob }) {
+    if (!client || !user) throw new Error('Inicia sesión antes de guardar una imagen.');
+    if (!(blob instanceof Blob) || blob.type !== 'image/png') throw new Error('La imagen debe estar en formato PNG.');
+    if (blob.size > 100 * 1024) throw new Error('La imagen supera el límite de 100 KB.');
+    const context = await loadBranchStockContext(), product = context.productsById.get(productId);
+    if (!product) throw new Error('No se encontró el producto en el catálogo relacional.');
+    const fileName = `${imageNamePart(product.estilo) || 'ESTILO'}-${imageNamePart(product.color) || 'COLOR'}.png`;
+    const path = `${context.organization.id}/products/${fileName}`;
+    const { error: uploadError } = await client.storage.from(BUCKET).upload(path, blob, { contentType: 'image/png', upsert: true, cacheControl: '60' });
+    if (uploadError) throw uploadError;
+    const { error: productError } = await client.from('products').update({ imagen: path }).eq('id', product.id).eq('organization_id', context.organization.id);
+    if (productError) throw productError;
+    product.imagen = path;
+    relationalImageUrls.delete(path);
+    const signedUrl = await signedRelationalImage(path, true);
+    return { path, fileName, imageUrl: `${signedUrl}${signedUrl.includes('?') ? '&' : '?'}v=${Date.now()}`, size: blob.size };
   }
 
   async function validateBranchStockRows(rows) {
@@ -492,7 +529,7 @@
     }
   }
 
-  window.claremmCloud = { recordMutation, recordImageMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, validateBranchStockRows, applyBranchStock };
+  window.claremmCloud = { recordMutation, recordImageMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, uploadRelationalProductImage, validateBranchStockRows, applyBranchStock };
 
   byId('cloudLogin').onclick = async () => {
     if (!client) return alert('Supabase aún no está configurado.');

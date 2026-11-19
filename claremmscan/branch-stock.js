@@ -21,6 +21,9 @@
   let searchSequence = 0;
   let inventorySearchTimer = null;
   let inventorySearchSequence = 0;
+  let relationalInventoryResults = [];
+  let relationalInventoryQuery = '';
+  let relationalImageTarget = null;
 
   function status(message, kind = '') {
     const element = byId('branchStockStatus');
@@ -319,6 +322,8 @@
 
   function renderRelationalInventory(results, query) {
     const panel = byId('relationalSearchPanel'), container = byId('relationalSearchResults'), info = byId('relationalSearchInfo');
+    relationalInventoryResults = results;
+    relationalInventoryQuery = query;
     panel.hidden = false;
     if (!results.length) {
       info.textContent = `Sin existencias relacionales para “${query}”.`;
@@ -328,7 +333,43 @@
     const pairs = results.reduce((sum, result) => sum + Number(result.totalQuantity || 0), 0);
     info.textContent = `${results.length} producto-sucursal · ${pairs} par(es) encontrados.`;
     const currency = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' });
-    container.innerHTML = results.map(result => `<article class="relationalResultCard"><div class="relationalResultTitle"><strong>${esc(result.product.estilo)} · ${esc(result.product.color)}</strong><span>${esc(currency.format(Number(result.product.precio || 0)))}</span></div><div class="relationalResultMeta"><span>${esc(result.product.marca || 'Sin marca')}</span><span>${esc(result.product.linea || result.product.acabado || 'Sin línea')}</span><span>${esc(result.branch.name)}</span><strong>${esc(result.totalQuantity)} par(es)</strong></div><div class="relationalSizes">${result.sizes.map(item => `<span class="relationalSize">${esc(item.size)} × ${esc(item.quantity)}</span>`).join('')}</div></article>`).join('');
+    container.innerHTML = results.map(result => `<article class="relationalResultCard" data-relational-product-id="${esc(result.product.id)}"><div class="relationalResultTitle"><strong>${esc(result.product.estilo)} · ${esc(result.product.color)}</strong><span>${esc(currency.format(Number(result.product.precio || 0)))}</span></div><div class="relationalResultMeta"><span>${esc(result.product.marca || 'Sin marca')}</span><span>${esc(result.product.linea || result.product.acabado || 'Sin línea')}</span><span>${esc(result.branch.name)}</span><strong>${esc(result.totalQuantity)} par(es)</strong><span class="sazStatus ${result.sazRegistered ? 'isLoaded' : 'isPending'}">${result.sazRegistered ? 'Registrado en SAZ' : 'Pendiente de SAZ'}</span></div><div class="relationalSizes">${result.sizes.map(item => `<span class="relationalSize">${esc(item.size)} × ${esc(item.quantity)}</span>`).join('')}</div><div class="relationalImage"><div class="relationalImagePreview">${result.imageUrl ? `<img src="${esc(result.imageUrl)}" alt="Producto ${esc(result.product.estilo)} ${esc(result.product.color)}">` : '<span>Sin imagen</span>'}</div><div class="relationalImageControls"><button type="button" data-relational-image="camera" data-product-id="${esc(result.product.id)}">Tomar foto</button><button type="button" class="secondary" data-relational-image="gallery" data-product-id="${esc(result.product.id)}">Elegir imagen</button><small data-relational-image-status="${esc(result.product.id)}">${esc(result.imageMessage || (result.imageUrl ? 'Imagen guardada en Supabase.' : 'PNG máximo 100 KB.'))}</small></div></div></article>`).join('');
+    container.querySelectorAll('[data-relational-image]').forEach(button => button.addEventListener('click', () => {
+      const result = relationalInventoryResults.find(item => item.product.id === button.dataset.productId);
+      if (!result) return;
+      relationalImageTarget = result;
+      byId(button.dataset.relationalImage === 'camera' ? 'relationalProductImageCamera' : 'relationalProductImageGallery').click();
+    }));
+  }
+
+  async function saveRelationalProductImage(file) {
+    const target = relationalImageTarget;
+    if (!target || !file) return;
+    const card = document.querySelector(`[data-relational-product-id="${CSS.escape(target.product.id)}"]`), statusElement = card?.querySelector('[data-relational-image-status]');
+    const buttons = [...(card?.querySelectorAll('[data-relational-image]') || [])];
+    buttons.forEach(button => { button.disabled = true; });
+    if (statusElement) statusElement.textContent = 'Comprimiendo imagen…';
+    try {
+      if (!file.type.startsWith('image/')) throw new Error('Selecciona un archivo de imagen.');
+      if (!window.ClaremmStore?.compressProductImage) throw new Error('Actualiza la página para activar el compresor de imágenes.');
+      const blob = await window.ClaremmStore.compressProductImage(file);
+      if (statusElement) statusElement.textContent = 'Guardando en Supabase…';
+      const saved = await cloud().uploadRelationalProductImage({ productId: target.product.id, blob });
+      await window.ClaremmStore.putImageFromCloud(saved.fileName, blob).catch(() => {});
+      for (const result of relationalInventoryResults.filter(item => item.product.id === target.product.id)) {
+        result.product.imagen = saved.path;
+        result.imageUrl = saved.imageUrl;
+        result.imageMessage = `Imagen guardada · ${(saved.size / 1024).toFixed(1)} KB`;
+      }
+      renderRelationalInventory(relationalInventoryResults, relationalInventoryQuery);
+    } catch (error) {
+      if (statusElement) statusElement.textContent = error.message;
+      buttons.forEach(button => { button.disabled = false; });
+    } finally {
+      byId('relationalProductImageCamera').value = '';
+      byId('relationalProductImageGallery').value = '';
+      relationalImageTarget = null;
+    }
   }
 
   async function searchRelationalInventory() {
@@ -338,13 +379,13 @@
       byId('relationalSearchResults').innerHTML = '';
       return;
     }
-    const sequence = ++inventorySearchSequence, scope = byId('inventorySearchScope').value;
+    const sequence = ++inventorySearchSequence, scope = byId('inventorySearchScope').value, sazFilter = byId('inventorySazFilter').value;
     panel.hidden = false;
     byId('relationalSearchInfo').textContent = 'Buscando en catálogo y existencias por sucursal…';
     byId('relationalSearchResults').innerHTML = '';
     try {
       if (!cloud()?.searchRelationalInventory) throw new Error('Actualiza la página para activar la búsqueda relacional.');
-      const results = await cloud().searchRelationalInventory(query, scope);
+      const results = await cloud().searchRelationalInventory(query, scope, sazFilter);
       if (sequence !== inventorySearchSequence) return;
       renderRelationalInventory(results, query);
     } catch (error) {
@@ -392,6 +433,9 @@
   byId('branchStockApplyFile').addEventListener('click', applyBulkFile);
   byId('inventorySearch').addEventListener('input', queueRelationalInventorySearch);
   byId('inventorySearchScope').addEventListener('change', queueRelationalInventorySearch);
+  byId('inventorySazFilter').addEventListener('change', queueRelationalInventorySearch);
+  byId('relationalProductImageCamera').addEventListener('change', event => saveRelationalProductImage(event.target.files?.[0]));
+  byId('relationalProductImageGallery').addEventListener('change', event => saveRelationalProductImage(event.target.files?.[0]));
   document.addEventListener('claremm-cloud-session', event => {
     if (!event.detail?.signedIn && byId('branchStockDialog').open) loadContext(false);
     if (event.detail?.signedIn && byId('inventorySearch').value.trim()) queueRelationalInventorySearch();

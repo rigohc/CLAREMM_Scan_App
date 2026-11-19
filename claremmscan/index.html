@@ -179,6 +179,12 @@
     .relationalResultMeta{display:flex;flex-wrap:wrap;gap:var(--space-xs) var(--space-sm);margin-block:var(--space-xs);color:var(--color-neutral);font-size:var(--text-sm)}
     .relationalSizes{display:flex;flex-wrap:wrap;gap:var(--space-xs)}
     .relationalSize{display:inline-flex;align-items:center;gap:var(--space-2xs);min-height:2rem;padding:.25rem .65rem;border-radius:var(--radius-pill);background:var(--color-paper-3);color:var(--color-ink);font-size:var(--text-xs);font-weight:700;white-space:nowrap}
+    .relationalImage{display:grid;grid-template-columns:5rem minmax(0,1fr);gap:var(--space-sm);align-items:center;margin-block-start:var(--space-md);padding-block-start:var(--space-sm);border-block-start:var(--rule-thin) solid var(--color-rule)}
+    .relationalImagePreview{display:grid;place-items:center;width:5rem;aspect-ratio:1;overflow:hidden;border:var(--rule-thin) dashed var(--color-rule-strong);border-radius:var(--radius-input);background:var(--color-paper-3);color:var(--color-muted);font-size:var(--text-xs);text-align:center}
+    .relationalImagePreview img{width:100%;height:100%;object-fit:cover}
+    .relationalImageControls{display:flex;min-width:0;flex-wrap:wrap;gap:var(--space-xs);align-items:center}
+    .relationalImageControls button{width:auto;min-height:2.5rem;padding-inline:var(--space-sm);font-size:var(--text-xs)}
+    .relationalImageControls small{flex:1 1 100%;overflow-wrap:anywhere}
     .inventoryPagination{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:var(--space-xs);margin-block-start:var(--space-md)}
     .pageNumbers{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:var(--space-2xs)}
     .inventoryPagination button{min-width:var(--control-height);padding-inline:var(--space-sm)}
@@ -285,7 +291,7 @@
           <label for="inventorySazFilter">Estado SAZ<select id="inventorySazFilter"><option value="all">Todos</option><option value="pending">Pendientes</option><option value="loaded">Cargados</option></select></label>
         </div>
         <p id="inventoryResultInfo" class="inventoryResultInfo" aria-live="polite">Mostrando todos los registros.</p>
-        <section id="relationalSearchPanel" class="relationalResults" hidden aria-labelledby="relationalSearchTitle"><div class="relationalResultsHead"><div><h3 id="relationalSearchTitle">Inventario relacional</h3><p id="relationalSearchInfo">Buscando en catálogo y existencias por sucursal…</p></div><small>Supabase</small></div><div id="relationalSearchResults" class="relationalResultGrid"></div></section>
+        <section id="relationalSearchPanel" class="relationalResults" hidden aria-labelledby="relationalSearchTitle"><div class="relationalResultsHead"><div><h3 id="relationalSearchTitle">Inventario relacional</h3><p id="relationalSearchInfo">Buscando en catálogo y existencias por sucursal…</p></div><small>Supabase</small></div><div id="relationalSearchResults" class="relationalResultGrid"></div><input id="relationalProductImageCamera" type="file" accept="image/*" capture="environment" hidden><input id="relationalProductImageGallery" type="file" accept="image/*" hidden></section>
         <details class="exportMenu"><summary>Exportar datos y respaldo</summary><div class="exportActions"><button id="xlsx">Excel (.xlsx)</button><button id="csv" class="secondary">CSV</button><button id="backup" class="secondary">Respaldo JSON</button><button id="clear" class="danger">Borrar todo</button></div></details>
         <div class="tablewrap"><table><thead><tr><th>Estilo</th><th>Marca</th><th>Sucursal</th><th>Color</th><th>Línea</th><th>Talla</th><th>Cantidad</th><th>Material</th><th>Precio</th><th>Imagen</th><th>Estado SAZ</th><th>Acciones</th></tr></thead><tbody id="rows"></tbody></table></div>
         <nav id="inventoryPagination" class="inventoryPagination" aria-label="Páginas del inventario" hidden><button id="pagePrev" type="button" class="secondary">Anterior</button><div id="pageNumbers" class="pageNumbers"></div><button id="pageNext" type="button" class="secondary">Siguiente</button></nav>
@@ -370,8 +376,8 @@
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <script src="app.js?v=17-relational-search"></script>
-  <script src="supabase-sync.js?v=17-relational-search"></script>
-  <script src="branch-stock.js?v=17-relational-search"></script>
+  <script src="app.js?v=17-relational-images"></script>
+  <script src="supabase-sync.js?v=17-relational-images"></script>
+  <script src="branch-stock.js?v=17-relational-images"></script>
 </body>
 </html>
