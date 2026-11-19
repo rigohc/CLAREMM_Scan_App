@@ -14,7 +14,7 @@
   const relationalImageUrls = new Map();
 
   const byId = id => document.getElementById(id);
-  const emptyQueue = () => ({ upserts: {}, deletes: {}, images: {}, imageClear: false });
+  const emptyQueue = () => ({ upserts: {}, deletes: {}, images: {}, catalog: {}, imageClear: false });
   const loadQueue = () => {
     try { return { ...emptyQueue(), ...JSON.parse(localStorage.getItem(QUEUE_KEY) || '{}') }; }
     catch { return emptyQueue(); }
@@ -41,8 +41,10 @@
   };
   const chunks = (values, size) => Array.from({ length: Math.ceil(values.length / size) }, (_, i) => values.slice(i * size, (i + 1) * size));
   const catalogText = value => String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toUpperCase().replace(/\s+/g, ' ');
+  const catalogPrice = value => { const raw = String(value ?? '').trim().replace(/[^0-9,.-]/g, ''); if (!raw) return NaN; const comma = raw.lastIndexOf(','), dot = raw.lastIndexOf('.'); const normalized = comma > dot ? raw.replace(/\./g, '').replace(',', '.') : raw.replace(/,/g, ''); return Number(normalized); };
   const productLookupKey = value => `${catalogText(value?.estilo)}|${catalogText(value?.color)}`;
   const imageNamePart = value => catalogText(value).replace(/[^A-Z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const catalogImageName = value => `${imageNamePart(value?.estilo) || 'ESTILO'}-${imageNamePart(value?.color) || 'COLOR'}.png`;
   const setCloudStatus = (message, kind = '') => {
     const el = byId('cloudStatus');
     if (!el) return;
@@ -226,16 +228,61 @@
     if (blob.size > 100 * 1024) throw new Error('La imagen supera el límite de 100 KB.');
     const context = await loadBranchStockContext(), product = context.productsById.get(productId);
     if (!product) throw new Error('No se encontró el producto en el catálogo relacional.');
-    const fileName = `${imageNamePart(product.estilo) || 'ESTILO'}-${imageNamePart(product.color) || 'COLOR'}.png`;
+    const matchingProducts = context.products.filter(item => productLookupKey(item) === productLookupKey(product));
+    const fileName = catalogImageName(product);
     const path = `${context.organization.id}/products/${fileName}`;
     const { error: uploadError } = await client.storage.from(BUCKET).upload(path, blob, { contentType: 'image/png', upsert: true, cacheControl: '60' });
     if (uploadError) throw uploadError;
-    const { error: productError } = await client.from('products').update({ imagen: path }).eq('id', product.id).eq('organization_id', context.organization.id);
-    if (productError) throw productError;
-    product.imagen = path;
+    for (const group of chunks(matchingProducts.map(item => item.id), 200)) {
+      const { error: productError } = await client.from('products').update({ imagen: path }).eq('organization_id', context.organization.id).in('id', group);
+      if (productError) throw productError;
+    }
+    for (const item of matchingProducts) item.imagen = path;
     relationalImageUrls.delete(path);
     const signedUrl = await signedRelationalImage(path, true);
     return { path, fileName, imageUrl: `${signedUrl}${signedUrl.includes('?') ? '&' : '?'}v=${Date.now()}`, size: blob.size };
+  }
+
+  async function removeRelationalProductImage({ estilo, color }) {
+    const context = await loadBranchStockContext();
+    const matchingProducts = context.products.filter(product => productLookupKey(product) === productLookupKey({ estilo, color }));
+    if (!matchingProducts.length) return { removed: 0 };
+    const organizationPrefix = `${context.organization.id}/products/`;
+    const paths = [...new Set(matchingProducts.map(product => product.imagen).filter(path => path?.startsWith(organizationPrefix)))];
+    for (const group of chunks(matchingProducts.map(product => product.id), 200)) {
+      const { error } = await client.from('products').update({ imagen: '' }).eq('organization_id', context.organization.id).in('id', group);
+      if (error) throw error;
+    }
+    if (paths.length) {
+      const { error } = await client.storage.from(BUCKET).remove(paths);
+      if (error) throw error;
+    }
+    for (const product of matchingProducts) product.imagen = '';
+    for (const path of paths) relationalImageUrls.delete(path);
+    return { removed: matchingProducts.length };
+  }
+
+  async function updateRelationalStylePrice(estilo, precio) {
+    if (!client || !user) throw new Error('Inicia sesión antes de actualizar precios.');
+    const value = catalogPrice(precio);
+    if (!Number.isFinite(value) || value < 0) throw new Error('Escribe un precio válido.');
+    const context = await loadBranchStockContext(), matchingProducts = context.products.filter(product => catalogText(product.estilo) === catalogText(estilo));
+    for (const group of chunks(matchingProducts.map(product => product.id), 200)) {
+      if (!group.length) continue;
+      const { error } = await client.from('products').update({ precio: value }).eq('organization_id', context.organization.id).in('id', group);
+      if (error) throw error;
+    }
+    for (const product of matchingProducts) product.precio = value;
+    return { updated: matchingProducts.length, precio: value };
+  }
+
+  async function getRelationalStylePrice(estilo) {
+    const context = await loadBranchStockContext();
+    const prices = context.products.filter(product => catalogText(product.estilo) === catalogText(estilo)).map(product => Number(product.precio)).filter(price => Number.isFinite(price) && price > 0);
+    if (!prices.length) return '';
+    const frequency = new Map();
+    for (const price of prices) frequency.set(price, (frequency.get(price) || 0) + 1);
+    return String([...frequency].sort((a, b) => b[1] - a[1])[0][0]);
   }
 
   async function validateBranchStockRows(rows) {
@@ -367,6 +414,27 @@
     if (user) scheduleFlush();
   }
 
+  function recordCatalogMutation(change) {
+    const queue = loadQueue(), estilo = catalogText(change?.estilo), color = catalogText(change?.color);
+    if (!estilo) return;
+    const key = change.type === 'price' ? `price:${estilo}` : `image:${estilo}|${color}`;
+    queue.catalog[key] = { ...change, estilo, color };
+    saveQueue(queue);
+    if (user) scheduleFlush();
+    else setCloudStatus('Cambios guardados localmente; inicia sesión para relacionarlos con el catálogo.', 'muted');
+  }
+
+  async function applyCatalogMutation(change) {
+    if (change.type === 'price') return updateRelationalStylePrice(change.estilo, change.precio);
+    const context = await loadBranchStockContext();
+    const product = context.products.find(item => productLookupKey(item) === productLookupKey(change));
+    if (!product) return { updated: 0 };
+    if (change.action === 'delete') return removeRelationalProductImage(change);
+    const name = change.name || catalogImageName(change), blob = await store.getProductImage(name);
+    if (!blob) return { updated: 0 };
+    return uploadRelationalProductImage({ productId: product.id, blob });
+  }
+
   async function upsertRecords(records) {
     for (const group of chunks(records, 250)) {
       if (!group.length) continue;
@@ -424,10 +492,12 @@
           if (error) throw error;
         }
       }
+      for (const change of Object.values(snapshot.catalog || {})) await applyCatalogMutation(change);
       const latest = loadQueue();
       for (const [key, value] of Object.entries(snapshot.upserts)) if (JSON.stringify(latest.upserts[key]) === JSON.stringify(value)) delete latest.upserts[key];
       for (const key of Object.keys(snapshot.deletes)) if (latest.deletes[key]) delete latest.deletes[key];
       for (const [name, action] of Object.entries(snapshot.images)) if (latest.images[name] === action) delete latest.images[name];
+      for (const [key, change] of Object.entries(snapshot.catalog || {})) if (JSON.stringify(latest.catalog[key]) === JSON.stringify(change)) delete latest.catalog[key];
       if (snapshot.imageClear) latest.imageClear = false;
       saveQueue(latest);
       setCloudStatus('Cambios guardados en Supabase.', 'ok');
@@ -467,14 +537,49 @@
     });
   }
 
+  async function syncRelationalImages() {
+    const context = await loadBranchStockContext(), localImages = await store.listProductImages();
+    const localByName = new Map(localImages.map(image => [image.name, image.blob])), groups = new Map(), canonicalNames = new Set();
+    for (const product of context.products) {
+      const key = productLookupKey(product);
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(product);
+    }
+    for (const products of groups.values()) {
+      const product = products[0], name = catalogImageName(product), path = products.map(item => item.imagen).find(Boolean) || '';
+      let blob = null;
+      if (path) {
+        const downloaded = await client.storage.from(BUCKET).download(path);
+        if (!downloaded.error) blob = downloaded.data;
+      }
+      if (blob) {
+        await store.putImageFromCloud(name, blob);
+        canonicalNames.add(name);
+        if (products.some(item => item.imagen !== path)) await uploadRelationalProductImage({ productId: product.id, blob });
+      } else if (localByName.has(name)) {
+        blob = localByName.get(name);
+        await uploadRelationalProductImage({ productId: product.id, blob });
+        canonicalNames.add(name);
+      }
+    }
+    return canonicalNames;
+  }
+
+  async function listAllProductImages() {
+    if (!user) return { images: await store.listProductImages(), cloudComplete: false };
+    await syncRelationalImages();
+    return { images: await store.listProductImages(), cloudComplete: true };
+  }
+
   async function syncImages() {
     setCloudStatus('Sincronizando imágenes…');
+    const canonicalNames = await syncRelationalImages();
     const localImages = await store.listProductImages();
     const localNames = new Set(localImages.map(image => image.name));
     const remoteNames = new Set(await listRemoteImageNames());
     for (const image of localImages) {
-      if (remoteNames.has(image.name)) continue;
-      const { error } = await client.storage.from(BUCKET).upload(`${user.id}/${image.name}`, image.blob, { contentType: 'image/png', upsert: false, cacheControl: '3600' });
+      if (remoteNames.has(image.name) && !canonicalNames.has(image.name)) continue;
+      const { error } = await client.storage.from(BUCKET).upload(`${user.id}/${image.name}`, image.blob, { contentType: 'image/png', upsert: canonicalNames.has(image.name), cacheControl: '3600' });
       if (error && String(error.statusCode) !== '409') throw error;
     }
     for (const name of remoteNames) {
@@ -529,7 +634,7 @@
     }
   }
 
-  window.claremmCloud = { recordMutation, recordImageMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, uploadRelationalProductImage, validateBranchStockRows, applyBranchStock };
+  window.claremmCloud = { recordMutation, recordImageMutation, recordCatalogMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, uploadRelationalProductImage, updateRelationalStylePrice, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock };
 
   byId('cloudLogin').onclick = async () => {
     if (!client) return alert('Supabase aún no está configurado.');

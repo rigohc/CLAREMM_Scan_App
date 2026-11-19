@@ -9,6 +9,7 @@
   const text = value => String(value ?? '').trim();
   const normalized = value => text(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().replace(/\s+/g, ' ');
   const normalizedSize = value => text(value).replace(',', '.');
+  const numericPrice = value => { const raw = text(value).replace(/[^0-9,.-]/g, ''); if (!raw) return NaN; const comma = raw.lastIndexOf(','), dot = raw.lastIndexOf('.'); return Number(comma > dot ? raw.replace(/\./g, '').replace(',', '.') : raw.replace(/,/g, '')); };
   const validSize = value => Number.isFinite(Number(normalizedSize(value))) && Number(normalizedSize(value)) > 0;
   const validQuantity = (value, mode = 'set') => Number.isInteger(Number(value)) && Number(value) >= (mode === 'add' ? 1 : 0);
   const esc = value => text(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
@@ -333,12 +334,34 @@
     const pairs = results.reduce((sum, result) => sum + Number(result.totalQuantity || 0), 0);
     info.textContent = `${results.length} producto-sucursal · ${pairs} par(es) encontrados.`;
     const currency = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' });
-    container.innerHTML = results.map(result => `<article class="relationalResultCard" data-relational-product-id="${esc(result.product.id)}"><div class="relationalResultTitle"><strong>${esc(result.product.estilo)} · ${esc(result.product.color)}</strong><span>${esc(currency.format(Number(result.product.precio || 0)))}</span></div><div class="relationalResultMeta"><span>${esc(result.product.marca || 'Sin marca')}</span><span>${esc(result.product.linea || result.product.acabado || 'Sin línea')}</span><span>${esc(result.branch.name)}</span><strong>${esc(result.totalQuantity)} par(es)</strong><span class="sazStatus ${result.sazRegistered ? 'isLoaded' : 'isPending'}">${result.sazRegistered ? 'Registrado en SAZ' : 'Pendiente de SAZ'}</span></div><div class="relationalSizes">${result.sizes.map(item => `<span class="relationalSize">${esc(item.size)} × ${esc(item.quantity)}</span>`).join('')}</div><div class="relationalImage"><div class="relationalImagePreview">${result.imageUrl ? `<img src="${esc(result.imageUrl)}" alt="Producto ${esc(result.product.estilo)} ${esc(result.product.color)}">` : '<span>Sin imagen</span>'}</div><div class="relationalImageControls"><button type="button" data-relational-image="camera" data-product-id="${esc(result.product.id)}">Tomar foto</button><button type="button" class="secondary" data-relational-image="gallery" data-product-id="${esc(result.product.id)}">Elegir imagen</button><small data-relational-image-status="${esc(result.product.id)}">${esc(result.imageMessage || (result.imageUrl ? 'Imagen guardada en Supabase.' : 'PNG máximo 100 KB.'))}</small></div></div></article>`).join('');
+    container.innerHTML = results.map(result => `<article class="relationalResultCard" data-relational-product-id="${esc(result.product.id)}"><div class="relationalResultTitle"><strong>${esc(result.product.estilo)} · ${esc(result.product.color)}</strong><span>${esc(currency.format(Number(result.product.precio || 0)))}</span></div><div class="relationalResultMeta"><span>${esc(result.product.marca || 'Sin marca')}</span><span>${esc(result.product.linea || result.product.acabado || 'Sin línea')}</span><span>${esc(result.branch.name)}</span><strong>${esc(result.totalQuantity)} par(es)</strong><span class="sazStatus ${result.sazRegistered ? 'isLoaded' : 'isPending'}">${result.sazRegistered ? 'Registrado en SAZ' : 'Pendiente de SAZ'}</span></div><div class="relationalProductActions"><button type="button" class="secondary" data-relational-price="${esc(result.product.id)}">Cambiar precio del estilo</button><small data-relational-notice="${esc(result.product.id)}">${esc(result.notice || 'El precio se aplicará a todos los colores del mismo estilo.')}</small></div><div class="relationalSizes">${result.sizes.map(item => `<span class="relationalSize">${esc(item.size)} × ${esc(item.quantity)}</span>`).join('')}</div><div class="relationalImage"><div class="relationalImagePreview">${result.imageUrl ? `<img src="${esc(result.imageUrl)}" alt="Producto ${esc(result.product.estilo)} ${esc(result.product.color)}">` : '<span>Sin imagen</span>'}</div><div class="relationalImageControls"><button type="button" data-relational-image="camera" data-product-id="${esc(result.product.id)}">Tomar foto</button><button type="button" class="secondary" data-relational-image="gallery" data-product-id="${esc(result.product.id)}">Elegir imagen</button><small data-relational-image-status="${esc(result.product.id)}">${esc(result.imageMessage || (result.imageUrl ? 'Imagen compartida entre ambos inventarios.' : 'PNG máximo 100 KB · aplica por estilo y color.'))}</small></div></div></article>`).join('');
     container.querySelectorAll('[data-relational-image]').forEach(button => button.addEventListener('click', () => {
       const result = relationalInventoryResults.find(item => item.product.id === button.dataset.productId);
       if (!result) return;
       relationalImageTarget = result;
       byId(button.dataset.relationalImage === 'camera' ? 'relationalProductImageCamera' : 'relationalProductImageGallery').click();
+    }));
+    container.querySelectorAll('[data-relational-price]').forEach(button => button.addEventListener('click', async () => {
+      const result = relationalInventoryResults.find(item => item.product.id === button.dataset.relationalPrice);
+      if (!result) return;
+      const entered = window.prompt(`Nuevo precio para todo el estilo ${result.product.estilo}:`, String(result.product.precio || ''));
+      if (entered === null) return;
+      const precio = numericPrice(entered);
+      if (!Number.isFinite(precio) || precio < 0) return window.alert('Escribe un precio válido.');
+      button.disabled = true;
+      try {
+        const saved = await cloud().updateRelationalStylePrice(result.product.estilo, precio);
+        const legacyUpdated = window.ClaremmStore?.applyStylePriceFromCloud?.(result.product.estilo, precio) || 0;
+        for (const item of relationalInventoryResults.filter(item => normalized(item.product.estilo) === normalized(result.product.estilo))) {
+          item.product.precio = precio;
+          item.notice = `Precio actualizado en ${saved.updated} ficha(s) relacionales y ${legacyUpdated} registro(s) anteriores.`;
+        }
+        renderRelationalInventory(relationalInventoryResults, relationalInventoryQuery);
+      } catch (error) {
+        const notice = document.querySelector(`[data-relational-notice="${CSS.escape(result.product.id)}"]`);
+        if (notice) notice.textContent = error.message;
+        button.disabled = false;
+      }
     }));
   }
 
@@ -356,10 +379,12 @@
       if (statusElement) statusElement.textContent = 'Guardando en Supabase…';
       const saved = await cloud().uploadRelationalProductImage({ productId: target.product.id, blob });
       await window.ClaremmStore.putImageFromCloud(saved.fileName, blob).catch(() => {});
+      cloud().recordImageMutation?.({ type: 'upsert', name: saved.fileName });
+      await window.ClaremmStore.refreshImageIndicators?.();
       for (const result of relationalInventoryResults.filter(item => item.product.id === target.product.id)) {
         result.product.imagen = saved.path;
         result.imageUrl = saved.imageUrl;
-        result.imageMessage = `Imagen guardada · ${(saved.size / 1024).toFixed(1)} KB`;
+        result.imageMessage = `Imagen compartida en ambos inventarios · ${(saved.size / 1024).toFixed(1)} KB`;
       }
       renderRelationalInventory(relationalInventoryResults, relationalInventoryQuery);
     } catch (error) {

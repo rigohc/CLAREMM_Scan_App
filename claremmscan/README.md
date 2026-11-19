@@ -12,7 +12,7 @@ Aplicación PWA para Vercel. Configura **Root Directory** en Vercel para que apu
 - Limpia automáticamente la fotografía de etiqueta después de guardar para preparar el siguiente producto.
 - Imagen opcional por estilo + color, convertida a PNG de máximo 100 KB y exportación conjunta en ZIP.
 - Captura directa de la imagen del producto con la cámara trasera del teléfono, además de selección desde la galería.
-- Al editar un precio, lo aplica a todas las tallas que coinciden en estilo y color.
+- Al editar un precio, lo aplica a todas las tallas y colores del mismo estilo tanto en el inventario anterior como en el catálogo relacional.
 - Respaldo y sincronización con Supabase mediante correo/contraseña, RLS y Storage privado.
 - Existencias separadas por sucursal; el stock actual se asigna a `CLAREMM ZAPATERIA JUAREZ`.
 - Esquema relacional para catálogo SAZ, tallas, sucursales, existencias y movimientos históricos.
@@ -20,7 +20,8 @@ Aplicación PWA para Vercel. Configura **Root Directory** en Vercel para que apu
 - Registro oficial de lotes SAZ, búsqueda indexada por estilo + color e indicadores de pares registrados, pendientes y porcentaje de avance.
 - Módulo independiente de carga por sucursal: búsqueda del catálogo, captura individual, importación masiva y descarga de productos desconocidos.
 - El buscador del inventario consulta también el catálogo y las existencias relacionales de Supabase, y muestra esos resultados en una sección separada del inventario histórico.
-- Las tarjetas del inventario relacional indican si el producto está registrado en SAZ y permiten tomar o elegir una imagen compartida, comprimida como PNG de máximo 100 KB.
+- Las tarjetas del inventario relacional indican si el producto está registrado en SAZ y permiten tomar o elegir una imagen compartida por estilo + color, comprimida como PNG de máximo 100 KB.
+- La imagen relacional es la referencia principal: también se copia al almacenamiento anterior, y **Exportar imágenes** reúne ambas fuentes sin duplicar nombres.
 - Interfaz oscura tipo estación de trabajo, adaptable a teléfonos de 320 px, tablets y escritorio.
 - Mantiene la clave `claremmscan-v1` de localStorage para preservar los registros del navegador existente.
 
