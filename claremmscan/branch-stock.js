@@ -19,6 +19,8 @@
   let manualUnknown = [];
   let searchTimer = null;
   let searchSequence = 0;
+  let inventorySearchTimer = null;
+  let inventorySearchSequence = 0;
 
   function status(message, kind = '') {
     const element = byId('branchStockStatus');
@@ -315,6 +317,48 @@
   }
   function closeDialog() { byId('branchStockDialog').close(); }
 
+  function renderRelationalInventory(results, query) {
+    const panel = byId('relationalSearchPanel'), container = byId('relationalSearchResults'), info = byId('relationalSearchInfo');
+    panel.hidden = false;
+    if (!results.length) {
+      info.textContent = `Sin existencias relacionales para “${query}”.`;
+      container.innerHTML = '<p class="muted">El buscador antiguo puede seguir mostrando registros pendientes de migración.</p>';
+      return;
+    }
+    const pairs = results.reduce((sum, result) => sum + Number(result.totalQuantity || 0), 0);
+    info.textContent = `${results.length} producto-sucursal · ${pairs} par(es) encontrados.`;
+    const currency = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' });
+    container.innerHTML = results.map(result => `<article class="relationalResultCard"><div class="relationalResultTitle"><strong>${esc(result.product.estilo)} · ${esc(result.product.color)}</strong><span>${esc(currency.format(Number(result.product.precio || 0)))}</span></div><div class="relationalResultMeta"><span>${esc(result.product.marca || 'Sin marca')}</span><span>${esc(result.product.linea || result.product.acabado || 'Sin línea')}</span><span>${esc(result.branch.name)}</span><strong>${esc(result.totalQuantity)} par(es)</strong></div><div class="relationalSizes">${result.sizes.map(item => `<span class="relationalSize">${esc(item.size)} × ${esc(item.quantity)}</span>`).join('')}</div></article>`).join('');
+  }
+
+  async function searchRelationalInventory() {
+    const input = byId('inventorySearch'), panel = byId('relationalSearchPanel'), query = input.value.trim();
+    if (!query) {
+      panel.hidden = true;
+      byId('relationalSearchResults').innerHTML = '';
+      return;
+    }
+    const sequence = ++inventorySearchSequence, scope = byId('inventorySearchScope').value;
+    panel.hidden = false;
+    byId('relationalSearchInfo').textContent = 'Buscando en catálogo y existencias por sucursal…';
+    byId('relationalSearchResults').innerHTML = '';
+    try {
+      if (!cloud()?.searchRelationalInventory) throw new Error('Actualiza la página para activar la búsqueda relacional.');
+      const results = await cloud().searchRelationalInventory(query, scope);
+      if (sequence !== inventorySearchSequence) return;
+      renderRelationalInventory(results, query);
+    } catch (error) {
+      if (sequence !== inventorySearchSequence) return;
+      byId('relationalSearchInfo').textContent = error.message;
+      byId('relationalSearchResults').innerHTML = '<p class="muted">Inicia sesión y pulsa Sincronizar ahora para consultar Supabase.</p>';
+    }
+  }
+
+  function queueRelationalInventorySearch() {
+    clearTimeout(inventorySearchTimer);
+    inventorySearchTimer = setTimeout(searchRelationalInventory, 300);
+  }
+
   byId('branchStockOpen').addEventListener('click', openDialog);
   byId('branchStockClose').addEventListener('click', closeDialog);
   byId('branchStockDialog').addEventListener('cancel', event => { event.preventDefault(); closeDialog(); });
@@ -346,8 +390,11 @@
   ]));
   byId('branchStockAllowCreate').addEventListener('change', renderBulkState);
   byId('branchStockApplyFile').addEventListener('click', applyBulkFile);
+  byId('inventorySearch').addEventListener('input', queueRelationalInventorySearch);
+  byId('inventorySearchScope').addEventListener('change', queueRelationalInventorySearch);
   document.addEventListener('claremm-cloud-session', event => {
     if (!event.detail?.signedIn && byId('branchStockDialog').open) loadContext(false);
+    if (event.detail?.signedIn && byId('inventorySearch').value.trim()) queueRelationalInventorySearch();
   });
   renderBulkState();
 })();

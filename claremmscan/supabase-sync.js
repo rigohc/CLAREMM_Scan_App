@@ -165,6 +165,42 @@
     }).slice(0, 40).map(product => ({ ...product, sizes: (context.variantsByProduct.get(product.id) || []).map(variant => variant.size) }));
   }
 
+  async function searchRelationalInventory(query, scope = 'all') {
+    const context = await loadBranchStockContext();
+    const terms = catalogText(query).split(' ').filter(Boolean);
+    if (!terms.length) return [];
+    const products = context.products.filter(product => {
+      const haystack = scope === 'style' ? catalogText(product.estilo) : catalogText([product.estilo, product.color, product.marca, product.proveedor, product.linea, product.acabado].join(' '));
+      return terms.every(term => haystack.includes(term));
+    }).slice(0, 80);
+    const variantIds = products.flatMap(product => (context.variantsByProduct.get(product.id) || []).map(variant => variant.id));
+    const levels = [];
+    for (const group of chunks(variantIds, 200)) {
+      if (!group.length) continue;
+      const { data, error } = await client.from('inventory_levels').select('branch_id,variant_id,quantity').in('variant_id', group).gt('quantity', 0);
+      if (error) throw error;
+      levels.push(...(data || []));
+    }
+    const productByVariant = new Map(), variantById = new Map();
+    for (const product of products) for (const variant of context.variantsByProduct.get(product.id) || []) {
+      productByVariant.set(variant.id, product);
+      variantById.set(variant.id, variant);
+    }
+    const branchById = new Map(context.branches.map(branch => [branch.id, branch])), grouped = new Map();
+    for (const level of levels) {
+      const product = productByVariant.get(level.variant_id), variant = variantById.get(level.variant_id), branch = branchById.get(level.branch_id);
+      if (!product || !variant || !branch) continue;
+      const key = `${product.id}|${branch.id}`;
+      if (!grouped.has(key)) grouped.set(key, { product, branch, sizes: [], totalQuantity: 0 });
+      const result = grouped.get(key), quantity = Number(level.quantity || 0);
+      result.sizes.push({ size: variant.size, quantity });
+      result.totalQuantity += quantity;
+    }
+    return [...grouped.values()]
+      .map(result => ({ ...result, sizes: result.sizes.sort((a, b) => Number(a.size) - Number(b.size)) }))
+      .sort((a, b) => catalogText(`${a.product.estilo}|${a.product.color}|${a.branch.name}`).localeCompare(catalogText(`${b.product.estilo}|${b.product.color}|${b.branch.name}`)));
+  }
+
   async function validateBranchStockRows(rows) {
     const context = await loadBranchStockContext();
     const known = [], unknown = [];
@@ -456,7 +492,7 @@
     }
   }
 
-  window.claremmCloud = { recordMutation, recordImageMutation, syncAll, loadBranchStockContext, searchBranchCatalog, validateBranchStockRows, applyBranchStock };
+  window.claremmCloud = { recordMutation, recordImageMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, validateBranchStockRows, applyBranchStock };
 
   byId('cloudLogin').onclick = async () => {
     if (!client) return alert('Supabase aún no está configurado.');
