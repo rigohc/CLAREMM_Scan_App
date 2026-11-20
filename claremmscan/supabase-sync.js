@@ -234,17 +234,17 @@
     return url;
   }
 
-  async function searchRelationalInventory(query, scope = 'all', sazFilter = 'all') {
+  async function searchRelationalInventory(query, scope = 'all', sazFilter = 'all', options = {}) {
     const context = await loadBranchStockContext();
     const terms = catalogText(query).split(' ').filter(Boolean);
     if (!terms.length) return [];
     const products = context.products.filter(product => {
       const haystack = scope === 'style'
-        ? catalogText(product.estilo)
-        : catalogText([product.estilo, product.color, product.marca, product.proveedor, product.temporada, product.sublinea, product.departamento, product.clasificacion, product.linea, product.corrida, product.acabado].join(' '));
+        ? catalogText(`${product.estilo} ${compactEstilo(product.estilo)}`)
+        : catalogText([product.estilo, compactEstilo(product.estilo), product.color, product.marca, product.proveedor, product.temporada, product.sublinea, product.departamento, product.clasificacion, product.linea, product.corrida, product.acabado].join(' '));
       const registered = context.registryByKey.get(productLookupKey(product)) === product.id;
       const matchesStatus = sazFilter === 'loaded' ? registered : sazFilter === 'pending' ? !registered : true;
-      return matchesStatus && terms.every(term => haystack.includes(term));
+      return matchesStatus && terms.every(term => haystack.includes(term) || haystack.includes(compactEstilo(term)));
     }).slice(0, 80);
     const variantIds = products.flatMap(product => (context.variantsByProduct.get(product.id) || []).map(variant => variant.id));
     const levels = [];
@@ -268,6 +268,15 @@
       const result = grouped.get(key), quantity = Number(level.quantity || 0);
       result.sizes.push({ size: variant.size, quantity });
       result.totalQuantity += quantity;
+    }
+    if (options.includeEmpty) {
+      const branch = context.branches.find(item => catalogText(item.code) === 'JUAREZ') || context.branches[0];
+      if (branch) {
+        for (const product of products) {
+          const key = `${product.id}|${branch.id}`;
+          if (!grouped.has(key)) grouped.set(key, { product, branch, sizes: [], totalQuantity: 0 });
+        }
+      }
     }
     return [...grouped.values()]
       .map(result => ({
@@ -343,7 +352,7 @@
     if (!client || !user) throw new Error('Inicia sesión antes de actualizar precios.');
     const value = catalogPrice(precio);
     if (!Number.isFinite(value) || value < 0) throw new Error('Escribe un precio válido.');
-    const context = await loadBranchStockContext(), matchingProducts = context.products.filter(product => catalogText(product.estilo) === catalogText(estilo));
+    const context = await loadBranchStockContext(), matchingProducts = context.products.filter(product => compactEstilo(product.estilo) === compactEstilo(estilo));
     for (const group of chunks(matchingProducts.map(product => product.id), 200)) {
       if (!group.length) continue;
       const { error } = await client.from('products').update({ precio: value }).eq('organization_id', context.organization.id).in('id', group);
@@ -369,7 +378,7 @@
 
   async function getRelationalStylePrice(estilo) {
     const context = await loadBranchStockContext();
-    const prices = context.products.filter(product => catalogText(product.estilo) === catalogText(estilo)).map(product => Number(product.precio)).filter(price => Number.isFinite(price) && price > 0);
+    const prices = context.products.filter(product => compactEstilo(product.estilo) === compactEstilo(estilo)).map(product => Number(product.precio)).filter(price => Number.isFinite(price) && price > 0);
     if (!prices.length) return '';
     const frequency = new Map();
     for (const price of prices) frequency.set(price, (frequency.get(price) || 0) + 1);

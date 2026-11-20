@@ -21,9 +21,10 @@ const outputSchema = {
           size: { type: 'string' },
           material: { type: 'string' },
           quantity: { type: 'integer' },
+          price: { type: 'string' },
           confidence: { type: 'number' },
         },
-        required: ['style', 'brand', 'color', 'line', 'size', 'material', 'quantity', 'confidence'],
+        required: ['style', 'brand', 'color', 'line', 'size', 'material', 'quantity', 'price', 'confidence'],
       },
     },
     raw_text: { type: 'string' },
@@ -41,6 +42,7 @@ Reglas de extracción:
 - MATERIAL solo puede salir del texto visible, por ejemplo PIEL o SINTETICO. Déjalo vacío si no aparece.
 - LINE es el tipo de calzado únicamente si es evidente: Tenis, Zapato, Bota, Huarache o Sandalia. Déjalo vacío si no es evidente.
 - QUANTITY es 1 por cada etiqueta individual.
+- PRICE/precio es el precio de venta impreso en la etiqueta o caja, si es visible: 659, 1,199, $659 o 659.00. El precio es el mismo para todos los colores de ese estilo. Déjalo vacío si no se ve; no lo inventes ni uses la talla como precio.
 - Si un carácter no se distingue, deja el campo vacío. No completes ni adivines códigos.
 - Devuelve una entrada por cada etiqueta principal legible. Ignora códigos de barras, logotipos, tallas de pegatinas auxiliares y textos grandes impresos en la caja.
 - confidence debe estar entre 0 y 1 y reflejar la certeza de lectura del estilo, color y talla.
