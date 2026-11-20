@@ -17,6 +17,9 @@ create table if not exists public.inventory_items (
   material text not null default '',
   precio text not null default '',
   notas text not null default '',
+  saz_cargado boolean not null default false,
+  saz_cargado_at timestamptz,
+  origen text not null default 'app_capture',
   updated_at timestamptz not null default now(),
   unique (user_id, item_key)
 );
@@ -24,10 +27,14 @@ create table if not exists public.inventory_items (
 -- Migración segura para proyectos que ya tenían la tabla creada.
 alter table public.inventory_items
   add column if not exists marca text not null default '',
-  add column if not exists sucursal text not null default 'CLAREMM ZAPATERIA JUAREZ';
+  add column if not exists sucursal text not null default 'CLAREMM ZAPATERIA JUAREZ',
+  add column if not exists saz_cargado boolean not null default false,
+  add column if not exists saz_cargado_at timestamptz,
+  add column if not exists origen text not null default 'supabase_legacy';
 
 alter table public.inventory_items
-  alter column sucursal set default 'CLAREMM ZAPATERIA JUAREZ';
+  alter column sucursal set default 'CLAREMM ZAPATERIA JUAREZ',
+  alter column origen set default 'app_capture';
 
 update public.inventory_items
 set sucursal = 'CLAREMM ZAPATERIA JUAREZ'
@@ -40,6 +47,7 @@ where item_key is distinct from upper(trim(sucursal)) || '|' || upper(trim(estil
 
 create index if not exists inventory_items_user_id_idx on public.inventory_items(user_id);
 create index if not exists inventory_items_user_branch_idx on public.inventory_items(user_id, sucursal);
+create index if not exists inventory_items_user_saz_idx on public.inventory_items(user_id, saz_cargado);
 alter table public.inventory_items enable row level security;
 revoke all on table public.inventory_items from anon, authenticated;
 grant select, insert, update, delete on table public.inventory_items to authenticated;

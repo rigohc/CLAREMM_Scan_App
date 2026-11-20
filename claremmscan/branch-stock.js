@@ -25,6 +25,54 @@
   let relationalInventoryResults = [];
   let relationalInventoryQuery = '';
   let relationalImageTarget = null;
+  let relationalEdit = null;
+  const FICHA_FIELDS = [
+    { key: 'precio', label: 'Precio de venta' },
+    { key: 'marca', label: 'Marca' },
+    { key: 'proveedor', label: 'Proveedor' },
+    { key: 'temporada', label: 'Temporada' },
+    { key: 'sublinea', label: 'Sublinea' },
+    { key: 'departamento', label: 'Departamento' },
+    { key: 'clasificacion', label: 'Clasificacion' },
+    { key: 'linea', label: 'Linea' },
+    { key: 'corrida', label: 'Corrida de tallas' },
+    { key: 'acabado', label: 'Material/Acabado' },
+  ];
+  const currency = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' });
+
+  function setRelationalPreview(active) {
+    byId('inventoryCard')?.classList.toggle('isRelationalPreview', Boolean(active));
+  }
+
+  function fieldValue(product, key) {
+    if (key === 'precio') return currency.format(Number(product.precio || 0));
+    return text(product[key]) || '—';
+  }
+
+  function fichaMarkup(product, productId) {
+    return FICHA_FIELDS.map(field => {
+      const editing = relationalEdit?.productId === productId && relationalEdit.field === field.key;
+      const value = field.key === 'precio' ? String(product.precio ?? '') : text(product[field.key]);
+      const body = editing
+        ? `<input data-edit-input="${esc(field.key)}" value="${esc(value)}" inputmode="${field.key === 'precio' ? 'decimal' : 'text'}" aria-label="${esc(field.label)}">`
+        : `<button type="button" data-edit-field="${esc(field.key)}"${field.key === 'precio' ? ` data-relational-price="${esc(productId)}"` : ''}>${esc(fieldValue(product, field.key))}</button>`;
+      return `<div class="relationalField${editing ? ' isEditing' : ''}" data-field="${esc(field.key)}"><dt>${esc(field.label)}</dt><dd>${body}</dd></div>`;
+    }).join('');
+  }
+
+  function cardMarkup(result) {
+    const product = result.product, productId = product.id;
+    const lineage = [text(product.linea) || 'Sin línea', text(product.corrida) || 'Sin corrida'];
+    return `<article class="relationalResultCard" data-relational-product-id="${esc(productId)}" data-relational-branch-id="${esc(result.branch.id)}">
+      <div class="relationalResultTitle"><strong>${esc(product.estilo)} · ${esc(product.color)}</strong><span>${esc(currency.format(Number(product.precio || 0)))}</span></div>
+      <p class="relationalLineage"><span>${esc(lineage[0])}</span><span>${esc(lineage[1])}</span></p>
+      <div class="relationalResultMeta"><span>${esc(product.marca || 'Sin marca')}</span><span>${esc(result.branch.name)}</span><strong>${esc(result.totalQuantity)} par(es)</strong><span class="sazStatus ${result.sazRegistered ? 'isLoaded' : 'isPending'}">${result.sazRegistered ? 'Registrado en SAZ' : 'Pendiente de SAZ'}</span></div>
+      <dl class="relationalFicha">${fichaMarkup(product, productId)}</dl>
+      <small class="relationalEditHint" data-relational-notice="${esc(productId)}">${esc(result.notice || 'Toca un dato para editarlo en la ficha. El precio se aplica a todos los colores del mismo estilo.')}</small>
+      <div class="relationalSizes">${(result.sizes || []).map(item => `<span class="relationalSize">${esc(item.size)} × ${esc(item.quantity)}</span>`).join('')}</div>
+      <div class="relationalImage"><div class="relationalImagePreview">${result.imageUrl ? `<img src="${esc(result.imageUrl)}" alt="Producto ${esc(product.estilo)} ${esc(product.color)}">` : '<span>Sin imagen</span>'}</div><div class="relationalImageControls"><button type="button" data-relational-image="camera" data-product-id="${esc(productId)}">Tomar foto</button><button type="button" class="secondary" data-relational-image="gallery" data-product-id="${esc(productId)}">Elegir imagen</button><small data-relational-image-status="${esc(productId)}">${esc(result.imageMessage || (result.imageUrl ? 'Imagen compartida entre ambos inventarios.' : 'PNG máximo 100 KB · aplica por estilo y color.'))}</small></div></div>
+    </article>`;
+  }
 
   function status(message, kind = '') {
     const element = byId('branchStockStatus');
@@ -321,48 +369,78 @@
   }
   function closeDialog() { byId('branchStockDialog').close(); }
 
-  function renderRelationalInventory(results, query) {
+  function renderRelationalInventory(results, query, options = {}) {
     const panel = byId('relationalSearchPanel'), container = byId('relationalSearchResults'), info = byId('relationalSearchInfo');
     relationalInventoryResults = results;
     relationalInventoryQuery = query;
     panel.hidden = false;
+    setRelationalPreview(true);
     if (!results.length) {
       info.textContent = `Sin existencias relacionales para “${query}”.`;
-      container.innerHTML = '<p class="muted">El buscador antiguo puede seguir mostrando registros pendientes de migración.</p>';
+      container.innerHTML = '<p class="muted">No hay ficha con existencias para esa búsqueda en el catálogo relacional.</p>';
       return;
     }
     const pairs = results.reduce((sum, result) => sum + Number(result.totalQuantity || 0), 0);
     info.textContent = `${results.length} producto-sucursal · ${pairs} par(es) encontrados.`;
-    const currency = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' });
-    container.innerHTML = results.map(result => `<article class="relationalResultCard" data-relational-product-id="${esc(result.product.id)}"><div class="relationalResultTitle"><strong>${esc(result.product.estilo)} · ${esc(result.product.color)}</strong><span>${esc(currency.format(Number(result.product.precio || 0)))}</span></div><div class="relationalResultMeta"><span>${esc(result.product.marca || 'Sin marca')}</span><span>${esc(result.product.linea || result.product.acabado || 'Sin línea')}</span><span>${esc(result.branch.name)}</span><strong>${esc(result.totalQuantity)} par(es)</strong><span class="sazStatus ${result.sazRegistered ? 'isLoaded' : 'isPending'}">${result.sazRegistered ? 'Registrado en SAZ' : 'Pendiente de SAZ'}</span></div><div class="relationalProductActions"><button type="button" class="secondary" data-relational-price="${esc(result.product.id)}">Cambiar precio del estilo</button><small data-relational-notice="${esc(result.product.id)}">${esc(result.notice || 'El precio se aplicará a todos los colores del mismo estilo.')}</small></div><div class="relationalSizes">${result.sizes.map(item => `<span class="relationalSize">${esc(item.size)} × ${esc(item.quantity)}</span>`).join('')}</div><div class="relationalImage"><div class="relationalImagePreview">${result.imageUrl ? `<img src="${esc(result.imageUrl)}" alt="Producto ${esc(result.product.estilo)} ${esc(result.product.color)}">` : '<span>Sin imagen</span>'}</div><div class="relationalImageControls"><button type="button" data-relational-image="camera" data-product-id="${esc(result.product.id)}">Tomar foto</button><button type="button" class="secondary" data-relational-image="gallery" data-product-id="${esc(result.product.id)}">Elegir imagen</button><small data-relational-image-status="${esc(result.product.id)}">${esc(result.imageMessage || (result.imageUrl ? 'Imagen compartida entre ambos inventarios.' : 'PNG máximo 100 KB · aplica por estilo y color.'))}</small></div></div></article>`).join('');
-    container.querySelectorAll('[data-relational-image]').forEach(button => button.addEventListener('click', () => {
-      const result = relationalInventoryResults.find(item => item.product.id === button.dataset.productId);
-      if (!result) return;
-      relationalImageTarget = result;
-      byId(button.dataset.relationalImage === 'camera' ? 'relationalProductImageCamera' : 'relationalProductImageGallery').click();
-    }));
-    container.querySelectorAll('[data-relational-price]').forEach(button => button.addEventListener('click', async () => {
-      const result = relationalInventoryResults.find(item => item.product.id === button.dataset.relationalPrice);
-      if (!result) return;
-      const entered = window.prompt(`Nuevo precio para todo el estilo ${result.product.estilo}:`, String(result.product.precio || ''));
-      if (entered === null) return;
-      const precio = numericPrice(entered);
-      if (!Number.isFinite(precio) || precio < 0) return window.alert('Escribe un precio válido.');
-      button.disabled = true;
-      try {
-        const saved = await cloud().updateRelationalStylePrice(result.product.estilo, precio);
+    const active = document.activeElement;
+    const keepFocus = options.keepFocus && active?.hasAttribute?.('data-edit-input') ? { field: active.getAttribute('data-edit-input'), productId: active.closest('[data-relational-product-id]')?.dataset.relationalProductId } : null;
+    container.innerHTML = results.map(cardMarkup).join('');
+    if (keepFocus) focusRelationalField(keepFocus.productId, keepFocus.field);
+  }
+
+  function replaceRelationalCard(result) {
+    const card = document.querySelector(`[data-relational-product-id="${CSS.escape(result.product.id)}"][data-relational-branch-id="${CSS.escape(result.branch.id)}"]`);
+    if (!card) return;
+    const wrap = document.createElement('div');
+    wrap.innerHTML = cardMarkup(result);
+    card.replaceWith(wrap.firstElementChild);
+  }
+
+  function focusRelationalField(productId, field) {
+    const input = document.querySelector(`[data-relational-product-id="${CSS.escape(productId)}"] [data-edit-input="${CSS.escape(field)}"]`);
+    if (!input) return;
+    input.focus();
+    input.select();
+  }
+
+  function findRelationalResult(productId) {
+    return relationalInventoryResults.find(item => item.product.id === productId);
+  }
+
+  async function saveRelationalField(productId, field, rawValue) {
+    const result = findRelationalResult(productId);
+    if (!result || !cloud()?.updateRelationalProductField) return;
+    const notice = document.querySelector(`[data-relational-notice="${CSS.escape(productId)}"]`);
+    try {
+      const saved = await cloud().updateRelationalProductField({ productId, field, value: rawValue });
+      if (field === 'precio') {
+        const precio = saved.precio;
         const legacyUpdated = window.ClaremmStore?.applyStylePriceFromCloud?.(result.product.estilo, precio) || 0;
         for (const item of relationalInventoryResults.filter(item => normalized(item.product.estilo) === normalized(result.product.estilo))) {
           item.product.precio = precio;
           item.notice = `Precio actualizado en ${saved.updated} ficha(s) relacionales y ${legacyUpdated} registro(s) anteriores.`;
         }
-        renderRelationalInventory(relationalInventoryResults, relationalInventoryQuery);
-      } catch (error) {
-        const notice = document.querySelector(`[data-relational-notice="${CSS.escape(result.product.id)}"]`);
-        if (notice) notice.textContent = error.message;
-        button.disabled = false;
+      } else {
+        result.product[field] = saved.value;
+        result.notice = `${FICHA_FIELDS.find(item => item.key === field)?.label || field} actualizado.`;
       }
-    }));
+      relationalEdit = null;
+      if (field === 'precio') {
+        for (const item of relationalInventoryResults.filter(item => normalized(item.product.estilo) === normalized(result.product.estilo))) replaceRelationalCard(item);
+      } else {
+        replaceRelationalCard(result);
+      }
+    } catch (error) {
+      if (notice) notice.textContent = error.message;
+    }
+  }
+
+  function startRelationalEdit(productId, field) {
+    const result = findRelationalResult(productId);
+    if (!result) return;
+    relationalEdit = { productId, field };
+    replaceRelationalCard(result);
+    focusRelationalField(productId, field);
   }
 
   async function saveRelationalProductImage(file) {
@@ -401,20 +479,35 @@
     const input = byId('inventorySearch'), panel = byId('relationalSearchPanel'), query = input.value.trim();
     if (!query) {
       panel.hidden = true;
+      setRelationalPreview(false);
+      relationalEdit = null;
       byId('relationalSearchResults').innerHTML = '';
       return;
     }
     const sequence = ++inventorySearchSequence, scope = byId('inventorySearchScope').value, sazFilter = byId('inventorySazFilter').value;
     panel.hidden = false;
+    setRelationalPreview(true);
     byId('relationalSearchInfo').textContent = 'Buscando en catálogo y existencias por sucursal…';
-    byId('relationalSearchResults').innerHTML = '';
     try {
       if (!cloud()?.searchRelationalInventory) throw new Error('Actualiza la página para activar la búsqueda relacional.');
       const results = await cloud().searchRelationalInventory(query, scope, sazFilter);
       if (sequence !== inventorySearchSequence) return;
+      relationalEdit = null;
       renderRelationalInventory(results, query);
+      if (!cloud()?.hydrateRelationalImages) return;
+      const hydrated = await cloud().hydrateRelationalImages(results);
+      if (sequence !== inventorySearchSequence) return;
+      for (const next of hydrated) {
+        const current = relationalInventoryResults.find(item => item.product.id === next.product.id && item.branch.id === next.branch.id);
+        if (!current || !next.imageUrl || current.imageUrl === next.imageUrl) continue;
+        current.imageUrl = next.imageUrl;
+        current.imageMessage = current.imageMessage || 'Imagen compartida entre ambos inventarios.';
+        const preview = document.querySelector(`[data-relational-product-id="${CSS.escape(current.product.id)}"][data-relational-branch-id="${CSS.escape(current.branch.id)}"] .relationalImagePreview`);
+        if (preview) preview.innerHTML = `<img src="${esc(next.imageUrl)}" alt="Producto ${esc(current.product.estilo)} ${esc(current.product.color)}">`;
+      }
     } catch (error) {
       if (sequence !== inventorySearchSequence) return;
+      setRelationalPreview(false);
       byId('relationalSearchInfo').textContent = error.message;
       byId('relationalSearchResults').innerHTML = '<p class="muted">Inicia sesión y pulsa Sincronizar ahora para consultar Supabase.</p>';
     }
@@ -461,9 +554,57 @@
   byId('inventorySazFilter').addEventListener('change', queueRelationalInventorySearch);
   byId('relationalProductImageCamera').addEventListener('change', event => saveRelationalProductImage(event.target.files?.[0]));
   byId('relationalProductImageGallery').addEventListener('change', event => saveRelationalProductImage(event.target.files?.[0]));
+  byId('relationalSearchResults').addEventListener('click', async event => {
+    const imageButton = event.target.closest('[data-relational-image]');
+    if (imageButton) {
+      const result = findRelationalResult(imageButton.dataset.productId);
+      if (!result) return;
+      relationalImageTarget = result;
+      byId(imageButton.dataset.relationalImage === 'camera' ? 'relationalProductImageCamera' : 'relationalProductImageGallery').click();
+      return;
+    }
+    const fieldButton = event.target.closest('[data-edit-field]');
+    if (!fieldButton) return;
+    const card = fieldButton.closest('[data-relational-product-id]');
+    if (!card) return;
+    const open = byId('relationalSearchResults').querySelector('[data-edit-input]');
+    if (open) {
+      const openCard = open.closest('[data-relational-product-id]');
+      if (openCard?.dataset.relationalProductId === card.dataset.relationalProductId && open.dataset.editInput === fieldButton.dataset.editField) return;
+      if (openCard) await saveRelationalField(openCard.dataset.relationalProductId, open.dataset.editInput, open.value);
+    }
+    startRelationalEdit(card.dataset.relationalProductId, fieldButton.dataset.editField);
+  });
+  byId('relationalSearchResults').addEventListener('keydown', event => {
+    const input = event.target.closest('[data-edit-input]');
+    if (!input) return;
+    const card = input.closest('[data-relational-product-id]');
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      saveRelationalField(card.dataset.relationalProductId, input.dataset.editInput, input.value);
+    } else if (event.key === 'Escape') {
+      relationalEdit = null;
+      renderRelationalInventory(relationalInventoryResults, relationalInventoryQuery);
+    }
+  });
+  byId('relationalSearchResults').addEventListener('focusout', event => {
+    const input = event.target.closest('[data-edit-input]');
+    if (!input) return;
+    const card = input.closest('[data-relational-product-id]');
+    const next = event.relatedTarget;
+    if (card?.contains(next)) return;
+    window.setTimeout(() => {
+      if (relationalEdit?.productId === card?.dataset.relationalProductId && relationalEdit.field === input.dataset.editInput && document.activeElement !== input) {
+        saveRelationalField(card.dataset.relationalProductId, input.dataset.editInput, input.value);
+      }
+    }, 0);
+  });
   document.addEventListener('claremm-cloud-session', event => {
     if (!event.detail?.signedIn && byId('branchStockDialog').open) loadContext(false);
-    if (event.detail?.signedIn && byId('inventorySearch').value.trim()) queueRelationalInventorySearch();
+    if (event.detail?.signedIn) {
+      cloud()?.loadBranchStockContext?.().catch(() => {});
+      if (byId('inventorySearch').value.trim()) queueRelationalInventorySearch();
+    }
   });
   renderBulkState();
 })();

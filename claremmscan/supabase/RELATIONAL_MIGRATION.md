@@ -12,6 +12,12 @@ Este modelo separa los datos que antes estaban mezclados:
 
 La tabla anterior `inventory_items` se conserva durante la transición. No se debe borrar hasta que se verifique el inventario relacional.
 
+## Separación del inventario capturado en la app
+
+`public.inventory_items` permanece como una tabla independiente. Sus registros no se copian ni se suman a `products`, `product_variants` o `inventory_levels`.
+
+El archivo `saz-status-migration.sql` agrega a esa tabla el estado `saz_cargado`, la fecha y el origen. Los registros existentes quedan como `supabase_legacy` y `Pendiente de SAZ`. Los productos relacionales conservan su origen real en `products.source_system` (`sqlite` o `saz_excel`).
+
 ## Fuentes revisadas
 
 - `CLAREMM_Inventario_Saz_Final.xlsx`: 810 productos, 2,848 pares y 66 columnas.
@@ -82,4 +88,26 @@ node scripts/import-relational-supabase.mjs \
 ```
 
 El importador usa `upsert`: si se interrumpe puede ejecutarse otra vez. Las cantidades se reemplazan con el valor del paquete y no se suman una segunda vez.
+
+## Archivos ya registrados en SAZ
+
+Ejecuta primero `supabase/saz-registered-schema.sql`. Después genera y valida el paquete oficial:
+
+```bash
+node scripts/analyze-saz-registered.mjs \
+  "/ruta/CLAREMM2 15_11_26 CORREGIDO REGISTRADO CORRECTAMENTE.xlsx" \
+  "/ruta/CLAREMM 15_11_26 REGISTRO terminado.xlsx" \
+  "/ruta/CLAREMM COSHI 16_11_26 AGREGADO A SAZ COMPLETO.xlsx" \
+  --output /tmp/claremm-saz-registered.json
+```
+
+La carga real es idempotente y reutiliza la ficha maestra cuando estilo + color y proveedor permiten identificarla sin ambigüedad:
+
+```bash
+node scripts/import-saz-registered-supabase.mjs \
+  --input /tmp/claremm-saz-registered.json \
+  --apply
+```
+
+Los casos ambiguos se crean como fuente `saz_registered`; nunca se fusionan por suposición. `saz_product_registry` mantiene un índice oficial único estilo + color para reutilizar el producto al capturar existencia de otra sucursal.
 

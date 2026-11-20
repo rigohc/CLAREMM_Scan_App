@@ -11,7 +11,10 @@
   let syncing = false;
   let flushTimer = null;
   let branchStockContext = null;
+  let branchStockContextPromise = null;
   const relationalImageUrls = new Map();
+  const PRODUCT_EDIT_FIELDS = ['precio', 'marca', 'proveedor', 'temporada', 'sublinea', 'departamento', 'clasificacion', 'linea', 'corrida', 'acabado'];
+  const PRODUCT_CATALOG_SELECT = 'id,estilo,color,marca,proveedor,temporada,sublinea,departamento,clasificacion,linea,corrida,acabado,precio,source_system,imagen';
 
   const byId = id => document.getElementById(id);
   const emptyQueue = () => ({ upserts: {}, deletes: {}, images: {}, catalog: {}, imageClear: false });
@@ -43,6 +46,36 @@
   const catalogText = value => String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toUpperCase().replace(/\s+/g, ' ');
   const catalogPrice = value => { const raw = String(value ?? '').trim().replace(/[^0-9,.-]/g, ''); if (!raw) return NaN; const comma = raw.lastIndexOf(','), dot = raw.lastIndexOf('.'); const normalized = comma > dot ? raw.replace(/\./g, '').replace(',', '.') : raw.replace(/,/g, ''); return Number(normalized); };
   const productLookupKey = value => `${catalogText(value?.estilo)}|${catalogText(value?.color)}`;
+  const compactEstilo = value => catalogText(value).replace(/^0+(?=\d)/, '');
+  const compactLookupKey = value => `${compactEstilo(value?.estilo)}|${catalogText(value?.color)}`;
+  const productLookupKeys = value => {
+    const exact = productLookupKey(value);
+    const compact = compactLookupKey(value);
+    return exact === compact ? [exact] : [exact, compact];
+  };
+  const catalogScore = product => (
+    (Number(product.precio) > 0 ? 1000 : 0) +
+    (String(product.imagen || '').trim() ? 400 : 0) +
+    (product.source_system === 'saz_registered' ? 220 : 0) +
+    (/^0+\d/.test(String(product.estilo || '')) ? 80 : 0) +
+    (catalogText(product.marca) && catalogText(product.marca) !== 'NAN' && catalogText(product.marca) !== 'CLAREMM' ? 25 : 0)
+  );
+  const pickCanonicalProduct = candidates => {
+    if (!candidates.length) return null;
+    return [...candidates].sort((left, right) => catalogScore(right) - catalogScore(left) || String(left.id).localeCompare(String(right.id)))[0];
+  };
+  const candidatesFor = (context, row) => {
+    const seen = new Set();
+    const candidates = [];
+    for (const key of productLookupKeys(row)) {
+      for (const product of context.productsByKey.get(key) || []) {
+        if (seen.has(product.id)) continue;
+        seen.add(product.id);
+        candidates.push(product);
+      }
+    }
+    return candidates;
+  };
   const imageNamePart = value => catalogText(value).replace(/[^A-Z0-9]+/g, '-').replace(/^-|-$/g, '');
   const catalogImageName = value => `${imageNamePart(value?.estilo) || 'ESTILO'}-${imageNamePart(value?.color) || 'COLOR'}.png`;
   const setCloudStatus = (message, kind = '') => {
@@ -112,9 +145,7 @@
     }
   }
 
-  async function loadBranchStockContext(force = false) {
-    if (!client || !user) throw new Error('Inicia sesión para consultar el catálogo por sucursal.');
-    if (!force && branchStockContext?.userId === user.id) return branchStockContext;
+  async function loadBranchStockContextNow() {
     const { data: memberships, error: membershipError } = await client.from('organization_members').select('organization_id,is_default').eq('user_id', user.id);
     if (membershipError) throw membershipError;
     const organizationIds = (memberships || []).map(row => row.organization_id);
@@ -128,7 +159,7 @@
     if (!organization) throw new Error('No se encontró la organización CLAREMM.');
     const [{ data: branches, error: branchError }, products, registry, variants] = await Promise.all([
       client.from('branches').select('id,code,name,active').eq('organization_id', organization.id).eq('active', true).order('name'),
-      pagedQuery(() => client.from('products').select('id,estilo,color,marca,linea,acabado,precio,proveedor,source_system,imagen').eq('organization_id', organization.id).eq('activo', true).order('estilo')),
+      pagedQuery(() => client.from('products').select(PRODUCT_CATALOG_SELECT).eq('organization_id', organization.id).eq('activo', true).order('estilo')),
       pagedQuery(() => client.from('saz_product_registry').select('product_id,lookup_key').eq('organization_id', organization.id)),
       pagedQuery(() => client.from('product_variants').select('id,product_id,size,products!inner(organization_id)').eq('products.organization_id', organization.id)),
     ]);
@@ -136,11 +167,19 @@
     const productsByKey = new Map(), productsById = new Map();
     for (const product of products) {
       productsById.set(product.id, product);
-      const key = productLookupKey(product);
-      if (!productsByKey.has(key)) productsByKey.set(key, []);
-      productsByKey.get(key).push(product);
+      for (const key of productLookupKeys(product)) {
+        if (!productsByKey.has(key)) productsByKey.set(key, []);
+        productsByKey.get(key).push(product);
+      }
     }
-    const registryByKey = new Map(registry.map(row => [catalogText(row.lookup_key), row.product_id]));
+    const registryByKey = new Map();
+    for (const row of registry) {
+      const exact = catalogText(row.lookup_key);
+      registryByKey.set(exact, row.product_id);
+      const [estilo, color = ''] = exact.split('|');
+      const compact = `${compactEstilo(estilo)}|${catalogText(color)}`;
+      if (!registryByKey.has(compact)) registryByKey.set(compact, row.product_id);
+    }
     const variantsByProduct = new Map();
     for (const variant of variants) {
       if (!variantsByProduct.has(variant.product_id)) variantsByProduct.set(variant.product_id, []);
@@ -150,13 +189,29 @@
     return branchStockContext;
   }
 
+  async function loadBranchStockContext(force = false) {
+    if (!client || !user) throw new Error('Inicia sesión para consultar el catálogo por sucursal.');
+    if (!force && branchStockContext?.userId === user.id) return branchStockContext;
+    if (branchStockContextPromise) {
+      const pending = await branchStockContextPromise;
+      if (!force && pending?.userId === user.id) return pending;
+    }
+    branchStockContextPromise = loadBranchStockContextNow();
+    try {
+      return await branchStockContextPromise;
+    } finally {
+      branchStockContextPromise = null;
+    }
+  }
+
   function resolveCatalogProduct(context, row) {
     if (row?.productId && context.productsById.has(row.productId)) return { product: context.productsById.get(row.productId), reason: '' };
-    const key = productLookupKey(row), candidates = context.productsByKey.get(key) || [], registeredId = context.registryByKey.get(key);
-    if (registeredId && context.productsById.has(registeredId)) return { product: context.productsById.get(registeredId), reason: '' };
-    if (candidates.length === 1) return { product: candidates[0], reason: '' };
-    if (!candidates.length) return { product: null, reason: 'No existe este estilo y color en el catálogo.' };
-    return { product: null, reason: 'Hay más de una ficha para este estilo y color; requiere revisión manual.' };
+    const candidates = candidatesFor(context, row);
+    const registeredId = productLookupKeys(row).map(key => context.registryByKey.get(key)).find(id => id && context.productsById.has(id));
+    if (registeredId) return { product: context.productsById.get(registeredId), reason: '' };
+    const product = pickCanonicalProduct(candidates);
+    if (product) return { product, reason: '' };
+    return { product: null, reason: 'No existe este estilo y color en el catálogo.' };
   }
 
   async function searchBranchCatalog(query) {
@@ -164,7 +219,7 @@
     const terms = catalogText(query).split(' ').filter(Boolean);
     if (!terms.length) return [];
     return context.products.filter(product => {
-      const haystack = catalogText([product.estilo, product.color, product.marca, product.proveedor, product.linea].join(' '));
+      const haystack = catalogText([product.estilo, product.color, product.marca, product.proveedor, product.linea, product.corrida, product.acabado].join(' '));
       return terms.every(term => haystack.includes(term));
     }).slice(0, 40).map(product => ({ ...product, sizes: (context.variantsByProduct.get(product.id) || []).map(variant => variant.size) }));
   }
@@ -184,7 +239,9 @@
     const terms = catalogText(query).split(' ').filter(Boolean);
     if (!terms.length) return [];
     const products = context.products.filter(product => {
-      const haystack = scope === 'style' ? catalogText(product.estilo) : catalogText([product.estilo, product.color, product.marca, product.proveedor, product.linea, product.acabado].join(' '));
+      const haystack = scope === 'style'
+        ? catalogText(product.estilo)
+        : catalogText([product.estilo, product.color, product.marca, product.proveedor, product.temporada, product.sublinea, product.departamento, product.clasificacion, product.linea, product.corrida, product.acabado].join(' '));
       const registered = context.registryByKey.get(productLookupKey(product)) === product.id;
       const matchesStatus = sazFilter === 'loaded' ? registered : sazFilter === 'pending' ? !registered : true;
       return matchesStatus && terms.every(term => haystack.includes(term));
@@ -212,14 +269,34 @@
       result.sizes.push({ size: variant.size, quantity });
       result.totalQuantity += quantity;
     }
-    const results = [...grouped.values()]
-      .map(result => ({ ...result, sizes: result.sizes.sort((a, b) => Number(a.size) - Number(b.size)) }))
+    return [...grouped.values()]
+      .map(result => ({
+        ...result,
+        sizes: result.sizes.sort((a, b) => Number(a.size) - Number(b.size)),
+        sazRegistered: context.registryByKey.get(productLookupKey(result.product)) === result.product.id,
+        imageUrl: result.product.imagen ? relationalImageUrls.get(result.product.imagen) || '' : '',
+      }))
       .sort((a, b) => catalogText(`${a.product.estilo}|${a.product.color}|${a.branch.name}`).localeCompare(catalogText(`${b.product.estilo}|${b.product.color}|${b.branch.name}`)));
-    return Promise.all(results.map(async result => ({
+  }
+
+  async function hydrateRelationalImages(results) {
+    const paths = [...new Set((results || []).map(result => result.product?.imagen).filter(Boolean))];
+    const missing = paths.filter(path => !relationalImageUrls.has(path));
+    if (missing.length) {
+      try {
+        const { data, error } = await client.storage.from(BUCKET).createSignedUrls(missing, 3600);
+        if (error) throw error;
+        for (const item of data || []) {
+          if (item?.path && item.signedUrl) relationalImageUrls.set(item.path, item.signedUrl);
+        }
+      } catch {
+        await Promise.all(missing.map(path => signedRelationalImage(path).catch(() => '')));
+      }
+    }
+    return (results || []).map(result => ({
       ...result,
-      sazRegistered: context.registryByKey.get(productLookupKey(result.product)) === result.product.id,
-      imageUrl: result.product.imagen ? await signedRelationalImage(result.product.imagen).catch(() => '') : '',
-    })));
+      imageUrl: result.product?.imagen ? relationalImageUrls.get(result.product.imagen) || result.imageUrl || '' : '',
+    }));
   }
 
   async function uploadRelationalProductImage({ productId, blob }) {
@@ -276,6 +353,20 @@
     return { updated: matchingProducts.length, precio: value };
   }
 
+  async function updateRelationalProductField({ productId, field, value }) {
+    if (!client || !user) throw new Error('Inicia sesión antes de editar la ficha.');
+    if (!PRODUCT_EDIT_FIELDS.includes(field)) throw new Error('Ese dato no se edita desde la ficha.');
+    const context = await loadBranchStockContext();
+    const product = context.productsById.get(productId);
+    if (!product) throw new Error('No se encontró el producto en el catálogo relacional.');
+    if (field === 'precio') return updateRelationalStylePrice(product.estilo, value);
+    const next = String(value ?? '').trim();
+    const { error } = await client.from('products').update({ [field]: next }).eq('id', productId).eq('organization_id', context.organization.id);
+    if (error) throw error;
+    product[field] = next;
+    return { updated: 1, field, value: next, estilo: product.estilo };
+  }
+
   async function getRelationalStylePrice(estilo) {
     const context = await loadBranchStockContext();
     const prices = context.products.filter(product => catalogText(product.estilo) === catalogText(estilo)).map(product => Number(product.precio)).filter(price => Number.isFinite(price) && price > 0);
@@ -291,7 +382,7 @@
     for (const row of rows || []) {
       const resolved = resolveCatalogProduct(context, row);
       if (resolved.product) known.push({ ...row, productId: resolved.product.id, product: resolved.product });
-      else unknown.push({ ...row, reason: resolved.reason, canCreate: !context.productsByKey.has(productLookupKey(row)) });
+      else unknown.push({ ...row, reason: resolved.reason, canCreate: !candidatesFor(context, row).length });
     }
     return { known, unknown };
   }
@@ -627,6 +718,7 @@
       }
       localStorage.setItem(OWNER_KEY, user.id);
       setCloudStatus(`Sesión iniciada como ${user.email}.`);
+      loadBranchStockContext().catch(() => {});
       try { await syncAll(); }
       catch (error) { setCloudStatus(`No se pudo sincronizar: ${cloudErrorMessage(error)}`, 'warn'); }
     } else {
@@ -634,7 +726,7 @@
     }
   }
 
-  window.claremmCloud = { recordMutation, recordImageMutation, recordCatalogMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, uploadRelationalProductImage, updateRelationalStylePrice, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock };
+  window.claremmCloud = { recordMutation, recordImageMutation, recordCatalogMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, hydrateRelationalImages, uploadRelationalProductImage, updateRelationalStylePrice, updateRelationalProductField, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock };
 
   byId('cloudLogin').onclick = async () => {
     if (!client) return alert('Supabase aún no está configurado.');
