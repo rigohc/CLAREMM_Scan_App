@@ -157,9 +157,11 @@
       list.innerHTML = '<li class="branchStockRecentItem"><strong>Aún no hay existencias registradas en esta sucursal.</strong></li>';
       return;
     }
-    list.innerHTML = rows.map(row => {
+    const ordered = [...rows].sort((left, right) => Number(Boolean(text(left.imagen))) - Number(Boolean(text(right.imagen))));
+    list.innerHTML = ordered.map(row => {
       const isNew = isNuevoFicha(row, row.sizes?.length ? 1 : 0);
-      return `<li class="branchStockRecentItem${isNew ? ' isNew' : ''}"><strong>${esc(row.estilo)} · ${esc(row.color)}${isNew ? ' <span class="sazStatus isNew">NUEVO</span>' : ''}</strong><span class="branchStockRecentSizes">${esc((row.sizes || []).join(', ') || 'Sin talla')}</span></li>`;
+      const missingImage = !text(row.imagen);
+      return `<li class="branchStockRecentItem${isNew ? ' isNew' : ''}${missingImage ? ' noImage' : ''}"><strong>${esc(row.estilo)} · ${esc(row.color)}${missingImage ? ' <span class="sazStatus isMissingImage">Sin foto</span>' : ''}${isNew ? ' <span class="sazStatus isNew">NUEVO</span>' : ''}</strong><span class="branchStockRecentSizes">${esc((row.sizes || []).join(', ') || 'Sin talla')}</span></li>`;
     }).join('');
   }
 

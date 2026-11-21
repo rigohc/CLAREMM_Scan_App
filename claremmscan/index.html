@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="tokens.css?v=28-nuevo-saz">
+  <link rel="stylesheet" href="tokens.css?v=29-sin-foto">
   <style>
     /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 · genre: atmospheric · macrostructure: Workbench · theme: Midnight · enrichment: none · nav: N9 · footer: Ft2 · contrast: pass (40–41) · slop: pass (42–49) · mobile: pass (34,49–57) */
     *,*::before,*::after{box-sizing:border-box}
@@ -115,6 +115,9 @@
     .relationalResultCard.isPreloaded{border:2px solid var(--color-preloaded);background:var(--color-preloaded-surface);box-shadow:inset 0 0 0 1px color-mix(in oklch, var(--color-preloaded) 55%, transparent)}
     .relationalResultCard.isNew{border:2px solid var(--color-new);background:var(--color-new-surface)}
     .branchStockRecentItem.isNew,.catalogResult.isNew{border-color:var(--color-new);background:var(--color-new-surface)}
+    .branchStockRecentItem.noImage{border-color:var(--color-danger);background:var(--color-danger-surface);color:var(--color-danger)}
+    .branchStockRecentItem.noImage .branchStockRecentSizes{color:var(--color-danger)}
+    .sazStatus.isMissingImage{background:var(--color-danger);color:var(--color-accent-ink)}
     .branchStockRecentItem strong .sazStatus,.catalogResult strong .sazStatus{margin-inline-start:var(--space-2xs);vertical-align:middle}
     .sazToggle{min-height:2.25rem;padding-inline:var(--space-sm);font-size:var(--text-xs)}
     .exportMenu{margin-block:0 var(--space-md)}
@@ -383,7 +386,7 @@
       <div id="branchStockWorkspace" class="branchStockWorkspace" hidden>
         <section class="branchStockPanel" aria-labelledby="branchStockRecentTitle">
           <h3 id="branchStockRecentTitle">Últimas existencias registradas</h3>
-          <p>Los últimos 100 productos con existencia dada de alta en esta sucursal. Sirve para marcar cajas y confirmar que sí quedaron.</p>
+          <p>Los últimos 100 productos con existencia dada de alta en esta sucursal. Los que van sin foto salen primero, en rojo.</p>
           <ol id="branchStockRecentList" class="branchStockRecentList" aria-live="polite"></ol>
         </section>
         <section class="branchStockPanel" aria-labelledby="branchStockManualTitle">
@@ -435,8 +438,8 @@
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <script src="app.js?v=28-nuevo-saz"></script>
-  <script src="supabase-sync.js?v=28-nuevo-saz"></script>
-  <script src="branch-stock.js?v=28-nuevo-saz"></script>
+  <script src="app.js?v=29-sin-foto"></script>
+  <script src="supabase-sync.js?v=29-sin-foto"></script>
+  <script src="branch-stock.js?v=29-sin-foto"></script>
 </body>
 </html>

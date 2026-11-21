@@ -1032,6 +1032,8 @@
       estilo: row.estilo,
       color: row.color,
       sizes: [...row.sizes].sort((left, right) => Number(left) - Number(right)),
+      precio: row.product.precio,
+      imagen: row.product.imagen || '',
       isNew: isNuevoFicha(row.product, row.sizes.length),
     }));
   }
