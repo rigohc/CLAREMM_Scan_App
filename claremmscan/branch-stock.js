@@ -195,7 +195,12 @@
     try {
       const products = await cloud().searchBranchCatalog(query);
       if (sequence !== searchSequence) return;
-      const exact = products.filter(product => (!style || normalized(product.estilo).includes(normalized(style))) && (!color || normalized(product.color).includes(normalized(color))));
+      const folded = value => normalized(value).replace(/[\/\-_,+|.]/g, ' ').replace(/\s+/g, ' ').trim().split(' ').filter(Boolean).sort().join(' ');
+    const exact = products.filter(product => {
+      const styleOk = !style || normalized(product.estilo).includes(normalized(style)) || compactEstilo(product.estilo) === compactEstilo(style);
+      const colorOk = !color || folded(product.color) === folded(color) || normalized(product.color).includes(normalized(color)) || normalized(color).includes(normalized(product.color).replace(/[\/\-]/g, ' '));
+      return styleOk && colorOk;
+    });
       renderSearchResults(exact);
     } catch (error) {
       if (sequence !== searchSequence) return;
@@ -254,8 +259,8 @@
 
   const HEADER_ALIASES = {
     estilo: ['estilo', 'style', 'codigo', 'codigoestilo', 'sku'], color: ['color'], talla: ['talla', 'size'], cantidad: ['cantidad', 'quantity', 'qty', 'pares'],
-    marca: ['marca', 'brand'], linea: ['linea', 'tipodelinea', 'tipolinea', 'categoria'], material: ['material', 'acabado'], precio: ['precio', 'price'],
-    notas: ['notas', 'nota', 'observaciones', 'notes'], createProduct: ['crearproducto', 'crear', 'accion', 'action'],
+    marca: ['marca', 'brand'], linea: ['linea', 'tipodelinea', 'tipolinea', 'tipodelcalzado', 'categoria', 'line'], material: ['material', 'acabado', 'sintetico'], precio: ['precio', 'price'],
+    notas: ['notas', 'nota', 'observaciones', 'notes'], createProduct: ['crearproducto', 'crearproductos', 'crear', 'accion', 'action'],
   };
   const header = value => normalized(value).toLowerCase().replace(/[^a-z0-9]/g, '');
   function valueByAliases(indexed, aliases) {
@@ -271,7 +276,7 @@
       talla: normalizedSize(valueByAliases(indexed, HEADER_ALIASES.talla)), cantidad: Number(quantityValue), quantityPresent: text(quantityValue) !== '',
       marca: normalized(valueByAliases(indexed, HEADER_ALIASES.marca)), linea: normalized(valueByAliases(indexed, HEADER_ALIASES.linea)),
       material: normalized(valueByAliases(indexed, HEADER_ALIASES.material)), precio: text(valueByAliases(indexed, HEADER_ALIASES.precio)).replace(/[^0-9.-]/g, ''),
-      notas: text(valueByAliases(indexed, HEADER_ALIASES.notas)), createProduct: ['SI', 'YES', 'TRUE', '1', 'CREAR'].includes(createValue),
+      notas: text(valueByAliases(indexed, HEADER_ALIASES.notas)), createProduct: ['SI', 'YES', 'TRUE', '1', 'CREAR', 'OK', 'X'].includes(createValue),
     };
   }
 
@@ -319,7 +324,26 @@
   }
 
   function creatableUnknownCount() {
-    return (bulkState?.validation.unknown || []).filter(row => row.canCreate && row.createProduct && row.marca && row.linea && row.material).length;
+    return (bulkState?.validation.unknown || []).filter(row => row.willCreate).length;
+  }
+
+  function unknownHelpText() {
+    const unknown = bulkState?.validation.unknown || [];
+    if (!unknown.length && !manualUnknown.length) return '';
+    const creatable = unknown.filter(row => row.willCreate).length;
+    const missing = unknown.filter(row => row.canCreate && !row.willCreate);
+    const estiloHits = unknown.filter(row => row.estiloExists).length;
+    if (creatable) {
+      return `Hay ${unknown.length} ficha(s) sin color exacto. ${creatable} se pueden crear con los datos del mismo estilo. Activa “Crear productos desconocidos autorizados” y aplica el archivo.`;
+    }
+    if (estiloHits) {
+      return `Hay ${unknown.length} color(es) nuevos de estilos que sí existen. Activa la casilla de creación para darlos de alta copiando marca, línea y material del estilo.`;
+    }
+    if (missing.length) {
+      const sample = missing.slice(0, 3).map(row => `${row.estilo} ${row.color}${row.missingFields?.length ? ` (falta ${row.missingFields.join(', ')})` : ''}`).join('; ');
+      return `Hay productos desconocidos incompletos. Completa Marca, Tipo de línea y Material, o deja Crear=SI. Ejemplo: ${sample}.`;
+    }
+    return 'Hay productos desconocidos. Descarga el Excel, completa Marca, Tipo de línea y Material, cambia “Crear producto” a SI y vuelve a cargarlo.';
   }
 
   function renderBulkState() {
@@ -331,6 +355,8 @@
     byId('branchStockPairs').textContent = String(state?.rows.reduce((sum, row) => sum + Number(row.cantidad || 0), 0) || 0);
     byId('branchStockUnknownBox').hidden = unknownCount === 0;
     byId('branchStockDownloadUnknown').disabled = unknownCount === 0;
+    const help = byId('branchStockUnknownHelp');
+    if (help) help.textContent = unknownHelpText() || 'Hay productos desconocidos. Descarga el Excel, completa Marca, Tipo de línea y Material, cambia “Crear producto” a SI y vuelve a cargarlo.';
     const canCreate = byId('branchStockAllowCreate').checked && creatableUnknownCount() > 0;
     byId('branchStockApplyFile').disabled = !selectedBranchId() || !state || (!state.validation.known.length && !canCreate);
   }
@@ -352,7 +378,7 @@
     const rows = [...(bulkState?.validation.unknown || []), ...manualUnknown];
     return rows.map(row => ({
       Estilo: row.estilo, Color: row.color, Talla: row.talla, Cantidad: row.cantidad, Marca: row.marca || '', 'Tipo de línea': row.linea || '',
-      Material: row.material || '', Precio: row.precio || '', Notas: row.notas || '', 'Crear producto': row.createProduct ? 'SI' : 'NO', Motivo: row.reason || 'No existe en el catálogo',
+      Material: row.material || '', Precio: row.precio || '', Notas: row.notas || '', 'Crear producto': row.willCreate || row.createProduct ? 'SI' : 'NO', Motivo: row.reason || 'No existe en el catálogo',
     }));
   }
 
@@ -365,7 +391,9 @@
       bulkState = await parseBulkFile(file);
       renderBulkState();
       const creatable = creatableUnknownCount();
-      status(`Archivo revisado: ${bulkState.validation.known.length} fila(s) encontradas, ${bulkState.validation.unknown.length} desconocidas${creatable ? ` y ${creatable} listas para creación autorizada` : ''}.`, bulkState.validation.unknown.length ? 'warn' : 'ok');
+      const blocked = (bulkState.validation.unknown || []).filter(row => !row.willCreate);
+      const blockedNote = blocked.length ? ` ${blocked.length} aún no se pueden crear: ${blocked.slice(0, 3).map(row => `${row.estilo} ${row.color}`).join(', ')}.` : '';
+      status(`Archivo revisado: ${bulkState.validation.known.length} fila(s) encontradas, ${bulkState.validation.unknown.length} desconocidas${creatable ? ` y ${creatable} listas para creación autorizada` : ''}.${blockedNote}`, bulkState.validation.unknown.length ? 'warn' : 'ok');
     } catch (error) {
       bulkState = null;
       event.target.value = '';
@@ -384,7 +412,8 @@
     status('Aplicando existencias por sucursal…');
     try {
       const result = await cloud().applyBranchStock({ branchId: selectedBranchId(), rows: bulkState.rows, mode, allowCreate, sourceName: bulkState.fileName });
-      const unknownMessage = result.unknown.length ? ` Quedaron ${result.unknown.length} fila(s) desconocidas sin aplicar.` : '';
+      const leftover = (result.unknown || []).map(row => `${row.estilo} ${row.color}${row.reason ? ` (${row.reason})` : ''}`).slice(0, 6);
+      const unknownMessage = result.unknown.length ? ` Quedaron ${result.unknown.length} fila(s) sin aplicar${leftover.length ? `: ${leftover.join('; ')}` : ''}.` : '';
       status(`Listo: ${result.appliedRows} talla(s) y ${result.appliedPairs} par(es) procesados en ${result.branch.name}.${result.createdProducts ? ` Se crearon ${result.createdProducts} producto(s) autorizados.` : ''}${unknownMessage}`, result.unknown.length ? 'warn' : 'ok');
       bulkState.validation = await cloud().validateBranchStockRows(bulkState.rows);
       renderBulkState();

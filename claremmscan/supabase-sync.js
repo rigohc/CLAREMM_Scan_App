@@ -49,11 +49,21 @@
   const compactEstilo = value => catalogText(value).replace(/^0+(?=\d)/, '');
   const catalogCorrida = value => catalogText(value).replace(/[–—]/g, '-').replace(/\s+/g, '').replace(/(\d+)\.0(?!\d)/g, '$1');
   const matchesStyleCorrida = (product, estilo, corrida) => compactEstilo(product.estilo) === compactEstilo(estilo) && catalogCorrida(product.corrida) === catalogCorrida(corrida);
+  const colorTokens = value => catalogText(value).replace(/[\/\-_,+|.]/g, ' ').replace(/\s+/g, ' ').trim();
+  const foldedColor = value => {
+    const tokens = colorTokens(value);
+    if (tokens === 'B N' || tokens === 'BN') return 'BLANCO NEGRO';
+    if (tokens === 'N B' || tokens === 'NB') return 'NEGRO BLANCO';
+    return tokens.split(' ').filter(Boolean).sort().join(' ');
+  };
+  const colorsMatch = (left, right) => Boolean(foldedColor(left) && foldedColor(left) === foldedColor(right));
   const compactLookupKey = value => `${compactEstilo(value?.estilo)}|${catalogText(value?.color)}`;
   const productLookupKeys = value => {
-    const exact = productLookupKey(value);
-    const compact = compactLookupKey(value);
-    return exact === compact ? [exact] : [exact, compact];
+    const estilos = [...new Set([catalogText(value?.estilo), compactEstilo(value?.estilo)].filter(Boolean))];
+    const colors = [...new Set([catalogText(value?.color), colorTokens(value?.color), foldedColor(value?.color)].filter(Boolean))];
+    const keys = [];
+    for (const estilo of estilos) for (const color of colors) keys.push(`${estilo}|${color}`);
+    return keys;
   };
   const catalogScore = product => (
     (Number(product.precio) > 0 ? 1000 : 0) +
@@ -69,15 +79,23 @@
   const candidatesFor = (context, row) => {
     const seen = new Set();
     const candidates = [];
+    const add = product => {
+      if (!product || seen.has(product.id)) return;
+      seen.add(product.id);
+      candidates.push(product);
+    };
     for (const key of productLookupKeys(row)) {
-      for (const product of context.productsByKey.get(key) || []) {
-        if (seen.has(product.id)) continue;
-        seen.add(product.id);
-        candidates.push(product);
+      for (const product of context.productsByKey.get(key) || []) add(product);
+    }
+    const estilo = compactEstilo(row?.estilo);
+    if (estilo) {
+      for (const product of context.products) {
+        if (compactEstilo(product.estilo) === estilo && colorsMatch(product.color, row.color)) add(product);
       }
     }
     return candidates;
   };
+  const productsOfEstilo = (context, estilo) => context.products.filter(product => product.activo !== false && compactEstilo(product.estilo) === compactEstilo(estilo));
   const imageNamePart = value => catalogText(value).replace(/[^A-Z0-9]+/g, '-').replace(/^-|-$/g, '');
   const catalogImageName = value => {
     const estilo = imageNamePart(value?.estilo), color = imageNamePart(value?.color);
@@ -319,13 +337,18 @@
   }
 
   function resolveCatalogProduct(context, row) {
-    if (row?.productId && context.productsById.has(row.productId)) return { product: context.productsById.get(row.productId), reason: '' };
+    if (row?.productId && context.productsById.has(row.productId)) return { product: context.productsById.get(row.productId), reason: '', siblings: productsOfEstilo(context, row.estilo) };
     const candidates = candidatesFor(context, row);
+    const siblings = productsOfEstilo(context, row.estilo);
     const registeredId = productLookupKeys(row).map(key => context.registryByKey.get(key)).find(id => id && context.productsById.has(id));
-    if (registeredId) return { product: context.productsById.get(registeredId), reason: '' };
+    if (registeredId) return { product: context.productsById.get(registeredId), reason: '', siblings };
     const product = pickCanonicalProduct(candidates);
-    if (product) return { product, reason: '' };
-    return { product: null, reason: 'No existe este estilo y color en el catálogo.' };
+    if (product) return { product, reason: '', siblings };
+    const similar = [...new Set(siblings.map(item => item.color).filter(Boolean))].slice(0, 6);
+    const reason = siblings.length
+      ? `El estilo ${catalogText(row.estilo)} sí existe (${similar.join(', ') || 'otros colores'}). No hay ficha con color ${catalogText(row.color)}.`
+      : 'No existe este estilo y color en el catálogo.';
+    return { product: null, reason, siblings };
   }
 
   async function searchBranchCatalog(query) {
@@ -568,7 +591,7 @@
     if (!Number.isInteger(qty) || qty < 1) throw new Error('La cantidad debe ser un entero de al menos 1.');
     if (!Number.isFinite(value) || value < 0) throw new Error('Escribe un precio válido. Si es otra corrida, ajústalo aquí.');
     const ofStyle = await queryProductsByEstilo(context, source.estilo, 200);
-    const existing = ofStyle.find(product => compactLookupKey(product) === `${compactEstilo(source.estilo)}|${nextColor}`);
+    const existing = ofStyle.find(product => colorsMatch(product.color, nextColor) || compactLookupKey(product) === `${compactEstilo(source.estilo)}|${nextColor}`);
     if (existing) throw new Error(`Ya existe ${source.estilo} · ${existing.color}. Abre esa ficha en lugar de duplicar.`);
     const juarez = context.branches.find(branch => catalogText(branch.code) === 'JUAREZ') || context.branches[0];
     if (!juarez) throw new Error('No se encontró la sucursal JUÁREZ para guardar la talla.');
@@ -729,7 +752,7 @@
     const ofStyleAll = await queryProductsByEstilo(context, estilo, 500);
     let run = corrida;
     if (!catalogCorrida(run) && color) {
-      const hit = ofStyleAll.find(product => catalogText(product.color) === catalogText(color));
+      const hit = ofStyleAll.find(product => colorsMatch(product.color, color) || catalogText(product.color) === catalogText(color));
       run = hit?.corrida || '';
     }
     if (!catalogCorrida(run)) {
@@ -752,8 +775,29 @@
     const known = [], unknown = [];
     for (const row of rows || []) {
       const resolved = resolveCatalogProduct(context, row);
-      if (resolved.product) known.push({ ...row, productId: resolved.product.id, product: resolved.product });
-      else unknown.push({ ...row, reason: resolved.reason, canCreate: !candidatesFor(context, row).length });
+      if (resolved.product) {
+        known.push({ ...row, productId: resolved.product.id, product: resolved.product, estiloExists: true });
+        continue;
+      }
+      const missing = ['marca', 'linea', 'material'].filter(field => !catalogText(row[field]));
+      const estiloExists = Boolean(resolved.siblings?.length);
+      const template = estiloExists ? pickCanonicalProduct(resolved.siblings) : null;
+      const canCreate = !candidatesFor(context, row).length;
+      const ready = canCreate && (estiloExists || (!missing.length && row.createProduct === true));
+      unknown.push({
+        ...row,
+        marca: catalogText(row.marca) || catalogText(template?.marca),
+        linea: catalogText(row.linea) || catalogText(template?.linea),
+        material: catalogText(row.material) || catalogText(template?.acabado),
+        precio: row.precio || (Number(template?.precio) > 0 ? String(template.precio) : ''),
+        reason: resolved.reason,
+        canCreate,
+        estiloExists,
+        similarColors: (resolved.siblings || []).map(item => item.color).filter(Boolean),
+        missingFields: estiloExists ? [] : missing,
+        willCreate: ready,
+        templateId: template?.id || '',
+      });
     }
     return { known, unknown };
   }
@@ -764,15 +808,30 @@
       const key = productLookupKey(row);
       if (!groups.has(key)) groups.set(key, row);
     }
-    const payload = [...groups].map(([key, row]) => ({
-      organization_id: context.organization.id,
-      source_system: 'branch_import',
-      source_id: key,
-      match_key: [row.estilo, row.color, row.marca].map(catalogText).join('|'),
-      estilo: catalogText(row.estilo), color: catalogText(row.color), precio: Math.max(0, Number(row.precio) || 0),
-      marca: catalogText(row.marca), linea: catalogText(row.linea), acabado: catalogText(row.material),
-      observaciones: String(row.notas || ''), activo: true,
-    }));
+    const payload = [...groups].map(([key, row]) => {
+      const template = pickCanonicalProduct(productsOfEstilo(context, row.estilo)) || {};
+      const precio = catalogPrice(row.precio);
+      return {
+        organization_id: context.organization.id,
+        source_system: 'branch_import',
+        source_id: key,
+        match_key: [row.estilo, row.color, row.marca || template.marca].map(catalogText).join('|'),
+        estilo: catalogText(row.estilo || template.estilo),
+        color: catalogText(row.color),
+        precio: Number.isFinite(precio) && precio > 0 ? precio : Math.max(0, Number(template.precio) || 0),
+        marca: catalogText(row.marca) || catalogText(template.marca),
+        proveedor: catalogText(template.proveedor),
+        temporada: catalogText(template.temporada),
+        sublinea: catalogText(template.sublinea),
+        departamento: catalogText(template.departamento),
+        clasificacion: catalogText(template.clasificacion),
+        linea: catalogText(row.linea) || catalogText(template.linea),
+        corrida: String(template.corrida || '').trim(),
+        acabado: catalogText(row.material) || catalogText(template.acabado),
+        observaciones: String(row.notas || ''),
+        activo: true,
+      };
+    });
     for (const group of chunks(payload, 200)) {
       const { data, error } = await client.from('products').upsert(group, { onConflict: 'organization_id,source_system,source_id' }).select(PRODUCT_CATALOG_SELECT);
       if (error) throw error;
@@ -788,7 +847,7 @@
     if (!branch) throw new Error('La sucursal seleccionada no existe o está inactiva.');
     if (catalogText(branch.code) === 'JUAREZ' || catalogText(branch.name) === catalogText(DEFAULT_BRANCH)) throw new Error('La carga por catálogo solo se permite en sucursales distintas de la tienda base JUÁREZ.');
     let validation = await validateBranchStockRows(rows);
-    const creatable = validation.unknown.filter(row => row.canCreate && row.createProduct === true && row.marca && row.linea && row.material);
+    const creatable = validation.unknown.filter(row => row.willCreate);
     let createdProducts = 0;
     if (allowCreate && creatable.length) {
       createdProducts = await createAuthorizedProducts(creatable, context);
@@ -892,7 +951,7 @@
       if (!catalogCorrida(corrida) && change.color) {
         const context = await loadBranchStockContext();
         const ofStyle = await queryProductsByEstilo(context, change.estilo, 200);
-        const hit = ofStyle.find(item => catalogText(item.color) === catalogText(change.color));
+        const hit = ofStyle.find(item => colorsMatch(item.color, change.color) || catalogText(item.color) === catalogText(change.color));
         corrida = hit?.corrida || '';
       }
       return updateRelationalStylePrice(change.estilo, change.precio, corrida);
@@ -1081,8 +1140,13 @@
       await upsertRecords(localOnly);
       for (const item of localOnly) remoteMap.set(recordKey(item), item);
       store.replaceItemsFromCloud([...remoteMap.values()]);
-      await fetchSazStats();
-      await syncImages();
+      try { await fetchSazStats(); }
+      catch (error) { console.warn('SAZ stats', error); }
+      try { await syncImages(); }
+      catch (error) {
+        setCloudStatus(`Inventario sincronizado (${remoteMap.size} artículos). Las imágenes no se completaron: ${cloudErrorMessage(error)}`, 'warn');
+        return;
+      }
       setCloudStatus(`Sincronizado: ${remoteMap.size} artículos protegidos en Supabase.`, 'ok');
     } finally {
       syncing = false;

@@ -9,7 +9,7 @@ const outputSchema = {
   properties: {
     labels: {
       type: 'array',
-      maxItems: 12,
+      maxItems: 40,
       items: {
         type: 'object',
         additionalProperties: false,
@@ -35,16 +35,16 @@ const outputSchema = {
 const instructions = `Lee exclusivamente las etiquetas blancas de inventario visibles en la fotografía de cajas de calzado CLAREMM.
 
 Reglas de extracción:
-- STYLE/estilo es el código alfanumérico impreso al inicio de la primera línea, normalmente en la esquina superior izquierda de la etiqueta. Debe contener letras seguidas por dígitos. Ejemplos de formato: ROD410, GIO130, PA0071, OLP505. Los ejemplos solo explican el formato: nunca los copies si no están visibles.
+- STYLE/estilo es el código alfanumérico impreso al inicio de la primera línea, normalmente en la esquina superior izquierda de la etiqueta. Debe contener letras seguidas por dígitos. Ejemplos de formato: ROD410, GIO130, PA0071, OLP505, PI5504, PI6083. Los ejemplos solo explican el formato: nunca los copies si no están visibles.
 - BRAND/marca es el nombre de marca o modelo comercial visible en la etiqueta, normalmente en la línea posterior al estilo y color. Transcribe únicamente lo visible y déjalo vacío si no se distingue; no asumas que el logotipo del fabricante de la etiqueta es la marca del producto.
-- COLOR es la palabra o palabras inmediatamente posteriores al estilo en esa misma primera línea. No confundas color con marca, modelo, material ni texto de otra caja.
+- COLOR es la palabra o palabras inmediatamente posteriores al estilo en esa misma primera línea. Conserva colores compuestos tal como se leen: BLANCO AZUL, NEGRO AMBAR, BLANCO AQUA, BLANCO NEGRO, MEZCLILLA. Si la etiqueta trae una barra, transcribe el equivalente con espacio: Negro/Ámbar → NEGRO AMBAR. No confundas color con marca, modelo, material ni texto de otra caja.
 - SIZE/talla es el número grande de talla, normalmente entre 15.0 y 32.0 y terminado en .0 o .5.
 - MATERIAL solo puede salir del texto visible, por ejemplo PIEL o SINTETICO. Déjalo vacío si no aparece.
 - LINE es el tipo de calzado únicamente si es evidente: Tenis, Zapato, Bota, Huarache o Sandalia. Déjalo vacío si no es evidente.
 - QUANTITY es 1 por cada etiqueta individual.
 - PRICE/precio es el precio de venta impreso en la etiqueta o caja, si es visible: 659, 1,199, $659 o 659.00. El precio se comparte entre colores del mismo estilo y la misma corrida de tallas; no lo apliques a otra corrida. Déjalo vacío si no se ve; no lo inventes ni uses la talla como precio.
 - Si un carácter no se distingue, deja el campo vacío. No completes ni adivines códigos.
-- Devuelve una entrada por cada etiqueta principal legible. Ignora códigos de barras, logotipos, tallas de pegatinas auxiliares y textos grandes impresos en la caja.
+- Devuelve una entrada por cada etiqueta principal legible, aunque haya muchas cajas en la misma foto. Ignora códigos de barras, logotipos, tallas de pegatinas auxiliares y textos grandes impresos en la caja.
 - confidence debe estar entre 0 y 1 y reflejar la certeza de lectura del estilo, color y talla.
 - raw_text debe ser una transcripción breve del texto útil realmente visible.`;
 
@@ -184,7 +184,7 @@ async function analyzeWithOpenAI(image, signal) {
     body: JSON.stringify({
       model: process.env.OPENAI_VISION_MODEL || 'gpt-6-luna',
       store: false,
-      max_output_tokens: 1200,
+      max_output_tokens: 4000,
       instructions,
       input: [{
         role: 'user',

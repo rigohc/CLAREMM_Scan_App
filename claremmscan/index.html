@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="tokens.css?v=24-ficha-unica">
+  <link rel="stylesheet" href="tokens.css?v=25-catalogo-color">
   <style>
     /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 · genre: atmospheric · macrostructure: Workbench · theme: Midnight · enrichment: none · nav: N9 · footer: Ft2 · contrast: pass (40–41) · slop: pass (42–49) · mobile: pass (34,49–57) */
     *,*::before,*::after{box-sizing:border-box}
@@ -403,7 +403,7 @@
             <div class="branchStockStat"><span>Pares</span><strong id="branchStockPairs">0</strong></div>
           </div>
           <div id="branchStockUnknownBox" class="branchStockUnknown" hidden>
-            <p><strong>Hay productos desconocidos.</strong> Descarga el Excel, completa Marca, Tipo de línea y Material, cambia “Crear producto” a SI y vuelve a cargarlo.</p>
+            <p id="branchStockUnknownHelp"><strong>Hay productos desconocidos.</strong> Descarga el Excel, completa Marca, Tipo de línea y Material, cambia “Crear producto” a SI y vuelve a cargarlo.</p>
             <div class="branchStockActions"><button id="branchStockDownloadUnknown" type="button" class="secondary">Descargar desconocidos</button></div>
           </div>
           <label class="importOption"><input id="branchStockAllowCreate" type="checkbox"><span>Crear productos desconocidos autorizados<small>Solo crea filas con “Crear producto = SI” y los datos requeridos completos. Los casos ambiguos siempre se detienen para revisión.</small></span></label>
@@ -422,8 +422,8 @@
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <script src="app.js?v=24-ficha-unica"></script>
-  <script src="supabase-sync.js?v=24-ficha-unica"></script>
-  <script src="branch-stock.js?v=24-ficha-unica"></script>
+  <script src="app.js?v=25-catalogo-color"></script>
+  <script src="supabase-sync.js?v=25-catalogo-color"></script>
+  <script src="branch-stock.js?v=25-catalogo-color"></script>
 </body>
 </html>
