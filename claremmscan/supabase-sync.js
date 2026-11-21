@@ -47,6 +47,8 @@
   const catalogPrice = value => { const raw = String(value ?? '').trim().replace(/[^0-9,.-]/g, ''); if (!raw) return NaN; const comma = raw.lastIndexOf(','), dot = raw.lastIndexOf('.'); const normalized = comma > dot ? raw.replace(/\./g, '').replace(',', '.') : raw.replace(/,/g, ''); return Number(normalized); };
   const productLookupKey = value => `${catalogText(value?.estilo)}|${catalogText(value?.color)}`;
   const compactEstilo = value => catalogText(value).replace(/^0+(?=\d)/, '');
+  const catalogCorrida = value => catalogText(value).replace(/[–—]/g, '-').replace(/\s+/g, '').replace(/(\d+)\.0(?!\d)/g, '$1');
+  const matchesStyleCorrida = (product, estilo, corrida) => compactEstilo(product.estilo) === compactEstilo(estilo) && catalogCorrida(product.corrida) === catalogCorrida(corrida);
   const compactLookupKey = value => `${compactEstilo(value?.estilo)}|${catalogText(value?.color)}`;
   const productLookupKeys = value => {
     const exact = productLookupKey(value);
@@ -348,18 +350,26 @@
     return { removed: matchingProducts.length };
   }
 
-  async function updateRelationalStylePrice(estilo, precio) {
+  async function updateRelationalStylePrice(estilo, precio, corrida) {
     if (!client || !user) throw new Error('Inicia sesión antes de actualizar precios.');
     const value = catalogPrice(precio);
     if (!Number.isFinite(value) || value < 0) throw new Error('Escribe un precio válido.');
-    const context = await loadBranchStockContext(), matchingProducts = context.products.filter(product => compactEstilo(product.estilo) === compactEstilo(estilo));
+    const context = await loadBranchStockContext();
+    const ofStyle = context.products.filter(product => compactEstilo(product.estilo) === compactEstilo(estilo));
+    let matchingProducts = ofStyle.filter(product => matchesStyleCorrida(product, estilo, corrida));
+    if (!catalogCorrida(corrida)) {
+      const runs = new Set(ofStyle.map(product => catalogCorrida(product.corrida)));
+      if (runs.size === 1) matchingProducts = ofStyle;
+      else throw new Error('El precio solo se actualiza si coinciden estilo y corrida. Esta búsqueda tiene más de una corrida.');
+    }
+    if (!matchingProducts.length) throw new Error('No hay fichas con ese estilo y corrida.');
     for (const group of chunks(matchingProducts.map(product => product.id), 200)) {
       if (!group.length) continue;
       const { error } = await client.from('products').update({ precio: value }).eq('organization_id', context.organization.id).in('id', group);
       if (error) throw error;
     }
     for (const product of matchingProducts) product.precio = value;
-    return { updated: matchingProducts.length, precio: value };
+    return { updated: matchingProducts.length, precio: value, estilo, corrida: matchingProducts[0]?.corrida || corrida || '' };
   }
 
   async function updateRelationalProductField({ productId, field, value }) {
@@ -368,7 +378,7 @@
     const context = await loadBranchStockContext();
     const product = context.productsById.get(productId);
     if (!product) throw new Error('No se encontró el producto en el catálogo relacional.');
-    if (field === 'precio') return updateRelationalStylePrice(product.estilo, value);
+    if (field === 'precio') return updateRelationalStylePrice(product.estilo, value, product.corrida);
     const next = String(value ?? '').trim();
     const { error } = await client.from('products').update({ [field]: next }).eq('id', productId).eq('organization_id', context.organization.id);
     if (error) throw error;
@@ -376,9 +386,20 @@
     return { updated: 1, field, value: next, estilo: product.estilo };
   }
 
-  async function getRelationalStylePrice(estilo) {
+  async function getRelationalStylePrice(estilo, corrida, color) {
     const context = await loadBranchStockContext();
-    const prices = context.products.filter(product => compactEstilo(product.estilo) === compactEstilo(estilo)).map(product => Number(product.precio)).filter(price => Number.isFinite(price) && price > 0);
+    let run = corrida;
+    if (!catalogCorrida(run) && color) {
+      const hit = context.products.find(product => compactEstilo(product.estilo) === compactEstilo(estilo) && catalogText(product.color) === catalogText(color));
+      run = hit?.corrida || '';
+    }
+    if (!catalogCorrida(run)) {
+      const ofStyle = context.products.filter(product => compactEstilo(product.estilo) === compactEstilo(estilo) && Number(product.precio) > 0);
+      const runs = new Set(ofStyle.map(product => catalogCorrida(product.corrida)));
+      if (runs.size !== 1) return '';
+      run = ofStyle[0]?.corrida || '';
+    }
+    const prices = context.products.filter(product => matchesStyleCorrida(product, estilo, run)).map(product => Number(product.precio)).filter(price => Number.isFinite(price) && price > 0);
     if (!prices.length) return '';
     const frequency = new Map();
     for (const price of prices) frequency.set(price, (frequency.get(price) || 0) + 1);
@@ -517,15 +538,23 @@
   function recordCatalogMutation(change) {
     const queue = loadQueue(), estilo = catalogText(change?.estilo), color = catalogText(change?.color);
     if (!estilo) return;
-    const key = change.type === 'price' ? `price:${estilo}` : `image:${estilo}|${color}`;
-    queue.catalog[key] = { ...change, estilo, color };
+    const key = change.type === 'price' ? `price:${estilo}|${catalogCorrida(change.corrida)}` : `image:${estilo}|${color}`;
+    queue.catalog[key] = { ...change, estilo, color, corrida: catalogCorrida(change.corrida) };
     saveQueue(queue);
     if (user) scheduleFlush();
     else setCloudStatus('Cambios guardados localmente; inicia sesión para relacionarlos con el catálogo.', 'muted');
   }
 
   async function applyCatalogMutation(change) {
-    if (change.type === 'price') return updateRelationalStylePrice(change.estilo, change.precio);
+    if (change.type === 'price') {
+      let corrida = change.corrida;
+      if (!catalogCorrida(corrida) && change.color) {
+        const context = await loadBranchStockContext();
+        const hit = context.products.find(item => compactEstilo(item.estilo) === compactEstilo(change.estilo) && catalogText(item.color) === catalogText(change.color));
+        corrida = hit?.corrida || '';
+      }
+      return updateRelationalStylePrice(change.estilo, change.precio, corrida);
+    }
     const context = await loadBranchStockContext();
     const product = context.products.find(item => productLookupKey(item) === productLookupKey(change));
     if (!product) return { updated: 0 };

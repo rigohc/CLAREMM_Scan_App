@@ -52,7 +52,7 @@ $('save').onclick=async()=>{
   const x=Object.fromEntries(fields.map(k=>[k,$(k).value.trim()]));
   x.sucursal=String(x.sucursal||DEFAULT_BRANCH).toUpperCase();
   if(!valid(x))return alert('Completa sucursal, estilo, color, talla numérica y cantidad positiva.');
-  if(!x.precio){const localPrice=items.find(item=>searchText(item.estilo)===searchText(x.estilo)&&numericPrice(item.precio)>0)?.precio;if(localPrice)x.precio=String(localPrice);else if(window.claremmCloud?.getRelationalStylePrice)try{x.precio=await window.claremmCloud.getRelationalStylePrice(x.estilo)||''}catch{}}
+  if(!x.precio){const localPrice=items.find(item=>searchText(item.estilo)===searchText(x.estilo)&&numericPrice(item.precio)>0)?.precio;if(localPrice)x.precio=String(localPrice);else if(window.claremmCloud?.getRelationalStylePrice)try{x.precio=await window.claremmCloud.getRelationalStylePrice(x.estilo,'',x.color)||''}catch{}}
   localStorage.setItem(BRANCH_KEY,x.sucursal);
   let duplicateIndex=-1;
   if(editing===null){duplicateIndex=duplicate(x);if(duplicateIndex>=0&&!confirm('Ya existe sucursal + estilo + color + talla. ¿Sumar cantidad al registro existente?'))return}
@@ -72,10 +72,10 @@ $('save').onclick=async()=>{
     }else items[editing]=x;
     if(propagatePrice){for(let i=0;i<items.length;i++){if(searchText(items[i].estilo)!==searchText(x.estilo)||String(items[i].precio??'').trim()===x.precio)continue;items[i].precio=x.precio;items[i].saz_cargado=false;items[i].saz_cargado_at='';priceUpdates++}}
     persist();
-    if(propagatePrice)window.claremmCloud?.recordCatalogMutation?.({type:'price',estilo:x.estilo,precio:x.precio});
+    if(propagatePrice)window.claremmCloud?.recordCatalogMutation?.({type:'price',estilo:x.estilo,color:x.color,precio:x.precio});
     for(const change of catalogChanges)window.claremmCloud?.recordCatalogMutation?.(change);
     clearForm();clearCapturedPhotos();
-    const priceMessage=propagatePrice?` El precio se aplicó a ${priceUpdates+1} registro(s) del estilo ${x.estilo}, incluyendo otros colores y el catálogo relacional.`:'';
+    const priceMessage=propagatePrice?` El precio se aplicó a ${priceUpdates+1} registro(s) del estilo ${x.estilo} con la misma corrida, incluyendo otros colores y el catálogo relacional.`:'';
     const sazMessage=previous?.saz_cargado&&recordChanged?' El registro volvió a Pendiente de SAZ porque sus datos cambiaron.':'';
     $('status').textContent=`Registro guardado correctamente en ${x.sucursal}${compressed?`; imagen ${(compressed.size/1024).toFixed(1)} KB`:''}.${priceMessage}${sazMessage} La captura quedó lista para el siguiente producto.`
   }catch(e){alert('No se pudo guardar la imagen: '+e.message)}finally{$('save').disabled=false}
@@ -158,6 +158,6 @@ window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredIns
 window.addEventListener('appinstalled',()=>{deferredInstallPrompt=null;$('installApp').hidden=true;$('installHelp').hidden=true});
 $('installApp').onclick=async()=>{if(deferredInstallPrompt){await deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;return}if(isIOS)return alert('En iPhone o iPad: abre esta página en Safari, toca Compartir y elige “Agregar a pantalla de inicio”. Activa “Abrir como app” si aparece.');if(!window.isSecureContext)return alert('La instalación requiere abrir la app mediante HTTPS. Usa la dirección publicada en Vercel.');alert('Abre el menú de tu navegador y selecciona “Instalar aplicación” o “Agregar a pantalla principal”.')};
 if(!standalone&&isIOS)showInstallUi('iPhone/iPad: usa Compartir → Agregar a pantalla de inicio.');else if(!standalone&&isMobile)setTimeout(()=>{if(!deferredInstallPrompt)showInstallUi('Si no aparece el aviso, usa el menú del navegador → Instalar aplicación.')},1500);
-function applyStylePriceFromCloud(estilo,precio){let updated=0;for(const item of items){if(searchText(item.estilo)!==searchText(estilo)||String(item.precio??'').trim()===String(precio))continue;item.precio=String(precio);item.saz_cargado=false;item.saz_cargado_at='';updated++}if(updated)persist();return updated}
+function applyStylePriceFromCloud(estilo,precio,corrida){const run=String(corrida??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toUpperCase().replace(/[–—]/g,'-').replace(/\s+/g,'').replace(/(\d+)\.0(?!\d)/g,'$1');let updated=0;for(const item of items){if(searchText(item.estilo)!==searchText(estilo)||String(item.precio??'').trim()===String(precio))continue;const itemRun=String(item.corrida??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toUpperCase().replace(/[–—]/g,'-').replace(/\s+/g,'').replace(/(\d+)\.0(?!\d)/g,'$1');if(run&&itemRun&&itemRun!==run)continue;item.precio=String(precio);item.saz_cargado=false;item.saz_cargado_at='';updated++}if(updated)persist();return updated}
 window.ClaremmStore={getItems:()=>items.map(item=>({...item})),replaceItemsFromCloud(next){items=Array.isArray(next)?next.map(item=>normalizeInventoryItem(item,'supabase_legacy')):[];persistedItems=items.map(item=>({...item}));localStorage.setItem(KEY,JSON.stringify(items));render()},setSazStats(next){officialSazStats={...officialSazStats,...next};localStorage.setItem(SAZ_STATS_KEY,JSON.stringify(officialSazStats));render()},getProductImage,listProductImages,putImageFromCloud:putProductImageLocal,deleteImageFromCloud:deleteProductImageLocal,clearImagesFromCloud:clearProductImagesLocal,refreshImageIndicators,compressProductImage,applyStylePriceFromCloud,readWithVision,parseVisiblePrice,itemSyncKey};
-$('sucursal').value=activeBranch();localStorage.setItem(BRANCH_KEY,activeBranch());setupCardToggles();render();resetProductImage();if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js?v=18-camera-style',{updateViaCache:'none'}).catch(()=>{});
+$('sucursal').value=activeBranch();localStorage.setItem(BRANCH_KEY,activeBranch());setupCardToggles();render();resetProductImage();if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js?v=19-estilo-corrida',{updateViaCache:'none'}).catch(()=>{});

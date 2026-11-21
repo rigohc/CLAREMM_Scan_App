@@ -9,6 +9,25 @@
   const text = value => String(value ?? '').trim();
   const normalized = value => text(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().replace(/\s+/g, ' ');
   const compactEstilo = value => normalized(value).replace(/^0+(?=\d)/, '');
+  const catalogCorrida = value => normalized(value).replace(/[–—]/g, '-').replace(/\s+/g, '').replace(/(\d+)\.0(?!\d)/g, '$1');
+  const matchesStyleCorrida = (product, estilo, corrida) => compactEstilo(product.estilo) === compactEstilo(estilo) && catalogCorrida(product.corrida) === catalogCorrida(corrida);
+  const corridaContainsSize = (corrida, size) => {
+    const match = catalogCorrida(corrida).match(/^(\d+(?:\.\d+)?)-(\d+(?:\.\d+)?)$/);
+    const value = Number(String(size).replace(',', '.'));
+    return Boolean(match) && Number.isFinite(value) && value >= Number(match[1]) && value <= Number(match[2]);
+  };
+  const resolveReviewCorrida = (review, results) => {
+    if (catalogCorrida(review?.corrida)) return review.corrida;
+    const ofStyle = (results || []).filter(result => compactEstilo(result.product.estilo) === compactEstilo(review?.estilo));
+    if (review?.talla) {
+      const bySize = ofStyle.filter(result => corridaContainsSize(result.product.corrida, review.talla) || (result.sizes || []).some(item => Number(item.size) === Number(review.talla)));
+      const unique = [...new Set(bySize.map(result => catalogCorrida(result.product.corrida)))];
+      if (unique.length === 1) return bySize[0].product.corrida;
+    }
+    const unique = [...new Set(ofStyle.map(result => catalogCorrida(result.product.corrida)))];
+    if (unique.length === 1) return ofStyle[0].product.corrida;
+    return ofStyle[0]?.product.corrida || '';
+  };
   const normalizedSize = value => text(value).replace(',', '.');
   const numericPrice = value => { const raw = text(value).replace(/[^0-9,.-]/g, ''); if (!raw) return NaN; const comma = raw.lastIndexOf(','), dot = raw.lastIndexOf('.'); return Number(comma > dot ? raw.replace(/\./g, '').replace(',', '.') : raw.replace(/,/g, '')); };
   const validSize = value => Number.isFinite(Number(normalizedSize(value))) && Number(normalizedSize(value)) > 0;
@@ -50,7 +69,7 @@
   function proposedPriceFor(product) {
     const proposed = text(stylePriceReview?.precio);
     if (!proposed || !product) return '';
-    return compactEstilo(product.estilo) === compactEstilo(stylePriceReview.estilo) ? proposed : '';
+    return matchesStyleCorrida(product, stylePriceReview.estilo, stylePriceReview.corrida) ? proposed : '';
   }
 
   function fieldValue(product, key) {
@@ -81,8 +100,8 @@
       ? `<span class="priceShift">${esc(currency.format(Number(product.precio || 0)))} → ${esc(currency.format(Number(proposed)))}</span>`
       : `<span>${esc(currency.format(Number(product.precio || 0)))}</span>`;
     const notice = proposed
-      ? 'Precio precargado desde la foto. Revisa y confirma arriba para aplicarlo a todos los colores de este estilo.'
-      : (result.notice || 'Toca un dato para editarlo en la ficha. El precio se aplica a todos los colores del mismo estilo.');
+      ? 'Precio precargado desde la foto. Revisa y confirma arriba para aplicarlo a los colores de este estilo y corrida.'
+      : (result.notice || 'Toca un dato para editarlo en la ficha. El precio se aplica a los colores del mismo estilo y la misma corrida.');
     return `<article class="relationalResultCard" data-relational-product-id="${esc(productId)}" data-relational-branch-id="${esc(result.branch.id)}">
       <div class="relationalResultTitle"><strong>${esc(product.estilo)} · ${esc(product.color)}</strong>${priceLabel}</div>
       <p class="relationalLineage"><span>${esc(lineage[0])}</span><span>${esc(lineage[1])}</span></p>
@@ -397,13 +416,14 @@
       return;
     }
     box.hidden = false;
-    const colors = new Set(relationalInventoryResults.filter(result => compactEstilo(result.product.estilo) === compactEstilo(stylePriceReview.estilo)).map(result => result.product.color));
+    const colors = new Set(relationalInventoryResults.filter(result => matchesStyleCorrida(result.product, stylePriceReview.estilo, stylePriceReview.corrida)).map(result => result.product.color));
     const info = byId('stylePriceReviewInfo');
     const proposal = byId('stylePriceProposal');
+    const corridaLabel = text(stylePriceReview.corrida) || 'sin corrida';
     if (info) {
       info.textContent = stylePriceReview.precio
-        ? `Estilo ${stylePriceReview.estilo}: el precio se precargó en ${Math.max(colors.size, 1)} color(es). Revísalo y confirma para guardarlo en todas las fichas de ese estilo.`
-        : `Estilo ${stylePriceReview.estilo} encontrado. No se leyó precio en la foto; escríbelo y confirma para aplicarlo a todos los colores.`;
+        ? `Estilo ${stylePriceReview.estilo} · corrida ${corridaLabel}: el precio se precargó en ${Math.max(colors.size, 1)} color(es). Confirma para guardarlo solo en esa corrida.`
+        : `Estilo ${stylePriceReview.estilo} · corrida ${corridaLabel}. No se leyó precio en la foto; escríbelo y confirma para aplicarlo a esa corrida.`;
     }
     if (proposal && document.activeElement !== proposal) proposal.value = stylePriceReview.precio || '';
   }
@@ -469,10 +489,10 @@
       const saved = await cloud().updateRelationalProductField({ productId, field, value: rawValue });
       if (field === 'precio') {
         const precio = saved.precio;
-        const legacyUpdated = window.ClaremmStore?.applyStylePriceFromCloud?.(result.product.estilo, precio) || 0;
-        for (const item of relationalInventoryResults.filter(item => compactEstilo(item.product.estilo) === compactEstilo(result.product.estilo))) {
+        const legacyUpdated = window.ClaremmStore?.applyStylePriceFromCloud?.(result.product.estilo, precio, result.product.corrida) || 0;
+        for (const item of relationalInventoryResults.filter(item => matchesStyleCorrida(item.product, result.product.estilo, result.product.corrida))) {
           item.product.precio = precio;
-          item.notice = `Precio actualizado en ${saved.updated} ficha(s) relacionales y ${legacyUpdated} registro(s) anteriores.`;
+          item.notice = `Precio actualizado en ${saved.updated} ficha(s) del mismo estilo y corrida, y ${legacyUpdated} registro(s) anteriores.`;
         }
       } else {
         result.product[field] = saved.value;
@@ -480,7 +500,7 @@
       }
       relationalEdit = null;
       if (field === 'precio') {
-        for (const item of relationalInventoryResults.filter(item => compactEstilo(item.product.estilo) === compactEstilo(result.product.estilo))) replaceRelationalCard(item);
+        for (const item of relationalInventoryResults.filter(item => matchesStyleCorrida(item.product, result.product.estilo, result.product.corrida))) replaceRelationalCard(item);
       } else {
         replaceRelationalCard(result);
       }
@@ -551,6 +571,7 @@
       const results = await cloud().searchRelationalInventory(query, scope, sazFilter, { includeEmpty });
       if (sequence !== inventorySearchSequence) return;
       relationalEdit = null;
+      if (stylePriceReview) stylePriceReview.corrida = resolveReviewCorrida(stylePriceReview, results);
       renderRelationalInventory(results, query);
       if (!cloud()?.hydrateRelationalImages) return;
       const hydrated = await cloud().hydrateRelationalImages(results);
@@ -595,7 +616,7 @@
       if (!estilo) throw new Error('No se leyó un estilo en la foto. Acerca la etiqueta e inténtalo de nuevo.');
       byId('inventorySearch').value = estilo;
       byId('inventorySearchScope').value = 'style';
-      stylePriceReview = { estilo, precio, rawText: vision.rawText || '', provider: vision.provider || '' };
+      stylePriceReview = { estilo, corrida: '', talla: text(row.talla), precio, rawText: vision.rawText || '', provider: vision.provider || '' };
       renderStylePriceReview();
       await searchRelationalInventory({ sequence });
     } catch (error) {
@@ -613,18 +634,20 @@
     const estilo = text(byId('inventorySearch').value) || stylePriceReview.estilo;
     const precio = text(byId('stylePriceProposal').value);
     if (!estilo) return alert('No hay un estilo para aplicar el precio.');
-    if (!precio) return alert('Escribe el precio y confírmalo para aplicarlo a todos los colores de este estilo.');
+    const corrida = stylePriceReview.corrida || resolveReviewCorrida(stylePriceReview, relationalInventoryResults);
+    if (!precio) return alert('Escribe el precio y confírmalo para aplicarlo a los colores de este estilo y corrida.');
+    if (!catalogCorrida(corrida)) return alert('No se identificó la corrida. El precio solo se aplica cuando coinciden estilo y corrida.');
     inventoryPhotoBusy = true;
     setInventoryPhotoBusy(true, { keepConfirmEnabled: true });
     const info = byId('stylePriceReviewInfo');
-    if (info) info.textContent = `Guardando precio ${precio} en todas las fichas de ${estilo}…`;
+    if (info) info.textContent = `Guardando precio ${precio} en ${estilo} · corrida ${corrida}…`;
     try {
-      if (!cloud()?.updateRelationalStylePrice) throw new Error('Actualiza la página para guardar el precio del estilo.');
-      const saved = await cloud().updateRelationalStylePrice(estilo, precio);
-      const legacyUpdated = window.ClaremmStore?.applyStylePriceFromCloud?.(estilo, saved.precio) || 0;
-      for (const result of relationalInventoryResults.filter(item => compactEstilo(item.product.estilo) === compactEstilo(estilo))) {
+      if (!cloud()?.updateRelationalStylePrice) throw new Error('Actualiza la página para guardar el precio del estilo y la corrida.');
+      const saved = await cloud().updateRelationalStylePrice(estilo, precio, corrida);
+      const legacyUpdated = window.ClaremmStore?.applyStylePriceFromCloud?.(estilo, saved.precio, saved.corrida || corrida) || 0;
+      for (const result of relationalInventoryResults.filter(item => matchesStyleCorrida(item.product, estilo, saved.corrida || corrida))) {
         result.product.precio = saved.precio;
-        result.notice = `Precio confirmado en ${saved.updated} ficha(s) relacionales y ${legacyUpdated} registro(s) anteriores.`;
+        result.notice = `Precio confirmado en ${saved.updated} ficha(s) del mismo estilo y corrida, y ${legacyUpdated} registro(s) anteriores.`;
       }
       stylePriceReview = null;
       renderStylePriceReview();
