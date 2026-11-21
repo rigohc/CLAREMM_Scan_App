@@ -386,6 +386,94 @@
     return { updated: 1, field, value: next, estilo: product.estilo };
   }
 
+  async function duplicateRelationalProduct({ productId, color, precio, corrida, size, quantity, blob }) {
+    if (!client || !user) throw new Error('Inicia sesión antes de duplicar una ficha.');
+    const context = await loadBranchStockContext();
+    const source = context.productsById.get(productId);
+    if (!source) throw new Error('No se encontró la ficha original.');
+    const nextColor = catalogText(color);
+    const nextCorrida = String(corrida ?? '').trim();
+    const nextSize = String(size ?? '').trim().replace(',', '.');
+    const qty = Math.trunc(Number(quantity));
+    const value = catalogPrice(precio);
+    if (!nextColor) throw new Error('Escribe el color de la nueva ficha.');
+    if (catalogText(source.color) === nextColor) throw new Error('Cambia el color. Ese estilo y color ya está en esta ficha.');
+    if (!nextCorrida) throw new Error('Escribe la corrida a la que va a pertenecer.');
+    if (!Number.isFinite(Number(nextSize)) || Number(nextSize) <= 0) throw new Error('Escribe una talla válida.');
+    if (!Number.isInteger(qty) || qty < 1) throw new Error('La cantidad debe ser un entero de al menos 1.');
+    if (!Number.isFinite(value) || value < 0) throw new Error('Escribe un precio válido. Si es otra corrida, ajústalo aquí.');
+    const existing = context.products.find(product => product.activo !== false && compactLookupKey(product) === `${compactEstilo(source.estilo)}|${nextColor}`);
+    if (existing) throw new Error(`Ya existe ${source.estilo} · ${existing.color}. Abre esa ficha en lugar de duplicar.`);
+    const juarez = context.branches.find(branch => catalogText(branch.code) === 'JUAREZ') || context.branches[0];
+    if (!juarez) throw new Error('No se encontró la sucursal JUÁREZ para guardar la talla.');
+    const payload = {
+      organization_id: context.organization.id,
+      source_system: 'ficha_duplicate',
+      source_id: `${catalogText(source.estilo)}|${nextColor}|${Date.now()}`,
+      match_key: [source.estilo, nextColor, source.marca].map(catalogText).join('|'),
+      estilo: catalogText(source.estilo),
+      color: nextColor,
+      precio: value,
+      marca: source.marca || '',
+      proveedor: source.proveedor || '',
+      temporada: source.temporada || '',
+      sublinea: source.sublinea || '',
+      departamento: source.departamento || '',
+      clasificacion: source.clasificacion || '',
+      linea: source.linea || '',
+      corrida: nextCorrida,
+      acabado: source.acabado || '',
+      activo: true,
+      imagen: '',
+    };
+    const { data: created, error: createError } = await client.from('products').insert(payload).select(PRODUCT_CATALOG_SELECT).single();
+    if (createError) throw createError;
+    const { data: variant, error: variantError } = await client.from('product_variants').upsert(
+      { product_id: created.id, size: nextSize },
+      { onConflict: 'product_id,size' }
+    ).select('id,size').single();
+    if (variantError) throw variantError;
+    const { error: levelError } = await client.from('inventory_levels').upsert({
+      branch_id: juarez.id, variant_id: variant.id, quantity: qty, updated_by: user.id,
+    }, { onConflict: 'branch_id,variant_id' });
+    if (levelError) throw levelError;
+    const { error: movementError } = await client.from('inventory_movements_relational').insert({
+      organization_id: context.organization.id,
+      branch_id: juarez.id,
+      variant_id: variant.id,
+      operation: 'add',
+      previous_quantity: 0,
+      quantity: qty,
+      new_quantity: qty,
+      reason: `Ficha duplicada desde ${source.estilo} · ${source.color}`,
+      import_key: `ficha-duplicate:${created.id}:${nextSize}`,
+      created_by: user.id,
+    });
+    if (movementError) throw movementError;
+    await loadBranchStockContext(true);
+    const priced = await updateRelationalStylePrice(created.estilo, value, nextCorrida);
+    let imageUrl = '', imageMessage = 'Sin imagen. Toma o elige una foto de este color.';
+    if (blob) {
+      const savedImage = await uploadRelationalProductImage({ productId: created.id, blob });
+      imageUrl = savedImage.imageUrl;
+      imageMessage = `Imagen de este color · ${(savedImage.size / 1024).toFixed(1)} KB`;
+    }
+    const refreshed = await loadBranchStockContext(true);
+    const product = refreshed.productsById.get(created.id) || { ...created, precio: priced.precio, corrida: nextCorrida };
+    return {
+      product,
+      branch: juarez,
+      sizes: [{ size: nextSize, quantity: qty }],
+      totalQuantity: qty,
+      sazRegistered: false,
+      imageUrl,
+      imageMessage,
+      notice: catalogCorrida(nextCorrida) === catalogCorrida(source.corrida)
+        ? `Ficha duplicada. El precio se aplicó a ${priced.updated} color(es) de ${product.estilo} corrida ${nextCorrida}.`
+        : `Ficha duplicada en corrida ${nextCorrida}. El precio quedó en este grupo de estilo y corrida.`,
+    };
+  }
+
   async function getRelationalStylePrice(estilo, corrida, color) {
     const context = await loadBranchStockContext();
     let run = corrida;
@@ -764,7 +852,7 @@
     }
   }
 
-  window.claremmCloud = { recordMutation, recordImageMutation, recordCatalogMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, hydrateRelationalImages, uploadRelationalProductImage, updateRelationalStylePrice, updateRelationalProductField, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock };
+  window.claremmCloud = { recordMutation, recordImageMutation, recordCatalogMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, hydrateRelationalImages, uploadRelationalProductImage, updateRelationalStylePrice, updateRelationalProductField, duplicateRelationalProduct, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock };
 
   byId('cloudLogin').onclick = async () => {
     if (!client) return alert('Supabase aún no está configurado.');

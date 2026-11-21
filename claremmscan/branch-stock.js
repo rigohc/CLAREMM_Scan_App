@@ -48,6 +48,9 @@
   let relationalEdit = null;
   let stylePriceReview = null;
   let inventoryPhotoBusy = false;
+  let productDuplicate = null;
+  let productDuplicatePhoto = null;
+  let productDuplicateSaving = false;
   const FICHA_FIELDS = [
     { key: 'precio', label: 'Precio de venta' },
     { key: 'marca', label: 'Marca' },
@@ -108,6 +111,7 @@
       <div class="relationalResultMeta"><span>${esc(product.marca || 'Sin marca')}</span><span>${esc(result.branch.name)}</span><strong>${esc(result.totalQuantity)} par(es)</strong><span class="sazStatus ${result.sazRegistered ? 'isLoaded' : 'isPending'}">${result.sazRegistered ? 'Registrado en SAZ' : 'Pendiente de SAZ'}</span></div>
       <dl class="relationalFicha">${fichaMarkup(product, productId)}</dl>
       <small class="relationalEditHint" data-relational-notice="${esc(productId)}">${esc(notice)}</small>
+      <div class="relationalProductActions"><button type="button" class="secondary" data-relational-duplicate="${esc(productId)}">Duplicar ficha</button></div>
       <div class="relationalSizes">${(result.sizes || []).map(item => `<span class="relationalSize">${esc(item.size)} × ${esc(item.quantity)}</span>`).join('')}</div>
       <div class="relationalImage"><div class="relationalImagePreview">${result.imageUrl ? `<img src="${esc(result.imageUrl)}" alt="Producto ${esc(product.estilo)} ${esc(product.color)}">` : '<span>Sin imagen</span>'}</div><div class="relationalImageControls"><button type="button" data-relational-image="camera" data-product-id="${esc(productId)}">Tomar foto</button><button type="button" class="secondary" data-relational-image="gallery" data-product-id="${esc(productId)}">Elegir imagen</button><small data-relational-image-status="${esc(productId)}">${esc(result.imageMessage || (result.imageUrl ? 'Imagen compartida entre ambos inventarios.' : 'PNG máximo 100 KB · aplica por estilo y color.'))}</small></div></div>
     </article>`;
@@ -428,6 +432,115 @@
     if (proposal && document.activeElement !== proposal) proposal.value = stylePriceReview.precio || '';
   }
 
+  function duplicateHint() {
+    if (!productDuplicate) return 'Mismo estilo, otro color. Ajusta corrida, precio, talla y foto.';
+    const sameRun = catalogCorrida(byId('productDuplicateCorrida')?.value) === catalogCorrida(productDuplicate.source.corrida);
+    return sameRun
+      ? `Duplicando ${productDuplicate.source.estilo} · ${productDuplicate.source.color}. Si dejas la misma corrida, el precio se aplica a todos los colores de ese estilo y corrida.`
+      : `Duplicando ${productDuplicate.source.estilo} · ${productDuplicate.source.color}. Corrida distinta: el precio queda en este grupo de estilo y corrida.`;
+  }
+
+  function renderProductDuplicate() {
+    const box = byId('productDuplicate');
+    if (!box) return;
+    if (!productDuplicate) {
+      box.hidden = true;
+      productDuplicatePhoto = null;
+      if (byId('productDuplicateCameraFile')) byId('productDuplicateCameraFile').value = '';
+      if (byId('productDuplicateGalleryFile')) byId('productDuplicateGalleryFile').value = '';
+      return;
+    }
+    box.hidden = false;
+    const source = productDuplicate.source;
+    if (byId('productDuplicateEstilo')) byId('productDuplicateEstilo').value = source.estilo || '';
+    if (byId('productDuplicateColor') && document.activeElement !== byId('productDuplicateColor')) byId('productDuplicateColor').value = productDuplicate.color || '';
+    if (byId('productDuplicateCorrida') && document.activeElement !== byId('productDuplicateCorrida')) byId('productDuplicateCorrida').value = productDuplicate.corrida || source.corrida || '';
+    if (byId('productDuplicatePrecio') && document.activeElement !== byId('productDuplicatePrecio')) byId('productDuplicatePrecio').value = productDuplicate.precio ?? source.precio ?? '';
+    if (byId('productDuplicateTalla') && document.activeElement !== byId('productDuplicateTalla')) byId('productDuplicateTalla').value = productDuplicate.talla || '';
+    if (byId('productDuplicateCantidad') && document.activeElement !== byId('productDuplicateCantidad')) byId('productDuplicateCantidad').value = productDuplicate.cantidad || '1';
+    if (byId('productDuplicateInfo')) byId('productDuplicateInfo').textContent = duplicateHint();
+    if (byId('productDuplicatePhotoInfo')) byId('productDuplicatePhotoInfo').textContent = productDuplicatePhoto
+      ? `Foto lista: ${productDuplicatePhoto.name || 'imagen'}. Se guardará solo en este color.`
+      : 'Sin foto. La imagen es de este color, no se copia.';
+  }
+
+  function openProductDuplicate(productId) {
+    const result = findRelationalResult(productId);
+    if (!result) return;
+    productDuplicate = {
+      sourceId: productId,
+      source: result.product,
+      color: '',
+      corrida: result.product.corrida || '',
+      precio: result.product.precio || '',
+      talla: result.sizes?.[0]?.size || '',
+      cantidad: '1',
+    };
+    productDuplicatePhoto = null;
+    renderProductDuplicate();
+    byId('productDuplicate')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function cancelProductDuplicate() {
+    productDuplicate = null;
+    renderProductDuplicate();
+  }
+
+  async function saveProductDuplicate() {
+    if (!productDuplicate || inventoryPhotoBusy || productDuplicateSaving) return;
+    const color = text(byId('productDuplicateColor').value);
+    const corrida = text(byId('productDuplicateCorrida').value);
+    const precio = text(byId('productDuplicatePrecio').value);
+    const talla = text(byId('productDuplicateTalla').value);
+    const cantidad = text(byId('productDuplicateCantidad').value) || '1';
+    if (!cloud()?.duplicateRelationalProduct) return alert('Actualiza la página para duplicar fichas.');
+    const info = byId('productDuplicateInfo');
+    if (!color) return alert('Escribe el color de la nueva ficha.');
+    if (normalized(color) === normalized(productDuplicate.source.color)) return alert('Cambia el color. Ese estilo y color ya está en esta ficha.');
+    if (!corrida) return alert('Escribe la corrida a la que va a pertenecer.');
+    if (!validSize(talla)) return alert('Escribe una talla válida.');
+    if (!validQuantity(cantidad, 'add')) return alert('La cantidad debe ser un entero de al menos 1.');
+    if (!Number.isFinite(numericPrice(precio)) || numericPrice(precio) < 0) return alert('Escribe un precio válido. Si es otra corrida, ajústalo aquí.');
+    productDuplicateSaving = true;
+    if (info) info.textContent = 'Guardando ficha duplicada…';
+    try {
+      let blob = null;
+      if (productDuplicatePhoto) {
+        if (!window.ClaremmStore?.compressProductImage) throw new Error('Actualiza la página para comprimir la foto.');
+        blob = await window.ClaremmStore.compressProductImage(productDuplicatePhoto);
+      }
+      const payload = { productId: productDuplicate.sourceId, color, precio, corrida, size: talla, quantity: cantidad };
+      if (blob) payload.blob = blob;
+      const saved = await cloud().duplicateRelationalProduct(payload);
+      if (blob) await window.ClaremmStore.refreshImageIndicators?.();
+      const result = {
+        product: saved.product,
+        branch: saved.branch,
+        sizes: saved.sizes || [],
+        totalQuantity: saved.totalQuantity || 0,
+        sazRegistered: false,
+        imageUrl: saved.imageUrl || '',
+        imageMessage: saved.imageMessage || '',
+        notice: saved.notice,
+      };
+      const existingIndex = relationalInventoryResults.findIndex(item => item.product.id === result.product.id);
+      if (existingIndex >= 0) relationalInventoryResults.splice(existingIndex, 1, result);
+      else relationalInventoryResults.unshift(result);
+      if (catalogCorrida(corrida) === catalogCorrida(productDuplicate.source.corrida)) {
+        for (const item of relationalInventoryResults.filter(item => matchesStyleCorrida(item.product, result.product.estilo, corrida))) {
+          item.product.precio = result.product.precio;
+        }
+      }
+      productDuplicate = null;
+      renderProductDuplicate();
+      renderRelationalInventory(relationalInventoryResults, relationalInventoryQuery);
+    } catch (error) {
+      if (info) info.textContent = error.message;
+    } finally {
+      productDuplicateSaving = false;
+    }
+  }
+
   function setInventoryPhotoBusy(busy, options = {}) {
     inventoryPhotoBusy = busy;
     ['inventorySearchCamera', 'inventorySearchGallery'].forEach(id => {
@@ -556,7 +669,9 @@
       setRelationalPreview(false);
       relationalEdit = null;
       stylePriceReview = null;
+      productDuplicate = null;
       renderStylePriceReview();
+      renderProductDuplicate();
       byId('relationalSearchResults').innerHTML = '';
       return;
     }
@@ -706,6 +821,30 @@
   byId('inventorySearchGalleryFile').addEventListener('change', event => searchInventoryByPhoto(event.target.files?.[0]));
   byId('stylePriceConfirm').addEventListener('click', confirmStylePrice);
   byId('stylePriceCancel').addEventListener('click', cancelStylePrice);
+  byId('productDuplicateCamera').addEventListener('click', () => byId('productDuplicateCameraFile').click());
+  byId('productDuplicateGallery').addEventListener('click', () => byId('productDuplicateGalleryFile').click());
+  const takeDuplicatePhoto = event => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    productDuplicatePhoto = file;
+    if (productDuplicate) renderProductDuplicate();
+    event.target.value = '';
+  };
+  byId('productDuplicateCameraFile').addEventListener('change', takeDuplicatePhoto);
+  byId('productDuplicateGalleryFile').addEventListener('change', takeDuplicatePhoto);
+  byId('productDuplicateSave').addEventListener('click', () => { void saveProductDuplicate(); });
+  byId('productDuplicateCancel').addEventListener('click', cancelProductDuplicate);
+  ['productDuplicateColor', 'productDuplicateCorrida', 'productDuplicatePrecio', 'productDuplicateTalla', 'productDuplicateCantidad'].forEach(id => {
+    byId(id).addEventListener('input', () => {
+      if (!productDuplicate) return;
+      productDuplicate.color = text(byId('productDuplicateColor').value);
+      productDuplicate.corrida = text(byId('productDuplicateCorrida').value);
+      productDuplicate.precio = text(byId('productDuplicatePrecio').value);
+      productDuplicate.talla = text(byId('productDuplicateTalla').value);
+      productDuplicate.cantidad = text(byId('productDuplicateCantidad').value) || '1';
+      if (byId('productDuplicateInfo')) byId('productDuplicateInfo').textContent = duplicateHint();
+    });
+  });
   byId('stylePriceProposal').addEventListener('input', () => {
     if (!stylePriceReview) return;
     stylePriceReview.precio = text(byId('stylePriceProposal').value);
@@ -714,6 +853,11 @@
   byId('relationalProductImageCamera').addEventListener('change', event => saveRelationalProductImage(event.target.files?.[0]));
   byId('relationalProductImageGallery').addEventListener('change', event => saveRelationalProductImage(event.target.files?.[0]));
   byId('relationalSearchResults').addEventListener('click', async event => {
+    const duplicateButton = event.target.closest('[data-relational-duplicate]');
+    if (duplicateButton) {
+      openProductDuplicate(duplicateButton.dataset.relationalDuplicate);
+      return;
+    }
     const imageButton = event.target.closest('[data-relational-image]');
     if (imageButton) {
       const result = findRelationalResult(imageButton.dataset.productId);

@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="tokens.css?v=19-estilo-corrida">
+  <link rel="stylesheet" href="tokens.css?v=20-duplicar-ficha">
   <style>
     /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 · genre: atmospheric · macrostructure: Workbench · theme: Midnight · enrichment: none · nav: N9 · footer: Ft2 · contrast: pass (40–41) · slop: pass (42–49) · mobile: pass (34,49–57) */
     *,*::before,*::after{box-sizing:border-box}
@@ -195,6 +195,16 @@
     .stylePriceReview label{display:grid;gap:var(--space-2xs)}
     .stylePriceReviewActions{display:flex;flex-wrap:wrap;gap:var(--space-xs)}
     .stylePriceReviewActions button{width:auto;flex:1 1 8rem}
+    .productDuplicate{display:grid;gap:var(--space-sm);margin-block-end:var(--space-md);padding:var(--space-sm);border:var(--rule-thin) solid var(--color-ai);border-radius:var(--radius-input);background:var(--color-paper-2)}
+    .productDuplicate p{margin:0;color:var(--color-neutral)}
+    .productDuplicateForm{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-sm)}
+    .productDuplicateForm label{display:grid;gap:var(--space-2xs);min-width:0}
+    .productDuplicateForm .wide{grid-column:1/-1}
+    .productDuplicatePhoto{display:flex;flex-wrap:wrap;gap:var(--space-xs);align-items:center;grid-column:1/-1}
+    .productDuplicatePhoto button{width:auto;flex:1 1 8rem}
+    .productDuplicatePhoto small{flex:1 1 100%}
+    .productDuplicateActions{display:flex;flex-wrap:wrap;gap:var(--space-xs);grid-column:1/-1}
+    .productDuplicateActions button{width:auto;flex:1 1 8rem}
     .relationalResultTitle .priceShift{color:var(--color-ai);font-weight:700}
     .relationalField.isProposed dd button{color:var(--color-ai);font-weight:700}
     .inventoryPanel.isRelationalPreview .tablewrap,.inventoryPanel.isRelationalPreview .inventoryPagination,.inventoryPanel.isRelationalPreview #inventoryResultInfo{display:none!important}
@@ -220,7 +230,7 @@
     @media (hover:hover) and (pointer:fine){button:hover{background:var(--color-accent-hover);transform:translateY(-1px)}button.secondary:hover{background:var(--color-paper-3)}button.danger:hover{background:var(--color-danger-surface);color:var(--color-danger-hover)}button.aiAction:hover{background:var(--color-warning-surface)}input:hover,select:hover{background:var(--color-paper-3)}}
     @media (max-width:59.999rem){.cardHead{flex-wrap:wrap;gap:var(--space-xs) var(--space-sm)}.cardHead h2{flex:1 1 10rem}.cardToggle{display:inline-flex;align-items:center;justify-content:center;min-height:2.5rem;margin-inline-start:auto;padding-inline:var(--space-sm);font-size:var(--text-xs)}.card.isCollapsed>.cardHead{margin-block-end:0}.card.isCollapsed>:not(.cardHead){display:none!important}}
     @media (min-width:40rem){.headerInner{padding-block:var(--space-xl)}.headerTop{flex-direction:row;align-items:flex-start}.headerActions button{flex:0 0 auto}.metrics{grid-template-columns:repeat(4,minmax(0,10rem));gap:var(--space-sm)}.cloudAuth{grid-template-columns:repeat(2,minmax(0,1fr))}.cloudAuth button{width:100%}.toolbar{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.imageField{grid-column:1/-1}.inventoryPrimaryActions button{width:auto}.inventoryFilters{grid-template-columns:minmax(0,1fr) repeat(2,minmax(10rem,.35fr))}.tablewrap tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-sm)}#reviewCard td:nth-child(11),.inventoryPanel td:nth-child(12){grid-column:1/-1}.card{padding:var(--space-xl)}.branchStockIntro{grid-template-columns:minmax(0,1fr) minmax(14rem,.5fr);align-items:end}.branchStockForm{grid-template-columns:repeat(2,minmax(0,1fr))}.branchStockForm .wide{grid-column:1/-1}.branchStockMode{grid-template-columns:repeat(2,minmax(0,1fr))}.branchStockStats{grid-template-columns:repeat(4,minmax(0,1fr))}}
-    @media (min-width:40rem){.inventorySearchRow{grid-column:1/-1;grid-template-columns:minmax(0,1fr) auto;align-items:end}.inventorySearchByPhoto button{flex:0 0 auto;width:auto}}
+    @media (min-width:40rem){.inventorySearchRow{grid-column:1/-1;grid-template-columns:minmax(0,1fr) auto;align-items:end}.inventorySearchByPhoto button{flex:0 0 auto;width:auto}.productDuplicateForm{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media (min-width:60rem){.relationalResultGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.workspace{grid-template-columns:minmax(20rem,.82fr) minmax(0,1.45fr);grid-template-areas:"scan inventory" "review review" "manual .";gap:var(--space-lg)}.scanPanel{position:relative;top:auto}.cloudAuth{grid-template-columns:minmax(11rem,1fr) minmax(11rem,1fr) repeat(3,auto)}.tablewrap{overflow:auto;overscroll-behavior-inline:contain}table{display:table;width:100%;white-space:nowrap}#reviewCard table{min-width:70rem}.inventoryPanel table{min-width:72rem}thead{display:table-header-group}tbody{display:table-row-group}tr,.tablewrap tr{display:table-row;width:auto;margin:0;padding:0;border:0;background:transparent}th,td{display:table-cell;width:auto;padding:var(--space-sm);border-block-end:var(--rule-thin) solid var(--color-rule);text-align:start;vertical-align:middle}th{background:var(--color-paper-3);font-family:var(--font-display);font-size:var(--text-sm)}td::before{display:none!important}.inventoryPanel td:last-child{display:table-cell;white-space:nowrap}.inventoryPanel td:last-child button{width:auto}.inventoryPanel{min-height:38rem}#reviewCard{scroll-margin-block-start:var(--space-md)}}
     @media (min-width:90rem){.workspace{grid-template-columns:minmax(24rem,.78fr) minmax(0,1.55fr)}.manualPanel .grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media (pointer:coarse){button,input,select,summary{min-height:3rem}}
@@ -232,7 +242,7 @@
     <div class="headerInner">
       <div class="headerTop">
         <div class="headerText">
-          <div class="brandLine"><h1>CLAREMM Scan <span>v19</span></h1><div class="tagline">Cámara · Lectura con IA · Revisión · Excel</div></div>
+          <div class="brandLine"><h1>CLAREMM Scan <span>v20</span></h1><div class="tagline">Cámara · Lectura con IA · Revisión · Excel</div></div>
           <small id="installHelp" hidden></small>
         </div>
         <div class="headerActions"><button id="branchStockOpen" type="button" class="secondary">Carga por sucursal</button><button id="installApp" type="button" class="secondary" hidden>Instalar app</button></div>
@@ -324,7 +334,7 @@
           <label for="inventorySazFilter">Estado SAZ<select id="inventorySazFilter"><option value="all">Todos</option><option value="pending">Pendientes</option><option value="loaded">Cargados</option></select></label>
         </div>
         <p id="inventoryResultInfo" class="inventoryResultInfo" aria-live="polite">Mostrando todos los registros.</p>
-        <section id="relationalSearchPanel" class="relationalResults" hidden aria-labelledby="relationalSearchTitle"><div class="relationalResultsHead"><div><h3 id="relationalSearchTitle">Inventario relacional</h3><p id="relationalSearchInfo">Buscando en catálogo y existencias por sucursal…</p></div><small>Supabase</small></div><div id="stylePriceReview" class="stylePriceReview" hidden><strong>Precio leído de la foto</strong><p id="stylePriceReviewInfo">Revisa el precio antes de aplicarlo a los colores del mismo estilo y la misma corrida.</p><label for="stylePriceProposal">Precio para estilo y corrida<input id="stylePriceProposal" inputmode="decimal" autocomplete="off"></label><div class="stylePriceReviewActions"><button type="button" id="stylePriceConfirm">Confirmar y aplicar</button><button type="button" class="secondary" id="stylePriceCancel">Descartar</button></div></div><div id="relationalSearchResults" class="relationalResultGrid"></div><input id="relationalProductImageCamera" type="file" accept="image/*" capture="environment" hidden><input id="relationalProductImageGallery" type="file" accept="image/*" hidden></section>
+        <section id="relationalSearchPanel" class="relationalResults" hidden aria-labelledby="relationalSearchTitle"><div class="relationalResultsHead"><div><h3 id="relationalSearchTitle">Inventario relacional</h3><p id="relationalSearchInfo">Buscando en catálogo y existencias por sucursal…</p></div><small>Supabase</small></div><div id="stylePriceReview" class="stylePriceReview" hidden><strong>Precio leído de la foto</strong><p id="stylePriceReviewInfo">Revisa el precio antes de aplicarlo a los colores del mismo estilo y la misma corrida.</p><label for="stylePriceProposal">Precio para estilo y corrida<input id="stylePriceProposal" inputmode="decimal" autocomplete="off"></label><div class="stylePriceReviewActions"><button type="button" id="stylePriceConfirm">Confirmar y aplicar</button><button type="button" class="secondary" id="stylePriceCancel">Descartar</button></div></div><div id="productDuplicate" class="productDuplicate" hidden><strong>Duplicar ficha</strong><p id="productDuplicateInfo">Mismo estilo, otro color. Ajusta corrida, precio, talla y foto.</p><div class="productDuplicateForm"><label for="productDuplicateEstilo">Estilo<input id="productDuplicateEstilo" readonly></label><label for="productDuplicateColor">Color nuevo<input id="productDuplicateColor" autocomplete="off"></label><label for="productDuplicateCorrida">Corrida<input id="productDuplicateCorrida" autocomplete="off"></label><label for="productDuplicatePrecio">Precio<input id="productDuplicatePrecio" inputmode="decimal" autocomplete="off"></label><label for="productDuplicateTalla">Talla<input id="productDuplicateTalla" inputmode="decimal" autocomplete="off"></label><label for="productDuplicateCantidad">Cantidad<input id="productDuplicateCantidad" inputmode="numeric" value="1" autocomplete="off"></label><div class="productDuplicatePhoto"><button type="button" id="productDuplicateCamera">Tomar foto</button><button type="button" class="secondary" id="productDuplicateGallery">Elegir imagen</button><small id="productDuplicatePhotoInfo">Sin foto. La imagen es de este color, no se copia.</small><input id="productDuplicateCameraFile" type="file" accept="image/*" capture="environment" hidden><input id="productDuplicateGalleryFile" type="file" accept="image/*" hidden></div><div class="productDuplicateActions"><button type="button" id="productDuplicateSave">Guardar ficha</button><button type="button" class="secondary" id="productDuplicateCancel">Cancelar</button></div></div></div><div id="relationalSearchResults" class="relationalResultGrid"></div><input id="relationalProductImageCamera" type="file" accept="image/*" capture="environment" hidden><input id="relationalProductImageGallery" type="file" accept="image/*" hidden></section>
         <details class="exportMenu"><summary>Exportar datos y respaldo</summary><div class="exportActions"><button id="xlsx">Excel (.xlsx)</button><button id="csv" class="secondary">CSV</button><button id="backup" class="secondary">Respaldo JSON</button><button id="clear" class="danger">Borrar todo</button></div></details>
         <div class="tablewrap"><table><thead><tr><th>Estilo</th><th>Marca</th><th>Sucursal</th><th>Color</th><th>Línea</th><th>Talla</th><th>Cantidad</th><th>Material</th><th>Precio</th><th>Imagen</th><th>Estado SAZ</th><th>Acciones</th></tr></thead><tbody id="rows"></tbody></table></div>
         <nav id="inventoryPagination" class="inventoryPagination" aria-label="Páginas del inventario" hidden><button id="pagePrev" type="button" class="secondary">Anterior</button><div id="pageNumbers" class="pageNumbers"></div><button id="pageNext" type="button" class="secondary">Siguiente</button></nav>
@@ -409,8 +419,8 @@
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <script src="app.js?v=19-estilo-corrida"></script>
-  <script src="supabase-sync.js?v=19-estilo-corrida"></script>
-  <script src="branch-stock.js?v=19-estilo-corrida"></script>
+  <script src="app.js?v=20-duplicar-ficha"></script>
+  <script src="supabase-sync.js?v=20-duplicar-ficha"></script>
+  <script src="branch-stock.js?v=20-duplicar-ficha"></script>
 </body>
 </html>
