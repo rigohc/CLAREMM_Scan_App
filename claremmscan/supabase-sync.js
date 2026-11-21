@@ -79,7 +79,22 @@
     return candidates;
   };
   const imageNamePart = value => catalogText(value).replace(/[^A-Z0-9]+/g, '-').replace(/^-|-$/g, '');
-  const catalogImageName = value => `${imageNamePart(value?.estilo) || 'ESTILO'}-${imageNamePart(value?.color) || 'COLOR'}.png`;
+  const catalogImageName = value => {
+    const estilo = imageNamePart(value?.estilo), color = imageNamePart(value?.color);
+    if (!estilo || !color) return '';
+    return `${estilo}-${color}.png`;
+  };
+  const asPngBlob = blob => {
+    if (!(blob instanceof Blob)) throw new Error('La imagen debe estar en formato PNG.');
+    return blob.type === 'image/png' ? blob : new Blob([blob], { type: 'image/png' });
+  };
+  const resolveCaptureBranch = (context, sucursal) => {
+    const name = catalogText(sucursal || DEFAULT_BRANCH);
+    return context.branches.find(branch => catalogText(branch.name) === name)
+      || context.branches.find(branch => catalogText(branch.code) === name)
+      || context.branches.find(branch => catalogText(branch.code) === 'JUAREZ')
+      || context.branches[0];
+  };
   const setCloudStatus = (message, kind = '') => {
     const el = byId('cloudStatus');
     if (!el) return;
@@ -310,25 +325,67 @@
     }));
   }
 
+  async function addRelationalStock({ context, productId, branchId, size, quantity, reason, importKey }) {
+    const qty = Math.trunc(Number(quantity));
+    const nextSize = String(size ?? '').trim().replace(',', '.');
+    if (!Number.isInteger(qty) || qty < 1) throw new Error('La cantidad debe ser un entero de al menos 1.');
+    if (!Number.isFinite(Number(nextSize)) || Number(nextSize) <= 0) throw new Error('Escribe una talla válida.');
+    let variant = (context.variantsByProduct.get(productId) || []).find(item => catalogText(item.size) === catalogText(nextSize));
+    if (!variant) {
+      const { data, error } = await client.from('product_variants').upsert(
+        { product_id: productId, size: nextSize },
+        { onConflict: 'product_id,size' }
+      ).select('id,size').single();
+      if (error) throw error;
+      variant = data;
+      const list = context.variantsByProduct.get(productId) || [];
+      list.push({ id: variant.id, product_id: productId, size: String(variant.size) });
+      context.variantsByProduct.set(productId, list);
+    }
+    const { data: level, error: readError } = await client.from('inventory_levels').select('quantity').eq('branch_id', branchId).eq('variant_id', variant.id).maybeSingle();
+    if (readError) throw readError;
+    const previous = Number(level?.quantity || 0), next = previous + qty;
+    const { error: levelError } = await client.from('inventory_levels').upsert({
+      branch_id: branchId, variant_id: variant.id, quantity: next, updated_by: user.id,
+    }, { onConflict: 'branch_id,variant_id' });
+    if (levelError) throw levelError;
+    const { error: movementError } = await client.from('inventory_movements_relational').insert({
+      organization_id: context.organization.id,
+      branch_id: branchId,
+      variant_id: variant.id,
+      operation: 'add',
+      previous_quantity: previous,
+      quantity: qty,
+      new_quantity: next,
+      reason: reason || 'Entrada de inventario',
+      import_key: importKey || `add:${productId}:${variant.id}:${Date.now()}`,
+      created_by: user.id,
+    });
+    if (movementError && !/duplicate|unique/i.test(String(movementError.message || movementError.code || ''))) throw movementError;
+    return { added: qty, size: nextSize, quantity: next, variantId: variant.id };
+  }
+
   async function uploadRelationalProductImage({ productId, blob }) {
     if (!client || !user) throw new Error('Inicia sesión antes de guardar una imagen.');
-    if (!(blob instanceof Blob) || blob.type !== 'image/png') throw new Error('La imagen debe estar en formato PNG.');
-    if (blob.size > 100 * 1024) throw new Error('La imagen supera el límite de 100 KB.');
+    const png = asPngBlob(blob);
+    if (png.size > 100 * 1024) throw new Error('La imagen supera el límite de 100 KB.');
     const context = await loadBranchStockContext(), product = context.productsById.get(productId);
     if (!product) throw new Error('No se encontró el producto en el catálogo relacional.');
-    const matchingProducts = context.products.filter(item => productLookupKey(item) === productLookupKey(product));
     const fileName = catalogImageName(product);
+    if (!fileName) throw new Error('La foto debe nombrarse con estilo y color. Completa ambos datos de la ficha.');
+    const matchingProducts = context.products.filter(item => productLookupKey(item) === productLookupKey(product));
     const path = `${context.organization.id}/products/${fileName}`;
-    const { error: uploadError } = await client.storage.from(BUCKET).upload(path, blob, { contentType: 'image/png', upsert: true, cacheControl: '60' });
+    const { error: uploadError } = await client.storage.from(BUCKET).upload(path, png, { contentType: 'image/png', upsert: true, cacheControl: '60' });
     if (uploadError) throw uploadError;
     for (const group of chunks(matchingProducts.map(item => item.id), 200)) {
       const { error: productError } = await client.from('products').update({ imagen: path }).eq('organization_id', context.organization.id).in('id', group);
       if (productError) throw productError;
     }
     for (const item of matchingProducts) item.imagen = path;
+    await store.putImageFromCloud(fileName, png).catch(() => {});
     relationalImageUrls.delete(path);
     const signedUrl = await signedRelationalImage(path, true);
-    return { path, fileName, imageUrl: `${signedUrl}${signedUrl.includes('?') ? '&' : '?'}v=${Date.now()}`, size: blob.size };
+    return { path, fileName, imageUrl: `${signedUrl}${signedUrl.includes('?') ? '&' : '?'}v=${Date.now()}`, size: png.size };
   }
 
   async function removeRelationalProductImage({ estilo, color }) {
@@ -428,49 +485,134 @@
     };
     const { data: created, error: createError } = await client.from('products').insert(payload).select(PRODUCT_CATALOG_SELECT).single();
     if (createError) throw createError;
-    const { data: variant, error: variantError } = await client.from('product_variants').upsert(
-      { product_id: created.id, size: nextSize },
-      { onConflict: 'product_id,size' }
-    ).select('id,size').single();
-    if (variantError) throw variantError;
-    const { error: levelError } = await client.from('inventory_levels').upsert({
-      branch_id: juarez.id, variant_id: variant.id, quantity: qty, updated_by: user.id,
-    }, { onConflict: 'branch_id,variant_id' });
-    if (levelError) throw levelError;
-    const { error: movementError } = await client.from('inventory_movements_relational').insert({
-      organization_id: context.organization.id,
-      branch_id: juarez.id,
-      variant_id: variant.id,
-      operation: 'add',
-      previous_quantity: 0,
+    context.productsById.set(created.id, created);
+    const added = await addRelationalStock({
+      context,
+      productId: created.id,
+      branchId: juarez.id,
+      size: nextSize,
       quantity: qty,
-      new_quantity: qty,
       reason: `Ficha duplicada desde ${source.estilo} · ${source.color}`,
-      import_key: `ficha-duplicate:${created.id}:${nextSize}`,
-      created_by: user.id,
+      importKey: `ficha-duplicate:${created.id}:${nextSize}:${Date.now()}`,
     });
-    if (movementError) throw movementError;
     await loadBranchStockContext(true);
-    const priced = await updateRelationalStylePrice(created.estilo, value, nextCorrida);
-    let imageUrl = '', imageMessage = 'Sin imagen. Toma o elige una foto de este color.';
+    let priced = { updated: 1, precio: value, corrida: nextCorrida };
+    try {
+      priced = await updateRelationalStylePrice(created.estilo, value, nextCorrida);
+    } catch (error) {
+      priced = { updated: 1, precio: value, corrida: nextCorrida, warning: error.message };
+    }
+    const fileName = catalogImageName({ estilo: created.estilo, color: nextColor });
+    let imageUrl = '', imageMessage = fileName
+      ? `Sin foto todavía. Se guardará como ${fileName}.`
+      : 'Sin imagen. Toma o elige una foto de este color.';
     if (blob) {
-      const savedImage = await uploadRelationalProductImage({ productId: created.id, blob });
-      imageUrl = savedImage.imageUrl;
-      imageMessage = `Imagen de este color · ${(savedImage.size / 1024).toFixed(1)} KB`;
+      try {
+        const savedImage = await uploadRelationalProductImage({ productId: created.id, blob });
+        imageUrl = savedImage.imageUrl;
+        imageMessage = `Imagen ${savedImage.fileName} · ${(savedImage.size / 1024).toFixed(1)} KB`;
+      } catch (error) {
+        imageMessage = `Ficha guardada, pero la foto no se subió: ${error.message}`;
+      }
     }
     const refreshed = await loadBranchStockContext(true);
     const product = refreshed.productsById.get(created.id) || { ...created, precio: priced.precio, corrida: nextCorrida };
     return {
       product,
       branch: juarez,
-      sizes: [{ size: nextSize, quantity: qty }],
-      totalQuantity: qty,
+      sizes: [{ size: added.size, quantity: added.quantity }],
+      totalQuantity: added.quantity,
       sazRegistered: false,
+      fileName: catalogImageName(product) || fileName,
       imageUrl,
       imageMessage,
       notice: catalogCorrida(nextCorrida) === catalogCorrida(source.corrida)
         ? `Ficha duplicada. El precio se aplicó a ${priced.updated} color(es) de ${product.estilo} corrida ${nextCorrida}.`
         : `Ficha duplicada en corrida ${nextCorrida}. El precio quedó en este grupo de estilo y corrida.`,
+    };
+  }
+
+  async function syncCaptureToCatalog(item) {
+    if (!client || !user) return null;
+    const estilo = catalogText(item?.estilo), color = catalogText(item?.color);
+    if (!estilo || !color) return null;
+    const qty = Math.trunc(Number(item.cantidad));
+    const size = String(item.talla || '').trim().replace(',', '.');
+    let context = await loadBranchStockContext();
+    let product = resolveCatalogProduct(context, item).product;
+    if (!product) {
+      const payload = {
+        organization_id: context.organization.id,
+        source_system: 'app_capture',
+        source_id: `${estilo}|${color}`,
+        match_key: [estilo, color, catalogText(item.marca)].join('|'),
+        estilo,
+        color,
+        precio: Math.max(0, catalogPrice(item.precio) || 0),
+        marca: catalogText(item.marca),
+        linea: catalogText(item.linea),
+        corrida: String(item.corrida || '').trim(),
+        acabado: catalogText(item.material || item.acabado),
+        observaciones: String(item.notas || ''),
+        activo: true,
+        imagen: '',
+      };
+      const { data, error } = await client.from('products').upsert(payload, { onConflict: 'organization_id,source_system,source_id' }).select(PRODUCT_CATALOG_SELECT).single();
+      if (error) throw error;
+      context = await loadBranchStockContext(true);
+      product = context.productsById.get(data.id) || data;
+    } else {
+      const patch = {};
+      if (!(Number(product.precio) > 0) && catalogPrice(item.precio) > 0) patch.precio = catalogPrice(item.precio);
+      if (!catalogText(product.marca) && catalogText(item.marca)) patch.marca = catalogText(item.marca);
+      if (!catalogText(product.linea) && catalogText(item.linea)) patch.linea = catalogText(item.linea);
+      if (!catalogText(product.acabado) && catalogText(item.material || item.acabado)) patch.acabado = catalogText(item.material || item.acabado);
+      if (!catalogCorrida(product.corrida) && String(item.corrida || '').trim()) patch.corrida = String(item.corrida).trim();
+      if (Object.keys(patch).length) {
+        const { error } = await client.from('products').update(patch).eq('id', product.id).eq('organization_id', context.organization.id);
+        if (error) throw error;
+        Object.assign(product, patch);
+      }
+    }
+    const branch = resolveCaptureBranch(context, item.sucursal);
+    if (!branch) throw new Error('No se encontró la sucursal para guardar la captura.');
+    let sizes = [], totalQuantity = 0;
+    if (Number.isFinite(Number(size)) && Number(size) > 0 && Number.isInteger(qty) && qty > 0) {
+      const added = await addRelationalStock({
+        context,
+        productId: product.id,
+        branchId: branch.id,
+        size,
+        quantity: qty,
+        reason: `Captura scanner · ${estilo} · ${color}`,
+        importKey: `app-capture:${product.id}:${size}:${Date.now()}`,
+      });
+      sizes = [{ size: added.size, quantity: added.quantity }];
+      totalQuantity = added.quantity;
+    }
+    const fileName = catalogImageName(product);
+    let imageUrl = '', imageMessage = fileName ? `La foto de este color se guarda como ${fileName}.` : '';
+    if (fileName) {
+      const localBlob = await store.getProductImage(fileName).catch(() => null);
+      if (localBlob && !product.imagen) {
+        const savedImage = await uploadRelationalProductImage({ productId: product.id, blob: localBlob });
+        imageUrl = savedImage.imageUrl;
+        imageMessage = `Imagen ${savedImage.fileName}`;
+        product.imagen = savedImage.path;
+      }
+    }
+    const refreshed = await loadBranchStockContext(true);
+    product = refreshed.productsById.get(product.id) || product;
+    return {
+      product,
+      branch,
+      sizes,
+      totalQuantity,
+      sazRegistered: refreshed.registryByKey.get(productLookupKey(product)) === product.id,
+      fileName,
+      imageUrl,
+      imageMessage,
+      notice: `Captura lista en ${product.estilo} · ${product.color}.`,
     };
   }
 
@@ -644,10 +786,14 @@
       return updateRelationalStylePrice(change.estilo, change.precio, corrida);
     }
     const context = await loadBranchStockContext();
-    const product = context.products.find(item => productLookupKey(item) === productLookupKey(change));
+    let product = context.products.find(item => productLookupKey(item) === productLookupKey(change));
+    if (!product && change.action !== 'delete') {
+      const created = await syncCaptureToCatalog({ estilo: change.estilo, color: change.color, talla: '', cantidad: 0 });
+      product = created?.product;
+    }
     if (!product) return { updated: 0 };
     if (change.action === 'delete') return removeRelationalProductImage(change);
-    const name = change.name || catalogImageName(change), blob = await store.getProductImage(name);
+    const name = catalogImageName(change) || change.name, blob = await store.getProductImage(name);
     if (!blob) return { updated: 0 };
     return uploadRelationalProductImage({ productId: product.id, blob });
   }
@@ -852,7 +998,7 @@
     }
   }
 
-  window.claremmCloud = { recordMutation, recordImageMutation, recordCatalogMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, hydrateRelationalImages, uploadRelationalProductImage, updateRelationalStylePrice, updateRelationalProductField, duplicateRelationalProduct, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock };
+  window.claremmCloud = { recordMutation, recordImageMutation, recordCatalogMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, hydrateRelationalImages, uploadRelationalProductImage, updateRelationalStylePrice, updateRelationalProductField, duplicateRelationalProduct, syncCaptureToCatalog, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock };
 
   byId('cloudLogin').onclick = async () => {
     if (!client) return alert('Supabase aún no está configurado.');

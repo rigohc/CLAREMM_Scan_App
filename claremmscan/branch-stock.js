@@ -432,6 +432,12 @@
     if (proposal && document.activeElement !== proposal) proposal.value = stylePriceReview.precio || '';
   }
 
+  function duplicateImageName() {
+    const estilo = normalized(productDuplicate?.source?.estilo).replace(/[^A-Z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const color = normalized(byId('productDuplicateColor')?.value || productDuplicate?.color).replace(/[^A-Z0-9]+/g, '-').replace(/^-|-$/g, '');
+    return estilo && color ? `${estilo}-${color}.png` : '';
+  }
+
   function duplicateHint() {
     if (!productDuplicate) return 'Mismo estilo, otro color. Ajusta corrida, precio, talla y foto.';
     const sameRun = catalogCorrida(byId('productDuplicateCorrida')?.value) === catalogCorrida(productDuplicate.source.corrida);
@@ -459,9 +465,14 @@
     if (byId('productDuplicateTalla') && document.activeElement !== byId('productDuplicateTalla')) byId('productDuplicateTalla').value = productDuplicate.talla || '';
     if (byId('productDuplicateCantidad') && document.activeElement !== byId('productDuplicateCantidad')) byId('productDuplicateCantidad').value = productDuplicate.cantidad || '1';
     if (byId('productDuplicateInfo')) byId('productDuplicateInfo').textContent = duplicateHint();
-    if (byId('productDuplicatePhotoInfo')) byId('productDuplicatePhotoInfo').textContent = productDuplicatePhoto
-      ? `Foto lista: ${productDuplicatePhoto.name || 'imagen'}. Se guardará solo en este color.`
-      : 'Sin foto. La imagen es de este color, no se copia.';
+    if (byId('productDuplicatePhotoInfo')) {
+      const fileName = duplicateImageName();
+      byId('productDuplicatePhotoInfo').textContent = productDuplicatePhoto
+        ? `Foto lista. Se guardará como ${fileName || 'ESTILO-COLOR.png'} (máximo 100 KB), solo en este color.`
+        : fileName
+          ? `Sin foto. Si tomas una, se guardará como ${fileName}. La imagen original no se copia.`
+          : 'Sin foto. Escribe el color para nombrar la imagen estilo-color. La original no se copia.';
+    }
   }
 
   function openProductDuplicate(productId) {
@@ -512,6 +523,10 @@
       const payload = { productId: productDuplicate.sourceId, color, precio, corrida, size: talla, quantity: cantidad };
       if (blob) payload.blob = blob;
       const saved = await cloud().duplicateRelationalProduct(payload);
+      if (blob && saved.fileName) {
+        await window.ClaremmStore.putImageFromCloud?.(saved.fileName, blob).catch(() => {});
+        cloud().recordImageMutation?.({ type: 'upsert', name: saved.fileName });
+      }
       if (blob) await window.ClaremmStore.refreshImageIndicators?.();
       const result = {
         product: saved.product,
@@ -683,7 +698,8 @@
     byId('relationalSearchInfo').textContent = 'Buscando en catálogo y existencias por sucursal…';
     try {
       if (!cloud()?.searchRelationalInventory) throw new Error('Actualiza la página para activar la búsqueda relacional.');
-      const results = await cloud().searchRelationalInventory(query, scope, sazFilter, { includeEmpty });
+      let results = await cloud().searchRelationalInventory(query, scope, sazFilter, { includeEmpty });
+      if (!results.length && !includeEmpty) results = await cloud().searchRelationalInventory(query, scope, sazFilter, { includeEmpty: true });
       if (sequence !== inventorySearchSequence) return;
       relationalEdit = null;
       if (stylePriceReview) stylePriceReview.corrida = resolveReviewCorrida(stylePriceReview, results);
@@ -827,7 +843,10 @@
     const file = event.target.files?.[0];
     if (!file) return;
     productDuplicatePhoto = file;
-    if (productDuplicate) renderProductDuplicate();
+    const fileName = duplicateImageName();
+    if (productDuplicate && byId('productDuplicatePhotoInfo')) {
+      byId('productDuplicatePhotoInfo').textContent = `Foto lista. Se guardará como ${fileName || 'ESTILO-COLOR.png'} (máximo 100 KB), solo en este color.`;
+    }
     event.target.value = '';
   };
   byId('productDuplicateCameraFile').addEventListener('change', takeDuplicatePhoto);
@@ -843,6 +862,12 @@
       productDuplicate.talla = text(byId('productDuplicateTalla').value);
       productDuplicate.cantidad = text(byId('productDuplicateCantidad').value) || '1';
       if (byId('productDuplicateInfo')) byId('productDuplicateInfo').textContent = duplicateHint();
+      const fileName = duplicateImageName();
+      if (byId('productDuplicatePhotoInfo')) byId('productDuplicatePhotoInfo').textContent = productDuplicatePhoto
+        ? `Foto lista. Se guardará como ${fileName || 'ESTILO-COLOR.png'} (máximo 100 KB), solo en este color.`
+        : fileName
+          ? `Sin foto. Si tomas una, se guardará como ${fileName}. La imagen original no se copia.`
+          : 'Sin foto. Escribe el color para nombrar la imagen estilo-color. La original no se copia.';
     });
   });
   byId('stylePriceProposal').addEventListener('input', () => {
