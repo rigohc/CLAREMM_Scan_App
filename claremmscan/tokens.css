@@ -25,6 +25,9 @@
   --color-danger: oklch(70% 0.17 28);
   --color-danger-hover: oklch(75% 0.18 28);
   --color-danger-surface: oklch(22% 0.05 28);
+  --color-new: oklch(76% 0.18 35);
+  --color-new-ink: oklch(14% 0.04 35);
+  --color-new-surface: oklch(28% 0.08 35);
   --color-overlay: oklch(8% 0.012 225 / 0.72);
   --color-shadow: oklch(6% 0.015 225 / 0.32);
 

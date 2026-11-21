@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="tokens.css?v=25-catalogo-color">
+  <link rel="stylesheet" href="tokens.css?v=28-nuevo-saz">
   <style>
     /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 · genre: atmospheric · macrostructure: Workbench · theme: Midnight · enrichment: none · nav: N9 · footer: Ft2 · contrast: pass (40–41) · slop: pass (42–49) · mobile: pass (34,49–57) */
     *,*::before,*::after{box-sizing:border-box}
@@ -111,7 +111,11 @@
     .sazStatus.isPending{background:var(--color-warning-surface);color:var(--color-warning)}
     .sazStatus.isLoaded{background:var(--color-success-surface);color:var(--color-success)}
     .sazStatus.isPreloaded{background:var(--color-preloaded);color:var(--color-preloaded-ink);box-shadow:0 0 0 1px var(--color-preloaded)}
+    .sazStatus.isNew{background:var(--color-new);color:var(--color-new-ink);box-shadow:0 0 0 1px var(--color-new)}
     .relationalResultCard.isPreloaded{border:2px solid var(--color-preloaded);background:var(--color-preloaded-surface);box-shadow:inset 0 0 0 1px color-mix(in oklch, var(--color-preloaded) 55%, transparent)}
+    .relationalResultCard.isNew{border:2px solid var(--color-new);background:var(--color-new-surface)}
+    .branchStockRecentItem.isNew,.catalogResult.isNew{border-color:var(--color-new);background:var(--color-new-surface)}
+    .branchStockRecentItem strong .sazStatus,.catalogResult strong .sazStatus{margin-inline-start:var(--space-2xs);vertical-align:middle}
     .sazToggle{min-height:2.25rem;padding-inline:var(--space-sm);font-size:var(--text-xs)}
     .exportMenu{margin-block:0 var(--space-md)}
     .exportMenu summary{width:max-content;max-width:100%;min-height:var(--control-height);padding-inline:var(--space-md);border:var(--rule-thin) solid var(--color-accent);border-radius:var(--radius-input);background:var(--color-accent);color:var(--color-accent-ink);font-family:var(--font-display);font-weight:700;list-style:none}
@@ -168,6 +172,10 @@
     .branchStockStatus{margin:0;padding:var(--space-sm);border-radius:var(--radius-input);background:var(--color-field);color:var(--color-neutral)}
     .branchStockStatus.ok{background:var(--color-success-surface);color:var(--color-success)}
     .branchStockStatus.warn{background:var(--color-warning-surface);color:var(--color-warning)}
+    .branchStockRecentList{display:grid;gap:var(--space-2xs);max-height:22rem;margin:var(--space-sm) 0 0;padding:0;overflow:auto;list-style:none}
+    .branchStockRecentItem{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--space-xs);align-items:center;padding:var(--space-xs) var(--space-sm);border:var(--rule-thin) solid var(--color-rule);border-radius:var(--radius-input);background:var(--color-field)}
+    .branchStockRecentItem strong{display:block;font-size:var(--text-sm)}
+    .branchStockRecentSizes{color:var(--color-neutral);font-variant-numeric:tabular-nums;text-align:end}
     .inventoryFilters{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-sm);margin-block:var(--space-md)}
     .inventorySearchRow{display:grid;gap:var(--space-xs)}
     .inventorySearchByPhoto{display:flex;flex-wrap:wrap;gap:var(--space-xs)}
@@ -373,6 +381,11 @@
       </div>
       <p id="branchStockGate" class="branchStockGate">Inicia sesión para consultar el catálogo y las sucursales.</p>
       <div id="branchStockWorkspace" class="branchStockWorkspace" hidden>
+        <section class="branchStockPanel" aria-labelledby="branchStockRecentTitle">
+          <h3 id="branchStockRecentTitle">Últimas existencias registradas</h3>
+          <p>Los últimos 100 productos con existencia dada de alta en esta sucursal. Sirve para marcar cajas y confirmar que sí quedaron.</p>
+          <ol id="branchStockRecentList" class="branchStockRecentList" aria-live="polite"></ol>
+        </section>
         <section class="branchStockPanel" aria-labelledby="branchStockManualTitle">
           <h3 id="branchStockManualTitle">Captura individual</h3>
           <p>Busca un estilo o color existente y agrega la existencia de una talla.</p>
@@ -422,8 +435,8 @@
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <script src="app.js?v=25-catalogo-color"></script>
-  <script src="supabase-sync.js?v=25-catalogo-color"></script>
-  <script src="branch-stock.js?v=25-catalogo-color"></script>
+  <script src="app.js?v=28-nuevo-saz"></script>
+  <script src="supabase-sync.js?v=28-nuevo-saz"></script>
+  <script src="branch-stock.js?v=28-nuevo-saz"></script>
 </body>
 </html>

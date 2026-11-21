@@ -57,6 +57,15 @@
     return tokens.split(' ').filter(Boolean).sort().join(' ');
   };
   const colorsMatch = (left, right) => Boolean(foldedColor(left) && foldedColor(left) === foldedColor(right));
+  const isNuevoFicha = (product, totalQuantity = 0) => Boolean(product)
+    && !String(product.imagen || '').trim()
+    && !(Number(product.precio) > 0)
+    && !(Number(totalQuantity) > 0);
+  const catalogSazFlags = (context, product, totalQuantity = 0) => {
+    const sazRegistered = context.registryByKey.get(productLookupKey(product)) === product.id;
+    const sazPreloaded = product.source_system === 'saz_precargado' || /PRECARGADO EN SAZ/i.test(String(product.estado || ''));
+    return { sazRegistered, sazPreloaded, isNew: isNuevoFicha(product, totalQuantity) };
+  };
   const compactLookupKey = value => `${compactEstilo(value?.estilo)}|${catalogText(value?.color)}`;
   const productLookupKeys = value => {
     const estilos = [...new Set([catalogText(value?.estilo), compactEstilo(value?.estilo)].filter(Boolean))];
@@ -89,8 +98,8 @@
     }
     const estilo = compactEstilo(row?.estilo);
     if (estilo) {
-      for (const product of context.products) {
-        if (compactEstilo(product.estilo) === estilo && colorsMatch(product.color, row.color)) add(product);
+      for (const product of context.productsByEstilo?.get(estilo) || []) {
+        if (colorsMatch(product.color, row.color)) add(product);
       }
     }
     return candidates;
@@ -119,7 +128,10 @@
     const padded = /^\d+$/.test(compact) ? compact.padStart(Math.max(6, compact.length), '0') : '';
     return [...new Set([raw, compact, padded].filter(Boolean))];
   };
+  const looksLikeEstilo = value => /\d/.test(catalogText(value));
   const rememberProducts = (context, products) => {
+    if (!context.productsByEstilo) context.productsByEstilo = new Map();
+    if (!context.queriedEstilos) context.queriedEstilos = new Set();
     for (const product of products || []) {
       const existing = context.productsById.get(product.id);
       if (existing) {
@@ -128,6 +140,11 @@
       }
       context.products.push(product);
       context.productsById.set(product.id, product);
+      const estiloKey = compactEstilo(product.estilo);
+      if (estiloKey) {
+        if (!context.productsByEstilo.has(estiloKey)) context.productsByEstilo.set(estiloKey, []);
+        context.productsByEstilo.get(estiloKey).push(product);
+      }
       for (const key of productLookupKeys(product)) {
         if (!context.productsByKey.has(key)) context.productsByKey.set(key, []);
         context.productsByKey.get(key).push(product);
@@ -144,54 +161,105 @@
   async function queryProductsByEstilo(context, estilo, limit = 80) {
     const values = estiloSearchValues(estilo);
     if (!values.length) return [];
+    if (!context.queriedEstilos) context.queriedEstilos = new Set();
+    if (!context.productsByEstilo) context.productsByEstilo = new Map();
+    const compact = compactEstilo(estilo);
+    if (compact && context.queriedEstilos?.has(compact)) {
+      const keys = new Set(values.map(compactEstilo).filter(Boolean));
+      if (/^\d+$/.test(compact)) keys.add(`PI${compact}`);
+      const seen = new Set();
+      return [...keys].flatMap(key => context.productsByEstilo?.get(key) || []).filter(product => {
+        if (seen.has(product.id)) return false;
+        seen.add(product.id);
+        return true;
+      });
+    }
     const exact = await client.from('products').select(PRODUCT_CATALOG_SELECT)
       .eq('organization_id', context.organization.id)
       .eq('activo', true)
       .in('estilo', values)
       .limit(limit);
     if (exact.error) throw exact.error;
-    if ((exact.data || []).length) {
-      rememberProducts(context, exact.data);
-      return exact.data;
+    let rows = exact.data || [];
+    if (!rows.length && /^\d{4,}$/.test(compact)) {
+      const prefixed = await client.from('products').select(PRODUCT_CATALOG_SELECT)
+        .eq('organization_id', context.organization.id)
+        .eq('activo', true)
+        .or(`estilo.eq.PI${compact},estilo.eq.${compact.padStart(6, '0')}`)
+        .limit(limit);
+      if (prefixed.error) throw prefixed.error;
+      rows = prefixed.data || [];
     }
-    const prefix = catalogText(estilo);
-    if (prefix.length < 3 || values.some(value => value.length >= 6)) return [];
-    const loose = await client.from('products').select(PRODUCT_CATALOG_SELECT)
-      .eq('organization_id', context.organization.id)
-      .eq('activo', true)
-      .ilike('estilo', `${prefix}%`)
-      .limit(limit);
-    if (loose.error) throw loose.error;
-    rememberProducts(context, loose.data || []);
-    return loose.data || [];
+    if (!rows.length) {
+      const prefix = catalogText(estilo);
+      if (prefix.length >= 3 && values.every(value => value.length < 6)) {
+        const loose = await client.from('products').select(PRODUCT_CATALOG_SELECT)
+          .eq('organization_id', context.organization.id)
+          .eq('activo', true)
+          .ilike('estilo', `${prefix}%`)
+          .limit(limit);
+        if (loose.error) throw loose.error;
+        rows = loose.data || [];
+      }
+    }
+    rememberProducts(context, rows);
+    if (compact) context.queriedEstilos.add(compact);
+    for (const product of rows) {
+      const key = compactEstilo(product.estilo);
+      if (key) context.queriedEstilos.add(key);
+    }
+    return rows;
   }
   async function queryProductsFallback(context, term, limit = 80) {
     const value = catalogText(term);
-    if (!value) return [];
+    if (!value || looksLikeEstilo(value) || value.length < 3) return [];
     const { data, error } = await client.from('products').select(PRODUCT_CATALOG_SELECT)
       .eq('organization_id', context.organization.id)
       .eq('activo', true)
-      .or(`color.ilike.*${value}*,marca.ilike.*${value}*,linea.ilike.*${value}*`)
+      .or(`color.ilike.${value}%,marca.ilike.${value}%,linea.ilike.${value}%`)
       .limit(limit);
     if (error) throw error;
     rememberProducts(context, data || []);
     return data || [];
   }
-  async function loadVariantsFor(context, productIds) {
+  async function loadVariantsFor(context, productIds, { refresh = false } = {}) {
+    if (!context.variantsLoaded) context.variantsLoaded = new Set();
     const ids = [...new Set(productIds || [])].filter(Boolean);
-    for (const id of ids) context.variantsByProduct.delete(id);
-    for (const group of chunks(ids, 200)) {
+    const needed = refresh ? ids : ids.filter(id => !context.variantsLoaded.has(id));
+    if (refresh) for (const id of needed) context.variantsByProduct.delete(id);
+    for (const group of chunks(needed, 200)) {
       if (!group.length) continue;
       const { data, error } = await client.from('product_variants').select('id,product_id,size').in('product_id', group);
       if (error) throw error;
       rememberVariants(context, data || []);
+      for (const id of group) context.variantsLoaded.add(id);
     }
+  }
+  async function stockTotalsByProduct(context, productIds) {
+    await loadVariantsFor(context, productIds);
+    const totals = new Map((productIds || []).map(id => [id, 0]));
+    const variantToProduct = new Map();
+    for (const productId of productIds || []) {
+      for (const variant of context.variantsByProduct.get(productId) || []) variantToProduct.set(variant.id, productId);
+    }
+    const variantIds = [...variantToProduct.keys()];
+    for (const group of chunks(variantIds, 200)) {
+      if (!group.length) continue;
+      const { data, error } = await client.from('inventory_levels').select('variant_id,quantity').in('variant_id', group).gt('quantity', 0);
+      if (error) throw error;
+      for (const row of data || []) {
+        const productId = variantToProduct.get(row.variant_id);
+        if (!productId) continue;
+        totals.set(productId, (totals.get(productId) || 0) + Number(row.quantity || 0));
+      }
+    }
+    return totals;
   }
   async function findCatalogProducts(context, query, scope = 'all', limit = 80) {
     const terms = catalogText(query).split(' ').filter(Boolean);
     if (!terms.length) return [];
     let products = await queryProductsByEstilo(context, terms[0], 200);
-    if (!products.length && scope !== 'style') products = await queryProductsFallback(context, terms[0], 200);
+    if (!products.length && scope !== 'style' && !looksLikeEstilo(terms[0])) products = await queryProductsFallback(context, terms[0], 200);
     return products.filter(product => {
       const haystack = scope === 'style'
         ? catalogText(`${product.estilo} ${compactEstilo(product.estilo)}`)
@@ -313,10 +381,21 @@
       const compact = `${compactEstilo(estilo)}|${catalogText(color)}`;
       if (!registryByKey.has(compact)) registryByKey.set(compact, row.product_id);
     }
+    const productsByEstilo = previous?.productsByEstilo || new Map();
+    if (!previous?.productsByEstilo && previous?.products?.length) {
+      for (const product of previous.products) {
+        const estiloKey = compactEstilo(product.estilo);
+        if (!estiloKey) continue;
+        if (!productsByEstilo.has(estiloKey)) productsByEstilo.set(estiloKey, []);
+        productsByEstilo.get(estiloKey).push(product);
+      }
+    }
     branchStockContext = {
       userId: user.id, organization, branches: nextBranches, products: previous?.products || [],
       productsById: previous?.productsById || new Map(), productsByKey: previous?.productsByKey || new Map(),
+      productsByEstilo, queriedEstilos: previous?.queriedEstilos || new Set(),
       registryByKey, variantsByProduct: previous?.variantsByProduct || new Map(),
+      variantsLoaded: previous?.variantsLoaded || new Set(),
     };
     return branchStockContext;
   }
@@ -354,8 +433,15 @@
   async function searchBranchCatalog(query) {
     const context = await loadBranchStockContext();
     const products = await findCatalogProducts(context, query, 'all', 40);
-    await loadVariantsFor(context, products.map(product => product.id));
-    return products.map(product => ({ ...product, sizes: (context.variantsByProduct.get(product.id) || []).map(variant => variant.size) }));
+    const productIds = products.map(product => product.id);
+    await loadVariantsFor(context, productIds);
+    const totals = await stockTotalsByProduct(context, productIds);
+    return products.map(product => ({
+      ...product,
+      sizes: (context.variantsByProduct.get(product.id) || []).map(variant => variant.size),
+      totalQuantity: totals.get(product.id) || 0,
+      ...catalogSazFlags(context, product, totals.get(product.id) || 0),
+    }));
   }
 
   async function signedRelationalImage(path, refresh = false) {
@@ -372,6 +458,7 @@
     const context = await loadBranchStockContext();
     const terms = catalogText(query).split(' ').filter(Boolean);
     if (!terms.length) return [];
+    const includeEmpty = options.includeEmpty !== false;
     const found = await findCatalogProducts(context, query, scope, 80);
     const products = found.filter(product => {
       const registered = context.registryByKey.get(productLookupKey(product)) === product.id;
@@ -407,7 +494,7 @@
     }
     const juarez = context.branches.find(branch => catalogText(branch.code) === 'JUAREZ') || context.branches[0];
     return [...grouped.values()]
-      .filter(result => options.includeEmpty || result.totalQuantity > 0)
+      .filter(result => includeEmpty || result.totalQuantity > 0)
       .map(result => {
         const branchStocks = context.branches.map(branch => {
           const stock = result.stocks.get(branch.id);
@@ -425,8 +512,7 @@
           branchStocks,
           sizes,
           totalQuantity: result.totalQuantity,
-          sazRegistered: context.registryByKey.get(productLookupKey(result.product)) === result.product.id,
-          sazPreloaded: result.product.source_system === 'saz_precargado' || /PRECARGADO EN SAZ/i.test(String(result.product.estado || '')),
+          ...catalogSazFlags(context, result.product, result.totalQuantity),
           imageUrl: result.product.imagen ? relationalImageUrls.get(result.product.imagen) || '' : '',
         };
       })
@@ -652,8 +738,7 @@
       branch: juarez,
       sizes: [{ size: added.size, quantity: added.quantity }],
       totalQuantity: added.quantity,
-      sazRegistered: false,
-      sazPreloaded: false,
+      ...catalogSazFlags(context, product, added.quantity),
       fileName: catalogImageName(product) || fileName,
       imageUrl,
       imageMessage,
@@ -738,8 +823,7 @@
       branch,
       sizes,
       totalQuantity,
-      sazRegistered: context.registryByKey.get(productLookupKey(product)) === product.id,
-      sazPreloaded: product.source_system === 'saz_precargado' || /PRECARGADO EN SAZ/i.test(String(product.estado || '')),
+      ...catalogSazFlags(context, product, totalQuantity),
       fileName,
       imageUrl,
       imageMessage,
@@ -860,7 +944,7 @@
       consolidated.get(key).cantidad += Math.max(0, Number(row.cantidad) || 0);
     }
     const stockRows = [...consolidated.values()], missingVariants = [];
-    await loadVariantsFor(context, [...new Set(stockRows.map(row => row.productId))]);
+    await loadVariantsFor(context, [...new Set(stockRows.map(row => row.productId))], { refresh: true });
     for (const row of stockRows) {
       const existing = (context.variantsByProduct.get(row.productId) || []).find(variant => catalogText(variant.size) === catalogText(row.size));
       if (existing) row.variantId = existing.id;
@@ -871,7 +955,7 @@
       const { error } = await client.from('product_variants').upsert(group, { onConflict: 'product_id,size' });
       if (error) throw error;
     }
-    if (missingVariants.length) await loadVariantsFor(context, [...new Set(stockRows.map(row => row.productId))]);
+    if (missingVariants.length) await loadVariantsFor(context, [...new Set(stockRows.map(row => row.productId))], { refresh: true });
     for (const row of stockRows) {
       if (!row.variantId) row.variantId = (context.variantsByProduct.get(row.productId) || []).find(variant => catalogText(variant.size) === catalogText(row.size))?.id;
       if (!row.variantId) throw new Error(`No se pudo preparar la talla ${row.size} de ${row.estilo} ${row.color}.`);
@@ -899,6 +983,57 @@
     }
     const remainingUnknown = (await validateBranchStockRows(rows)).unknown;
     return { branch, appliedRows: stockRows.length, appliedPairs: stockRows.reduce((sum, row) => sum + row.cantidad, 0), createdProducts, unknown: remainingUnknown };
+  }
+
+  async function listRecentBranchStock(branchId, limit = 100) {
+    const context = await loadBranchStockContext();
+    if (!branchId) return [];
+    const maxRows = Math.max(100, Math.min(500, limit * 4));
+    const { data: movements, error } = await client.from('inventory_movements_relational')
+      .select('created_at,variant_id')
+      .eq('organization_id', context.organization.id)
+      .eq('branch_id', branchId)
+      .in('operation', ['add', 'set', 'initial_import'])
+      .order('created_at', { ascending: false })
+      .limit(maxRows);
+    if (error) throw error;
+    const variantIds = [...new Set((movements || []).map(row => row.variant_id).filter(Boolean))];
+    if (!variantIds.length) return [];
+    const variants = [];
+    for (const group of chunks(variantIds, 200)) {
+      const { data, error: variantError } = await client.from('product_variants').select('id,product_id,size').in('id', group);
+      if (variantError) throw variantError;
+      variants.push(...(data || []));
+    }
+    const variantById = new Map(variants.map(row => [row.id, row]));
+    const productIds = [...new Set(variants.map(row => row.product_id).filter(Boolean))];
+    const products = [];
+    for (const group of chunks(productIds, 200)) {
+      const { data, error: productError } = await client.from('products').select('id,estilo,color,precio,imagen,source_system,estado').in('id', group);
+      if (productError) throw productError;
+      products.push(...(data || []));
+    }
+    const productById = new Map(products.map(row => [row.id, row]));
+    const grouped = new Map();
+    for (const movement of movements || []) {
+      const variant = variantById.get(movement.variant_id);
+      const product = productById.get(variant?.product_id);
+      if (!product) continue;
+      if (!grouped.has(product.id) && grouped.size >= limit) continue;
+      if (!grouped.has(product.id)) grouped.set(product.id, { product, estilo: product.estilo, color: product.color, sizes: [], seen: new Set() });
+      const group = grouped.get(product.id);
+      const size = String(variant.size || '').trim();
+      if (size && !group.seen.has(size)) {
+        group.seen.add(size);
+        group.sizes.push(size);
+      }
+    }
+    return [...grouped.values()].map(row => ({
+      estilo: row.estilo,
+      color: row.color,
+      sizes: [...row.sizes].sort((left, right) => Number(left) - Number(right)),
+      isNew: isNuevoFicha(row.product, row.sizes.length),
+    }));
   }
 
   function scheduleFlush() {
@@ -1175,7 +1310,7 @@
     }
   }
 
-  window.claremmCloud = { recordMutation, recordImageMutation, recordCatalogMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, hydrateRelationalImages, uploadRelationalProductImage, updateRelationalStylePrice, updateRelationalProductField, duplicateRelationalProduct, syncCaptureToCatalog, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock };
+  window.claremmCloud = { recordMutation, recordImageMutation, recordCatalogMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, hydrateRelationalImages, uploadRelationalProductImage, updateRelationalStylePrice, updateRelationalProductField, duplicateRelationalProduct, syncCaptureToCatalog, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock, listRecentBranchStock };
 
   byId('cloudLogin').onclick = async () => {
     if (!client) return alert('Supabase aún no está configurado.');

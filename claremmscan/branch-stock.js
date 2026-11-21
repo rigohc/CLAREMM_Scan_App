@@ -64,6 +64,7 @@
     { key: 'acabado', label: 'Material/Acabado' },
   ];
   const currency = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' });
+  const isNuevoFicha = (product, totalQuantity = 0, imageUrl = '') => !text(product?.imagen) && !text(imageUrl) && !(Number(product?.precio) > 0) && !(Number(totalQuantity) > 0);
 
   function setRelationalPreview(active) {
     byId('inventoryCard')?.classList.toggle('isRelationalPreview', Boolean(active));
@@ -107,21 +108,26 @@
       : (result.notice || 'Toca un dato para editarlo en la ficha. El precio se aplica a los colores del mismo estilo y la misma corrida.');
     const sazClass = result.sazRegistered ? 'isLoaded' : result.sazPreloaded ? 'isPreloaded' : 'isPending';
     const sazLabel = result.sazRegistered ? 'Registrado en SAZ' : result.sazPreloaded ? 'Ya precargado en SAZ' : 'Pendiente de SAZ';
-    const preloadedNotice = result.sazPreloaded && !proposed
-      ? 'Recuperado de un SAZ antiguo. El precio puede estar desactualizado; revísalo antes de usarlo.'
-      : notice;
     const branchStocks = result.branchStocks?.length
       ? result.branchStocks
       : (result.branch ? [{ branch: result.branch, sizes: result.sizes || [], totalQuantity: result.totalQuantity || 0 }] : []);
+    const totalQuantity = Number(result.totalQuantity || 0) || branchStocks.reduce((sum, stock) => sum + Number(stock.totalQuantity || 0), 0);
+    const isNew = isNuevoFicha(product, totalQuantity, result.imageUrl);
+    const preloadedNotice = isNew
+      ? 'Ficha nueva: sin existencia en sucursales, sin foto y sin precio. Tómale foto y captura el precio para el encargado.'
+      : result.sazPreloaded && !proposed
+      ? 'Recuperado de un SAZ antiguo. El precio puede estar desactualizado; revísalo antes de usarlo.'
+      : notice;
     const branchMeta = branchStocks.map(stock => `<span class="relationalBranchStock">${esc(stock.branch.name)} <strong>${esc(stock.totalQuantity)} par(es)</strong></span>`).join('');
     const sizeChips = branchStocks.flatMap(stock => (stock.sizes || []).map(item => {
       const branchTag = branchStocks.length > 1 ? ` · ${esc(stock.branch.code || stock.branch.name)}` : '';
       return `<span class="relationalSize">${esc(item.size)} × ${esc(item.quantity)}${branchTag}</span>`;
     })).join('');
-    return `<article class="relationalResultCard${result.sazPreloaded ? ' isPreloaded' : ''}" data-relational-product-id="${esc(productId)}" data-relational-branch-id="${esc(result.branch?.id || '')}">
+    const nuevoTag = isNew ? '<span class="sazStatus isNew">NUEVO</span>' : '';
+    return `<article class="relationalResultCard${result.sazPreloaded ? ' isPreloaded' : ''}${isNew ? ' isNew' : ''}" data-relational-product-id="${esc(productId)}" data-relational-branch-id="${esc(result.branch?.id || '')}">
       <div class="relationalResultTitle"><strong>${esc(product.estilo)} · ${esc(product.color)}</strong>${priceLabel}</div>
       <p class="relationalLineage"><span>${esc(lineage[0])}</span><span>${esc(lineage[1])}</span></p>
-      <div class="relationalResultMeta"><span>${esc(product.marca || 'Sin marca')}</span>${branchMeta}<span class="sazStatus ${sazClass}">${sazLabel}</span></div>
+      <div class="relationalResultMeta"><span>${esc(product.marca || 'Sin marca')}</span>${branchMeta}${nuevoTag}<span class="sazStatus ${sazClass}">${sazLabel}</span></div>
       <dl class="relationalFicha">${fichaMarkup(product, productId)}</dl>
       <small class="relationalEditHint" data-relational-notice="${esc(productId)}">${esc(preloadedNotice)}</small>
       <div class="relationalProductActions"><button type="button" class="secondary" data-relational-duplicate="${esc(productId)}">Duplicar ficha</button></div>
@@ -138,6 +144,44 @@
 
   function selectedBranchId() {
     return byId('branchStockBranch').value;
+  }
+
+  function renderRecentStock(rows, message = '') {
+    const list = byId('branchStockRecentList');
+    if (!list) return;
+    if (message) {
+      list.innerHTML = `<li class="branchStockRecentItem"><strong>${esc(message)}</strong></li>`;
+      return;
+    }
+    if (!rows?.length) {
+      list.innerHTML = '<li class="branchStockRecentItem"><strong>Aún no hay existencias registradas en esta sucursal.</strong></li>';
+      return;
+    }
+    list.innerHTML = rows.map(row => {
+      const isNew = isNuevoFicha(row, row.sizes?.length ? 1 : 0);
+      return `<li class="branchStockRecentItem${isNew ? ' isNew' : ''}"><strong>${esc(row.estilo)} · ${esc(row.color)}${isNew ? ' <span class="sazStatus isNew">NUEVO</span>' : ''}</strong><span class="branchStockRecentSizes">${esc((row.sizes || []).join(', ') || 'Sin talla')}</span></li>`;
+    }).join('');
+  }
+
+  async function refreshRecentStock() {
+    const list = byId('branchStockRecentList');
+    if (!list) return;
+    const branchId = selectedBranchId();
+    if (!branchId) {
+      renderRecentStock([], 'Selecciona una sucursal para ver lo último registrado.');
+      return;
+    }
+    if (!cloud()?.listRecentBranchStock) {
+      renderRecentStock([], 'Actualiza la página para ver las últimas existencias.');
+      return;
+    }
+    renderRecentStock([], 'Cargando últimas existencias…');
+    try {
+      const rows = await cloud().listRecentBranchStock(branchId, 100);
+      renderRecentStock(rows);
+    } catch (error) {
+      renderRecentStock([], error.message || 'No se pudieron leer las últimas existencias.');
+    }
   }
 
   function isBaseBranch(branch) {
@@ -171,7 +215,10 @@
       byId('branchStockQueueUnknown').disabled = !(byId('branchStockStyle').value.trim() && byId('branchStockColor').value.trim());
       return;
     }
-    container.innerHTML = products.map((product, index) => `<button type="button" class="catalogResult" data-product-index="${index}"><span><strong>${esc(product.estilo)} · ${esc(product.color)}</strong><small>${esc([product.marca, product.linea, product.acabado].filter(Boolean).join(' · ') || 'Sin datos adicionales')}</small></span><span class="catalogResultMark">${product.sizes?.length || 0} talla(s)</span></button>`).join('');
+    container.innerHTML = products.map((product, index) => {
+      const isNew = isNuevoFicha(product, product.totalQuantity);
+      return `<button type="button" class="catalogResult${isNew ? ' isNew' : ''}" data-product-index="${index}"><span><strong>${esc(product.estilo)} · ${esc(product.color)}${isNew ? ' <span class="sazStatus isNew">NUEVO</span>' : ''}</strong><small>${esc([product.marca, product.linea, product.acabado].filter(Boolean).join(' · ') || 'Sin datos adicionales')}</small></span><span class="catalogResultMark">${product.sizes?.length || 0} talla(s)</span></button>`;
+    }).join('');
     container.querySelectorAll('[data-product-index]').forEach(button => button.addEventListener('click', () => {
       selectedProduct = products[Number(button.dataset.productIndex)];
       container.querySelectorAll('.catalogResult').forEach(item => item.classList.toggle('isSelected', item === button));
@@ -238,6 +285,7 @@
       const result = await cloud().applyBranchStock({ branchId: selectedBranchId(), rows: [row], mode, sourceName: 'captura individual' });
       status(`Guardado: ${row.estilo} · ${row.color} · talla ${row.talla} en ${result.branch.name}.`, 'ok');
       resetManual();
+      refreshRecentStock();
     } catch (error) {
       status(error.message, 'warn');
       button.disabled = false;
@@ -417,6 +465,7 @@
       status(`Listo: ${result.appliedRows} talla(s) y ${result.appliedPairs} par(es) procesados en ${result.branch.name}.${result.createdProducts ? ` Se crearon ${result.createdProducts} producto(s) autorizados.` : ''}${unknownMessage}`, result.unknown.length ? 'warn' : 'ok');
       bulkState.validation = await cloud().validateBranchStockRows(bulkState.rows);
       renderBulkState();
+      refreshRecentStock();
     } catch (error) {
       status(error.message, 'warn');
       renderBulkState();
@@ -439,11 +488,13 @@
       updateGate(eligible.length ? '' : 'La tienda base JUÁREZ no usa este buscador. Crea o activa otra sucursal en Supabase para habilitar la carga.', eligible.length);
       renderBulkState();
       status(eligible.length ? `Sucursales listas. Busca por estilo para cargar existencias.` : 'No hay sucursales adicionales disponibles.', eligible.length ? 'ok' : 'warn');
+      refreshRecentStock();
     } catch (error) {
       context = null;
       byId('branchStockBranch').innerHTML = '<option value="">Inicia sesión para consultar sucursales</option>';
       updateGate(error.message);
       status(error.message, 'warn');
+      renderRecentStock([], error.message);
     }
   }
 
@@ -735,14 +786,12 @@
     }
     const sequence = options.sequence || ++inventorySearchSequence;
     const scope = byId('inventorySearchScope').value, sazFilter = byId('inventorySazFilter').value;
-    const includeEmpty = scope === 'style' || Boolean(stylePriceReview) || /^\d+$/.test(compactEstilo(query));
     panel.hidden = false;
     setRelationalPreview(true);
     byId('relationalSearchInfo').textContent = 'Buscando en catálogo y existencias por sucursal…';
     try {
       if (!cloud()?.searchRelationalInventory) throw new Error('Actualiza la página para activar la búsqueda relacional.');
-      let results = await cloud().searchRelationalInventory(query, scope, sazFilter, { includeEmpty });
-      if (!results.length && !includeEmpty) results = await cloud().searchRelationalInventory(query, scope, sazFilter, { includeEmpty: true });
+      const results = await cloud().searchRelationalInventory(query, scope, sazFilter, { includeEmpty: true });
       if (sequence !== inventorySearchSequence) return;
       relationalEdit = null;
       if (stylePriceReview) stylePriceReview.corrida = resolveReviewCorrida(stylePriceReview, results);
@@ -846,6 +895,7 @@
   byId('branchStockBranch').addEventListener('change', () => {
     if (selectedBranchId()) localStorage.setItem(BRANCH_MEMORY_KEY, selectedBranchId());
     renderBulkState();
+    refreshRecentStock();
   });
   byId('branchStockStyle').addEventListener('input', queueSearch);
   byId('branchStockColor').addEventListener('input', queueSearch);
