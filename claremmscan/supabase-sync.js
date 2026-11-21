@@ -369,33 +369,45 @@
       productByVariant.set(variant.id, product);
       variantById.set(variant.id, variant);
     }
-    const branchById = new Map(context.branches.map(branch => [branch.id, branch])), grouped = new Map();
+    const branchById = new Map(context.branches.map(branch => [branch.id, branch]));
+    const grouped = new Map(products.map(product => [product.id, { product, stocks: new Map(), totalQuantity: 0 }]));
     for (const level of levels) {
       const product = productByVariant.get(level.variant_id), variant = variantById.get(level.variant_id), branch = branchById.get(level.branch_id);
       if (!product || !variant || !branch) continue;
-      const key = `${product.id}|${branch.id}`;
-      if (!grouped.has(key)) grouped.set(key, { product, branch, sizes: [], totalQuantity: 0 });
-      const result = grouped.get(key), quantity = Number(level.quantity || 0);
-      result.sizes.push({ size: variant.size, quantity });
+      const result = grouped.get(product.id);
+      if (!result) continue;
+      if (!result.stocks.has(branch.id)) result.stocks.set(branch.id, { branch, sizes: [], totalQuantity: 0 });
+      const stock = result.stocks.get(branch.id), quantity = Number(level.quantity || 0);
+      stock.sizes.push({ size: variant.size, quantity });
+      stock.totalQuantity += quantity;
       result.totalQuantity += quantity;
     }
-    if (options.includeEmpty) {
-      for (const branch of context.branches) {
-        for (const product of products) {
-          const key = `${product.id}|${branch.id}`;
-          if (!grouped.has(key)) grouped.set(key, { product, branch, sizes: [], totalQuantity: 0 });
-        }
-      }
-    }
+    const juarez = context.branches.find(branch => catalogText(branch.code) === 'JUAREZ') || context.branches[0];
     return [...grouped.values()]
-      .map(result => ({
-        ...result,
-        sizes: result.sizes.sort((a, b) => Number(a.size) - Number(b.size)),
-        sazRegistered: context.registryByKey.get(productLookupKey(result.product)) === result.product.id,
-        sazPreloaded: result.product.source_system === 'saz_precargado' || /PRECARGADO EN SAZ/i.test(String(result.product.estado || '')),
-        imageUrl: result.product.imagen ? relationalImageUrls.get(result.product.imagen) || '' : '',
-      }))
-      .sort((a, b) => catalogText(`${a.product.estilo}|${a.product.color}|${a.branch.name}`).localeCompare(catalogText(`${b.product.estilo}|${b.product.color}|${b.branch.name}`)));
+      .filter(result => options.includeEmpty || result.totalQuantity > 0)
+      .map(result => {
+        const branchStocks = context.branches.map(branch => {
+          const stock = result.stocks.get(branch.id);
+          return {
+            branch,
+            sizes: [...(stock?.sizes || [])].sort((a, b) => Number(a.size) - Number(b.size)),
+            totalQuantity: stock?.totalQuantity || 0,
+          };
+        });
+        const branch = branchStocks.find(item => item.totalQuantity > 0)?.branch || juarez || context.branches[0];
+        const sizes = branchStocks.flatMap(item => item.sizes.map(size => ({ ...size, branch: item.branch.name, branchCode: item.branch.code })));
+        return {
+          product: result.product,
+          branch,
+          branchStocks,
+          sizes,
+          totalQuantity: result.totalQuantity,
+          sazRegistered: context.registryByKey.get(productLookupKey(result.product)) === result.product.id,
+          sazPreloaded: result.product.source_system === 'saz_precargado' || /PRECARGADO EN SAZ/i.test(String(result.product.estado || '')),
+          imageUrl: result.product.imagen ? relationalImageUrls.get(result.product.imagen) || '' : '',
+        };
+      })
+      .sort((a, b) => catalogText(`${a.product.estilo}|${a.product.color}`).localeCompare(catalogText(`${b.product.estilo}|${b.product.color}`)));
   }
 
   async function hydrateRelationalImages(results) {

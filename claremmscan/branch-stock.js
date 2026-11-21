@@ -110,14 +110,22 @@
     const preloadedNotice = result.sazPreloaded && !proposed
       ? 'Recuperado de un SAZ antiguo. El precio puede estar desactualizado; revísalo antes de usarlo.'
       : notice;
-    return `<article class="relationalResultCard${result.sazPreloaded ? ' isPreloaded' : ''}" data-relational-product-id="${esc(productId)}" data-relational-branch-id="${esc(result.branch.id)}">
+    const branchStocks = result.branchStocks?.length
+      ? result.branchStocks
+      : (result.branch ? [{ branch: result.branch, sizes: result.sizes || [], totalQuantity: result.totalQuantity || 0 }] : []);
+    const branchMeta = branchStocks.map(stock => `<span class="relationalBranchStock">${esc(stock.branch.name)} <strong>${esc(stock.totalQuantity)} par(es)</strong></span>`).join('');
+    const sizeChips = branchStocks.flatMap(stock => (stock.sizes || []).map(item => {
+      const branchTag = branchStocks.length > 1 ? ` · ${esc(stock.branch.code || stock.branch.name)}` : '';
+      return `<span class="relationalSize">${esc(item.size)} × ${esc(item.quantity)}${branchTag}</span>`;
+    })).join('');
+    return `<article class="relationalResultCard${result.sazPreloaded ? ' isPreloaded' : ''}" data-relational-product-id="${esc(productId)}" data-relational-branch-id="${esc(result.branch?.id || '')}">
       <div class="relationalResultTitle"><strong>${esc(product.estilo)} · ${esc(product.color)}</strong>${priceLabel}</div>
       <p class="relationalLineage"><span>${esc(lineage[0])}</span><span>${esc(lineage[1])}</span></p>
-      <div class="relationalResultMeta"><span>${esc(product.marca || 'Sin marca')}</span><span>${esc(result.branch.name)}</span><strong>${esc(result.totalQuantity)} par(es)</strong><span class="sazStatus ${sazClass}">${sazLabel}</span></div>
+      <div class="relationalResultMeta"><span>${esc(product.marca || 'Sin marca')}</span>${branchMeta}<span class="sazStatus ${sazClass}">${sazLabel}</span></div>
       <dl class="relationalFicha">${fichaMarkup(product, productId)}</dl>
       <small class="relationalEditHint" data-relational-notice="${esc(productId)}">${esc(preloadedNotice)}</small>
       <div class="relationalProductActions"><button type="button" class="secondary" data-relational-duplicate="${esc(productId)}">Duplicar ficha</button></div>
-      <div class="relationalSizes">${(result.sizes || []).map(item => `<span class="relationalSize">${esc(item.size)} × ${esc(item.quantity)}</span>`).join('')}</div>
+      <div class="relationalSizes">${sizeChips}</div>
       <div class="relationalImage"><div class="relationalImagePreview">${result.imageUrl ? `<img src="${esc(result.imageUrl)}" alt="Producto ${esc(product.estilo)} ${esc(product.color)}">` : '<span>Sin imagen</span>'}</div><div class="relationalImageControls"><button type="button" data-relational-image="camera" data-product-id="${esc(productId)}">Tomar foto</button><button type="button" class="secondary" data-relational-image="gallery" data-product-id="${esc(productId)}">Elegir imagen</button><small data-relational-image-status="${esc(productId)}">${esc(result.imageMessage || (result.imageUrl ? 'Imagen compartida entre ambos inventarios.' : 'PNG máximo 100 KB · aplica por estilo y color.'))}</small></div></div>
     </article>`;
   }
