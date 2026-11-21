@@ -14,7 +14,7 @@
   let branchStockContextPromise = null;
   const relationalImageUrls = new Map();
   const PRODUCT_EDIT_FIELDS = ['precio', 'marca', 'proveedor', 'temporada', 'sublinea', 'departamento', 'clasificacion', 'linea', 'corrida', 'acabado'];
-  const PRODUCT_CATALOG_SELECT = 'id,estilo,color,marca,proveedor,temporada,sublinea,departamento,clasificacion,linea,corrida,acabado,precio,source_system,imagen';
+  const PRODUCT_CATALOG_SELECT = 'id,estilo,color,marca,proveedor,temporada,sublinea,departamento,clasificacion,linea,corrida,acabado,precio,source_system,estado,imagen';
 
   const byId = id => document.getElementById(id);
   const emptyQueue = () => ({ upserts: {}, deletes: {}, images: {}, catalog: {}, imageClear: false });
@@ -95,6 +95,112 @@
       || context.branches.find(branch => catalogText(branch.code) === 'JUAREZ')
       || context.branches[0];
   };
+  const estiloSearchValues = value => {
+    const raw = catalogText(value);
+    const compact = compactEstilo(raw);
+    const padded = /^\d+$/.test(compact) ? compact.padStart(Math.max(6, compact.length), '0') : '';
+    return [...new Set([raw, compact, padded].filter(Boolean))];
+  };
+  const rememberProducts = (context, products) => {
+    for (const product of products || []) {
+      const existing = context.productsById.get(product.id);
+      if (existing) {
+        Object.assign(existing, product);
+        continue;
+      }
+      context.products.push(product);
+      context.productsById.set(product.id, product);
+      for (const key of productLookupKeys(product)) {
+        if (!context.productsByKey.has(key)) context.productsByKey.set(key, []);
+        context.productsByKey.get(key).push(product);
+      }
+    }
+  };
+  const rememberVariants = (context, variants) => {
+    for (const variant of variants || []) {
+      const list = context.variantsByProduct.get(variant.product_id) || [];
+      if (!list.some(item => item.id === variant.id)) list.push({ id: variant.id, product_id: variant.product_id, size: String(variant.size) });
+      context.variantsByProduct.set(variant.product_id, list);
+    }
+  };
+  async function queryProductsByEstilo(context, estilo, limit = 80) {
+    const values = estiloSearchValues(estilo);
+    if (!values.length) return [];
+    const exact = await client.from('products').select(PRODUCT_CATALOG_SELECT)
+      .eq('organization_id', context.organization.id)
+      .eq('activo', true)
+      .in('estilo', values)
+      .limit(limit);
+    if (exact.error) throw exact.error;
+    if ((exact.data || []).length) {
+      rememberProducts(context, exact.data);
+      return exact.data;
+    }
+    const prefix = catalogText(estilo);
+    if (prefix.length < 3 || values.some(value => value.length >= 6)) return [];
+    const loose = await client.from('products').select(PRODUCT_CATALOG_SELECT)
+      .eq('organization_id', context.organization.id)
+      .eq('activo', true)
+      .ilike('estilo', `${prefix}%`)
+      .limit(limit);
+    if (loose.error) throw loose.error;
+    rememberProducts(context, loose.data || []);
+    return loose.data || [];
+  }
+  async function queryProductsFallback(context, term, limit = 80) {
+    const value = catalogText(term);
+    if (!value) return [];
+    const { data, error } = await client.from('products').select(PRODUCT_CATALOG_SELECT)
+      .eq('organization_id', context.organization.id)
+      .eq('activo', true)
+      .or(`color.ilike.*${value}*,marca.ilike.*${value}*,linea.ilike.*${value}*`)
+      .limit(limit);
+    if (error) throw error;
+    rememberProducts(context, data || []);
+    return data || [];
+  }
+  async function loadVariantsFor(context, productIds) {
+    const ids = [...new Set(productIds || [])].filter(Boolean);
+    for (const id of ids) context.variantsByProduct.delete(id);
+    for (const group of chunks(ids, 200)) {
+      if (!group.length) continue;
+      const { data, error } = await client.from('product_variants').select('id,product_id,size').in('product_id', group);
+      if (error) throw error;
+      rememberVariants(context, data || []);
+    }
+  }
+  async function findCatalogProducts(context, query, scope = 'all', limit = 80) {
+    const terms = catalogText(query).split(' ').filter(Boolean);
+    if (!terms.length) return [];
+    let products = await queryProductsByEstilo(context, terms[0], 200);
+    if (!products.length && scope !== 'style') products = await queryProductsFallback(context, terms[0], 200);
+    return products.filter(product => {
+      const haystack = scope === 'style'
+        ? catalogText(`${product.estilo} ${compactEstilo(product.estilo)}`)
+        : catalogText([product.estilo, compactEstilo(product.estilo), product.color, product.marca, product.proveedor, product.temporada, product.sublinea, product.departamento, product.clasificacion, product.linea, product.corrida, product.acabado].join(' '));
+      return terms.every(term => haystack.includes(term) || haystack.includes(compactEstilo(term)));
+    }).slice(0, limit);
+  }
+  async function ensureProductById(context, productId) {
+    if (!productId) return null;
+    if (context.productsById.has(productId)) return context.productsById.get(productId);
+    const { data, error } = await client.from('products').select(PRODUCT_CATALOG_SELECT).eq('id', productId).maybeSingle();
+    if (error) throw error;
+    if (data) rememberProducts(context, [data]);
+    return data || null;
+  }
+  async function ensureNuevoLeonBranch(organization, branches) {
+    const list = branches || [];
+    if (list.some(branch => catalogText(branch.code) === 'NUEVO_LEON' || catalogText(branch.name).includes('NUEVO LEON'))) return list;
+    const { data, error } = await client.from('branches').upsert({
+      organization_id: organization.id,
+      code: 'NUEVO_LEON',
+      name: 'Zapateria CLAREMM Nuevo Leon',
+      active: true,
+    }, { onConflict: 'organization_id,code' }).select('id,code,name,active').maybeSingle();
+    if (error || !data) return list;
+    return [...list, data].sort((left, right) => catalogText(left.name).localeCompare(catalogText(right.name)));
+  }
   const setCloudStatus = (message, kind = '') => {
     const el = byId('cloudStatus');
     if (!el) return;
@@ -174,21 +280,13 @@
       || (organizations || []).find(row => row.id === preferredId)
       || organizations?.[0];
     if (!organization) throw new Error('No se encontró la organización CLAREMM.');
-    const [{ data: branches, error: branchError }, products, registry, variants] = await Promise.all([
+    const [{ data: branches, error: branchError }, registry] = await Promise.all([
       client.from('branches').select('id,code,name,active').eq('organization_id', organization.id).eq('active', true).order('name'),
-      pagedQuery(() => client.from('products').select(PRODUCT_CATALOG_SELECT).eq('organization_id', organization.id).eq('activo', true).order('estilo')),
       pagedQuery(() => client.from('saz_product_registry').select('product_id,lookup_key').eq('organization_id', organization.id)),
-      pagedQuery(() => client.from('product_variants').select('id,product_id,size,products!inner(organization_id)').eq('products.organization_id', organization.id)),
     ]);
     if (branchError) throw branchError;
-    const productsByKey = new Map(), productsById = new Map();
-    for (const product of products) {
-      productsById.set(product.id, product);
-      for (const key of productLookupKeys(product)) {
-        if (!productsByKey.has(key)) productsByKey.set(key, []);
-        productsByKey.get(key).push(product);
-      }
-    }
+    const nextBranches = await ensureNuevoLeonBranch(organization, branches || []);
+    const previous = branchStockContext?.userId === user.id ? branchStockContext : null;
     const registryByKey = new Map();
     for (const row of registry) {
       const exact = catalogText(row.lookup_key);
@@ -197,12 +295,11 @@
       const compact = `${compactEstilo(estilo)}|${catalogText(color)}`;
       if (!registryByKey.has(compact)) registryByKey.set(compact, row.product_id);
     }
-    const variantsByProduct = new Map();
-    for (const variant of variants) {
-      if (!variantsByProduct.has(variant.product_id)) variantsByProduct.set(variant.product_id, []);
-      variantsByProduct.get(variant.product_id).push({ id: variant.id, product_id: variant.product_id, size: String(variant.size) });
-    }
-    branchStockContext = { userId: user.id, organization, branches: branches || [], products, productsById, productsByKey, registryByKey, variantsByProduct };
+    branchStockContext = {
+      userId: user.id, organization, branches: nextBranches, products: previous?.products || [],
+      productsById: previous?.productsById || new Map(), productsByKey: previous?.productsByKey || new Map(),
+      registryByKey, variantsByProduct: previous?.variantsByProduct || new Map(),
+    };
     return branchStockContext;
   }
 
@@ -233,12 +330,9 @@
 
   async function searchBranchCatalog(query) {
     const context = await loadBranchStockContext();
-    const terms = catalogText(query).split(' ').filter(Boolean);
-    if (!terms.length) return [];
-    return context.products.filter(product => {
-      const haystack = catalogText([product.estilo, product.color, product.marca, product.proveedor, product.linea, product.corrida, product.acabado].join(' '));
-      return terms.every(term => haystack.includes(term));
-    }).slice(0, 40).map(product => ({ ...product, sizes: (context.variantsByProduct.get(product.id) || []).map(variant => variant.size) }));
+    const products = await findCatalogProducts(context, query, 'all', 40);
+    await loadVariantsFor(context, products.map(product => product.id));
+    return products.map(product => ({ ...product, sizes: (context.variantsByProduct.get(product.id) || []).map(variant => variant.size) }));
   }
 
   async function signedRelationalImage(path, refresh = false) {
@@ -255,14 +349,13 @@
     const context = await loadBranchStockContext();
     const terms = catalogText(query).split(' ').filter(Boolean);
     if (!terms.length) return [];
-    const products = context.products.filter(product => {
-      const haystack = scope === 'style'
-        ? catalogText(`${product.estilo} ${compactEstilo(product.estilo)}`)
-        : catalogText([product.estilo, compactEstilo(product.estilo), product.color, product.marca, product.proveedor, product.temporada, product.sublinea, product.departamento, product.clasificacion, product.linea, product.corrida, product.acabado].join(' '));
+    const found = await findCatalogProducts(context, query, scope, 80);
+    const products = found.filter(product => {
       const registered = context.registryByKey.get(productLookupKey(product)) === product.id;
-      const matchesStatus = sazFilter === 'loaded' ? registered : sazFilter === 'pending' ? !registered : true;
-      return matchesStatus && terms.every(term => haystack.includes(term) || haystack.includes(compactEstilo(term)));
-    }).slice(0, 80);
+      const preloaded = product.source_system === 'saz_precargado' || /PRECARGADO EN SAZ/i.test(String(product.estado || ''));
+      return sazFilter === 'loaded' ? registered : sazFilter === 'pending' ? !registered && !preloaded : true;
+    });
+    await loadVariantsFor(context, products.map(product => product.id));
     const variantIds = products.flatMap(product => (context.variantsByProduct.get(product.id) || []).map(variant => variant.id));
     const levels = [];
     for (const group of chunks(variantIds, 200)) {
@@ -287,8 +380,7 @@
       result.totalQuantity += quantity;
     }
     if (options.includeEmpty) {
-      const branch = context.branches.find(item => catalogText(item.code) === 'JUAREZ') || context.branches[0];
-      if (branch) {
+      for (const branch of context.branches) {
         for (const product of products) {
           const key = `${product.id}|${branch.id}`;
           if (!grouped.has(key)) grouped.set(key, { product, branch, sizes: [], totalQuantity: 0 });
@@ -300,6 +392,7 @@
         ...result,
         sizes: result.sizes.sort((a, b) => Number(a.size) - Number(b.size)),
         sazRegistered: context.registryByKey.get(productLookupKey(result.product)) === result.product.id,
+        sazPreloaded: result.product.source_system === 'saz_precargado' || /PRECARGADO EN SAZ/i.test(String(result.product.estado || '')),
         imageUrl: result.product.imagen ? relationalImageUrls.get(result.product.imagen) || '' : '',
       }))
       .sort((a, b) => catalogText(`${a.product.estilo}|${a.product.color}|${a.branch.name}`).localeCompare(catalogText(`${b.product.estilo}|${b.product.color}|${b.branch.name}`)));
@@ -369,11 +462,13 @@
     if (!client || !user) throw new Error('Inicia sesión antes de guardar una imagen.');
     const png = asPngBlob(blob);
     if (png.size > 100 * 1024) throw new Error('La imagen supera el límite de 100 KB.');
-    const context = await loadBranchStockContext(), product = context.productsById.get(productId);
+    const context = await loadBranchStockContext();
+    const product = await ensureProductById(context, productId);
     if (!product) throw new Error('No se encontró el producto en el catálogo relacional.');
     const fileName = catalogImageName(product);
     if (!fileName) throw new Error('La foto debe nombrarse con estilo y color. Completa ambos datos de la ficha.');
-    const matchingProducts = context.products.filter(item => productLookupKey(item) === productLookupKey(product));
+    const ofStyle = await queryProductsByEstilo(context, product.estilo, 200);
+    const matchingProducts = ofStyle.filter(item => productLookupKey(item) === productLookupKey(product));
     const path = `${context.organization.id}/products/${fileName}`;
     const { error: uploadError } = await client.storage.from(BUCKET).upload(path, png, { contentType: 'image/png', upsert: true, cacheControl: '60' });
     if (uploadError) throw uploadError;
@@ -390,7 +485,8 @@
 
   async function removeRelationalProductImage({ estilo, color }) {
     const context = await loadBranchStockContext();
-    const matchingProducts = context.products.filter(product => productLookupKey(product) === productLookupKey({ estilo, color }));
+    const ofStyle = await queryProductsByEstilo(context, estilo, 200);
+    const matchingProducts = ofStyle.filter(product => productLookupKey(product) === productLookupKey({ estilo, color }));
     if (!matchingProducts.length) return { removed: 0 };
     const organizationPrefix = `${context.organization.id}/products/`;
     const paths = [...new Set(matchingProducts.map(product => product.imagen).filter(path => path?.startsWith(organizationPrefix)))];
@@ -412,7 +508,7 @@
     const value = catalogPrice(precio);
     if (!Number.isFinite(value) || value < 0) throw new Error('Escribe un precio válido.');
     const context = await loadBranchStockContext();
-    const ofStyle = context.products.filter(product => compactEstilo(product.estilo) === compactEstilo(estilo));
+    const ofStyle = await queryProductsByEstilo(context, estilo, 500);
     let matchingProducts = ofStyle.filter(product => matchesStyleCorrida(product, estilo, corrida));
     if (!catalogCorrida(corrida)) {
       const runs = new Set(ofStyle.map(product => catalogCorrida(product.corrida)));
@@ -433,7 +529,7 @@
     if (!client || !user) throw new Error('Inicia sesión antes de editar la ficha.');
     if (!PRODUCT_EDIT_FIELDS.includes(field)) throw new Error('Ese dato no se edita desde la ficha.');
     const context = await loadBranchStockContext();
-    const product = context.productsById.get(productId);
+    const product = await ensureProductById(context, productId);
     if (!product) throw new Error('No se encontró el producto en el catálogo relacional.');
     if (field === 'precio') return updateRelationalStylePrice(product.estilo, value, product.corrida);
     const next = String(value ?? '').trim();
@@ -446,7 +542,7 @@
   async function duplicateRelationalProduct({ productId, color, precio, corrida, size, quantity, blob }) {
     if (!client || !user) throw new Error('Inicia sesión antes de duplicar una ficha.');
     const context = await loadBranchStockContext();
-    const source = context.productsById.get(productId);
+    const source = await ensureProductById(context, productId);
     if (!source) throw new Error('No se encontró la ficha original.');
     const nextColor = catalogText(color);
     const nextCorrida = String(corrida ?? '').trim();
@@ -459,7 +555,8 @@
     if (!Number.isFinite(Number(nextSize)) || Number(nextSize) <= 0) throw new Error('Escribe una talla válida.');
     if (!Number.isInteger(qty) || qty < 1) throw new Error('La cantidad debe ser un entero de al menos 1.');
     if (!Number.isFinite(value) || value < 0) throw new Error('Escribe un precio válido. Si es otra corrida, ajústalo aquí.');
-    const existing = context.products.find(product => product.activo !== false && compactLookupKey(product) === `${compactEstilo(source.estilo)}|${nextColor}`);
+    const ofStyle = await queryProductsByEstilo(context, source.estilo, 200);
+    const existing = ofStyle.find(product => compactLookupKey(product) === `${compactEstilo(source.estilo)}|${nextColor}`);
     if (existing) throw new Error(`Ya existe ${source.estilo} · ${existing.color}. Abre esa ficha en lugar de duplicar.`);
     const juarez = context.branches.find(branch => catalogText(branch.code) === 'JUAREZ') || context.branches[0];
     if (!juarez) throw new Error('No se encontró la sucursal JUÁREZ para guardar la talla.');
@@ -485,7 +582,7 @@
     };
     const { data: created, error: createError } = await client.from('products').insert(payload).select(PRODUCT_CATALOG_SELECT).single();
     if (createError) throw createError;
-    context.productsById.set(created.id, created);
+    rememberProducts(context, [created]);
     const added = await addRelationalStock({
       context,
       productId: created.id,
@@ -495,7 +592,6 @@
       reason: `Ficha duplicada desde ${source.estilo} · ${source.color}`,
       importKey: `ficha-duplicate:${created.id}:${nextSize}:${Date.now()}`,
     });
-    await loadBranchStockContext(true);
     let priced = { updated: 1, precio: value, corrida: nextCorrida };
     try {
       priced = await updateRelationalStylePrice(created.estilo, value, nextCorrida);
@@ -515,14 +611,14 @@
         imageMessage = `Ficha guardada, pero la foto no se subió: ${error.message}`;
       }
     }
-    const refreshed = await loadBranchStockContext(true);
-    const product = refreshed.productsById.get(created.id) || { ...created, precio: priced.precio, corrida: nextCorrida };
+    const product = context.productsById.get(created.id) || { ...created, precio: priced.precio, corrida: nextCorrida };
     return {
       product,
       branch: juarez,
       sizes: [{ size: added.size, quantity: added.quantity }],
       totalQuantity: added.quantity,
       sazRegistered: false,
+      sazPreloaded: false,
       fileName: catalogImageName(product) || fileName,
       imageUrl,
       imageMessage,
@@ -539,6 +635,7 @@
     const qty = Math.trunc(Number(item.cantidad));
     const size = String(item.talla || '').trim().replace(',', '.');
     let context = await loadBranchStockContext();
+    if (estilo) await findCatalogProducts(context, `${estilo} ${color}`.trim(), 'all', 40);
     let product = resolveCatalogProduct(context, item).product;
     if (!product) {
       const payload = {
@@ -559,7 +656,7 @@
       };
       const { data, error } = await client.from('products').upsert(payload, { onConflict: 'organization_id,source_system,source_id' }).select(PRODUCT_CATALOG_SELECT).single();
       if (error) throw error;
-      context = await loadBranchStockContext(true);
+      rememberProducts(context, [data]);
       product = context.productsById.get(data.id) || data;
     } else {
       const patch = {};
@@ -601,14 +698,13 @@
         product.imagen = savedImage.path;
       }
     }
-    const refreshed = await loadBranchStockContext(true);
-    product = refreshed.productsById.get(product.id) || product;
     return {
       product,
       branch,
       sizes,
       totalQuantity,
-      sazRegistered: refreshed.registryByKey.get(productLookupKey(product)) === product.id,
+      sazRegistered: context.registryByKey.get(productLookupKey(product)) === product.id,
+      sazPreloaded: product.source_system === 'saz_precargado' || /PRECARGADO EN SAZ/i.test(String(product.estado || '')),
       fileName,
       imageUrl,
       imageMessage,
@@ -618,18 +714,19 @@
 
   async function getRelationalStylePrice(estilo, corrida, color) {
     const context = await loadBranchStockContext();
+    const ofStyleAll = await queryProductsByEstilo(context, estilo, 500);
     let run = corrida;
     if (!catalogCorrida(run) && color) {
-      const hit = context.products.find(product => compactEstilo(product.estilo) === compactEstilo(estilo) && catalogText(product.color) === catalogText(color));
+      const hit = ofStyleAll.find(product => catalogText(product.color) === catalogText(color));
       run = hit?.corrida || '';
     }
     if (!catalogCorrida(run)) {
-      const ofStyle = context.products.filter(product => compactEstilo(product.estilo) === compactEstilo(estilo) && Number(product.precio) > 0);
+      const ofStyle = ofStyleAll.filter(product => Number(product.precio) > 0);
       const runs = new Set(ofStyle.map(product => catalogCorrida(product.corrida)));
       if (runs.size !== 1) return '';
       run = ofStyle[0]?.corrida || '';
     }
-    const prices = context.products.filter(product => matchesStyleCorrida(product, estilo, run)).map(product => Number(product.precio)).filter(price => Number.isFinite(price) && price > 0);
+    const prices = ofStyleAll.filter(product => matchesStyleCorrida(product, estilo, run)).map(product => Number(product.precio)).filter(price => Number.isFinite(price) && price > 0);
     if (!prices.length) return '';
     const frequency = new Map();
     for (const price of prices) frequency.set(price, (frequency.get(price) || 0) + 1);
@@ -638,6 +735,8 @@
 
   async function validateBranchStockRows(rows) {
     const context = await loadBranchStockContext();
+    const estilos = [...new Set((rows || []).map(row => catalogText(row.estilo)).filter(Boolean))];
+    for (const estilo of estilos) await queryProductsByEstilo(context, estilo, 500);
     const known = [], unknown = [];
     for (const row of rows || []) {
       const resolved = resolveCatalogProduct(context, row);
@@ -663,10 +762,10 @@
       observaciones: String(row.notas || ''), activo: true,
     }));
     for (const group of chunks(payload, 200)) {
-      const { error } = await client.from('products').upsert(group, { onConflict: 'organization_id,source_system,source_id' });
+      const { data, error } = await client.from('products').upsert(group, { onConflict: 'organization_id,source_system,source_id' }).select(PRODUCT_CATALOG_SELECT);
       if (error) throw error;
+      rememberProducts(context, data || []);
     }
-    await loadBranchStockContext(true);
     return payload.length;
   }
 
@@ -681,7 +780,6 @@
     let createdProducts = 0;
     if (allowCreate && creatable.length) {
       createdProducts = await createAuthorizedProducts(creatable, context);
-      context = await loadBranchStockContext(true);
       validation = await validateBranchStockRows(rows);
     }
     const consolidated = new Map();
@@ -691,6 +789,7 @@
       consolidated.get(key).cantidad += Math.max(0, Number(row.cantidad) || 0);
     }
     const stockRows = [...consolidated.values()], missingVariants = [];
+    await loadVariantsFor(context, [...new Set(stockRows.map(row => row.productId))]);
     for (const row of stockRows) {
       const existing = (context.variantsByProduct.get(row.productId) || []).find(variant => catalogText(variant.size) === catalogText(row.size));
       if (existing) row.variantId = existing.id;
@@ -701,7 +800,7 @@
       const { error } = await client.from('product_variants').upsert(group, { onConflict: 'product_id,size' });
       if (error) throw error;
     }
-    if (missingVariants.length) context = await loadBranchStockContext(true);
+    if (missingVariants.length) await loadVariantsFor(context, [...new Set(stockRows.map(row => row.productId))]);
     for (const row of stockRows) {
       if (!row.variantId) row.variantId = (context.variantsByProduct.get(row.productId) || []).find(variant => catalogText(variant.size) === catalogText(row.size))?.id;
       if (!row.variantId) throw new Error(`No se pudo preparar la talla ${row.size} de ${row.estilo} ${row.color}.`);
@@ -780,12 +879,14 @@
       let corrida = change.corrida;
       if (!catalogCorrida(corrida) && change.color) {
         const context = await loadBranchStockContext();
-        const hit = context.products.find(item => compactEstilo(item.estilo) === compactEstilo(change.estilo) && catalogText(item.color) === catalogText(change.color));
+        const ofStyle = await queryProductsByEstilo(context, change.estilo, 200);
+        const hit = ofStyle.find(item => catalogText(item.color) === catalogText(change.color));
         corrida = hit?.corrida || '';
       }
       return updateRelationalStylePrice(change.estilo, change.precio, corrida);
     }
     const context = await loadBranchStockContext();
+    await queryProductsByEstilo(context, change.estilo, 200);
     let product = context.products.find(item => productLookupKey(item) === productLookupKey(change));
     if (!product && change.action !== 'delete') {
       const created = await syncCaptureToCatalog({ estilo: change.estilo, color: change.color, talla: '', cantidad: 0 });

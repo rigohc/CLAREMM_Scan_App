@@ -105,12 +105,17 @@
     const notice = proposed
       ? 'Precio precargado desde la foto. Revisa y confirma arriba para aplicarlo a los colores de este estilo y corrida.'
       : (result.notice || 'Toca un dato para editarlo en la ficha. El precio se aplica a los colores del mismo estilo y la misma corrida.');
-    return `<article class="relationalResultCard" data-relational-product-id="${esc(productId)}" data-relational-branch-id="${esc(result.branch.id)}">
+    const sazClass = result.sazRegistered ? 'isLoaded' : result.sazPreloaded ? 'isPreloaded' : 'isPending';
+    const sazLabel = result.sazRegistered ? 'Registrado en SAZ' : result.sazPreloaded ? 'Ya precargado en SAZ' : 'Pendiente de SAZ';
+    const preloadedNotice = result.sazPreloaded && !proposed
+      ? 'Recuperado de un SAZ antiguo. El precio puede estar desactualizado; revísalo antes de usarlo.'
+      : notice;
+    return `<article class="relationalResultCard${result.sazPreloaded ? ' isPreloaded' : ''}" data-relational-product-id="${esc(productId)}" data-relational-branch-id="${esc(result.branch.id)}">
       <div class="relationalResultTitle"><strong>${esc(product.estilo)} · ${esc(product.color)}</strong>${priceLabel}</div>
       <p class="relationalLineage"><span>${esc(lineage[0])}</span><span>${esc(lineage[1])}</span></p>
-      <div class="relationalResultMeta"><span>${esc(product.marca || 'Sin marca')}</span><span>${esc(result.branch.name)}</span><strong>${esc(result.totalQuantity)} par(es)</strong><span class="sazStatus ${result.sazRegistered ? 'isLoaded' : 'isPending'}">${result.sazRegistered ? 'Registrado en SAZ' : 'Pendiente de SAZ'}</span></div>
+      <div class="relationalResultMeta"><span>${esc(product.marca || 'Sin marca')}</span><span>${esc(result.branch.name)}</span><strong>${esc(result.totalQuantity)} par(es)</strong><span class="sazStatus ${sazClass}">${sazLabel}</span></div>
       <dl class="relationalFicha">${fichaMarkup(product, productId)}</dl>
-      <small class="relationalEditHint" data-relational-notice="${esc(productId)}">${esc(notice)}</small>
+      <small class="relationalEditHint" data-relational-notice="${esc(productId)}">${esc(preloadedNotice)}</small>
       <div class="relationalProductActions"><button type="button" class="secondary" data-relational-duplicate="${esc(productId)}">Duplicar ficha</button></div>
       <div class="relationalSizes">${(result.sizes || []).map(item => `<span class="relationalSize">${esc(item.size)} × ${esc(item.quantity)}</span>`).join('')}</div>
       <div class="relationalImage"><div class="relationalImagePreview">${result.imageUrl ? `<img src="${esc(result.imageUrl)}" alt="Producto ${esc(product.estilo)} ${esc(product.color)}">` : '<span>Sin imagen</span>'}</div><div class="relationalImageControls"><button type="button" data-relational-image="camera" data-product-id="${esc(productId)}">Tomar foto</button><button type="button" class="secondary" data-relational-image="gallery" data-product-id="${esc(productId)}">Elegir imagen</button><small data-relational-image-status="${esc(productId)}">${esc(result.imageMessage || (result.imageUrl ? 'Imagen compartida entre ambos inventarios.' : 'PNG máximo 100 KB · aplica por estilo y color.'))}</small></div></div>
@@ -396,7 +401,7 @@
       if (eligible.some(branch => branch.id === remembered)) byId('branchStockBranch').value = remembered;
       updateGate(eligible.length ? '' : 'La tienda base JUÁREZ no usa este buscador. Crea o activa otra sucursal en Supabase para habilitar la carga.', eligible.length);
       renderBulkState();
-      status(eligible.length ? `Catálogo listo: ${context.products.length} fichas disponibles.` : 'No hay sucursales adicionales disponibles.', eligible.length ? 'ok' : 'warn');
+      status(eligible.length ? `Sucursales listas. Busca por estilo para cargar existencias.` : 'No hay sucursales adicionales disponibles.', eligible.length ? 'ok' : 'warn');
     } catch (error) {
       context = null;
       byId('branchStockBranch').innerHTML = '<option value="">Inicia sesión para consultar sucursales</option>';
@@ -534,6 +539,7 @@
         sizes: saved.sizes || [],
         totalQuantity: saved.totalQuantity || 0,
         sazRegistered: false,
+        sazPreloaded: false,
         imageUrl: saved.imageUrl || '',
         imageMessage: saved.imageMessage || '',
         notice: saved.notice,
@@ -692,7 +698,7 @@
     }
     const sequence = options.sequence || ++inventorySearchSequence;
     const scope = byId('inventorySearchScope').value, sazFilter = byId('inventorySazFilter').value;
-    const includeEmpty = scope === 'style' || Boolean(stylePriceReview);
+    const includeEmpty = scope === 'style' || Boolean(stylePriceReview) || /^\d+$/.test(compactEstilo(query));
     panel.hidden = false;
     setRelationalPreview(true);
     byId('relationalSearchInfo').textContent = 'Buscando en catálogo y existencias por sucursal…';
