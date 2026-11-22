@@ -1029,6 +1029,7 @@
       }
     }
     return [...grouped.values()].map(row => ({
+      id: row.product.id,
       estilo: row.estilo,
       color: row.color,
       sizes: [...row.sizes].sort((left, right) => Number(left) - Number(right)),

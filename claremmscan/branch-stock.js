@@ -51,6 +51,8 @@
   let productDuplicate = null;
   let productDuplicatePhoto = null;
   let productDuplicateSaving = false;
+  let recentStockRows = [];
+  let recentImageTarget = null;
   const FICHA_FIELDS = [
     { key: 'precio', label: 'Precio de venta' },
     { key: 'marca', label: 'Marca' },
@@ -150,19 +152,63 @@
     const list = byId('branchStockRecentList');
     if (!list) return;
     if (message) {
+      recentStockRows = [];
       list.innerHTML = `<li class="branchStockRecentItem"><strong>${esc(message)}</strong></li>`;
       return;
     }
-    if (!rows?.length) {
+    recentStockRows = Array.isArray(rows) ? rows : [];
+    if (!recentStockRows.length) {
       list.innerHTML = '<li class="branchStockRecentItem"><strong>Aún no hay existencias registradas en esta sucursal.</strong></li>';
       return;
     }
-    const ordered = [...rows].sort((left, right) => Number(Boolean(text(left.imagen))) - Number(Boolean(text(right.imagen))));
+    const ordered = [...recentStockRows].sort((left, right) => Number(Boolean(text(left.imagen))) - Number(Boolean(text(right.imagen))));
     list.innerHTML = ordered.map(row => {
       const isNew = isNuevoFicha(row, row.sizes?.length ? 1 : 0);
       const missingImage = !text(row.imagen);
-      return `<li class="branchStockRecentItem${isNew ? ' isNew' : ''}${missingImage ? ' noImage' : ''}"><strong>${esc(row.estilo)} · ${esc(row.color)}${missingImage ? ' <span class="sazStatus isMissingImage">Sin foto</span>' : ''}${isNew ? ' <span class="sazStatus isNew">NUEVO</span>' : ''}</strong><span class="branchStockRecentSizes">${esc((row.sizes || []).join(', ') || 'Sin talla')}</span></li>`;
+      const key = esc(row.id || `${row.estilo}|${row.color}`);
+      const photoButtons = missingImage
+        ? `<div class="branchStockRecentActions"><button type="button" data-recent-image="camera" data-recent-id="${key}">Tomar foto</button><button type="button" class="secondary" data-recent-image="gallery" data-recent-id="${key}">Elegir imagen</button><small data-recent-image-status="${key}">PNG máximo 100 KB</small></div>`
+        : '';
+      return `<li class="branchStockRecentItem${isNew ? ' isNew' : ''}${missingImage ? ' noImage' : ''}" data-recent-id="${key}"><strong>${esc(row.estilo)} · ${esc(row.color)}${missingImage ? ' <span class="sazStatus isMissingImage">Sin foto</span>' : ''}${isNew ? ' <span class="sazStatus isNew">NUEVO</span>' : ''}</strong><span class="branchStockRecentSizes">${esc((row.sizes || []).join(', ') || 'Sin talla')}</span>${photoButtons}</li>`;
     }).join('');
+  }
+
+  function recentRowById(id) {
+    return recentStockRows.find(row => (row.id || `${row.estilo}|${row.color}`) === id);
+  }
+
+  async function saveRecentProductImage(file) {
+    const target = recentImageTarget;
+    if (!target || !file) return;
+    const row = recentRowById(target);
+    const item = document.querySelector(`[data-recent-id="${CSS.escape(target)}"]`);
+    const statusElement = item?.querySelector('[data-recent-image-status]');
+    const buttons = [...(item?.querySelectorAll('[data-recent-image]') || [])];
+    try {
+      if (!row?.id) throw new Error('No se identificó la ficha para guardar la foto.');
+      if (!file.type.startsWith('image/')) throw new Error('Selecciona un archivo de imagen.');
+      if (!window.ClaremmStore?.compressProductImage) throw new Error('Actualiza la página para activar el compresor de imágenes.');
+      if (!cloud()?.uploadRelationalProductImage) throw new Error('Actualiza la página para subir la foto desde el historial.');
+      buttons.forEach(button => { button.disabled = true; });
+      if (statusElement) statusElement.textContent = 'Comprimiendo imagen…';
+      const blob = await window.ClaremmStore.compressProductImage(file);
+      if (statusElement) statusElement.textContent = 'Guardando en Supabase…';
+      const saved = await cloud().uploadRelationalProductImage({ productId: row.id, blob });
+      await window.ClaremmStore.putImageFromCloud(saved.fileName, blob).catch(() => {});
+      cloud().recordImageMutation?.({ type: 'upsert', name: saved.fileName });
+      await window.ClaremmStore.refreshImageIndicators?.();
+      row.imagen = saved.path || saved.fileName || '1';
+      renderRecentStock(recentStockRows);
+      status(`Foto guardada en ${row.estilo} · ${row.color}.`, 'ok');
+    } catch (error) {
+      if (statusElement) statusElement.textContent = error.message;
+      buttons.forEach(button => { button.disabled = false; });
+      status(error.message, 'warn');
+    } finally {
+      byId('branchRecentImageCamera').value = '';
+      byId('branchRecentImageGallery').value = '';
+      recentImageTarget = null;
+    }
   }
 
   async function refreshRecentStock() {
@@ -923,6 +969,14 @@
   ]));
   byId('branchStockAllowCreate').addEventListener('change', renderBulkState);
   byId('branchStockApplyFile').addEventListener('click', applyBulkFile);
+  byId('branchStockRecentList').addEventListener('click', event => {
+    const button = event.target.closest('[data-recent-image]');
+    if (!button) return;
+    recentImageTarget = button.dataset.recentId;
+    byId(button.dataset.recentImage === 'camera' ? 'branchRecentImageCamera' : 'branchRecentImageGallery').click();
+  });
+  byId('branchRecentImageCamera').addEventListener('change', event => saveRecentProductImage(event.target.files?.[0]));
+  byId('branchRecentImageGallery').addEventListener('change', event => saveRecentProductImage(event.target.files?.[0]));
   byId('inventorySearch').addEventListener('input', queueRelationalInventorySearch);
   byId('inventorySearchScope').addEventListener('change', queueRelationalInventorySearch);
   byId('inventorySazFilter').addEventListener('change', queueRelationalInventorySearch);

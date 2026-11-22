@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="tokens.css?v=29-sin-foto">
+  <link rel="stylesheet" href="tokens.css?v=30-historial-foto">
   <style>
     /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 · genre: atmospheric · macrostructure: Workbench · theme: Midnight · enrichment: none · nav: N9 · footer: Ft2 · contrast: pass (40–41) · slop: pass (42–49) · mobile: pass (34,49–57) */
     *,*::before,*::after{box-sizing:border-box}
@@ -179,6 +179,9 @@
     .branchStockRecentItem{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--space-xs);align-items:center;padding:var(--space-xs) var(--space-sm);border:var(--rule-thin) solid var(--color-rule);border-radius:var(--radius-input);background:var(--color-field)}
     .branchStockRecentItem strong{display:block;font-size:var(--text-sm)}
     .branchStockRecentSizes{color:var(--color-neutral);font-variant-numeric:tabular-nums;text-align:end}
+    .branchStockRecentActions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:var(--space-2xs);align-items:center}
+    .branchStockRecentActions button{flex:1 1 7.5rem;width:auto;min-height:2.5rem;padding-inline:var(--space-sm);font-size:var(--text-xs)}
+    .branchStockRecentActions small{flex:1 1 100%;color:inherit}
     .inventoryFilters{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-sm);margin-block:var(--space-md)}
     .inventorySearchRow{display:grid;gap:var(--space-xs)}
     .inventorySearchByPhoto{display:flex;flex-wrap:wrap;gap:var(--space-xs)}
@@ -386,8 +389,10 @@
       <div id="branchStockWorkspace" class="branchStockWorkspace" hidden>
         <section class="branchStockPanel" aria-labelledby="branchStockRecentTitle">
           <h3 id="branchStockRecentTitle">Últimas existencias registradas</h3>
-          <p>Los últimos 100 productos con existencia dada de alta en esta sucursal. Los que van sin foto salen primero, en rojo.</p>
+          <p>Los últimos 100 productos con existencia dada de alta en esta sucursal. Los que van sin foto salen primero, en rojo; desde aquí les tomas o eliges la imagen.</p>
           <ol id="branchStockRecentList" class="branchStockRecentList" aria-live="polite"></ol>
+          <input id="branchRecentImageCamera" type="file" accept="image/*" capture="environment" hidden>
+          <input id="branchRecentImageGallery" type="file" accept="image/*" hidden>
         </section>
         <section class="branchStockPanel" aria-labelledby="branchStockManualTitle">
           <h3 id="branchStockManualTitle">Captura individual</h3>
@@ -438,8 +443,8 @@
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <script src="app.js?v=29-sin-foto"></script>
-  <script src="supabase-sync.js?v=29-sin-foto"></script>
-  <script src="branch-stock.js?v=29-sin-foto"></script>
+  <script src="app.js?v=30-historial-foto"></script>
+  <script src="supabase-sync.js?v=30-historial-foto"></script>
+  <script src="branch-stock.js?v=30-historial-foto"></script>
 </body>
 </html>
