@@ -1441,7 +1441,58 @@
     return data;
   }
 
-  window.claremmCloud = { recordMutation, recordImageMutation, recordCatalogMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, hydrateRelationalImages, uploadRelationalProductImage, updateRelationalStylePrice, updateRelationalProductField, duplicateRelationalProduct, syncCaptureToCatalog, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock, listRecentBranchStock, listCatalogReview, reviewCatalogProduct };
+  async function listSazPrepGaps(onProgress) {
+    if (!client || !user) throw new Error('Inicia sesión para incluir el catálogo relacional.');
+    const context = await loadBranchStockContext();
+    const registeredIds = new Set(context.registryByKey.values());
+    const select = 'id,estilo,color,marca,linea,acabado,precio,imagen,estado,source_system';
+    const products = [];
+    for (let from = 0; ; from += 1000) {
+      onProgress?.(`Leyendo catálogo ${from + 1}…`);
+      let query = client.from('products').select(select)
+        .eq('organization_id', context.organization.id)
+        .eq('activo', true)
+        .or('precio.lte.0,precio.is.null,imagen.is.null,imagen.eq.')
+        .range(from, from + 999);
+      let { data, error } = await query;
+      if (error) {
+        const fallback = await client.from('products').select(select)
+          .eq('organization_id', context.organization.id)
+          .eq('activo', true)
+          .range(from, from + 999);
+        if (fallback.error) throw fallback.error;
+        data = fallback.data;
+        error = null;
+      }
+      products.push(...(data || []));
+      if (!data || data.length < 1000) break;
+    }
+    const rows = [];
+    for (const product of products) {
+      if (registeredIds.has(product.id)) continue;
+      if (product.source_system === 'saz_precargado' || /CARGADO EN SAZ|PRECARGADO EN SAZ/i.test(String(product.estado || ''))) continue;
+      const sinImagen = !String(product.imagen || '').trim();
+      const sinPrecio = !(Number(product.precio) > 0);
+      if (!sinImagen && !sinPrecio) continue;
+      rows.push({
+        ficha_id: product.id,
+        estilo: product.estilo,
+        color: product.color,
+        marca: product.marca || '',
+        tipo: product.linea || '',
+        material: product.acabado || '',
+        precio: Number(product.precio || 0),
+        pares: 0,
+        sin_imagen: sinImagen,
+        sin_precio: sinPrecio,
+        estado_saz: 'Pendiente de SAZ',
+        origen: 'catalogo',
+      });
+    }
+    return rows;
+  }
+
+  window.claremmCloud = { recordMutation, recordImageMutation, recordCatalogMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, hydrateRelationalImages, uploadRelationalProductImage, updateRelationalStylePrice, updateRelationalProductField, duplicateRelationalProduct, syncCaptureToCatalog, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock, listRecentBranchStock, listCatalogReview, reviewCatalogProduct, listSazPrepGaps };
 
   byId('cloudLogin').onclick = async () => {
     if (!client) return alert('Supabase aún no está configurado.');

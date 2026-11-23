@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="tokens.css?v=36-busqueda-4e0">
+  <link rel="stylesheet" href="tokens.css?v=37-faltantes-saz">
   <style>
     /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 · genre: atmospheric · macrostructure: Workbench · theme: Midnight · enrichment: none · nav: N9 · footer: Ft2 · contrast: pass (40–41) · slop: pass (42–49) · mobile: pass (34,49–57) */
     *,*::before,*::after{box-sizing:border-box}
@@ -369,7 +369,7 @@
         </div>
         <p id="inventoryResultInfo" class="inventoryResultInfo" aria-live="polite">Mostrando todos los registros.</p>
         <section id="relationalSearchPanel" class="relationalResults" hidden aria-labelledby="relationalSearchTitle"><div class="relationalResultsHead"><div><h3 id="relationalSearchTitle">Inventario relacional</h3><p id="relationalSearchInfo">Buscando en catálogo y existencias por sucursal…</p></div><small>Supabase</small></div><div id="stylePriceReview" class="stylePriceReview" hidden><strong>Precio leído de la foto</strong><p id="stylePriceReviewInfo">Revisa el precio antes de aplicarlo a los colores del mismo estilo y la misma corrida.</p><label for="stylePriceProposal">Precio para estilo y corrida<input id="stylePriceProposal" inputmode="decimal" autocomplete="off"></label><div class="stylePriceReviewActions"><button type="button" id="stylePriceConfirm">Confirmar y aplicar</button><button type="button" class="secondary" id="stylePriceCancel">Descartar</button></div></div><div id="productDuplicate" class="productDuplicate" hidden><strong>Duplicar ficha</strong><p id="productDuplicateInfo">Mismo estilo, otro color. Ajusta corrida, precio, talla y foto.</p><div class="productDuplicateForm"><label for="productDuplicateEstilo">Estilo<input id="productDuplicateEstilo" readonly></label><label for="productDuplicateColor">Color nuevo<input id="productDuplicateColor" list="sazColorOptions" autocomplete="off"></label><label for="productDuplicateCorrida">Corrida<input id="productDuplicateCorrida" list="sazCorridaOptions" autocomplete="off"></label><label for="productDuplicatePrecio">Precio<input id="productDuplicatePrecio" inputmode="decimal" autocomplete="off"></label><label for="productDuplicateTalla">Talla<input id="productDuplicateTalla" inputmode="decimal" autocomplete="off"></label><label for="productDuplicateCantidad">Cantidad<input id="productDuplicateCantidad" inputmode="numeric" value="1" autocomplete="off"></label><div class="productDuplicatePhoto"><button type="button" id="productDuplicateCamera">Tomar foto</button><button type="button" class="secondary" id="productDuplicateGallery">Elegir imagen</button><small id="productDuplicatePhotoInfo">Sin foto. La imagen es de este color, no se copia.</small><input id="productDuplicateCameraFile" type="file" accept="image/*" capture="environment" hidden><input id="productDuplicateGalleryFile" type="file" accept="image/*" hidden></div><div class="productDuplicateActions"><button type="button" id="productDuplicateSave">Guardar ficha</button><button type="button" class="secondary" id="productDuplicateCancel">Cancelar</button></div></div></div><div id="relationalSearchResults" class="relationalResultGrid"></div><input id="relationalProductImageCamera" type="file" accept="image/*" capture="environment" hidden><input id="relationalProductImageGallery" type="file" accept="image/*" hidden></section>
-        <details class="exportMenu"><summary>Exportar datos y respaldo</summary><div class="exportActions"><button id="xlsx">Excel (.xlsx)</button><button id="csv" class="secondary">CSV</button><button id="backup" class="secondary">Respaldo JSON</button><button id="clear" class="danger">Borrar todo</button></div></details>
+        <details class="exportMenu"><summary>Exportar datos y respaldo</summary><div class="exportActions"><button id="xlsx">Excel (.xlsx)</button><button id="xlsxSazGaps" type="button" class="secondary">Excel faltantes SAZ</button><button id="csv" class="secondary">CSV</button><button id="backup" class="secondary">Respaldo JSON</button><button id="clear" class="danger">Borrar todo</button></div></details>
         <div class="tablewrap"><table><thead><tr><th>Estilo</th><th>Marca</th><th>Sucursal</th><th>Color</th><th>Línea</th><th>Talla</th><th>Cantidad</th><th>Material</th><th>Precio</th><th>Imagen</th><th>Estado SAZ</th><th>Acciones</th></tr></thead><tbody id="rows"></tbody></table></div>
         <nav id="inventoryPagination" class="inventoryPagination" aria-label="Páginas del inventario" hidden><button id="pagePrev" type="button" class="secondary">Anterior</button><div id="pageNumbers" class="pageNumbers"></div><button id="pageNext" type="button" class="secondary">Siguiente</button></nav>
       </section>
@@ -473,11 +473,11 @@
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <script src="saz-catalog.js?v=36-busqueda-4e0"></script>
-  <script src="inventory-search.js?v=36-busqueda-4e0"></script>
-  <script src="app.js?v=36-busqueda-4e0"></script>
-  <script src="supabase-sync.js?v=36-busqueda-4e0"></script>
-  <script src="branch-stock.js?v=36-busqueda-4e0"></script>
-  <script src="review-queue.js?v=36-busqueda-4e0"></script>
+  <script src="saz-catalog.js?v=37-faltantes-saz"></script>
+  <script src="inventory-search.js?v=37-faltantes-saz"></script>
+  <script src="app.js?v=37-faltantes-saz"></script>
+  <script src="supabase-sync.js?v=37-faltantes-saz"></script>
+  <script src="branch-stock.js?v=37-faltantes-saz"></script>
+  <script src="review-queue.js?v=37-faltantes-saz"></script>
 </body>
 </html>
