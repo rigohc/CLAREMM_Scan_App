@@ -2,7 +2,7 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
-const handler = require('../api/v1/[...path].js');
+const handler = require('../api/v1.js');
 
 for (const line of fs.readFileSync(path.join(__dirname, '../.env.local'), 'utf8').split(/\r?\n/)) {
   const match = line.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*?)\s*$/);
@@ -66,13 +66,17 @@ function assert(condition, message) {
   assert(preview.body.pares === 3, 'suma pares agrupados');
   assert(preview.body.desconocidas_detalle?.some(row => /COLOR INEXISTENTE/.test(row.motivo) && /MARINO/.test(row.motivo)), 'motivo de color exacto');
 
+  const index = await call('GET', '/api/v1', { headers: auth });
+  assert(index.statusCode === 200 && Array.isArray(index.body.routes), 'índice de rutas');
+
   const catalog = await call('GET', '/api/v1/catalog/products?estilo=PI4031', { headers: auth });
-  catalog.url = '/api/v1/catalog/products';
-  const catalogDirect = await handler({
+  assert(catalog.statusCode === 200 && catalog.body.products?.length >= 1, `catálogo: ${JSON.stringify(catalog.body)}`);
+
+  const rewritten = await handler({
     method: 'GET',
-    url: '/api/v1/catalog/products?estilo=PI4031',
+    url: '/api/v1?__route=catalog/products&estilo=PI4031',
     headers: auth,
-    query: { path: ['catalog', 'products'], estilo: 'PI4031' },
+    query: { __route: 'catalog/products', estilo: 'PI4031' },
     body: {},
   }, {
     statusCode: 200, body: null, headers: {},
@@ -80,14 +84,25 @@ function assert(condition, message) {
     status(code) { this.statusCode = code; return this; },
     json(payload) { this.body = payload; return this; },
   });
-  assert(catalogDirect.statusCode === 200 && catalogDirect.body.products?.length >= 1, 'catálogo por estilo');
+  assert(rewritten.statusCode === 200 && rewritten.body.products?.length >= 1, 'rewrite de Vercel conserva el path anidado');
+
+  const inventory = await call('GET', '/api/v1/branches/NUEVO_LEON/inventory?estilo=PI4031', { headers: auth });
+  assert(inventory.statusCode === 200 && inventory.body.branch?.code === 'NUEVO_LEON', `inventario NL: ${JSON.stringify(inventory.body?.error || inventory.body?.branch)}`);
+
+  const history = await call('GET', '/api/v1/branches/NUEVO_LEON/history', { headers: auth });
+  assert(history.statusCode === 200 && Array.isArray(history.body.movements), `historial: ${JSON.stringify(history.body?.error)}`);
+
+  const review = await call('GET', '/api/v1/review/pending', { headers: auth });
+  assert(review.statusCode === 200 && Array.isArray(review.body.items), `revisión: ${JSON.stringify(review.body?.error)}`);
 
   console.log(JSON.stringify({
     ok: true,
     ms: Date.now() - started,
     branches: branches.body.map(row => row.code),
     preview: { filas: preview.body.filas, encontradas: preview.body.encontradas, desconocidas: preview.body.desconocidas, pares: preview.body.pares },
-    catalog: catalogDirect.body.products.slice(0, 3).map(row => `${row.estilo} ${row.color}`),
+    catalog: catalog.body.products.slice(0, 3).map(row => `${row.estilo} ${row.color}`),
+    inventory: inventory.body.branch,
+    review: review.body.items.length,
   }, null, 2));
 })().catch(error => {
   console.error(error);
