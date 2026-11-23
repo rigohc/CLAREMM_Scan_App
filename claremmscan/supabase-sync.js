@@ -1443,53 +1443,101 @@
 
   async function listSazPrepGaps(onProgress) {
     if (!client || !user) throw new Error('Inicia sesión para incluir el catálogo relacional.');
+    const prep = window.ClaremmSazPrepExcel;
+    const sizeKey = prep?.sizeKey || (value => {
+      const number = Number(String(value ?? '').trim().replace(',', '.'));
+      return Number.isFinite(number) ? number.toFixed(1) : '';
+    });
+    const fichaKey = prep?.fichaKey || ((estilo, color) => `${compactEstilo(estilo)}|${catalogText(color)}`);
     const context = await loadBranchStockContext();
+    const juarez = context.branches.find(branch => catalogText(branch.code) === 'JUAREZ');
+    if (!juarez) throw new Error('No está configurada la sucursal JUÁREZ.');
     const registeredIds = new Set(context.registryByKey.values());
-    const select = 'id,estilo,color,marca,linea,acabado,precio,imagen,estado,source_system';
+    onProgress?.('Leyendo existencias de JUÁREZ…');
+    const levels = await pagedQuery(() => client.from('inventory_levels').select('variant_id,quantity').eq('branch_id', juarez.id).gt('quantity', 0));
+    if (!levels.length) return { rows: [], skipKeys: [] };
+    const variantIds = [...new Set(levels.map(level => level.variant_id).filter(Boolean))];
+    const variants = [];
+    for (let index = 0; index < variantIds.length; index += 100) {
+      onProgress?.(`Leyendo tallas JUÁREZ ${index + 1}…`);
+      const { data, error } = await client.from('product_variants').select('id,product_id,size').in('id', variantIds.slice(index, index + 100));
+      if (error) throw error;
+      variants.push(...(data || []));
+    }
+    const productIds = [...new Set(variants.map(variant => variant.product_id).filter(Boolean))];
+    const extraSelect = `${PRODUCT_CATALOG_SELECT},costo,suela,plantilla,tacon,forro,catalogo,status,observaciones,activo`;
     const products = [];
-    for (let from = 0; ; from += 1000) {
-      onProgress?.(`Leyendo catálogo ${from + 1}…`);
-      let query = client.from('products').select(select)
-        .eq('organization_id', context.organization.id)
-        .eq('activo', true)
-        .or('precio.lte.0,precio.is.null,imagen.is.null,imagen.eq.')
-        .range(from, from + 999);
-      let { data, error } = await query;
+    for (let index = 0; index < productIds.length; index += 100) {
+      onProgress?.(`Leyendo fichas JUÁREZ ${index + 1}…`);
+      const group = productIds.slice(index, index + 100);
+      let { data, error } = await client.from('products').select(extraSelect).in('id', group);
       if (error) {
-        const fallback = await client.from('products').select(select)
-          .eq('organization_id', context.organization.id)
-          .eq('activo', true)
-          .range(from, from + 999);
-        if (fallback.error) throw fallback.error;
-        data = fallback.data;
-        error = null;
+        const fallback = await client.from('products').select(`${PRODUCT_CATALOG_SELECT},activo`).in('id', group);
+        if (fallback.error) {
+          const last = await client.from('products').select(PRODUCT_CATALOG_SELECT).in('id', group);
+          if (last.error) throw last.error;
+          data = last.data;
+        } else data = fallback.data;
       }
       products.push(...(data || []));
-      if (!data || data.length < 1000) break;
+    }
+    const qtyByProductSize = new Map();
+    const variantById = new Map(variants.map(variant => [variant.id, variant]));
+    for (const level of levels) {
+      const variant = variantById.get(level.variant_id);
+      const size = sizeKey(variant?.size);
+      const quantity = Math.trunc(Number(level.quantity) || 0);
+      if (!variant || !size || quantity <= 0) continue;
+      if (!qtyByProductSize.has(variant.product_id)) qtyByProductSize.set(variant.product_id, {});
+      const bag = qtyByProductSize.get(variant.product_id);
+      bag[size] = (bag[size] || 0) + quantity;
     }
     const rows = [];
+    const skipKeys = [];
     for (const product of products) {
-      if (registeredIds.has(product.id)) continue;
-      if (product.source_system === 'saz_precargado' || /CARGADO EN SAZ|PRECARGADO EN SAZ/i.test(String(product.estado || ''))) continue;
+      if (product.activo === false) continue;
+      const key = fichaKey(product.estilo, product.color);
+      const inSaz = registeredIds.has(product.id) || product.source_system === 'saz_precargado' || /CARGADO EN SAZ|PRECARGADO EN SAZ/i.test(String(product.estado || ''));
       const sinImagen = !String(product.imagen || '').trim();
       const sinPrecio = !(Number(product.precio) > 0);
-      if (!sinImagen && !sinPrecio) continue;
+      const qtyBySize = qtyByProductSize.get(product.id) || {};
+      const pares = Object.values(qtyBySize).reduce((sum, quantity) => sum + Math.trunc(Number(quantity) || 0), 0);
+      if (inSaz || (!sinImagen && !sinPrecio)) {
+        skipKeys.push(key);
+        continue;
+      }
+      if (pares <= 0) continue;
       rows.push({
         ficha_id: product.id,
         estilo: product.estilo,
         color: product.color,
         marca: product.marca || '',
-        tipo: product.linea || '',
-        material: product.acabado || '',
+        proveedor: product.proveedor || '',
+        temporada: product.temporada || '',
+        sublinea: product.sublinea || '',
+        departamento: product.departamento || '',
+        clasificacion: product.clasificacion || '',
+        linea: product.linea || '',
+        corrida: product.corrida || '',
+        acabado: product.acabado || '',
+        suela: product.suela || '',
+        plantilla: product.plantilla || '',
+        tacon: product.tacon || '',
+        forro: product.forro || '',
+        catalogo: product.catalogo || '',
+        status: product.status == null ? 1 : product.status,
+        observaciones: product.observaciones || '',
+        costo: Number(product.costo || 0),
         precio: Number(product.precio || 0),
-        pares: 0,
+        qtyBySize,
+        pares,
         sin_imagen: sinImagen,
         sin_precio: sinPrecio,
         estado_saz: 'Pendiente de SAZ',
         origen: 'catalogo',
       });
     }
-    return rows;
+    return { rows, skipKeys };
   }
 
   window.claremmCloud = { recordMutation, recordImageMutation, recordCatalogMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, hydrateRelationalImages, uploadRelationalProductImage, updateRelationalStylePrice, updateRelationalProductField, duplicateRelationalProduct, syncCaptureToCatalog, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock, listRecentBranchStock, listCatalogReview, reviewCatalogProduct, listSazPrepGaps };
