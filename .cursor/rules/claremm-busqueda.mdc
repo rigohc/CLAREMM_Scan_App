@@ -1,0 +1,26 @@
+---
+description: Búsqueda del escáner: plan, índice, topes, sin barridos.
+globs: claremmscan/**/*.{js,html}
+alwaysApply: false
+---
+
+# Búsqueda del escáner
+
+Toda consulta pasa por `ClaremmInventorySearch.plan(query)` antes de red o filtro masivo.
+
+```js
+// ❌ BAD — congela con 50k+ fichas
+.from('products').ilike('estilo', '00%')
+
+// ✅ GOOD
+const planned = ClaremmInventorySearch.plan(query);
+if (!planned.ready) return []; // wait: ceros incompletos
+.from('products').in('estilo', planned.keys).limit(planned.limit)
+```
+
+- Numérico → `mode: exact-estilo`, `allowPrefix: false`.
+- `PI40` / `COM011` → prefijo alfanumérico con tope 40.
+- Color/marca (`NEGRO`) → `mode: text`, no ilike de estilo.
+- Índice local `createLocalIndex()` para inventario offline. Rebuild al persistir.
+- AbortController al teclear de nuevo. No `getAll()` de blobs en cada tecla; usar keys.
+- Tests: `claremmscan/tests/inventory-search.js` deben seguir en verde.

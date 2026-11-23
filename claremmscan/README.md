@@ -1,5 +1,7 @@
 # CLAREMM Scan v17
 
+Reglas, workflow y arquitectura (hexágono, eventos, POS): [AGENTS.md](../AGENTS.md), [docs/](../docs/).
+
 Aplicación PWA para Vercel. Configura **Root Directory** en Vercel para que apunte a `claremmscan`. No requiere build; la función `api/ocr.js` procesa el reconocimiento por visión sin exponer la clave en el navegador.
 
 ## Funciones

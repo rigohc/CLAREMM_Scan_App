@@ -285,6 +285,8 @@
     selectedProduct = null;
     byId('branchStockSaveOne').disabled = true;
     if (query.length < 2) return renderSearchResults([]);
+    const planned = window.ClaremmInventorySearch?.plan?.(style || query);
+    if (planned?.wait) return renderSearchResults([]);
     const sequence = ++searchSequence;
     byId('branchCatalogResults').innerHTML = '<small>Buscando en el catálogo…</small>';
     try {
@@ -293,7 +295,7 @@
       const folded = value => normalized(value).replace(/[\/\-_,+|.]/g, ' ').replace(/\s+/g, ' ').trim().split(' ').filter(Boolean).sort().join(' ');
       const saz = window.ClaremmSazCatalog;
       const exact = products.filter(product => {
-      const styleOk = !style || normalized(product.estilo).includes(normalized(style)) || compactEstilo(product.estilo) === compactEstilo(style);
+      const styleOk = !style || compactEstilo(product.estilo) === compactEstilo(style) || (planned?.mode !== 'exact-estilo' && normalized(product.estilo).includes(normalized(style)));
       const colorOk = !color
         || saz?.matches?.('color', product.color, color)
         || folded(product.color) === folded(color)
@@ -826,7 +828,8 @@
 
   async function searchRelationalInventory(options = {}) {
     const input = byId('inventorySearch'), panel = byId('relationalSearchPanel'), query = input.value.trim();
-    if (!query || /^0+$/.test(query)) {
+    const planned = window.ClaremmInventorySearch?.plan?.(query);
+    if (!query || planned?.wait || planned?.mode === 'idle') {
       panel.hidden = !query;
       setRelationalPreview(Boolean(query));
       relationalEdit = null;
@@ -835,7 +838,7 @@
       renderStylePriceReview();
       renderProductDuplicate();
       byId('relationalSearchResults').innerHTML = '';
-      byId('relationalSearchInfo').textContent = query ? 'Sigue escribiendo el estilo…' : '';
+      byId('relationalSearchInfo').textContent = planned?.message || '';
       return;
     }
     const sequence = options.sequence || ++inventorySearchSequence;
@@ -871,7 +874,7 @@
 
   function queueRelationalInventorySearch() {
     clearTimeout(inventorySearchTimer);
-    inventorySearchTimer = setTimeout(searchRelationalInventory, 450);
+    inventorySearchTimer = setTimeout(searchRelationalInventory, window.ClaremmInventorySearch?.LIMITS?.DEBOUNCE_MS || 280);
   }
 
   async function searchInventoryByPhoto(file) {

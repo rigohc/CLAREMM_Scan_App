@@ -1,0 +1,16 @@
+---
+description: Hexágono, eventos y POS. Cómo añadir módulos sin romper el escáner.
+alwaysApply: true
+---
+
+# Arquitectura
+
+Hexágono: el dominio no importa React, Supabase ni SAZ. Puertos (interfaces) hacia catálogo, existencias, sync y caja. Adaptadores: PWA, API `/api/v1`, Supabase, IndexedDB, Excel/SAZ.
+
+Eventos de dominio (no CRUD silencioso): `StockIncreased`, `PriceConfirmed`, `SaleCompleted`, `ReturnAccepted`, `LayawayOpened`. Escritura local → outbox → sync. Conflictos: nunca bajar JUÁREZ; nunca pisar precio>0 ni imagen.
+
+POS futuro (ventas, devoluciones, apartado, promociones) es otro bounded context con los mismos puertos de inventario. No meter caja en `app.js`. Offline-first: el mostrador escribe en local aunque no haya red.
+
+Stack de llegada: TypeScript en dominio, PWA actual como adaptador, Supabase como proyección, SQLite/IndexedDB como write model local. No microservicios el día uno.
+
+Detalle y workflow: `docs/ARQUITECTURA.md`, `docs/WORKFLOW.md`, `AGENTS.md`.

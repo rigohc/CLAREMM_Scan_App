@@ -1,0 +1,16 @@
+---
+description: Identidad de producto, stock JUÁREZ, precio e imagen. Aplica siempre.
+alwaysApply: true
+---
+
+# Dominio CLAREMM
+
+Identidad canónica: **estilo compacto + color**. `000034`, `034` y `34` son el mismo estilo. El color es exacto y el orden importa: `NEGRO BLANCO` ≠ `BLANCO NEGRO`. Alias únicos: N/B y NB → NEGRO BLANCO; B/N y BN → BLANCO NEGRO; FUCSIA → FIUSHA. Proveedor es campo abierto.
+
+Stock de **JUÁREZ** no se baja nunca (ni SET, ni Excel, ni escáner). Solo se suma o se deja. La carga por sucursal de la API bloquea JUÁREZ. Nuevo León sí puede set/sum.
+
+No pisar `precio > 0` ni `imagen` salvo confirmación explícita del usuario. No tocar `inventory_items` como fuente de verdad del catálogo relacional. No ejecutar `CLAREMM_Importar_Supabase.sql`.
+
+Búsqueda: nunca `ilike`/`00%` sobre estilos numéricos. `0`/`00`/`000` no disparan red. Lookup por `estiloKeys` + índice. Tope 40 fichas. Abortar la búsqueda anterior.
+
+Código de dominio en `claremmscan/inventory-search.js` y `claremmscan/lib/branch-upload-core.js`. Docs: `docs/REGLAS.md`, `docs/ARQUITECTURA.md`.

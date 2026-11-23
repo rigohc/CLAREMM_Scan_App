@@ -46,7 +46,8 @@ async function captureSignUp(href) {
       getItem: key => storage.get(key) || null,
       setItem: (key, value) => storage.set(key, String(value)),
     },
-    document: { title: 'CLAREMM Scan v17', getElementById: element },
+    CustomEvent: class CustomEvent { constructor(type, init) { this.type = type; this.detail = init?.detail; } },
+    document: { title: 'CLAREMM Scan v17', getElementById: element, dispatchEvent: () => true },
     window: {
       location,
       history: { replaceState: () => {} },

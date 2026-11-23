@@ -15,6 +15,16 @@
   const relationalImageUrls = new Map();
   const PRODUCT_EDIT_FIELDS = ['precio', 'marca', 'proveedor', 'temporada', 'sublinea', 'departamento', 'clasificacion', 'linea', 'corrida', 'acabado'];
   const PRODUCT_CATALOG_SELECT = 'id,estilo,color,marca,proveedor,temporada,sublinea,departamento,clasificacion,linea,corrida,acabado,precio,source_system,estado,imagen';
+  const inventorySearch = () => window.ClaremmInventorySearch;
+  let catalogSearchAbort = null;
+  const beginCatalogSearch = () => {
+    catalogSearchAbort?.abort();
+    catalogSearchAbort = typeof AbortController === 'function' ? new AbortController() : null;
+    return catalogSearchAbort?.signal || null;
+  };
+  const withSignal = (queryBuilder, signal) => (signal && typeof queryBuilder.abortSignal === 'function' ? queryBuilder.abortSignal(signal) : queryBuilder);
+  const isAbortError = error => error?.name === 'AbortError' || /aborted|AbortError/i.test(String(error?.message || error || ''));
+  const plannedSearch = query => inventorySearch()?.plan?.(query) || null;
 
   const byId = id => document.getElementById(id);
   const emptyQueue = () => ({ upserts: {}, deletes: {}, images: {}, catalog: {}, imageClear: false });
@@ -127,21 +137,7 @@
       || context.branches.find(branch => catalogText(branch.code) === 'JUAREZ')
       || context.branches[0];
   };
-  const estiloSearchValues = value => {
-    const raw = catalogText(value);
-    const compact = compactEstilo(raw);
-    const keys = [raw, compact];
-    if (/^\d+$/.test(compact)) {
-      for (let length = compact.length; length <= Math.max(6, compact.length); length += 1) {
-        keys.push(compact.padStart(length, '0'));
-      }
-    }
-    return [...new Set(keys.filter(Boolean))];
-  };
-  const isIncompleteNumericQuery = value => {
-    const raw = catalogText(value);
-    return !raw || /^0+$/.test(raw);
-  };
+  const estiloSearchValues = value => inventorySearch()?.estiloKeys?.(value) || [...new Set([catalogText(value), compactEstilo(value)].filter(Boolean))];
   const looksLikeEstilo = value => /\d/.test(catalogText(value));
   const rememberProducts = (context, products) => {
     if (!context.productsByEstilo) context.productsByEstilo = new Map();
@@ -172,8 +168,11 @@
       context.variantsByProduct.set(variant.product_id, list);
     }
   };
-  async function queryProductsByEstilo(context, estilo, limit = 80) {
-    const values = estiloSearchValues(estilo);
+  async function queryProductsByEstilo(context, estilo, limit, signal) {
+    const planned = plannedSearch(estilo);
+    if (planned && !planned.ready) return [];
+    const values = planned?.keys?.length ? planned.keys : estiloSearchValues(estilo);
+    const cap = Math.min(Number(limit) || planned?.limit || 40, planned?.limit || 40, 40);
     if (!values.length) return [];
     if (!context.queriedEstilos) context.queriedEstilos = new Set();
     if (!context.productsByEstilo) context.productsByEstilo = new Map();
@@ -186,36 +185,34 @@
         if (seen.has(product.id)) return false;
         seen.add(product.id);
         return true;
-      });
+      }).slice(0, cap);
     }
-    const exact = await client.from('products').select(PRODUCT_CATALOG_SELECT)
+    const exact = await withSignal(client.from('products').select(PRODUCT_CATALOG_SELECT)
       .eq('organization_id', context.organization.id)
       .eq('activo', true)
       .in('estilo', values)
-      .limit(limit);
+      .limit(cap), signal);
     if (exact.error) throw exact.error;
     let rows = exact.data || [];
     if (!rows.length && /^\d+$/.test(compact) && compact.length >= 2) {
       const padded = compact.padStart(Math.max(6, compact.length), '0');
-      const prefixed = await client.from('products').select(PRODUCT_CATALOG_SELECT)
+      const prefixed = await withSignal(client.from('products').select(PRODUCT_CATALOG_SELECT)
         .eq('organization_id', context.organization.id)
         .eq('activo', true)
         .or(`estilo.eq.PI${compact},estilo.eq."${padded}"`)
-        .limit(limit);
+        .limit(cap), signal);
       if (prefixed.error) throw prefixed.error;
       rows = prefixed.data || [];
     }
-    if (!rows.length) {
+    if (!rows.length && planned?.allowPrefix) {
       const prefix = catalogText(estilo);
-      if (!/^\d+$/.test(compact) && prefix.length >= 3 && values.every(value => value.length < 6)) {
-        const loose = await client.from('products').select(PRODUCT_CATALOG_SELECT)
-          .eq('organization_id', context.organization.id)
-          .eq('activo', true)
-          .ilike('estilo', `${prefix}%`)
-          .limit(limit);
-        if (loose.error) throw loose.error;
-        rows = loose.data || [];
-      }
+      const loose = await withSignal(client.from('products').select(PRODUCT_CATALOG_SELECT)
+        .eq('organization_id', context.organization.id)
+        .eq('activo', true)
+        .ilike('estilo', `${prefix}%`)
+        .limit(cap), signal);
+      if (loose.error) throw loose.error;
+      rows = loose.data || [];
     }
     rememberProducts(context, rows);
     if (compact) context.queriedEstilos.add(compact);
@@ -223,17 +220,20 @@
       const key = compactEstilo(product.estilo);
       if (key) context.queriedEstilos.add(key);
     }
-    return rows;
+    return rows.slice(0, cap);
   }
-  async function queryProductsFallback(context, term, limit = 80) {
+  async function queryProductsFallback(context, term, limit = 40, signal) {
+    const planned = plannedSearch(term);
+    if (planned && (planned.mode === 'exact-estilo' || planned.allowPrefix || !planned.ready)) return [];
     const resolvedColor = sazResolve('color', term);
     const value = catalogText(resolvedColor && catalogText(resolvedColor) !== catalogText(term) ? resolvedColor : term);
     if (!value || looksLikeEstilo(value) || value.length < 3) return [];
-    const { data, error } = await client.from('products').select(PRODUCT_CATALOG_SELECT)
+    const cap = Math.min(Number(limit) || 40, 40);
+    const { data, error } = await withSignal(client.from('products').select(PRODUCT_CATALOG_SELECT)
       .eq('organization_id', context.organization.id)
       .eq('activo', true)
       .or(`color.ilike."${value}%",marca.ilike."${value}%",linea.ilike."${value}%"`)
-      .limit(limit);
+      .limit(cap), signal);
     if (error) throw error;
     rememberProducts(context, data || []);
     return data || [];
@@ -271,26 +271,21 @@
     }
     return totals;
   }
-  async function findCatalogProducts(context, query, scope = 'all', limit = 80) {
+  async function findCatalogProducts(context, query, scope = 'all', limit, signal) {
     await sazCatalog()?.ready;
-    const terms = catalogText(query).split(' ').filter(Boolean);
-    if (!terms.length || isIncompleteNumericQuery(terms[0])) return [];
-    let products = await queryProductsByEstilo(context, terms[0], 200);
-    if (!products.length && scope !== 'style' && !looksLikeEstilo(terms[0])) products = await queryProductsFallback(context, terms[0], 200);
+    const planned = plannedSearch(query);
+    if (planned && !planned.ready) return [];
+    const terms = planned?.terms?.length ? planned.terms : catalogText(query).split(' ').filter(Boolean);
+    if (!terms.length) return [];
+    const cap = Math.min(Number(limit) || planned?.limit || 40, planned?.limit || 40, 40);
+    let products = await queryProductsByEstilo(context, terms[0], cap, signal);
+    if (!products.length && scope !== 'style' && planned?.mode === 'text') products = await queryProductsFallback(context, terms[0], cap, signal);
+    const matcher = inventorySearch()?.matchesPlannedProduct;
     return products.filter(product => {
+      if (matcher && planned) return matcher(product, planned) || (scope !== 'style' && planned.mode === 'text' && (colorsMatch(product.color, terms[0]) || sazCatalog()?.matches?.('marca', product.marca, terms[0])));
       const compactProduct = compactEstilo(product.estilo);
-      const haystack = scope === 'style'
-        ? catalogText(`${product.estilo} ${compactProduct}`)
-        : catalogText([product.estilo, compactProduct, product.color, product.marca, product.proveedor, product.temporada, product.sublinea, product.departamento, product.clasificacion, product.linea, product.corrida, product.acabado].join(' '));
-      return terms.every(term => {
-        const compactTerm = compactEstilo(term);
-        if (compactTerm && compactProduct === compactTerm) return true;
-        if (/^\d+$/.test(compactTerm)) return false;
-        if (haystack.includes(term) || (compactTerm && haystack.includes(compactTerm))) return true;
-        if (scope === 'style') return false;
-        return colorsMatch(product.color, term) || (sazCatalog()?.matches?.('marca', product.marca, term));
-      });
-    }).slice(0, limit);
+      return terms.every(term => compactEstilo(term) && compactProduct === compactEstilo(term));
+    }).slice(0, cap);
   }
   async function ensureProductById(context, productId) {
     if (!productId) return null;
@@ -456,8 +451,10 @@
   }
 
   async function searchBranchCatalog(query) {
+    const planned = plannedSearch(query);
+    if (planned && !planned.ready) return [];
     const context = await loadBranchStockContext();
-    const products = await findCatalogProducts(context, query, 'all', 40);
+    const products = await findCatalogProducts(context, query, 'all', planned?.limit || 40);
     const productIds = products.map(product => product.id);
     await loadVariantsFor(context, productIds);
     const totals = await stockTotalsByProduct(context, productIds);
@@ -480,11 +477,13 @@
   }
 
   async function searchRelationalInventory(query, scope = 'all', sazFilter = 'all', options = {}) {
-    const terms = catalogText(query).split(' ').filter(Boolean);
-    if (!terms.length || isIncompleteNumericQuery(terms[0])) return [];
+    const planned = plannedSearch(query);
+    if (planned && !planned.ready) return [];
+    const signal = beginCatalogSearch();
+    try {
     const context = await loadBranchStockContext();
     const includeEmpty = options.includeEmpty !== false;
-    const found = await findCatalogProducts(context, query, scope, 80);
+    const found = await findCatalogProducts(context, query, scope, planned?.limit || 40, signal);
     const products = found.filter(product => {
       const registered = context.registryByKey.get(productLookupKey(product)) === product.id;
       const preloaded = product.source_system === 'saz_precargado' || /PRECARGADO EN SAZ/i.test(String(product.estado || ''));
@@ -542,6 +541,10 @@
         };
       })
       .sort((a, b) => catalogText(`${a.product.estilo}|${a.product.color}`).localeCompare(catalogText(`${b.product.estilo}|${b.product.color}`)));
+    } catch (error) {
+      if (isAbortError(error)) return [];
+      throw error;
+    }
   }
 
   async function hydrateRelationalImages(results) {
