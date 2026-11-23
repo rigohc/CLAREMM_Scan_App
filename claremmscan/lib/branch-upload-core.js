@@ -135,6 +135,7 @@ function groupRows(rows) {
         cantidad: 0,
         source_rows: [],
         crear: Boolean(row.crear) || truthy(row.crear),
+        material_source: (text(row.material) || text(row.acabado)) ? 'row' : 'default',
       });
     }
     const current = grouped.get(key);
@@ -143,7 +144,10 @@ function groupRows(rows) {
     if (parsePrice(row.precio) > 0) current.precio = parsePrice(row.precio);
     if (text(row.marca)) current.marca = text(row.marca);
     if (text(row.tipo) || text(row.linea)) current.tipo = text(row.tipo || row.linea);
-    if (text(row.material) || text(row.acabado)) current.material = text(row.material || row.acabado);
+    if (text(row.material) || text(row.acabado)) {
+      current.material = text(row.material || row.acabado);
+      current.material_source = 'row';
+    }
     if (row.crear === true || truthy(row.crear)) current.crear = true;
   });
   return { rows: [...grouped.values()], invalid, filas: grouped.size };
@@ -218,15 +222,61 @@ function inferTipo({ tipo, size, siblings }) {
   return { tipo: inferred, tipo_inferido: true, linea: inferred };
 }
 
-function resolveMaterial({ labelMaterial, existingAcabado }) {
-  const label = normalize(labelMaterial);
-  const existing = normalize(existingAcabado);
-  const fromLabel = label === 'PIEL' ? 'PIEL' : (label ? text(labelMaterial) : 'SINTETICO');
+function resolveMaterial({ labelMaterial, existingAcabado, labelSource }) {
+  const sent = text(labelMaterial);
+  const source = labelSource || (sent ? 'row' : 'default');
+  const hasSent = source !== 'default' && Boolean(sent);
+  const existing = text(existingAcabado);
+  const labelValue = !hasSent ? '' : (normalize(sent) === 'PIEL' ? 'PIEL' : sent);
   if (existing) {
-    const mismatch = existing === 'PIEL' && normalize(fromLabel) === 'SINTETICO';
-    return { material: text(existingAcabado), overwrite: false, mismatch, label: fromLabel };
+    const mismatch = hasSent && normalize(existing) === 'PIEL' && normalize(sent) === 'SINTETICO';
+    return {
+      material: existing,
+      overwrite: false,
+      mismatch,
+      label: hasSent ? labelValue : existing,
+      label_source: hasSent ? source : 'default',
+    };
   }
-  return { material: fromLabel, overwrite: true, mismatch: false, label: fromLabel };
+  const material = hasSent ? (normalize(sent) === 'PIEL' ? 'PIEL' : sent) : 'SINTETICO';
+  return {
+    material,
+    overwrite: true,
+    mismatch: false,
+    label: material,
+    label_source: hasSent ? source : 'default',
+  };
+}
+
+function dedupeByLookup(rows) {
+  const map = new Map();
+  for (const row of rows || []) {
+    const key = lookupKey(row.estilo, row.color);
+    if (!map.has(key)) {
+      map.set(key, {
+        ...row,
+        tallas: [row.talla].filter(Boolean),
+        source_rows: [...(row.source_rows || [])],
+      });
+      continue;
+    }
+    const current = map.get(key);
+    if (row.talla && !current.tallas.includes(row.talla)) current.tallas.push(row.talla);
+    current.cantidad = Number(current.cantidad || 0) + Number(row.cantidad || 0);
+    current.source_rows.push(...(row.source_rows || []));
+    if (parsePrice(row.precio) > 0) current.precio = parsePrice(row.precio);
+    if (text(row.marca)) current.marca = text(row.marca);
+    if (text(row.tipo) || text(row.linea)) current.tipo = text(row.tipo || row.linea);
+    if (row.material_source === 'row' || (text(row.material) && current.material_source !== 'row')) {
+      current.material = text(row.material);
+      current.material_source = row.material_source || 'row';
+    }
+  }
+  return [...map.values()];
+}
+
+function productSourceId(batchId, estilo, color) {
+  return `${text(batchId)}:${lookupKey(estilo, color)}`;
 }
 
 function productPayload(row) {
@@ -243,11 +293,15 @@ function classifyRows({ rows, products, productExtras = [], createUnknowns = fal
   const creables = [];
   for (const row of grouped.rows) {
     const extra = extras.get(lookupKey(row.estilo, row.color)) || {};
+    const rowMaterial = text(row.material) || text(row.acabado);
+    const extraMaterial = text(extra.material) || text(extra.acabado);
+    const material_source = rowMaterial ? (row.material_source || 'row') : extraMaterial ? 'products' : 'default';
     const merged = {
       ...row,
       marca: text(extra.marca) || text(row.marca),
       tipo: text(extra.tipo) || text(row.tipo),
-      material: text(extra.material) || text(row.material),
+      material: rowMaterial || extraMaterial,
+      material_source,
       precio: extra.precio != null ? extra.precio : row.precio,
       crear: extra.crear === true || extra.crear === 'true' || row.crear || createUnknowns,
     };
@@ -348,6 +402,8 @@ module.exports = {
   inheritPrice,
   inferTipo,
   resolveMaterial,
+  dedupeByLookup,
+  productSourceId,
   classifyRows,
   parseReview,
   writeReview,

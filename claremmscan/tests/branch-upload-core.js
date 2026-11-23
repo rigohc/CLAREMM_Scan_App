@@ -69,6 +69,28 @@ const fresh = core.resolveMaterial({ labelMaterial: '', existingAcabado: '' });
 assert(fresh.material === 'SINTETICO', 'material por defecto SINTETICO');
 const piel = core.resolveMaterial({ labelMaterial: 'PIEL', existingAcabado: '' });
 assert(piel.material === 'PIEL', 'PIEL solo si la etiqueta lo dice');
+const don343 = core.resolveMaterial({ labelMaterial: '', existingAcabado: 'PIEL', labelSource: 'default' });
+assert(!don343.mismatch && don343.label_source === 'default', 'T6: sin material en la fila no marca mismatch');
+const su6550 = core.resolveMaterial({ labelMaterial: 'SINTETICO', existingAcabado: 'PIEL', labelSource: 'row' });
+assert(su6550.mismatch && su6550.label_source === 'row', 'T7: material enviado SINTETICO vs PIEL sí marca mismatch');
+
+const eightSizes = Array.from({ length: 8 }, (_, index) => ({
+  estilo: 'PI4031', color: 'MARINO BLANCO', talla: (22 + index * 0.5).toFixed(1), cantidad: 1, marca: 'PIRMA', crear: true,
+}));
+const eightClassified = core.classifyRows({ rows: eightSizes, products: [], createUnknowns: true });
+const eightSourceIds = core.dedupeByLookup(eightClassified.creables).map(row => core.productSourceId('t1', row.estilo, row.color));
+assert(eightClassified.creables.length === 8, 'T1: 8 tallas de la misma ficha');
+assert(eightSourceIds.length === 1, 'T1: un solo upsert de products por ficha');
+
+const lote = [];
+for (let ficha = 0; ficha < 52; ficha += 1) {
+  for (let size = 0; size < 7; size += 1) {
+    lote.push({ estilo: `ZZT${ficha}`, color: 'NEGRO', talla: (22 + size * 0.5).toFixed(1), cantidad: 1, marca: 'TEST', crear: true });
+  }
+}
+const loteClassified = core.classifyRows({ rows: lote, products: [], createUnknowns: true });
+assert(loteClassified.filas === 364, 'lote sintético 52 fichas × 7 tallas');
+assert(core.dedupeByLookup(loteClassified.creables).length === 52, '52 upserts de products, no 364');
 
 assert(core.estiloKeys('000034').includes('034'), '000034 también busca 034');
 assert(core.estiloKeys('000034').includes('34'), '000034 también busca 34');
@@ -77,5 +99,6 @@ assert(core.blockedBranch('JUAREZ'), 'JUAREZ bloqueada para carga');
 assert(!core.blockedBranch('NUEVO_LEON'), 'NUEVO_LEON permitida');
 assert(core.colorKey('N/B') === 'NEGRO BLANCO', 'alias N/B');
 assert(core.buildPreview(classified).filas === classified.filas, 'preview no inventa filas');
+assert(core.dedupeByLookup(eightClassified.creables).length === 1, 'dedupe exportado');
 
 console.log(JSON.stringify({ ok: true, grouped: grouped.filas, encontradas: classified.encontradas.length, desconocidas: classified.desconocidas.length }, null, 2));

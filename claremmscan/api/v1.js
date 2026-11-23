@@ -23,6 +23,10 @@ function safeEqual(left, right) {
 function send(res, status, body) {
   res.setHeader('Cache-Control', 'no-store');
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  if (status === 429) {
+    const retryAfter = body?.error?.retry_after || 2;
+    res.setHeader('Retry-After', String(retryAfter));
+  }
   return res.status(status).json(body);
 }
 
@@ -81,11 +85,27 @@ const API_ROUTES = [
   'POST /api/v1/branches/{branch}/upload/apply',
   'PATCH /api/v1/catalog/products/{ficha_id}',
   'GET /api/v1/branches/{branch}/history?batch_id=',
+  'GET /api/v1/branches/{branch}/summary',
   'GET /api/v1/review/pending?branch=&estado=',
 ];
 
-function chunks(values, size = 80) {
+const WRITE_CHUNK = 200;
+const READ_CHUNK = 80;
+const sessionCache = { value: null, expiresAt: 0 };
+const orgCache = { value: null, at: 0 };
+
+function chunks(values, size = WRITE_CHUNK) {
   return Array.from({ length: Math.ceil((values || []).length / size) }, (_, index) => values.slice(index * size, (index + 1) * size));
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function retryAfterOf(response, fallback = 2) {
+  const raw = response.headers?.get?.('retry-after');
+  const parsed = Number(raw);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
 }
 
 async function agentAuth(req) {
@@ -95,28 +115,53 @@ async function agentAuth(req) {
   if (!safeEqual(provided, expected)) throw fail(401, 'unauthorized', 'API key inválida o ausente.');
 }
 
-async function supabaseSession() {
-  const url = String(process.env.SUPABASE_URL || '').replace(/\/$/, '');
-  const apiKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_ANON_KEY || '';
-  if (!url || !apiKey) throw fail(503, 'supabase_not_configured', 'Faltan credenciales de Supabase.');
-  if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    return { url, apiKey, token: process.env.SUPABASE_SERVICE_ROLE_KEY, userId: null, service: true };
-  }
-  const email = String(process.env.SUPABASE_MIGRATION_EMAIL || '').trim();
-  const password = String(process.env.SUPABASE_MIGRATION_PASSWORD || '').trim();
-  if (!email || !password) throw fail(503, 'supabase_not_configured', 'Falta usuario de servicio de Supabase.');
+async function passwordGrant(url, apiKey, email, password) {
   const authResponse = await fetch(`${url}/auth/v1/token?grant_type=password`, {
     method: 'POST',
     headers: { apikey: apiKey, 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
   });
-  const auth = await authResponse.json();
-  if (!authResponse.ok || !auth.access_token) throw fail(503, 'auth_failed', 'No se pudo autenticar el agente contra Supabase.');
-  return { url, apiKey, token: auth.access_token, userId: auth.user?.id || null, service: false };
+  const raw = await authResponse.text();
+  let auth = null;
+  try { auth = raw ? JSON.parse(raw) : null; } catch { auth = null; }
+  if (authResponse.status === 429) {
+    throw fail(429, 'rate_limited', 'Supabase limitó la autenticación. Reintenta.', { retry_after: retryAfterOf(authResponse) });
+  }
+  if (authResponse.status >= 500) {
+    throw fail(503, 'auth_unavailable', 'Supabase no pudo emitir el token. Reintenta.', { retry_after: 2 });
+  }
+  if (!authResponse.ok || !auth?.access_token) {
+    throw fail(503, 'auth_failed', 'No se pudo autenticar el agente contra Supabase.');
+  }
+  return auth;
+}
+
+async function supabaseSession({ force = false } = {}) {
+  const now = Date.now();
+  if (!force && sessionCache.value && now < sessionCache.expiresAt) return sessionCache.value;
+  const url = String(process.env.SUPABASE_URL || '').replace(/\/$/, '');
+  const publishable = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_ANON_KEY || '';
+  const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+  if (!url || (!serviceRole && !publishable)) throw fail(503, 'supabase_not_configured', 'Faltan credenciales de Supabase.');
+  if (serviceRole) {
+    const session = { url, apiKey: serviceRole, token: serviceRole, userId: null, service: true };
+    sessionCache.value = session;
+    sessionCache.expiresAt = now + 24 * 60 * 60 * 1000;
+    return session;
+  }
+  const email = String(process.env.SUPABASE_MIGRATION_EMAIL || '').trim();
+  const password = String(process.env.SUPABASE_MIGRATION_PASSWORD || '').trim();
+  if (!email || !password) throw fail(503, 'supabase_not_configured', 'Falta usuario de servicio de Supabase.');
+  const auth = await passwordGrant(url, publishable, email, password);
+  const expiresIn = Number(auth.expires_in || 3600);
+  const session = { url, apiKey: publishable, token: auth.access_token, userId: auth.user?.id || null, service: false };
+  sessionCache.value = session;
+  sessionCache.expiresAt = now + Math.max(30_000, (expiresIn - 120) * 1000);
+  return session;
 }
 
 function restClient(session) {
-  async function rest(resource, { method = 'GET', body, prefer = '' } = {}) {
+  async function rest(resource, { method = 'GET', body, prefer = '', attempt = 0 } = {}) {
     const response = await fetch(`${session.url}/rest/v1/${resource}`, {
       method,
       headers: {
@@ -127,8 +172,28 @@ function restClient(session) {
       },
       ...(body === undefined ? {} : { body: JSON.stringify(body) }),
     });
+    if (response.status === 401 && !session.service && attempt === 0) {
+      sessionCache.value = null;
+      sessionCache.expiresAt = 0;
+      const refreshed = await supabaseSession({ force: true });
+      session.token = refreshed.token;
+      session.userId = refreshed.userId;
+      return rest(resource, { method, body, prefer, attempt: 1 });
+    }
+    if ((response.status === 429 || response.status === 503) && attempt < 2) {
+      const wait = retryAfterOf(response, response.status === 429 ? 2 : 1);
+      if (attempt === 0 && wait <= 3) {
+        await sleep(wait * 1000);
+        return rest(resource, { method, body, prefer, attempt: attempt + 1 });
+      }
+      throw fail(response.status === 429 ? 429 : 503, response.status === 429 ? 'rate_limited' : 'supabase_unavailable', 'Supabase rechazó la petición por carga. Reintenta.', {
+        retry_after: wait,
+        resource,
+      });
+    }
     const raw = await response.text();
-    const data = raw ? JSON.parse(raw) : null;
+    let data = null;
+    try { data = raw ? JSON.parse(raw) : null; } catch { data = { message: raw }; }
     if (!response.ok) throw fail(502, 'supabase_error', data?.message || data?.details || raw || response.status, { resource });
     return data;
   }
@@ -145,11 +210,14 @@ function restClient(session) {
 }
 
 async function loadOrg(db) {
+  if (orgCache.value && Date.now() - orgCache.at < 60_000) return orgCache.value;
   const organizations = await db.allRows('organizations?select=id,name');
   const organization = organizations.find(row => core.normalize(row.name) === ORG_NAME) || organizations[0];
   if (!organization) throw fail(500, 'org_missing', 'No se encontró la organización CLAREMM.');
   const branches = await db.allRows(`branches?select=id,code,name,active&organization_id=eq.${organization.id}`);
-  return { organization, branches: branches.filter(row => row.active !== false) };
+  orgCache.value = { organization, branches: branches.filter(row => row.active !== false) };
+  orgCache.at = Date.now();
+  return orgCache.value;
 }
 
 function findBranch(branches, code) {
@@ -169,9 +237,12 @@ function sazEstado(product, registryIds) {
 async function productsForEstilos(db, organizationId, estilos) {
   const values = [...new Set((estilos || []).flatMap(core.estiloKeys))];
   const products = [];
-  for (const group of chunks(values, 40)) {
-    if (!group.length) continue;
-    products.push(...await db.allRows(`products?select=${PRODUCT_SELECT}&organization_id=eq.${organizationId}&activo=eq.true&estilo=in.(${group.map(encodeURIComponent).join(',')})`));
+  const groups = chunks(values, READ_CHUNK).filter(group => group.length);
+  for (let index = 0; index < groups.length; index += 3) {
+    const batch = await Promise.all(groups.slice(index, index + 3).map(group => (
+      db.allRows(`products?select=${PRODUCT_SELECT}&organization_id=eq.${organizationId}&activo=eq.true&estilo=in.(${group.map(encodeURIComponent).join(',')})`)
+    )));
+    for (const rows of batch) products.push(...rows);
   }
   const unique = new Map();
   for (const product of products) unique.set(product.id, product);
@@ -189,13 +260,27 @@ async function registryIdsFor(db, organizationId, productIds) {
 }
 
 async function branchPairTotal(db, branchId) {
+  try {
+    const rows = await db.rest(`inventory_levels?select=quantity.sum()&branch_id=eq.${branchId}`);
+    const row = rows?.[0] || {};
+    const sum = row.sum ?? row.quantity;
+    if (sum != null && sum !== '') return Number(sum) || 0;
+  } catch {
+    // PostgREST sin agregado: suma en memoria.
+  }
   const rows = await db.allRows(`inventory_levels?select=quantity&branch_id=eq.${branchId}`);
   return rows.reduce((sum, row) => sum + Number(row.quantity || 0), 0);
 }
 
 async function findBatch(db, organizationId, branchId, batchId) {
-  const rows = await db.allRows(`inventory_migration_runs?select=id,source_summary,created_at,pair_count,variant_count,product_count&organization_id=eq.${organizationId}&branch_id=eq.${branchId}&order=created_at.desc`);
-  return rows.find(row => String(row.source_summary?.batch_id || '') === String(batchId || ''));
+  const encoded = encodeURIComponent(batchId);
+  try {
+    const rows = await db.rest(`inventory_migration_runs?select=id,source_summary,created_at,pair_count,variant_count,product_count&organization_id=eq.${organizationId}&branch_id=eq.${branchId}&source_summary->>batch_id=eq.${encoded}&order=created_at.desc&limit=5`);
+    return (rows || []).find(row => String(row.source_summary?.batch_id || '') === String(batchId)) || null;
+  } catch {
+    const rows = await db.rest(`inventory_migration_runs?select=id,source_summary,created_at,pair_count,variant_count,product_count&organization_id=eq.${organizationId}&branch_id=eq.${branchId}&order=created_at.desc&limit=80`);
+    return (rows || []).find(row => String(row.source_summary?.batch_id || '') === String(batchId)) || null;
+  }
 }
 
 function catalogDto(product, registryIds) {
@@ -295,8 +380,15 @@ async function handlePreview(db, org, branchCode, body) {
 
 async function upsertVariants(db, rows) {
   const variantIds = new Map();
-  const payload = rows.map(row => ({ product_id: row.product.id, size: row.talla }));
-  for (const group of chunks(payload, 80)) {
+  const seen = new Set();
+  const payload = [];
+  for (const row of rows) {
+    const key = `${row.product.id}|${row.talla}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    payload.push({ product_id: row.product.id, size: row.talla });
+  }
+  for (const group of chunks(payload, WRITE_CHUNK)) {
     if (!group.length) continue;
     const saved = await db.rest('product_variants?on_conflict=product_id%2Csize', {
       method: 'POST',
@@ -308,6 +400,13 @@ async function upsertVariants(db, rows) {
   return variantIds;
 }
 
+async function postChunks(db, resource, payload, prefer) {
+  for (const group of chunks(payload, WRITE_CHUNK)) {
+    if (!group.length) continue;
+    await db.rest(resource, { method: 'POST', body: group, prefer });
+  }
+}
+
 async function handleApply(db, session, org, branchCode, body) {
   const branch = findBranch(org.branches, branchCode);
   if (core.blockedBranch(branch.code)) throw fail(409, 'juarez_blocked', 'La carga por API no toca JUÁREZ ni el inventario local. Solo NUEVO_LEON.', { branch: branch.code });
@@ -315,26 +414,33 @@ async function handleApply(db, session, org, branchCode, body) {
   const batchId = core.text(body?.batch_id);
   if (!batchId) throw fail(400, 'batch_required', 'batch_id es obligatorio para no duplicar pares.');
   if (!/^[A-Za-z0-9._:-]{3,80}$/.test(batchId)) throw fail(400, 'batch_invalid', 'batch_id solo admite letras, números, punto, guion y dos puntos.');
+  const createUnknowns = Boolean(body?.create_unknowns);
+  const rows = body?.rows || [];
+  const productsInput = body?.products || [];
   const existing = await findBatch(db, org.organization.id, branch.id, batchId);
   if (existing?.source_summary?.result) {
     return { ...existing.source_summary.result, idempotent: true, batch_id: batchId, mode };
   }
-  const createUnknowns = Boolean(body?.create_unknowns);
-  const rows = body?.rows || [];
-  const productsInput = body?.products || [];
-  let catalog = await productsForEstilos(db, org.organization.id, [...rows, ...productsInput].map(row => row.estilo));
+  const [catalogSeed, totalesAntes] = await Promise.all([
+    productsForEstilos(db, org.organization.id, [...rows, ...productsInput].map(row => row.estilo)),
+    branchPairTotal(db, branch.id),
+  ]);
+  let catalog = catalogSeed;
   let classified = core.classifyRows({ rows, products: catalog, productExtras: productsInput, createUnknowns });
   const created = [];
   const omitidas = [...classified.omitidas];
-  const authorized = classified.creables;
   const createPayload = [];
   const createMeta = [];
-  for (const row of authorized) {
+  for (const row of core.dedupeByLookup(classified.creables)) {
     const siblings = row.siblings || [];
     const template = siblings[0] || {};
     const price = core.inheritPrice({ estilo: row.estilo, size: row.talla, products: siblings, explicitPrice: row.precio });
     const tipo = core.inferTipo({ tipo: row.tipo, size: row.talla, siblings });
-    const material = core.resolveMaterial({ labelMaterial: row.material, existingAcabado: '' });
+    const material = core.resolveMaterial({
+      labelMaterial: row.material,
+      existingAcabado: '',
+      labelSource: row.material_source,
+    });
     const review = {
       status: 'pendiente',
       kind: 'created',
@@ -343,11 +449,12 @@ async function handleApply(db, session, org, branchCode, body) {
       batch_id: batchId,
       branch_code: branch.code,
       label_material: material.label,
+      label_material_source: material.label_source,
     };
     createPayload.push({
       organization_id: org.organization.id,
       source_system: 'branch_import',
-      source_id: `${batchId}:${core.lookupKey(row.estilo, row.color)}`,
+      source_id: core.productSourceId(batchId, row.estilo, row.color),
       match_key: [row.estilo, row.color, row.marca || template.marca].map(core.normalize).join('|'),
       estilo: /^\d+$/.test(core.compactEstilo(row.estilo)) ? core.padEstilo(row.estilo) : core.normalize(row.estilo),
       color: core.colorKey(row.color),
@@ -368,7 +475,11 @@ async function handleApply(db, session, org, branchCode, body) {
     });
     createMeta.push({ row, price, tipo, material, review });
   }
-  for (const group of chunks(createPayload, 80)) {
+  const sourceIds = createPayload.map(row => row.source_id);
+  if (new Set(sourceIds).size !== sourceIds.length) {
+    throw fail(500, 'duplicate_product_upsert', 'No se puede upsertar la misma ficha dos veces en una llamada.');
+  }
+  for (const group of chunks(createPayload, WRITE_CHUNK)) {
     if (!group.length) continue;
     const saved = await db.rest('products?on_conflict=organization_id%2Csource_system%2Csource_id', {
       method: 'POST',
@@ -397,18 +508,27 @@ async function handleApply(db, session, org, branchCode, body) {
   }
   const stockRows = classified.encontradas;
   const variantIds = await upsertVariants(db, stockRows);
+  const variantIdList = [...new Set([...variantIds.values()])];
   const currentByVariant = new Map();
-  for (const group of chunks([...new Set([...variantIds.values()])], 200)) {
-    if (!group.length) continue;
-    const levels = await db.rest(`inventory_levels?select=variant_id,quantity&branch_id=eq.${branch.id}&variant_id=in.(${group.join(',')})`);
-    for (const row of levels || []) currentByVariant.set(row.variant_id, Number(row.quantity || 0));
-  }
-  const appliedKeys = new Set((await db.allRows(`inventory_movements_relational?select=import_key&import_key=like.api-v1:${batchId}:*`)).map(row => row.import_key));
+  const appliedKeys = new Set();
+  await Promise.all([
+    (async () => {
+      for (const group of chunks(variantIdList, 200)) {
+        if (!group.length) continue;
+        const levels = await db.rest(`inventory_levels?select=variant_id,quantity&branch_id=eq.${branch.id}&variant_id=in.(${group.join(',')})`);
+        for (const row of levels || []) currentByVariant.set(row.variant_id, Number(row.quantity || 0));
+      }
+    })(),
+    (async () => {
+      const keys = await db.allRows(`inventory_movements_relational?select=import_key&import_key=like.${encodeURIComponent(`api-v1:${batchId}:`)}*`);
+      for (const row of keys) appliedKeys.add(row.import_key);
+    })(),
+  ]);
   const levelsPayload = [];
   const movementPayload = [];
   const procesadas = [];
   const reviewPatches = [];
-  const totalesAntes = await branchPairTotal(db, branch.id);
+  const patchedProducts = new Set();
   for (const row of stockRows) {
     const variantId = variantIds.get(`${row.product.id}|${row.talla}`);
     if (!variantId) {
@@ -438,8 +558,13 @@ async function handleApply(db, session, org, branchCode, body) {
     procesadas.push({ estilo: row.estilo, color: row.color, talla: row.talla, cantidad: row.cantidad, ficha_id: row.product.id, cantidad_antes: previous, cantidad_despues: next });
     const createdRow = created.find(item => item.ficha_id === row.product.id);
     if (createdRow && !createdRow.tallas.includes(row.talla)) createdRow.tallas.push(row.talla);
-    const material = core.resolveMaterial({ labelMaterial: row.material, existingAcabado: row.product.acabado });
-    if (material.mismatch) {
+    const material = core.resolveMaterial({
+      labelMaterial: row.material,
+      existingAcabado: row.product.acabado,
+      labelSource: row.material_source,
+    });
+    if (material.mismatch && !patchedProducts.has(row.product.id)) {
+      patchedProducts.add(row.product.id);
       reviewPatches.push({
         id: row.product.id,
         descripcion: core.writeReview(row.product.descripcion, {
@@ -448,25 +573,20 @@ async function handleApply(db, session, org, branchCode, body) {
           batch_id: batchId,
           branch_code: branch.code,
           label_material: material.label,
+          label_material_source: material.label_source,
           catalog_material: row.product.acabado,
         }),
       });
     }
   }
-  for (const group of chunks(levelsPayload, 80)) {
-    if (!group.length) continue;
-    await db.rest('inventory_levels?on_conflict=branch_id%2Cvariant_id', { method: 'POST', body: group, prefer: 'resolution=merge-duplicates,return=minimal' });
-  }
-  for (const group of chunks(movementPayload, 80)) {
-    if (!group.length) continue;
-    await db.rest('inventory_movements_relational?on_conflict=import_key', { method: 'POST', body: group, prefer: 'resolution=merge-duplicates,return=minimal' });
-  }
-  for (const patch of reviewPatches) {
-    await db.rest(`products?id=eq.${patch.id}&organization_id=eq.${org.organization.id}`, {
+  await postChunks(db, 'inventory_movements_relational?on_conflict=import_key', movementPayload, 'resolution=merge-duplicates,return=minimal');
+  await postChunks(db, 'inventory_levels?on_conflict=branch_id%2Cvariant_id', levelsPayload, 'resolution=merge-duplicates,return=minimal');
+  for (const group of chunks(reviewPatches, 8)) {
+    await Promise.all(group.map(patch => db.rest(`products?id=eq.${patch.id}&organization_id=eq.${org.organization.id}`, {
       method: 'PATCH',
       body: { descripcion: patch.descripcion },
       prefer: 'return=minimal',
-    });
+    })));
   }
   const paresProcesados = procesadas.reduce((sum, row) => sum + Number(row.cantidad || 0), 0);
   const totalesDespues = await branchPairTotal(db, branch.id);
@@ -569,6 +689,35 @@ async function handleHistory(db, org, branchCode, query) {
   };
 }
 
+async function handleSummary(db, org, branchCode) {
+  const branch = findBranch(org.branches, branchCode);
+  const pares = await branchPairTotal(db, branch.id);
+  let registros = 0;
+  let estilos = 0;
+  let valor_total = 0;
+  try {
+    const levels = await db.allRows(`inventory_levels?select=quantity,product_variants(product_id,products(estilo,precio))&branch_id=eq.${branch.id}&quantity=gt.0`);
+    const styleSet = new Set();
+    for (const row of levels) {
+      registros += 1;
+      const product = row.product_variants?.products;
+      if (product?.estilo) styleSet.add(core.compactEstilo(product.estilo));
+      valor_total += Number(row.quantity || 0) * Number(product?.precio || 0);
+    }
+    estilos = styleSet.size;
+  } catch {
+    const levels = await db.allRows(`inventory_levels?select=variant_id,quantity&branch_id=eq.${branch.id}&quantity=gt.0`);
+    registros = levels.length;
+  }
+  return {
+    branch: { id: branch.id, code: branch.code, name: branch.name },
+    pares,
+    registros,
+    estilos,
+    valor_total,
+  };
+}
+
 async function handleReview(db, org, query) {
   const status = core.normalize(query.estado || 'pendiente') || 'PENDIENTE';
   const branchCode = core.text(query.branch);
@@ -589,6 +738,7 @@ async function handleReview(db, org, query) {
       tipo_inferido: Boolean(review.tipo_inferido),
       material: product.acabado,
       label_material: review.label_material || '',
+      label_material_source: review.label_material_source || '',
       precio: Number(product.precio || 0),
       precio_origen: review.precio_origen || '',
       estado_revision: review.status || 'pendiente',
@@ -601,7 +751,7 @@ async function handleReview(db, org, query) {
   return { items };
 }
 
-module.exports = async function handler(req, res) {
+async function handler(req, res) {
   cors(res);
   if (req.method === 'OPTIONS') return send(res, 204, {});
   try {
@@ -623,6 +773,7 @@ module.exports = async function handler(req, res) {
     else if (req.method === 'POST' && parts[0] === 'branches' && parts[2] === 'upload' && parts[3] === 'apply') result = await handleApply(db, session, org, parts[1], body);
     else if (req.method === 'PATCH' && parts[0] === 'catalog' && parts[1] === 'products' && parts[2]) result = await handlePatchProduct(db, session, org, parts[2], body);
     else if (req.method === 'GET' && parts[0] === 'branches' && parts[2] === 'history') result = await handleHistory(db, org, parts[1], query);
+    else if (req.method === 'GET' && parts[0] === 'branches' && parts[2] === 'summary') result = await handleSummary(db, org, parts[1]);
     else if (req.method === 'GET' && parts[0] === 'review' && parts[1] === 'pending') result = await handleReview(db, org, query);
     else throw fail(404, 'not_found', 'Ruta de API no reconocida.');
     return send(res, 200, result);
@@ -630,4 +781,8 @@ module.exports = async function handler(req, res) {
     const status = error.status || 500;
     return send(res, status, error.public || { error: { code: 'unexpected', message: error.message || 'Error inesperado.' } });
   }
-};
+}
+
+module.exports = handler;
+module.exports.handleApply = handleApply;
+module.exports.supabaseSession = supabaseSession;
