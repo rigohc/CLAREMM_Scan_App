@@ -144,7 +144,7 @@
       const planned = plan(query);
       if (!planned.ready) return [];
       const passesSaz = item => {
-        if (sazFilter === 'pending' && item.saz_cargado) return false;
+        if ((sazFilter === 'pending' || sazFilter === 'prep') && item.saz_cargado) return false;
         if (sazFilter === 'loaded' && !item.saz_cargado) return false;
         return true;
       };

@@ -204,6 +204,108 @@
     return [...byKey.values()].sort((left, right) => normalize(`${left.estilo} ${left.color}`).localeCompare(normalize(`${right.estilo} ${right.color}`), 'es'));
   }
 
+  const TABLE_HEADERS = Object.freeze(['Estilo', 'Color', 'Marca', 'Corrida', 'Precio', 'Pares', 'Imagen', 'Falta', 'Estado SAZ', 'Acciones']);
+
+  function isPrepGap(row) {
+    return Boolean(row?.sin_imagen) || Boolean(row?.sin_precio);
+  }
+
+  function gapLabel(row) {
+    if (row?.sin_precio && row?.sin_imagen) return 'Precio e imagen';
+    if (row?.sin_precio) return 'Precio';
+    if (row?.sin_imagen) return 'Imagen';
+    return '';
+  }
+
+  function groupLocalGaps(items, { imageNames, imageNameFor, priceOf } = {}) {
+    const names = new Set(imageNames || []);
+    const groups = new Map();
+    for (const item of items || []) {
+      if (!isJuarezBranch(item.sucursal)) continue;
+      const key = fichaKey(item.estilo, item.color);
+      const current = groups.get(key) || {
+        estilo: item.estilo,
+        color: item.color,
+        marca: item.marca || '',
+        linea: item.linea || '',
+        acabado: item.material || '',
+        corrida: item.corrida || '',
+        proveedor: item.proveedor || '',
+        precio: 0,
+        qtyBySize: {},
+        pending: false,
+      };
+      addSizeQty(current.qtyBySize, item.talla, item.cantidad);
+      const price = priceOf ? priceOf(item.precio) : Number(item.precio) || 0;
+      if (price > current.precio) current.precio = price;
+      if (!item.saz_cargado) current.pending = true;
+      if (item.marca) current.marca = item.marca;
+      if (item.linea) current.linea = item.linea;
+      if (item.material) current.acabado = item.material;
+      if (item.corrida) current.corrida = item.corrida;
+      groups.set(key, current);
+    }
+    const rows = [];
+    for (const row of groups.values()) {
+      if (!row.pending) continue;
+      const imageKey = imageNameFor ? imageNameFor(row) : `${normalize(row.estilo).replace(/[^A-Z0-9]+/g, '-')}-${normalize(row.color).replace(/[^A-Z0-9]+/g, '-')}.png`;
+      const sin_imagen = !names.has(imageKey);
+      const sin_precio = !(row.precio > 0);
+      if (!sin_imagen && !sin_precio) continue;
+      rows.push({
+        ...row,
+        pares: pairsFromSizes(row.qtyBySize),
+        sin_imagen,
+        sin_precio,
+        estado_saz: 'Pendiente de SAZ',
+        origen: 'escaner',
+      });
+    }
+    return rows;
+  }
+
+  function fichaMatchesQuery(ficha, query, scope, planned) {
+    if (planned?.wait) return false;
+    if (planned?.mode === 'exact-estilo') {
+      const compact = compactEstilo(ficha.estilo);
+      const keys = planned.keys || [];
+      return keys.some(key => compact === compactEstilo(key) || normalize(ficha.estilo) === normalize(key));
+    }
+    if (planned?.mode === 'prefix-estilo') {
+      const prefix = compactEstilo(planned.terms?.[0] || query);
+      return Boolean(prefix) && compactEstilo(ficha.estilo).startsWith(prefix);
+    }
+    const needle = normalize(query);
+    if (!needle) return true;
+    const haystack = scope === 'style'
+      ? normalize(ficha.estilo)
+      : normalize([ficha.estilo, ficha.color, ficha.marca, ficha.linea, ficha.corrida, ficha.proveedor].join(' '));
+    return needle.split(/\s+/).filter(Boolean).every(term => haystack.includes(term));
+  }
+
+  function applyFichaPatch(rows, patch) {
+    if (!patch) return rows || [];
+    const key = fichaKey(patch.estilo, patch.color);
+    return (rows || []).map(row => {
+      if (fichaKey(row.estilo, row.color) !== key) return row;
+      const next = { ...row, qtyBySize: { ...(row.qtyBySize || {}) } };
+      if (patch.precio != null && Number(patch.precio) > 0) {
+        next.precio = Number(patch.precio);
+        next.sin_precio = false;
+      }
+      if (patch.sin_precio === false) next.sin_precio = false;
+      if (patch.sin_imagen === false || patch.imagen) next.sin_imagen = false;
+      if (text(patch.corrida)) next.corrida = text(patch.corrida);
+      if (text(patch.marca)) next.marca = text(patch.marca);
+      if (text(patch.linea)) next.linea = text(patch.linea);
+      if (text(patch.acabado || patch.material)) next.acabado = text(patch.acabado || patch.material);
+      if (patch.qtyBySize) next.qtyBySize = mergeQtyBySize(next.qtyBySize, patch.qtyBySize);
+      if (patch.talla) addSizeQty(next.qtyBySize, patch.talla, patch.cantidad || 1);
+      next.pares = pairsFromSizes(next.qtyBySize);
+      return next;
+    }).filter(isPrepGap);
+  }
+
   return {
     DEFAULT_TEMPORADA,
     DEFAULT_DEPARTAMENTO,
@@ -213,6 +315,7 @@
     SIZE_HEADERS,
     INVENTORY_HEADERS,
     RESUMEN_HEADERS,
+    TABLE_HEADERS,
     fichaKey,
     isJuarezBranch,
     sizeKey,
@@ -224,5 +327,10 @@
     toInventoryRows,
     toResumenRows,
     mergeGapRows,
+    isPrepGap,
+    gapLabel,
+    groupLocalGaps,
+    fichaMatchesQuery,
+    applyFichaPatch,
   };
 }));

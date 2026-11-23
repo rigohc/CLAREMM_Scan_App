@@ -776,6 +776,15 @@
         result.notice = `${FICHA_FIELDS.find(item => item.key === field)?.label || field} actualizado.`;
       }
       relationalEdit = null;
+      window.ClaremmStore?.patchSazPrepFicha?.({
+        estilo: result.product.estilo,
+        color: result.product.color,
+        precio: field === 'precio' ? saved.precio : result.product.precio,
+        corrida: field === 'corrida' ? saved.value : result.product.corrida,
+        marca: field === 'marca' ? saved.value : result.product.marca,
+        linea: field === 'linea' ? saved.value : result.product.linea,
+        acabado: field === 'acabado' ? saved.value : result.product.acabado,
+      });
       if (field === 'precio') {
         for (const item of relationalInventoryResults.filter(item => matchesStyleCorrida(item.product, result.product.estilo, result.product.corrida))) replaceRelationalCard(item);
       } else {
@@ -816,6 +825,12 @@
         result.imageMessage = `Imagen compartida en ambos inventarios · ${(saved.size / 1024).toFixed(1)} KB`;
       }
       renderRelationalInventory(relationalInventoryResults, relationalInventoryQuery);
+      window.ClaremmStore?.patchSazPrepFicha?.({
+        estilo: target.product.estilo,
+        color: target.product.color,
+        sin_imagen: false,
+        imagen: true,
+      });
     } catch (error) {
       if (statusElement) statusElement.textContent = error.message;
       buttons.forEach(button => { button.disabled = false; });

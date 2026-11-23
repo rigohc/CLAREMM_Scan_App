@@ -70,6 +70,27 @@ assert(merged[0].qtyBySize['23.0'] === 1 && merged[0].qtyBySize['24.0'] === 2, '
 const resumen = excel.toResumenRows([row]);
 assert(resumen[0].Marca === 'MIRLO' && resumen[0]['Modelos / Estilos'] === 1 && resumen[0]['Total Pares en Existencia'] === 12, 'resumen por marca/línea/sublínea');
 
+assert(JSON.stringify(excel.TABLE_HEADERS) === JSON.stringify(['Estilo', 'Color', 'Marca', 'Corrida', 'Precio', 'Pares', 'Imagen', 'Falta', 'Estado SAZ', 'Acciones']), 'tabla inventario alineada al Excel');
+assert(excel.gapLabel({ sin_precio: true, sin_imagen: true }) === 'Precio e imagen', 'etiqueta de faltante');
+
+const localGrouped = excel.groupLocalGaps([
+  { sucursal: 'CLAREMM ZAPATERIA JUAREZ', estilo: '34', color: 'NEGRO', talla: '23.0', cantidad: 1, precio: '', saz_cargado: false, material: 'PIEL' },
+  { sucursal: 'NUEVO LEON', estilo: '99', color: 'ROJO', talla: '24.0', cantidad: 2, precio: '', saz_cargado: false },
+], { imageNames: new Set(), imageNameFor: row => `${row.estilo}-${row.color}.png`, priceOf: value => Number(value) || 0 });
+assert(localGrouped.length === 1 && localGrouped[0].estilo === '34', 'tabla local solo JUÁREZ');
+assert(localGrouped[0].sin_precio && localGrouped[0].sin_imagen && localGrouped[0].qtyBySize['23.0'] === 1, 'ficha agrupada por estilo+color');
+
+assert(excel.fichaMatchesQuery({ estilo: '000034', color: 'NEGRO' }, '34', 'style', { mode: 'exact-estilo', keys: ['000034', '034', '34'] }), 'búsqueda 34 actualiza 000034');
+assert(!excel.fichaMatchesQuery({ estilo: 'PI4031', color: 'NEGRO' }, '34', 'style', { mode: 'exact-estilo', keys: ['34'] }), 'no mezcla otros estilos');
+
+const patched = excel.applyFichaPatch(
+  [{ estilo: '000034', color: 'NEGRO', precio: 0, sin_precio: true, sin_imagen: true, qtyBySize: { '23.0': 1 } }],
+  { estilo: '34', color: 'NEGRO', precio: 770, talla: '24.0', cantidad: 1 },
+);
+assert(patched.length === 1 && patched[0].precio === 770 && patched[0].sin_precio === false, 'al encontrar el producto se actualiza el precio');
+assert(patched[0].qtyBySize['24.0'] === 1 && patched[0].sin_imagen, 'suma talla y sigue en la lista si falta imagen');
+assert(!excel.applyFichaPatch(patched, { estilo: '34', color: 'NEGRO', sin_imagen: false }).length, 'sale de faltantes cuando ya tiene precio e imagen');
+
 const referencePath = '/Users/laclavees12345/Downloads/MIRLO Y WILDCAT 16_11_26 CORREGIDO POR SUBIR A SAZ.xlsx';
 const xlsxPath = path.join(__dirname, '../../CLAREMM Zapateria/backend/node_modules/xlsx');
 if (fs.existsSync(referencePath) && fs.existsSync(xlsxPath)) {

@@ -487,7 +487,12 @@
     const products = found.filter(product => {
       const registered = context.registryByKey.get(productLookupKey(product)) === product.id;
       const preloaded = product.source_system === 'saz_precargado' || /PRECARGADO EN SAZ/i.test(String(product.estado || ''));
-      return sazFilter === 'loaded' ? registered : sazFilter === 'pending' ? !registered && !preloaded : true;
+      const sinImagen = !String(product.imagen || '').trim();
+      const sinPrecio = !(Number(product.precio) > 0);
+      if (sazFilter === 'loaded') return registered;
+      if (sazFilter === 'pending') return !registered && !preloaded;
+      if (sazFilter === 'prep') return !registered && !preloaded && (sinImagen || sinPrecio);
+      return true;
     });
     await loadVariantsFor(context, products.map(product => product.id));
     const variantIds = products.flatMap(product => (context.variantsByProduct.get(product.id) || []).map(variant => variant.id));
@@ -528,14 +533,19 @@
             totalQuantity: stock?.totalQuantity || 0,
           };
         });
-        const branch = branchStocks.find(item => item.totalQuantity > 0)?.branch || juarez || context.branches[0];
-        const sizes = branchStocks.flatMap(item => item.sizes.map(size => ({ ...size, branch: item.branch.name, branchCode: item.branch.code })));
+        const juarezStock = branchStocks.find(item => catalogText(item.branch.code) === 'JUAREZ');
+        const branch = sazFilter === 'prep'
+          ? (juarez || juarezStock?.branch || context.branches[0])
+          : (branchStocks.find(item => item.totalQuantity > 0)?.branch || juarez || context.branches[0]);
+        const sizes = sazFilter === 'prep'
+          ? (juarezStock?.sizes || []).map(size => ({ ...size, branch: juarez?.name || 'JUAREZ', branchCode: 'JUAREZ' }))
+          : branchStocks.flatMap(item => item.sizes.map(size => ({ ...size, branch: item.branch.name, branchCode: item.branch.code })));
         return {
           product: result.product,
           branch,
-          branchStocks,
+          branchStocks: sazFilter === 'prep' ? branchStocks.filter(item => catalogText(item.branch.code) === 'JUAREZ') : branchStocks,
           sizes,
-          totalQuantity: result.totalQuantity,
+          totalQuantity: sazFilter === 'prep' ? (juarezStock?.totalQuantity || 0) : result.totalQuantity,
           ...catalogSazFlags(context, result.product, result.totalQuantity),
           imageUrl: result.product.imagen ? relationalImageUrls.get(result.product.imagen) || '' : '',
         };
@@ -1338,6 +1348,7 @@
       loadBranchStockContext().catch(() => {});
       try { await syncAll(); }
       catch (error) { setCloudStatus(`No se pudo sincronizar: ${cloudErrorMessage(error)}`, 'warn'); }
+      store.refreshSazPrepCatalog?.().catch(() => {});
     } else {
       setCloudStatus(client ? 'Inicia sesión para respaldar y sincronizar el inventario.' : 'Supabase no está configurado; los datos siguen guardándose localmente.', 'muted');
     }
