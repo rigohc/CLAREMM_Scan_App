@@ -1,0 +1,6713 @@
+{
+  "generated_at": "2026-11-20T07:45:50.129Z",
+  "mode": "APPLY",
+  "organization": {
+    "id": "a9017238-d45c-4e36-b4f0-17dc332aeb4c",
+    "name": "CLAREMM"
+  },
+  "branch": {
+    "id": "61d4f1c7-db48-426d-a64e-64dfb3e3d1df",
+    "code": "JUAREZ",
+    "name": "CLAREMM ZAPATERIA JUAREZ"
+  },
+  "excel": {
+    "file": "carga.xlsx",
+    "rows": 702,
+    "products_after_merge": 674,
+    "consolidated": 23,
+    "pairs": 2386,
+    "with_price": 105,
+    "without_price": 569,
+    "total_mismatches": []
+  },
+  "supabase": {
+    "products": 1329,
+    "priced": 598,
+    "priced_with_image": 300,
+    "variants": 3554,
+    "inventory_level_rows": 3548,
+    "juarez_pairs": 4240,
+    "registry": 236,
+    "source_systems": {
+      "saz_excel": 810,
+      "sqlite": 326,
+      "saz_registered": 193
+    }
+  },
+  "cruzado": {
+    "matched_with_price": 78,
+    "matched_pairs_excel": 276,
+    "matched_pairs_current": 331,
+    "stock_same": 57,
+    "stock_would_change": 21,
+    "matched_currently_empty": 5,
+    "skipped_no_price_in_catalog": 581,
+    "unmatched": 1,
+    "unmatched_with_price": 0,
+    "unmatched_pairs": 3,
+    "ambiguous": 14,
+    "leading_zero_fixes": []
+  },
+  "matches": [
+    {
+      "matchType": "exact",
+      "excel_estilo": "131606",
+      "catalog_estilo": "131606",
+      "color": "BLANCO",
+      "catalog_precio": 1199,
+      "excel_precio": 1199,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 3,
+      "current_pairs": 3,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.5": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "23.5": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "product_id": "16ce5d8b-6a82-4acf-925f-c2af9c7a2f59"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "131606",
+      "catalog_estilo": "131606",
+      "color": "NEGRO",
+      "catalog_precio": 1199,
+      "excel_precio": 1199,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 9,
+      "current_pairs": 8,
+      "stock_delta": 1,
+      "excel_sizes": {
+        "22.0": 1,
+        "23.0": 2,
+        "23.5": 1,
+        "24.0": 1,
+        "24.5": 2,
+        "25.0": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "22.0": 1,
+        "23.0": 1,
+        "23.5": 1,
+        "24.0": 1,
+        "24.5": 2,
+        "25.0": 1,
+        "26.0": 1
+      },
+      "product_id": "469d3bf9-0654-42d5-88ba-817d291bcf1c"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "131607",
+      "catalog_estilo": "131607",
+      "color": "NEGRO",
+      "catalog_precio": 1049,
+      "excel_precio": 1049,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 4,
+      "current_pairs": 4,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.0": 1,
+        "22.5": 1,
+        "23.5": 1,
+        "24.5": 1
+      },
+      "current_sizes": {
+        "22.0": 1,
+        "22.5": 1,
+        "23.5": 1,
+        "24.5": 1
+      },
+      "product_id": "d1f09c96-e28f-46a2-ad55-53afd30327c2"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "131901",
+      "catalog_estilo": "131901",
+      "color": "NEGRO",
+      "catalog_precio": 1199,
+      "excel_precio": 1199,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 3,
+      "current_pairs": 3,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.5": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "23.5": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "product_id": "9584a339-c8af-4648-b25e-201c5c2fdfeb"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "131910",
+      "catalog_estilo": "131910",
+      "color": "NEGRO",
+      "catalog_precio": 2299,
+      "excel_precio": 2299,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 8,
+      "current_pairs": 8,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.5": 1,
+        "24.5": 2,
+        "25.0": 2,
+        "25.5": 2,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "22.5": 1,
+        "24.5": 2,
+        "25.0": 2,
+        "25.5": 2,
+        "26.0": 1
+      },
+      "product_id": "089c08f4-6750-459a-95a6-4771c4d4460e"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "133706",
+      "catalog_estilo": "133706",
+      "color": "BEIGE",
+      "catalog_precio": 999,
+      "excel_precio": 999,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 3,
+      "current_pairs": 3,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "25.0": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "25.0": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "product_id": "d5f37e51-2d7a-4496-9810-40d8922be725"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "133706",
+      "catalog_estilo": "133706",
+      "color": "NEGRO",
+      "catalog_precio": 999,
+      "excel_precio": 999,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 1,
+      "current_pairs": 1,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.5": 1
+      },
+      "current_sizes": {
+        "22.5": 1
+      },
+      "product_id": "e57604e5-6054-49f1-b3a1-c36d8de71c2d"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "133906",
+      "catalog_estilo": "133906",
+      "color": "VINO",
+      "catalog_precio": 1599,
+      "excel_precio": 1599,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 4,
+      "current_pairs": 4,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.0": 1,
+        "24.5": 1,
+        "25.0": 1,
+        "27.0": 1
+      },
+      "current_sizes": {
+        "23.0": 1,
+        "24.5": 1,
+        "25.0": 1,
+        "27.0": 1
+      },
+      "product_id": "740265ae-1b1d-4125-a20c-ccde12ab2ecd"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "134404",
+      "catalog_estilo": "134404",
+      "color": "NEGRO",
+      "catalog_precio": 1299,
+      "excel_precio": 1299,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 6,
+      "current_pairs": 6,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.5": 1,
+        "24.5": 2,
+        "25.0": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "22.5": 1,
+        "24.5": 2,
+        "25.0": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "product_id": "abf6dcfb-f60c-4bef-99ac-51d3f200e6af"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "134406",
+      "catalog_estilo": "134406",
+      "color": "NEGRO",
+      "catalog_precio": 1349,
+      "excel_precio": 1349,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 2,
+      "current_pairs": 2,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.0": 1,
+        "24.0": 1
+      },
+      "current_sizes": {
+        "23.0": 1,
+        "24.0": 1
+      },
+      "product_id": "4cd85ea9-f524-4881-863e-463eba1ef155"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "134406",
+      "catalog_estilo": "134406",
+      "color": "TAN",
+      "catalog_precio": 1349,
+      "excel_precio": 1349,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 2,
+      "current_pairs": 2,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.5": 1,
+        "23.5": 1
+      },
+      "current_sizes": {
+        "22.5": 1,
+        "23.5": 1
+      },
+      "product_id": "ddcab79a-2d1f-4e48-9177-582d59d27fd4"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "134501",
+      "catalog_estilo": "134501",
+      "color": "ALGODON",
+      "catalog_precio": 1199,
+      "excel_precio": 1199,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 2,
+      "current_pairs": 2,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "24.5": 1,
+        "25.5": 1
+      },
+      "current_sizes": {
+        "24.5": 1,
+        "25.5": 1
+      },
+      "product_id": "af3ede4a-1121-4d32-a289-c8794c0c5dba"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "134704",
+      "catalog_estilo": "134704",
+      "color": "NEGRO",
+      "catalog_precio": 1499,
+      "excel_precio": 1499,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 4,
+      "current_pairs": 4,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.5": 1,
+        "24.0": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "23.5": 1,
+        "24.0": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "product_id": "28cab471-3ce5-481e-9005-ff5dd1e9f693"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "134704",
+      "catalog_estilo": "134704",
+      "color": "TAN",
+      "catalog_precio": 1499,
+      "excel_precio": 1499,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 7,
+      "current_pairs": 7,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.0": 1,
+        "22.5": 1,
+        "23.0": 1,
+        "23.5": 1,
+        "24.0": 1,
+        "24.5": 1,
+        "25.0": 1
+      },
+      "current_sizes": {
+        "22.0": 1,
+        "22.5": 1,
+        "23.0": 1,
+        "23.5": 1,
+        "24.0": 1,
+        "24.5": 1,
+        "25.0": 1
+      },
+      "product_id": "2ed41bd8-9659-41fd-a8da-16d4f22dff91"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "134706",
+      "catalog_estilo": "134706",
+      "color": "NEGRO",
+      "catalog_precio": 1299,
+      "excel_precio": 1299,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 8,
+      "current_pairs": 8,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.0": 1,
+        "22.5": 1,
+        "23.0": 1,
+        "23.5": 1,
+        "24.0": 1,
+        "24.5": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "22.0": 1,
+        "22.5": 1,
+        "23.0": 1,
+        "23.5": 1,
+        "24.0": 1,
+        "24.5": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "product_id": "b65bcd17-f527-4cda-85a1-b5dcbaa269b3"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "134803",
+      "catalog_estilo": "134803",
+      "color": "NEGRO",
+      "catalog_precio": 999,
+      "excel_precio": 999,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 7,
+      "current_pairs": 7,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.0": 1,
+        "22.5": 1,
+        "23.0": 1,
+        "23.5": 2,
+        "24.0": 1,
+        "25.5": 1
+      },
+      "current_sizes": {
+        "22.0": 1,
+        "22.5": 1,
+        "23.0": 1,
+        "23.5": 2,
+        "24.0": 1,
+        "25.5": 1
+      },
+      "product_id": "c7602d1d-e01a-4bea-a014-658f0f926b4c"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "134803",
+      "catalog_estilo": "134803",
+      "color": "TAN",
+      "catalog_precio": 999,
+      "excel_precio": 999,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 2,
+      "current_pairs": 2,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.0": 1,
+        "24.0": 1
+      },
+      "current_sizes": {
+        "22.0": 1,
+        "24.0": 1
+      },
+      "product_id": "7a9ab3d9-b025-4d84-96fc-5292c39b7deb"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "135203",
+      "catalog_estilo": "135203",
+      "color": "BEIGE",
+      "catalog_precio": 1149,
+      "excel_precio": 1199,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 2,
+      "current_pairs": 2,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "25.5": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "25.5": 1,
+        "26.0": 1
+      },
+      "product_id": "1f8b4938-56eb-49a5-9bb1-bbe1a8066d14"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "135401",
+      "catalog_estilo": "135401",
+      "color": "ROJO",
+      "catalog_precio": 1399,
+      "excel_precio": 1399,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 4,
+      "current_pairs": 4,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.0": 2,
+        "24.0": 1,
+        "25.0": 1
+      },
+      "current_sizes": {
+        "23.0": 2,
+        "24.0": 1,
+        "25.0": 1
+      },
+      "product_id": "9da9b8bb-cac8-4208-8e5f-5de13c4705a8"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "136604",
+      "catalog_estilo": "136604",
+      "color": "NEGRO",
+      "catalog_precio": 1199,
+      "excel_precio": 1199,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 3,
+      "current_pairs": 3,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.5": 1,
+        "23.0": 1,
+        "25.5": 1
+      },
+      "current_sizes": {
+        "22.5": 1,
+        "23.0": 1,
+        "25.5": 1
+      },
+      "product_id": "d0d76dec-21c8-46d0-9f41-d992563cc953"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "136606",
+      "catalog_estilo": "136606",
+      "color": "BLANCO",
+      "catalog_precio": 1199,
+      "excel_precio": 1199,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 1,
+      "current_pairs": 1,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "24.0": 1
+      },
+      "current_sizes": {
+        "24.0": 1
+      },
+      "product_id": "b387eb36-ea50-4e57-8e4b-2683cffaafa4"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "136606",
+      "catalog_estilo": "136606",
+      "color": "NEGRO",
+      "catalog_precio": 1199,
+      "excel_precio": 1199,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 7,
+      "current_pairs": 7,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.0": 1,
+        "23.5": 2,
+        "24.5": 2,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "22.0": 1,
+        "23.5": 2,
+        "24.5": 2,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "product_id": "77d7a703-e346-4fc6-9dc0-9aa8bf4659d0"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "136705",
+      "catalog_estilo": "136705",
+      "color": "NEGRO",
+      "catalog_precio": 1499,
+      "excel_precio": 1499,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 2,
+      "current_pairs": 2,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.0": 1,
+        "25.5": 1
+      },
+      "current_sizes": {
+        "23.0": 1,
+        "25.5": 1
+      },
+      "product_id": "27cac34b-8d2d-48b1-b7f2-5508ce542a92"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "136705",
+      "catalog_estilo": "136705",
+      "color": "VINO",
+      "catalog_precio": 1499,
+      "excel_precio": 1499,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 2,
+      "current_pairs": 2,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.0": 1,
+        "23.5": 1
+      },
+      "current_sizes": {
+        "23.0": 1,
+        "23.5": 1
+      },
+      "product_id": "8642132e-56f6-4dd6-bdc5-136e5b3e61b0"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "136707",
+      "catalog_estilo": "136707",
+      "color": "NEGRO",
+      "catalog_precio": 1099,
+      "excel_precio": 1099,
+      "has_image": false,
+      "source_system": "saz_excel",
+      "excel_pairs": 1,
+      "current_pairs": 1,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "25.0": 1
+      },
+      "current_sizes": {
+        "25.0": 1
+      },
+      "product_id": "8f432e19-ecc1-4376-b441-fbe9edac7380"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "137002",
+      "catalog_estilo": "137002",
+      "color": "NEGRO",
+      "catalog_precio": 1299,
+      "excel_precio": 1299,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 5,
+      "current_pairs": 5,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.5": 1,
+        "23.5": 1,
+        "24.5": 1,
+        "25.0": 1,
+        "25.5": 1
+      },
+      "current_sizes": {
+        "22.5": 1,
+        "23.5": 1,
+        "24.5": 1,
+        "25.0": 1,
+        "25.5": 1
+      },
+      "product_id": "e643d9b5-e10e-40bc-a13e-140dcc691a64"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "139601",
+      "catalog_estilo": "139601",
+      "color": "NEGRO",
+      "catalog_precio": 1299,
+      "excel_precio": 1299,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 2,
+      "current_pairs": 2,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.0": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "22.0": 1,
+        "26.0": 1
+      },
+      "product_id": "a8290f46-acbd-4866-9b82-8a03014af311"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "139601",
+      "catalog_estilo": "139601",
+      "color": "ORO",
+      "catalog_precio": 1299,
+      "excel_precio": 1299,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 1,
+      "current_pairs": 1,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "24.0": 1
+      },
+      "current_sizes": {
+        "24.0": 1
+      },
+      "product_id": "7bd3f468-d0c9-4049-a9cb-b00fc4814b05"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "139601",
+      "catalog_estilo": "139601",
+      "color": "PETALO",
+      "catalog_precio": 1299,
+      "excel_precio": 1299,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 3,
+      "current_pairs": 3,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.5": 1,
+        "24.0": 1,
+        "25.0": 1
+      },
+      "current_sizes": {
+        "23.5": 1,
+        "24.0": 1,
+        "25.0": 1
+      },
+      "product_id": "329369b4-62ff-459d-9b26-feb411670f3b"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "139602",
+      "catalog_estilo": "139602",
+      "color": "AZUL",
+      "catalog_precio": 1249,
+      "excel_precio": 1249,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 11,
+      "current_pairs": 11,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.0": 1,
+        "22.5": 1,
+        "23.0": 1,
+        "23.5": 1,
+        "24.0": 1,
+        "25.0": 2,
+        "25.5": 1,
+        "26.0": 1,
+        "26.5": 1,
+        "27.0": 1
+      },
+      "current_sizes": {
+        "22.0": 1,
+        "22.5": 1,
+        "23.0": 1,
+        "23.5": 1,
+        "24.0": 1,
+        "25.0": 2,
+        "25.5": 1,
+        "26.0": 1,
+        "26.5": 1,
+        "27.0": 1
+      },
+      "product_id": "ca75f5ec-7713-4d9e-9572-697b8c4709de"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "139602",
+      "catalog_estilo": "139602",
+      "color": "TAN",
+      "catalog_precio": 1249,
+      "excel_precio": 1249,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 1,
+      "current_pairs": 1,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "25.0": 1
+      },
+      "current_sizes": {
+        "25.0": 1
+      },
+      "product_id": "2c729c04-63d4-4084-b6d1-509aeef9150d"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "140002",
+      "catalog_estilo": "140002",
+      "color": "NEGRO",
+      "catalog_precio": 1199,
+      "excel_precio": 1199,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 5,
+      "current_pairs": 5,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.5": 1,
+        "24.0": 1,
+        "25.0": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "23.5": 1,
+        "24.0": 1,
+        "25.0": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "product_id": "e22f13e5-8ac6-48d0-a47a-718ca4c44c11"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "140003",
+      "catalog_estilo": "140003",
+      "color": "MARFIL",
+      "catalog_precio": 1249,
+      "excel_precio": 1249,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 5,
+      "current_pairs": 5,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.0": 1,
+        "22.5": 1,
+        "23.0": 1,
+        "25.0": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "22.0": 1,
+        "22.5": 1,
+        "23.0": 1,
+        "25.0": 1,
+        "26.0": 1
+      },
+      "product_id": "caa92878-7caf-415f-9ac6-95ab3ef07f7e"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "140003",
+      "catalog_estilo": "140003",
+      "color": "NEGRO",
+      "catalog_precio": 1249,
+      "excel_precio": 1249,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 3,
+      "current_pairs": 3,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.0": 1,
+        "23.0": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "22.0": 1,
+        "23.0": 1,
+        "26.0": 1
+      },
+      "product_id": "a4010d9d-1094-43a5-89bd-cbbd35764dc3"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "140102",
+      "catalog_estilo": "140102",
+      "color": "MATCHA",
+      "catalog_precio": 1399,
+      "excel_precio": 1399,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 2,
+      "current_pairs": 2,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.5": 1,
+        "24.5": 1
+      },
+      "current_sizes": {
+        "23.5": 1,
+        "24.5": 1
+      },
+      "product_id": "99a518b3-209f-4bc3-a966-012fe8e3a46a"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "140102",
+      "catalog_estilo": "140102",
+      "color": "ORO",
+      "catalog_precio": 1399,
+      "excel_precio": 1399,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 6,
+      "current_pairs": 6,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.5": 1,
+        "24.0": 1,
+        "25.0": 1,
+        "26.0": 1,
+        "26.5": 1,
+        "27.0": 1
+      },
+      "current_sizes": {
+        "22.5": 1,
+        "24.0": 1,
+        "25.0": 1,
+        "26.0": 1,
+        "26.5": 1,
+        "27.0": 1
+      },
+      "product_id": "d2158580-99de-4510-866f-b49fe4138db8"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "140502",
+      "catalog_estilo": "140502",
+      "color": "NEGRO",
+      "catalog_precio": 1199,
+      "excel_precio": 1199,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 6,
+      "current_pairs": 6,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.0": 1,
+        "23.5": 1,
+        "24.0": 1,
+        "24.5": 1,
+        "25.0": 1,
+        "25.5": 1
+      },
+      "current_sizes": {
+        "23.0": 1,
+        "23.5": 1,
+        "24.0": 1,
+        "24.5": 1,
+        "25.0": 1,
+        "25.5": 1
+      },
+      "product_id": "72289daf-78bb-4ef6-b492-97a5182700ba"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "140502",
+      "catalog_estilo": "140502",
+      "color": "NUDE",
+      "catalog_precio": 1199,
+      "excel_precio": 1199,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 2,
+      "current_pairs": 2,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.0": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "23.0": 1,
+        "26.0": 1
+      },
+      "product_id": "6acfd8ba-8e72-4cbe-99a3-14c6bca5b0e8"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "140502",
+      "catalog_estilo": "140502",
+      "color": "ORO",
+      "catalog_precio": 1199,
+      "excel_precio": 1199,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 7,
+      "current_pairs": 7,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.0": 1,
+        "23.5": 1,
+        "24.0": 1,
+        "24.5": 1,
+        "25.5": 2,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "23.0": 1,
+        "23.5": 1,
+        "24.0": 1,
+        "24.5": 1,
+        "25.5": 2,
+        "26.0": 1
+      },
+      "product_id": "fb33a171-6288-454d-809d-3a9c0e130d78"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "140503",
+      "catalog_estilo": "140503",
+      "color": "ANTIMONIO",
+      "catalog_precio": 1199,
+      "excel_precio": 1199,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 6,
+      "current_pairs": 6,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.5": 1,
+        "24.0": 1,
+        "24.5": 1,
+        "25.0": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "23.5": 1,
+        "24.0": 1,
+        "24.5": 1,
+        "25.0": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "product_id": "229e46c8-879e-4d3c-941b-082bb0d956c2"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "140503",
+      "catalog_estilo": "140503",
+      "color": "NEGRO",
+      "catalog_precio": 1199,
+      "excel_precio": 1199,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 8,
+      "current_pairs": 8,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.0": 1,
+        "22.5": 1,
+        "23.0": 1,
+        "23.5": 1,
+        "24.5": 1,
+        "25.0": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "22.0": 1,
+        "22.5": 1,
+        "23.0": 1,
+        "23.5": 1,
+        "24.5": 1,
+        "25.0": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "product_id": "8c54e143-75f0-480e-91c5-04d4bd327b27"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "141202",
+      "catalog_estilo": "141202",
+      "color": "DENIM",
+      "catalog_precio": 949,
+      "excel_precio": 949,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 3,
+      "current_pairs": 3,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.0": 1,
+        "25.0": 1,
+        "25.5": 1
+      },
+      "current_sizes": {
+        "23.0": 1,
+        "25.0": 1,
+        "25.5": 1
+      },
+      "product_id": "0aa7c7e7-17fc-4145-a4a6-5e32a9abd850"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "141202",
+      "catalog_estilo": "141202",
+      "color": "NEGRO",
+      "catalog_precio": 949,
+      "excel_precio": 949,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 4,
+      "current_pairs": 4,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.0": 1,
+        "23.5": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "23.0": 1,
+        "23.5": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "product_id": "53eb9525-4a63-401b-a7b9-c4a87663600f"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "141301",
+      "catalog_estilo": "141301",
+      "color": "GRIS",
+      "catalog_precio": 1249,
+      "excel_precio": 1249,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 2,
+      "current_pairs": 2,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.0": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "22.0": 1,
+        "26.0": 1
+      },
+      "product_id": "54e941b3-e6d7-4cc4-a97d-f8fa12bc1b85"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "141302",
+      "catalog_estilo": "141302",
+      "color": "BLANCO",
+      "catalog_precio": 1249,
+      "excel_precio": 1249,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 5,
+      "current_pairs": 5,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.5": 1,
+        "25.0": 1,
+        "25.5": 1,
+        "26.0": 1,
+        "27.0": 1
+      },
+      "current_sizes": {
+        "22.5": 1,
+        "25.0": 1,
+        "25.5": 1,
+        "26.0": 1,
+        "27.0": 1
+      },
+      "product_id": "41bf6f1c-fedc-4dac-a69c-fa6fae416ad3"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "401911",
+      "catalog_estilo": "401911",
+      "color": "BLANCO",
+      "catalog_precio": 949,
+      "excel_precio": 949,
+      "has_image": false,
+      "source_system": "saz_excel",
+      "excel_pairs": 1,
+      "current_pairs": 1,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.0": 1
+      },
+      "current_sizes": {
+        "22.0": 1
+      },
+      "product_id": "d76acec6-7047-4308-ae44-a5b835b4d674"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "AL9452",
+      "catalog_estilo": "AL9452",
+      "color": "MARFIL",
+      "catalog_precio": 1199,
+      "excel_precio": 0,
+      "has_image": false,
+      "source_system": "saz_excel",
+      "excel_pairs": 1,
+      "current_pairs": 2,
+      "stock_delta": -1,
+      "excel_sizes": {
+        "23.5": 1
+      },
+      "current_sizes": {
+        "23.5": 1,
+        "26.0": 1
+      },
+      "product_id": "66b5a633-f59c-48e2-90d8-53098cf67eeb"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "COS374",
+      "catalog_estilo": "COS374",
+      "color": "MELLE",
+      "catalog_precio": 659,
+      "excel_precio": 0,
+      "has_image": false,
+      "source_system": "saz_excel",
+      "excel_pairs": 1,
+      "current_pairs": 8,
+      "stock_delta": -7,
+      "excel_sizes": {
+        "16.5": 1
+      },
+      "current_sizes": {
+        "16.5": 1,
+        "20.0": 2,
+        "21.0": 1,
+        "16.0": 2,
+        "17.0": 1,
+        "17.5": 1
+      },
+      "product_id": "a843602d-0579-4a0f-9fe4-2b5f69762a70"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "COS800",
+      "catalog_estilo": "COS800",
+      "color": "NEGRO",
+      "catalog_precio": 599,
+      "excel_precio": 0,
+      "has_image": false,
+      "source_system": "saz_excel",
+      "excel_pairs": 1,
+      "current_pairs": 16,
+      "stock_delta": -15,
+      "excel_sizes": {
+        "16.5": 1
+      },
+      "current_sizes": {
+        "16.5": 1,
+        "18.0": 1,
+        "18.5": 2,
+        "19.0": 1,
+        "19.5": 2,
+        "20.0": 2,
+        "20.5": 1,
+        "15.5": 1,
+        "16.0": 1,
+        "17.0": 2,
+        "17.5": 2
+      },
+      "product_id": "66837ee5-9d1f-4295-8776-a551e4e681b2"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "COS901",
+      "catalog_estilo": "COS901",
+      "color": "NEGRO",
+      "catalog_precio": 659,
+      "excel_precio": 0,
+      "has_image": false,
+      "source_system": "saz_excel",
+      "excel_pairs": 2,
+      "current_pairs": 22,
+      "stock_delta": -20,
+      "excel_sizes": {
+        "16.5": 1,
+        "17.5": 1
+      },
+      "current_sizes": {
+        "16.5": 1,
+        "17.5": 1,
+        "18.0": 2,
+        "18.5": 2,
+        "19.0": 2,
+        "19.5": 3,
+        "20.0": 2,
+        "20.5": 2,
+        "21.0": 2,
+        "22.0": 1,
+        "26.0": 1,
+        "26.5": 1,
+        "15.5": 1,
+        "17.0": 1
+      },
+      "product_id": "9df1bf43-ceee-48f7-a9ef-6c555f1abbd4"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "DANY36",
+      "catalog_estilo": "DANY36",
+      "color": "TAN",
+      "catalog_precio": 499,
+      "excel_precio": 0,
+      "has_image": false,
+      "source_system": "saz_excel",
+      "excel_pairs": 5,
+      "current_pairs": 9,
+      "stock_delta": -4,
+      "excel_sizes": {
+        "19.5": 1,
+        "20.0": 1,
+        "20.5": 1,
+        "21.0": 1,
+        "21.5": 1
+      },
+      "current_sizes": {
+        "19.5": 1,
+        "20.5": 1,
+        "21.0": 1,
+        "21.5": 1,
+        "18.0": 1,
+        "18.5": 1,
+        "19.0": 2,
+        "20.0": 1
+      },
+      "product_id": "5fd567e6-7e2e-494a-8af0-0e8fb9e988d8"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "LAP020",
+      "catalog_estilo": "LAP020",
+      "color": "NEGRO",
+      "catalog_precio": 1100,
+      "excel_precio": 0,
+      "has_image": true,
+      "source_system": "sqlite",
+      "excel_pairs": 1,
+      "current_pairs": 0,
+      "stock_delta": 1,
+      "excel_sizes": {
+        "26.5": 1
+      },
+      "current_sizes": {},
+      "product_id": "a639904d-45e6-4c40-9c6e-ae074b1a0f67"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "LAP800",
+      "catalog_estilo": "LAP800",
+      "color": "BLANCO",
+      "catalog_precio": 699,
+      "excel_precio": 0,
+      "has_image": false,
+      "source_system": "saz_excel",
+      "excel_pairs": 5,
+      "current_pairs": 7,
+      "stock_delta": -2,
+      "excel_sizes": {
+        "22.0": 1,
+        "23.5": 2,
+        "24.5": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "22.0": 1,
+        "23.5": 2,
+        "24.5": 1,
+        "26.0": 1,
+        "23.0": 1,
+        "25.5": 1
+      },
+      "product_id": "be31db73-140c-442d-a731-4e0c150952df"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "LAP800",
+      "catalog_estilo": "LAP800",
+      "color": "NEGRO",
+      "catalog_precio": 699,
+      "excel_precio": 0,
+      "has_image": false,
+      "source_system": "saz_excel",
+      "excel_pairs": 3,
+      "current_pairs": 4,
+      "stock_delta": -1,
+      "excel_sizes": {
+        "22.0": 1,
+        "23.0": 1,
+        "24.0": 1
+      },
+      "current_sizes": {
+        "22.0": 1,
+        "23.0": 1,
+        "24.0": 1,
+        "22.5": 1
+      },
+      "product_id": "0cd40596-6e49-455f-b1c0-5a1391439417"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "LAP856",
+      "catalog_estilo": "LAP856",
+      "color": "SHEDRON",
+      "catalog_precio": 899,
+      "excel_precio": 0,
+      "has_image": true,
+      "source_system": "sqlite",
+      "excel_pairs": 1,
+      "current_pairs": 0,
+      "stock_delta": 1,
+      "excel_sizes": {
+        "27.0": 1
+      },
+      "current_sizes": {},
+      "product_id": "b20c9de7-a3e3-43e7-9d5e-0d272db99c08"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "P14065",
+      "catalog_estilo": "P14065",
+      "color": "BAILEYS",
+      "catalog_precio": 599,
+      "excel_precio": 0,
+      "has_image": false,
+      "source_system": "saz_excel",
+      "excel_pairs": 4,
+      "current_pairs": 10,
+      "stock_delta": -6,
+      "excel_sizes": {
+        "15.5": 1,
+        "16.0": 1,
+        "16.5": 1,
+        "17.5": 1
+      },
+      "current_sizes": {
+        "15.5": 1,
+        "16.0": 1,
+        "16.5": 1,
+        "17.5": 1,
+        "18.5": 1,
+        "19.0": 2,
+        "20.5": 1,
+        "21.0": 1,
+        "21.5": 1
+      },
+      "product_id": "90db7e17-dd6c-43d8-a102-90b3d15fb6f9"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "P14065",
+      "catalog_estilo": "P14065",
+      "color": "TAN",
+      "catalog_precio": 549,
+      "excel_precio": 0,
+      "has_image": false,
+      "source_system": "saz_excel",
+      "excel_pairs": 4,
+      "current_pairs": 5,
+      "stock_delta": -1,
+      "excel_sizes": {
+        "15.0": 1,
+        "16.5": 1,
+        "17.0": 1,
+        "17.5": 1
+      },
+      "current_sizes": {
+        "15.0": 1,
+        "16.5": 1,
+        "17.0": 1,
+        "17.5": 1,
+        "18.0": 1
+      },
+      "product_id": "cfb88fc2-f360-4768-88dc-dcc86d1bc8f5"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "P19012",
+      "catalog_estilo": "P19012",
+      "color": "BAILEYS",
+      "catalog_precio": 589,
+      "excel_precio": 0,
+      "has_image": false,
+      "source_system": "saz_excel",
+      "excel_pairs": 5,
+      "current_pairs": 6,
+      "stock_delta": -1,
+      "excel_sizes": {
+        "15.0": 1,
+        "16.0": 1,
+        "16.5": 1,
+        "17.0": 1,
+        "17.5": 1
+      },
+      "current_sizes": {
+        "15.0": 1,
+        "16.0": 1,
+        "16.5": 1,
+        "17.0": 1,
+        "17.5": 1,
+        "18.0": 1
+      },
+      "product_id": "9cfb66c9-ead7-4a5f-a0c3-43e1d2932283"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "PA2505",
+      "catalog_estilo": "PA2505",
+      "color": "HUESO",
+      "catalog_precio": 759,
+      "excel_precio": 799,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 1,
+      "current_pairs": 1,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "26.0": 1
+      },
+      "current_sizes": {
+        "26.0": 1
+      },
+      "product_id": "cfab7b08-aedf-4040-a8fe-3f4997b8a41d"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "PA2505",
+      "catalog_estilo": "PA2505",
+      "color": "MIEL",
+      "catalog_precio": 759,
+      "excel_precio": 759,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 2,
+      "current_pairs": 2,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.0": 1,
+        "24.5": 1
+      },
+      "current_sizes": {
+        "23.0": 1,
+        "24.5": 1
+      },
+      "product_id": "b1173084-5e0d-48f0-92d3-8d275de98403"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "PA2505",
+      "catalog_estilo": "PA2505",
+      "color": "NEGRO",
+      "catalog_precio": 759,
+      "excel_precio": 759,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 2,
+      "current_pairs": 2,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.5": 1,
+        "25.5": 1
+      },
+      "current_sizes": {
+        "23.5": 1,
+        "25.5": 1
+      },
+      "product_id": "862821de-a1a8-49fe-b850-d5f4ea3b89cb"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "PA2506",
+      "catalog_estilo": "PA2506",
+      "color": "NEGRO",
+      "catalog_precio": 799,
+      "excel_precio": 799,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 5,
+      "current_pairs": 5,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.0": 1,
+        "23.5": 1,
+        "24.0": 1,
+        "24.5": 1,
+        "25.0": 1
+      },
+      "current_sizes": {
+        "23.0": 1,
+        "23.5": 1,
+        "24.0": 1,
+        "24.5": 1,
+        "25.0": 1
+      },
+      "product_id": "cb71872b-0d7b-4302-b054-0a8c6a0e366f"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "PA2506",
+      "catalog_estilo": "PA2506",
+      "color": "ORO ROSADO",
+      "catalog_precio": 799,
+      "excel_precio": 799,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 6,
+      "current_pairs": 6,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.5": 1,
+        "23.0": 1,
+        "23.5": 1,
+        "24.0": 1,
+        "24.5": 1,
+        "25.5": 1
+      },
+      "current_sizes": {
+        "22.5": 1,
+        "23.0": 1,
+        "23.5": 1,
+        "24.0": 1,
+        "24.5": 1,
+        "25.5": 1
+      },
+      "product_id": "d8946e99-8ff1-46b4-9529-27fa2c432b28"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "PA2507",
+      "catalog_estilo": "PA2507",
+      "color": "NEGRO",
+      "catalog_precio": 799,
+      "excel_precio": 799,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 1,
+      "current_pairs": 1,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "25.0": 1
+      },
+      "current_sizes": {
+        "25.0": 1
+      },
+      "product_id": "4fd1fabf-849e-4477-80d5-d48a73228404"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "PA2507",
+      "catalog_estilo": "PA2507",
+      "color": "ORO ROSADO",
+      "catalog_precio": 799,
+      "excel_precio": 799,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 5,
+      "current_pairs": 5,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.0": 1,
+        "23.5": 1,
+        "24.0": 1,
+        "24.5": 1,
+        "25.0": 1
+      },
+      "current_sizes": {
+        "23.0": 1,
+        "23.5": 1,
+        "24.0": 1,
+        "24.5": 1,
+        "25.0": 1
+      },
+      "product_id": "775dc692-1f93-46be-a889-a773d06845ce"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "PA2507",
+      "catalog_estilo": "PA2507",
+      "color": "PLOMO",
+      "catalog_precio": 799,
+      "excel_precio": 799,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 3,
+      "current_pairs": 3,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "23.0": 1,
+        "24.0": 1,
+        "25.0": 1
+      },
+      "current_sizes": {
+        "23.0": 1,
+        "24.0": 1,
+        "25.0": 1
+      },
+      "product_id": "a75a7e6f-8118-49c0-98a9-f8d20d981a83"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "PA2709",
+      "catalog_estilo": "PA2709",
+      "color": "COBRE",
+      "catalog_precio": 759,
+      "excel_precio": 759,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 4,
+      "current_pairs": 4,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.0": 1,
+        "22.5": 1,
+        "25.0": 1,
+        "25.5": 1
+      },
+      "current_sizes": {
+        "22.0": 1,
+        "22.5": 1,
+        "25.0": 1,
+        "25.5": 1
+      },
+      "product_id": "e7857e02-98ca-4cd9-8a7f-ed618c73832a"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "PA2709",
+      "catalog_estilo": "PA2709",
+      "color": "NEGRO",
+      "catalog_precio": 759,
+      "excel_precio": 759,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 3,
+      "current_pairs": 3,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "22.5": 1,
+        "24.5": 1,
+        "25.0": 1
+      },
+      "current_sizes": {
+        "22.5": 1,
+        "24.5": 1,
+        "25.0": 1
+      },
+      "product_id": "3416c8d7-5164-4d02-89a2-274d530669a4"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "PI0248",
+      "catalog_estilo": "PI0248",
+      "color": "NEGRO",
+      "catalog_precio": 799,
+      "excel_precio": 0,
+      "has_image": false,
+      "source_system": "sqlite",
+      "excel_pairs": 2,
+      "current_pairs": 0,
+      "stock_delta": 2,
+      "excel_sizes": {
+        "24.5": 1,
+        "26.0": 1
+      },
+      "current_sizes": {},
+      "product_id": "be3e8e4e-86f1-441f-bb21-0ce10e8d8287"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "PI2020",
+      "catalog_estilo": "PI2020",
+      "color": "BLANCO",
+      "catalog_precio": 699,
+      "excel_precio": 0,
+      "has_image": true,
+      "source_system": "sqlite",
+      "excel_pairs": 3,
+      "current_pairs": 0,
+      "stock_delta": 3,
+      "excel_sizes": {
+        "18.0": 1,
+        "18.5": 1,
+        "19.5": 1
+      },
+      "current_sizes": {},
+      "product_id": "c2a7b241-8ff2-49a9-8299-b5a7041277f1"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "PI2020",
+      "catalog_estilo": "PI2020",
+      "color": "NEGRO ROJO",
+      "catalog_precio": 699,
+      "excel_precio": 0,
+      "has_image": false,
+      "source_system": "saz_excel",
+      "excel_pairs": 3,
+      "current_pairs": 4,
+      "stock_delta": -1,
+      "excel_sizes": {
+        "23.5": 1,
+        "24.5": 2
+      },
+      "current_sizes": {
+        "23.5": 1,
+        "24.5": 2,
+        "19.5": 1
+      },
+      "product_id": "9e6c619c-2caf-4146-8ddc-35a445b546fc"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "PI7008",
+      "catalog_estilo": "PI7008",
+      "color": "BLANCO",
+      "catalog_precio": 789,
+      "excel_precio": 0,
+      "has_image": true,
+      "source_system": "sqlite",
+      "excel_pairs": 4,
+      "current_pairs": 0,
+      "stock_delta": 4,
+      "excel_sizes": {
+        "21.0": 1,
+        "20.0": 1,
+        "20.5": 1,
+        "21.5": 1
+      },
+      "current_sizes": {},
+      "product_id": "593b11af-f8ed-4675-ad9c-140c140cf0c1"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "ROD410",
+      "catalog_estilo": "ROD410",
+      "color": "NEGRO",
+      "catalog_precio": 699,
+      "excel_precio": 0,
+      "has_image": false,
+      "source_system": "saz_excel",
+      "excel_pairs": 1,
+      "current_pairs": 3,
+      "stock_delta": -2,
+      "excel_sizes": {
+        "26.5": 1
+      },
+      "current_sizes": {
+        "26.5": 1,
+        "23.5": 1,
+        "25.0": 1
+      },
+      "product_id": "21f1460e-ecf5-43f7-991a-8b67c08825ba"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "SP1480",
+      "catalog_estilo": "SP1480",
+      "color": "NEGRO",
+      "catalog_precio": 650,
+      "excel_precio": 0,
+      "has_image": false,
+      "source_system": "saz_registered",
+      "excel_pairs": 2,
+      "current_pairs": 4,
+      "stock_delta": -2,
+      "excel_sizes": {
+        "24.5": 1,
+        "26.0": 1
+      },
+      "current_sizes": {
+        "23.0": 1,
+        "23.5": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "product_id": "b265a685-6e87-4af1-9717-94188e2b6475"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "UN3096",
+      "catalog_estilo": "UN3096",
+      "color": "NEGRO OXFORD",
+      "catalog_precio": 680,
+      "excel_precio": 680,
+      "has_image": true,
+      "source_system": "saz_registered",
+      "excel_pairs": 2,
+      "current_pairs": 5,
+      "stock_delta": -3,
+      "excel_sizes": {
+        "26.5": 1,
+        "23.5": 1
+      },
+      "current_sizes": {
+        "24.0": 1,
+        "24.5": 1,
+        "25.0": 1,
+        "25.5": 1,
+        "26.0": 1
+      },
+      "product_id": "72c652a8-b9a2-40bb-90ce-c7d5814dddd0"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "UNGOLD",
+      "catalog_estilo": "UNGOLD",
+      "color": "MARINO",
+      "catalog_precio": 699,
+      "excel_precio": 680,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 3,
+      "current_pairs": 4,
+      "stock_delta": -1,
+      "excel_sizes": {
+        "26.0": 1,
+        "26.5": 1,
+        "27.0": 1
+      },
+      "current_sizes": {
+        "26.0": 1,
+        "26.5": 1,
+        "27.0": 1,
+        "28.5": 1
+      },
+      "product_id": "d4dca68a-8b20-422e-8674-e98ea1b1cfdd"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "VA5059",
+      "catalog_estilo": "VA5059",
+      "color": "NEGRO",
+      "catalog_precio": 599,
+      "excel_precio": 599,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 4,
+      "current_pairs": 4,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "24.5": 2,
+        "25.0": 1,
+        "25.5": 1
+      },
+      "current_sizes": {
+        "24.5": 2,
+        "25.0": 1,
+        "25.5": 1
+      },
+      "product_id": "dfd86ea4-faf1-4142-be53-bf675ce30a05"
+    },
+    {
+      "matchType": "exact",
+      "excel_estilo": "YOH860",
+      "catalog_estilo": "YOH860",
+      "color": "ROSA PIEL",
+      "catalog_precio": 599,
+      "excel_precio": 599,
+      "has_image": true,
+      "source_system": "saz_excel",
+      "excel_pairs": 2,
+      "current_pairs": 2,
+      "stock_delta": 0,
+      "excel_sizes": {
+        "15.5": 1,
+        "21.0": 1
+      },
+      "current_sizes": {
+        "15.5": 1,
+        "21.0": 1
+      },
+      "product_id": "19615a44-0e59-4f4f-badb-d7eeb1fdc031"
+    }
+  ],
+  "skipped_no_price": [
+    {
+      "excel_estilo": "133708",
+      "catalog_estilo": "133708",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "135402",
+      "catalog_estilo": "135402",
+      "color": "TAN",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "136305",
+      "catalog_estilo": "136305",
+      "color": "NEGRO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "136402",
+      "catalog_estilo": "136402",
+      "color": "NEGRO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "137004",
+      "catalog_estilo": "137004",
+      "color": "ALGODON",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "137304",
+      "catalog_estilo": "137304",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "137304",
+      "catalog_estilo": "137304",
+      "color": "TABACO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "137503",
+      "catalog_estilo": "137503",
+      "color": "BEIGE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "137606",
+      "catalog_estilo": "137606",
+      "color": "DARK TAN",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "137606",
+      "catalog_estilo": "137606",
+      "color": "TAN",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "137701",
+      "catalog_estilo": "137701",
+      "color": "CAFE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "137701",
+      "catalog_estilo": "137701",
+      "color": "NEGRO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "137902",
+      "catalog_estilo": "137902",
+      "color": "BLANCO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "138801",
+      "catalog_estilo": "138801",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "138105",
+      "catalog_estilo": "138105",
+      "color": "NEGRO",
+      "excel_pairs": 11,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "138301",
+      "catalog_estilo": "138301",
+      "color": "NEGRO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "138301",
+      "catalog_estilo": "138301",
+      "color": "TAUPE",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "138302",
+      "catalog_estilo": "138302",
+      "color": "CAFE",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "138501",
+      "catalog_estilo": "138501",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "138502",
+      "catalog_estilo": "138502",
+      "color": "BEIGE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "138502",
+      "catalog_estilo": "138502",
+      "color": "CAMEL",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "138502",
+      "catalog_estilo": "138502",
+      "color": "VINO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "138701",
+      "catalog_estilo": "138701",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "138801",
+      "catalog_estilo": "138801",
+      "color": "ROSA",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "138803",
+      "catalog_estilo": "138803",
+      "color": "BLANCO",
+      "excel_pairs": 8,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "139302",
+      "catalog_estilo": "139302",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "141201",
+      "catalog_estilo": "141201",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "18004",
+      "catalog_estilo": "18004",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "203102",
+      "catalog_estilo": "203102",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "25911",
+      "catalog_estilo": "25911",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "401912",
+      "catalog_estilo": "401912",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "48304",
+      "catalog_estilo": "48304",
+      "color": "BLANCO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "4E1220",
+      "catalog_estilo": "4E1220",
+      "color": "NEGRO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "4E1225",
+      "catalog_estilo": "4E1225",
+      "color": "NEGRO",
+      "excel_pairs": 11,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "4E1542",
+      "catalog_estilo": "4E1542",
+      "color": "FLAMA",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "4E1584",
+      "catalog_estilo": "4E1584",
+      "color": "BLANCO",
+      "excel_pairs": 9,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "4E1584",
+      "catalog_estilo": "4E1584",
+      "color": "PLATA",
+      "excel_pairs": 7,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "4E1584",
+      "catalog_estilo": "4E1584",
+      "color": "ROSA",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "4E1588",
+      "catalog_estilo": "4E1588",
+      "color": "PLATINA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "4E1655",
+      "catalog_estilo": "4E1655",
+      "color": "ROJO CHAROL",
+      "excel_pairs": 9,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "4E1799",
+      "catalog_estilo": "4E1799",
+      "color": "DOLLY",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "4E3080",
+      "catalog_estilo": "4E3080",
+      "color": "ORO ROSADO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "4E3085",
+      "catalog_estilo": "4E3085",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "4E3086",
+      "catalog_estilo": "4E3086",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "4EV120",
+      "catalog_estilo": "4EV120",
+      "color": "DOLLY",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "4EV120",
+      "catalog_estilo": "4EV120",
+      "color": "PLATINA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "4EV130",
+      "catalog_estilo": "4EV130",
+      "color": "ROJO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "4V1584",
+      "catalog_estilo": "4V1584",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "5082",
+      "catalog_estilo": "5082",
+      "color": "BLANCO ROSA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "569Z-27",
+      "catalog_estilo": "569Z-27",
+      "color": "BCO MULTI",
+      "excel_pairs": 12,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "59002A",
+      "catalog_estilo": "59002A",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "654B-27",
+      "catalog_estilo": "654B-27",
+      "color": "BEIGE",
+      "excel_pairs": 12,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "654B-27",
+      "catalog_estilo": "654B-27",
+      "color": "MARINO",
+      "excel_pairs": 12,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "8517",
+      "catalog_estilo": "8517",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "AL7069",
+      "catalog_estilo": "AL7069",
+      "color": "BLANCO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "AL7069",
+      "catalog_estilo": "AL7069",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "AL7762",
+      "catalog_estilo": "AL7762",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "AL8783",
+      "catalog_estilo": "AL8783",
+      "color": "MARFIL",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "AL9451",
+      "catalog_estilo": "AL9451",
+      "color": "LATE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "AL9451",
+      "catalog_estilo": "AL9451",
+      "color": "PLATA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "AL9452",
+      "catalog_estilo": "AL9452",
+      "color": "ARENA",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "ALE004",
+      "catalog_estilo": "ALE004",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "ALE004",
+      "catalog_estilo": "ALE004",
+      "color": "ORO ROSA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "AM1775",
+      "catalog_estilo": "AM1775",
+      "color": "TORNASOL",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "AM2000",
+      "catalog_estilo": "AM2000",
+      "color": "CAMEL",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "AM3000",
+      "catalog_estilo": "AM3000",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "AM5200",
+      "catalog_estilo": "AM5200",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "AM5200",
+      "catalog_estilo": "AM5200",
+      "color": "ORO ROSADO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "AM7000",
+      "catalog_estilo": "AM7000",
+      "color": "TAN",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "AM8000",
+      "catalog_estilo": "AM8000",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "AM9000",
+      "catalog_estilo": "AM9000",
+      "color": "BLANCO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "AM9000",
+      "catalog_estilo": "AM9000",
+      "color": "TAN",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "ANG410",
+      "catalog_estilo": "ANG410",
+      "color": "NEGRO / BLANCO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "AQ0913",
+      "catalog_estilo": "AQ0913",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "AQ3013",
+      "catalog_estilo": "AQ3013",
+      "color": "BLANCO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "AQ3013",
+      "catalog_estilo": "AQ3013",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "ARELA",
+      "catalog_estilo": "ARELA",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "BE2252",
+      "catalog_estilo": "BE2252",
+      "color": "BLANCO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "BE2252",
+      "catalog_estilo": "BE2252",
+      "color": "NEGRO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "BE2292",
+      "catalog_estilo": "BE2292",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "BE5810",
+      "catalog_estilo": "BE5810",
+      "color": "BLANCO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "BER183",
+      "catalog_estilo": "BER183",
+      "color": "ROSA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "BER253",
+      "catalog_estilo": "BER253",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "BER263",
+      "catalog_estilo": "BER263",
+      "color": "BLANCO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "BER263",
+      "catalog_estilo": "BER263",
+      "color": "NEGRO NAPA",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "BIA300",
+      "catalog_estilo": "BIA300",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "BOM121",
+      "catalog_estilo": "BOM121",
+      "color": "ROJO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "BU6242",
+      "catalog_estilo": "BU6242",
+      "color": "BEIGE ROSA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "BU6342",
+      "catalog_estilo": "BU6342",
+      "color": "MEZCLILLA",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CA0096",
+      "catalog_estilo": "CA0096",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CA0096",
+      "catalog_estilo": "CA0096",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CA1750",
+      "catalog_estilo": "CA1750",
+      "color": "BLANCO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CA1750",
+      "catalog_estilo": "CA1750",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CA2094",
+      "catalog_estilo": "CA2094",
+      "color": "PLATA",
+      "excel_pairs": 7,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CA2111",
+      "catalog_estilo": "CA2111",
+      "color": "BLANCO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CA2204",
+      "catalog_estilo": "CA2204",
+      "color": "BLANCO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CA2684",
+      "catalog_estilo": "CA2684",
+      "color": "PLATA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CA2821",
+      "catalog_estilo": "CA2821",
+      "color": "PLATA",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CA2822",
+      "catalog_estilo": "CA2822",
+      "color": "CHAMPAGNE",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CA2822",
+      "catalog_estilo": "CA2822",
+      "color": "NEGRO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CA2822",
+      "catalog_estilo": "CA2822",
+      "color": "PLATA",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CA3207",
+      "catalog_estilo": "CA3207",
+      "color": "NEGRO",
+      "excel_pairs": 7,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CA3250",
+      "catalog_estilo": "CA3250",
+      "color": "ROSA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CA3372",
+      "catalog_estilo": "CA3372",
+      "color": "KHAKI",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CA3372",
+      "catalog_estilo": "CA3372",
+      "color": "NEGRO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM011",
+      "catalog_estilo": "CAM011",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM102",
+      "catalog_estilo": "CAM102",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM1026",
+      "catalog_estilo": "CAM1026",
+      "color": "PLATA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM103",
+      "catalog_estilo": "CAM103",
+      "color": "ORO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM103",
+      "catalog_estilo": "CAM103",
+      "color": "PLATA",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM104",
+      "catalog_estilo": "CAM104",
+      "color": "CAMEL",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM105",
+      "catalog_estilo": "CAM105",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM108",
+      "catalog_estilo": "CAM108",
+      "color": "LATE NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM109",
+      "catalog_estilo": "CAM109",
+      "color": "NEGRO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM111",
+      "catalog_estilo": "CAM111",
+      "color": "BLANCO NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM111",
+      "catalog_estilo": "CAM111",
+      "color": "LATE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM111",
+      "catalog_estilo": "CAM111",
+      "color": "NATURAL",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM111",
+      "catalog_estilo": "CAM111",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM111",
+      "catalog_estilo": "CAM111",
+      "color": "NEGRO BLANCO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM510",
+      "catalog_estilo": "CAM510",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM520",
+      "catalog_estilo": "CAM520",
+      "color": "BLANCO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM530",
+      "catalog_estilo": "CAM530",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM530",
+      "catalog_estilo": "CAM530",
+      "color": "NEGRO",
+      "excel_pairs": 11,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM750",
+      "catalog_estilo": "CAM750",
+      "color": "BLANCO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM750",
+      "catalog_estilo": "CAM750",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAM802",
+      "catalog_estilo": "CAM802",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAR115",
+      "catalog_estilo": "CAR115",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAR750",
+      "catalog_estilo": "CAR750",
+      "color": "PALOMITA",
+      "excel_pairs": 9,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CAR750",
+      "catalog_estilo": "CAR750",
+      "color": "ROJO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CE2024",
+      "catalog_estilo": "CE2024",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CECI02",
+      "catalog_estilo": "CECI02",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CLA400",
+      "catalog_estilo": "CLA400",
+      "color": "BLANCO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CLA400",
+      "catalog_estilo": "CLA400",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CLA400",
+      "catalog_estilo": "CLA400",
+      "color": "PLATA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CLA425",
+      "catalog_estilo": "CLA425",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CLA435",
+      "catalog_estilo": "CLA435",
+      "color": "BLANCO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CLA470",
+      "catalog_estilo": "CLA470",
+      "color": "BLANCO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CLA470",
+      "catalog_estilo": "CLA470",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CLA480",
+      "catalog_estilo": "CLA480",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "CLA480",
+      "catalog_estilo": "CLA480",
+      "color": "ORO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "COM522",
+      "catalog_estilo": "COM522",
+      "color": "NEGRO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "COS506",
+      "catalog_estilo": "COS506",
+      "color": "CONAC",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "COS510",
+      "catalog_estilo": "COS510",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "D224",
+      "catalog_estilo": "D224",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "D224",
+      "catalog_estilo": "D224",
+      "color": "ROSADO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DAH600",
+      "catalog_estilo": "DAH600",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DAN100",
+      "catalog_estilo": "DAN100",
+      "color": "BLANCO PLATA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DAN706",
+      "catalog_estilo": "DAN706",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DAN708",
+      "catalog_estilo": "DAN708",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DAN740",
+      "catalog_estilo": "DAN740",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DAN740",
+      "catalog_estilo": "DAN740",
+      "color": "NELLE",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DANY34",
+      "catalog_estilo": "DANY34",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DEL311",
+      "catalog_estilo": "DEL311",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DEL316",
+      "catalog_estilo": "DEL316",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DEL507",
+      "catalog_estilo": "DEL507",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DEL516",
+      "catalog_estilo": "DEL516",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DEL518",
+      "catalog_estilo": "DEL518",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DEN220",
+      "catalog_estilo": "DEN220",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DLE019",
+      "catalog_estilo": "DLE019",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DLE027",
+      "catalog_estilo": "DLE027",
+      "color": "CAMEL",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DLE027",
+      "catalog_estilo": "DLE027",
+      "color": "LATE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DLE027",
+      "catalog_estilo": "DLE027",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DOL092",
+      "catalog_estilo": "DOL092",
+      "color": "MARINO GLITER ORO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DOL092",
+      "catalog_estilo": "DOL092",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "DUL615",
+      "catalog_estilo": "DUL615",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "EDE123",
+      "catalog_estilo": "EDE123",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "EDE405",
+      "catalog_estilo": "EDE405",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "EL1439",
+      "catalog_estilo": "EL1439",
+      "color": "NEGRO PIEL",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "ELI637",
+      "catalog_estilo": "ELI637",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "EST517",
+      "catalog_estilo": "EST517",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "EVE500",
+      "catalog_estilo": "EVE500",
+      "color": "BLANCO",
+      "excel_pairs": 8,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FA2850",
+      "catalog_estilo": "FA2850",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FA3043",
+      "catalog_estilo": "FA3043",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FA3125",
+      "catalog_estilo": "FA3125",
+      "color": "BLANCO",
+      "excel_pairs": 7,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FA3125",
+      "catalog_estilo": "FA3125",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FA3125",
+      "catalog_estilo": "FA3125",
+      "color": "MIGA",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FA3147",
+      "catalog_estilo": "FA3147",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FAS110",
+      "catalog_estilo": "FAS110",
+      "color": "BLANCO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FAS110",
+      "catalog_estilo": "FAS110",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FAS110",
+      "catalog_estilo": "FAS110",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI0200",
+      "catalog_estilo": "FI0200",
+      "color": "CONAC",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI0200",
+      "catalog_estilo": "FI0200",
+      "color": "NEGRO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI0207",
+      "catalog_estilo": "FI0207",
+      "color": "SHEDRON",
+      "excel_pairs": 7,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI0239",
+      "catalog_estilo": "FI0239",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI0281",
+      "catalog_estilo": "FI0281",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI0386",
+      "catalog_estilo": "FI0386",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI0823",
+      "catalog_estilo": "FI0823",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI0853",
+      "catalog_estilo": "FI0853",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI1013",
+      "catalog_estilo": "FI1013",
+      "color": "LATE",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI2025",
+      "catalog_estilo": "FI2025",
+      "color": "ANTIMONIO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI2025",
+      "catalog_estilo": "FI2025",
+      "color": "CIRCON",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI2026",
+      "catalog_estilo": "FI2026",
+      "color": "CIRCON",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI2026",
+      "catalog_estilo": "FI2026",
+      "color": "MERLOT",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI2036",
+      "catalog_estilo": "FI2036",
+      "color": "CIRCON",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI2036",
+      "catalog_estilo": "FI2036",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI2891",
+      "catalog_estilo": "FI2891",
+      "color": "BLANCO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI2891",
+      "catalog_estilo": "FI2891",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI2891",
+      "catalog_estilo": "FI2891",
+      "color": "ORO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI2911",
+      "catalog_estilo": "FI2911",
+      "color": "LATE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI2911",
+      "catalog_estilo": "FI2911",
+      "color": "ROSA",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI2925",
+      "catalog_estilo": "FI2925",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI2959",
+      "catalog_estilo": "FI2959",
+      "color": "FERRERO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI2959",
+      "catalog_estilo": "FI2959",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI2959",
+      "catalog_estilo": "FI2959",
+      "color": "ORO ROSADO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI3041",
+      "catalog_estilo": "FI3041",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI3601",
+      "catalog_estilo": "FI3601",
+      "color": "CONAC",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI3801",
+      "catalog_estilo": "FI3801",
+      "color": "CONAC",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FI3801",
+      "catalog_estilo": "FI3801",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FIO210",
+      "catalog_estilo": "FIO210",
+      "color": "NEGRO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FIO219",
+      "catalog_estilo": "FIO219",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FIO250",
+      "catalog_estilo": "FIO250",
+      "color": "NEGRO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FIO387",
+      "catalog_estilo": "FIO387",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FIO397",
+      "catalog_estilo": "FIO397",
+      "color": "CAFE",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "FIO823",
+      "catalog_estilo": "FIO823",
+      "color": "CONAC",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "GE1235",
+      "catalog_estilo": "GE1235",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "GI1923",
+      "catalog_estilo": "GI1923",
+      "color": "AVENA",
+      "excel_pairs": 9,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "GIO130",
+      "catalog_estilo": "GIO130",
+      "color": "CAMEL",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "GIO216",
+      "catalog_estilo": "GIO216",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "GIO218",
+      "catalog_estilo": "GIO218",
+      "color": "PLATA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "GIO303",
+      "catalog_estilo": "GIO303",
+      "color": "BLANCO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "GIO342",
+      "catalog_estilo": "GIO342",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "GIO342",
+      "catalog_estilo": "GIO342",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "GIO520",
+      "catalog_estilo": "GIO520",
+      "color": "TAN",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "GIO702",
+      "catalog_estilo": "GIO702",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "GIO859",
+      "catalog_estilo": "GIO859",
+      "color": "MARRON",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "GIO911",
+      "catalog_estilo": "GIO911",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "GIO911",
+      "catalog_estilo": "GIO911",
+      "color": "MELLE",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "GIO915",
+      "catalog_estilo": "GIO915",
+      "color": "LILA",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "GIO940",
+      "catalog_estilo": "GIO940",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "JOA027",
+      "catalog_estilo": "JOA027",
+      "color": "ORO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "JUL002",
+      "catalog_estilo": "JUL002",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "KAM103",
+      "catalog_estilo": "KAM103",
+      "color": "NEGRO",
+      "excel_pairs": 7,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "KAM106",
+      "catalog_estilo": "KAM106",
+      "color": "NEGRO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "KAM106",
+      "catalog_estilo": "KAM106",
+      "color": "TAN",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "KIS041",
+      "catalog_estilo": "KIS041",
+      "color": "OXFORD/ROSA",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "KL1020",
+      "catalog_estilo": "KL1020",
+      "color": "FIUSHA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "KLA850",
+      "catalog_estilo": "KLA850",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "KYG300",
+      "catalog_estilo": "KYG300",
+      "color": "PALO DE ROSA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "KYG300",
+      "catalog_estilo": "KYG300",
+      "color": "ROSA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LAD040",
+      "catalog_estilo": "LAD040",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LAD538",
+      "catalog_estilo": "LAD538",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LAP603",
+      "catalog_estilo": "LAP603",
+      "color": "AZUL",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LAP603",
+      "catalog_estilo": "LAP603",
+      "color": "NEGRO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LAU424",
+      "catalog_estilo": "LAU424",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LAU810",
+      "catalog_estilo": "LAU810",
+      "color": "PUSHA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LE1023",
+      "catalog_estilo": "LE1023",
+      "color": "LATTE",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LE1023",
+      "catalog_estilo": "LE1023",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LES223",
+      "catalog_estilo": "LES223",
+      "color": "NEGRO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LES225",
+      "catalog_estilo": "LES225",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LES225",
+      "catalog_estilo": "LES225",
+      "color": "TAN",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LES419",
+      "catalog_estilo": "LES419",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LES777",
+      "catalog_estilo": "LES777",
+      "color": "NEGRO",
+      "excel_pairs": 7,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LES777",
+      "catalog_estilo": "LES777",
+      "color": "PLATA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LES814",
+      "catalog_estilo": "LES814",
+      "color": "ORO ROSADO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LES814",
+      "catalog_estilo": "LES814",
+      "color": "PLATA",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LI6004",
+      "catalog_estilo": "LI6004",
+      "color": "ARMANAC",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LO3325",
+      "catalog_estilo": "LO3325",
+      "color": "PLATA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LO9294",
+      "catalog_estilo": "LO9294",
+      "color": "BLANCO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LOV311",
+      "catalog_estilo": "LOV311",
+      "color": "NUDE",
+      "excel_pairs": 12,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LOV313",
+      "catalog_estilo": "LOV313",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LOV600",
+      "catalog_estilo": "LOV600",
+      "color": "NEGRO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LOV806",
+      "catalog_estilo": "LOV806",
+      "color": "ORO",
+      "excel_pairs": 8,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LOV806",
+      "catalog_estilo": "LOV806",
+      "color": "PLATA",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "LUC120",
+      "catalog_estilo": "LUC120",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "M10110",
+      "catalog_estilo": "M10110",
+      "color": "LILA OXFORD",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "M8301M",
+      "catalog_estilo": "M8301M",
+      "color": "CAFE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "M8306M",
+      "catalog_estilo": "M8306M",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA0501",
+      "catalog_estilo": "MA0501",
+      "color": "NEGRO",
+      "excel_pairs": 7,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA1000",
+      "catalog_estilo": "MA1000",
+      "color": "BLANCO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA1050",
+      "catalog_estilo": "MA1050",
+      "color": "CAFE",
+      "excel_pairs": 9,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA1063",
+      "catalog_estilo": "MA1063",
+      "color": "NEGRO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA1083",
+      "catalog_estilo": "MA1083",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA1083",
+      "catalog_estilo": "MA1083",
+      "color": "ORO ROSADO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA1083",
+      "catalog_estilo": "MA1083",
+      "color": "PLATA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA1123",
+      "catalog_estilo": "MA1123",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA1123",
+      "catalog_estilo": "MA1123",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA1151",
+      "catalog_estilo": "MA1151",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA1204",
+      "catalog_estilo": "MA1204",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA1205",
+      "catalog_estilo": "MA1205",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA1210",
+      "catalog_estilo": "MA1210",
+      "color": "BAILEYS",
+      "excel_pairs": 7,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA1210",
+      "catalog_estilo": "MA1210",
+      "color": "COMINO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA1403",
+      "catalog_estilo": "MA1403",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA1409",
+      "catalog_estilo": "MA1409",
+      "color": "COMINO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA1409",
+      "catalog_estilo": "MA1409",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA1503",
+      "catalog_estilo": "MA1503",
+      "color": "NEGRO",
+      "excel_pairs": 8,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA2145",
+      "catalog_estilo": "MA2145",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA2145",
+      "catalog_estilo": "MA2145",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA2405",
+      "catalog_estilo": "MA2405",
+      "color": "BLANCO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA2405",
+      "catalog_estilo": "MA2405",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA2800",
+      "catalog_estilo": "MA2800",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MA8010",
+      "catalog_estilo": "MA8010",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAR100",
+      "catalog_estilo": "MAR100",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAR202",
+      "catalog_estilo": "MAR202",
+      "color": "SHEDRON",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAR230",
+      "catalog_estilo": "MAR230",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAR230",
+      "catalog_estilo": "MAR230",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAR786",
+      "catalog_estilo": "MAR786",
+      "color": "NEGRO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MARIPO",
+      "catalog_estilo": "MARIPO",
+      "color": "CHOCOLATE",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MARIPO",
+      "catalog_estilo": "MARIPO",
+      "color": "MIEL",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAX056",
+      "catalog_estilo": "MAX056",
+      "color": "BLANCO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAX058",
+      "catalog_estilo": "MAX058",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAX058",
+      "catalog_estilo": "MAX058",
+      "color": "TAN",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAX335",
+      "catalog_estilo": "MAX335",
+      "color": "BAILEYS",
+      "excel_pairs": 8,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAX335",
+      "catalog_estilo": "MAX335",
+      "color": "BLANCO",
+      "excel_pairs": 8,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAX335",
+      "catalog_estilo": "MAX335",
+      "color": "NEGRO",
+      "excel_pairs": 8,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAX337",
+      "catalog_estilo": "MAX337",
+      "color": "LATE",
+      "excel_pairs": 7,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAX337",
+      "catalog_estilo": "MAX337",
+      "color": "ROJO",
+      "excel_pairs": 8,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAX350",
+      "catalog_estilo": "MAX350",
+      "color": "TAN",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAX351",
+      "catalog_estilo": "MAX351",
+      "color": "BAILEYS",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAX351",
+      "catalog_estilo": "MAX351",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAX874",
+      "catalog_estilo": "MAX874",
+      "color": "BLANCO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAX874",
+      "catalog_estilo": "MAX874",
+      "color": "INOX",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAX874",
+      "catalog_estilo": "MAX874",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAY416",
+      "catalog_estilo": "MAY416",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAY601",
+      "catalog_estilo": "MAY601",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAY905",
+      "catalog_estilo": "MAY905",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAY909",
+      "catalog_estilo": "MAY909",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MAY909",
+      "catalog_estilo": "MAY909",
+      "color": "NEGRO",
+      "excel_pairs": 11,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "ME415H",
+      "catalog_estilo": "ME415H",
+      "color": "BLANCO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MIS015",
+      "catalog_estilo": "MIS015",
+      "color": "LATE",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MIS015",
+      "catalog_estilo": "MIS015",
+      "color": "LATTE NEGRO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MIS015",
+      "catalog_estilo": "MIS015",
+      "color": "NEGRO BLANCO",
+      "excel_pairs": 8,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MIS065",
+      "catalog_estilo": "MIS065",
+      "color": "NEGRO",
+      "excel_pairs": 25,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MIS070",
+      "catalog_estilo": "MIS070",
+      "color": "NEGRO",
+      "excel_pairs": 21,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MO0072",
+      "catalog_estilo": "MO0072",
+      "color": "NEGRO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MO0076",
+      "catalog_estilo": "MO0076",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MO1110",
+      "catalog_estilo": "MO1110",
+      "color": "ROSA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MO1110",
+      "catalog_estilo": "MO1110",
+      "color": "ROSA PIEDRA",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MO1125",
+      "catalog_estilo": "MO1125",
+      "color": "PLATA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MO1141",
+      "catalog_estilo": "MO1141",
+      "color": "PLATA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MO1329",
+      "catalog_estilo": "MO1329",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MO3003",
+      "catalog_estilo": "MO3003",
+      "color": "PLATA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MO6001",
+      "catalog_estilo": "MO6001",
+      "color": "LATE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MO6003",
+      "catalog_estilo": "MO6003",
+      "color": "BLANCO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MO6003",
+      "catalog_estilo": "MO6003",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MO6003",
+      "catalog_estilo": "MO6003",
+      "color": "NEGRO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "MO6003",
+      "catalog_estilo": "MO6003",
+      "color": "VINO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "NEW015",
+      "catalog_estilo": "NEW015",
+      "color": "BLANCO GRIS",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "NEW515",
+      "catalog_estilo": "NEW515",
+      "color": "MARINO ROSA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "NI1904",
+      "catalog_estilo": "NI1904",
+      "color": "COGNAC",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "NI2001",
+      "catalog_estilo": "NI2001",
+      "color": "COGNAC",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "NI2001",
+      "catalog_estilo": "NI2001",
+      "color": "LATE NICE",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "NI2004",
+      "catalog_estilo": "NI2004",
+      "color": "LATE NICE",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "NI2004",
+      "catalog_estilo": "NI2004",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "NI3000",
+      "catalog_estilo": "NI3000",
+      "color": "COGNAC",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "NIC330",
+      "catalog_estilo": "NIC330",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "P19010",
+      "catalog_estilo": "P19010",
+      "color": "MADERA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1002",
+      "catalog_estilo": "PA1002",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1237",
+      "catalog_estilo": "PA1237",
+      "color": "HUESO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1238",
+      "catalog_estilo": "PA1238",
+      "color": "COBRE",
+      "excel_pairs": 9,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1238",
+      "catalog_estilo": "PA1238",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1238",
+      "catalog_estilo": "PA1238",
+      "color": "ORO",
+      "excel_pairs": 14,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1311",
+      "catalog_estilo": "PA1311",
+      "color": "AZUL",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1314",
+      "catalog_estilo": "PA1314",
+      "color": "MENTA",
+      "excel_pairs": 12,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1315",
+      "catalog_estilo": "PA1315",
+      "color": "BEIGE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1333",
+      "catalog_estilo": "PA1333",
+      "color": "MIEL",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1500",
+      "catalog_estilo": "PA1500",
+      "color": "CAMEL",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1500",
+      "catalog_estilo": "PA1500",
+      "color": "NEGRO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1503",
+      "catalog_estilo": "PA1503",
+      "color": "HUESO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1503",
+      "catalog_estilo": "PA1503",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1659",
+      "catalog_estilo": "PA1659",
+      "color": "NEGRO",
+      "excel_pairs": 11,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1659",
+      "catalog_estilo": "PA1659",
+      "color": "ORO",
+      "excel_pairs": 10,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1659",
+      "catalog_estilo": "PA1659",
+      "color": "TAN",
+      "excel_pairs": 13,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1668",
+      "catalog_estilo": "PA1668",
+      "color": "HUESO",
+      "excel_pairs": 16,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1668",
+      "catalog_estilo": "PA1668",
+      "color": "NEGRO",
+      "excel_pairs": 10,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1668",
+      "catalog_estilo": "PA1668",
+      "color": "TAN",
+      "excel_pairs": 10,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1672",
+      "catalog_estilo": "PA1672",
+      "color": "COBRE",
+      "excel_pairs": 12,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1672",
+      "catalog_estilo": "PA1672",
+      "color": "NEGRO",
+      "excel_pairs": 11,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1672",
+      "catalog_estilo": "PA1672",
+      "color": "PLOMO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA1701",
+      "catalog_estilo": "PA1701",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2079",
+      "catalog_estilo": "PA2079",
+      "color": "ORO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2200",
+      "catalog_estilo": "PA2200",
+      "color": "CAMEL",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2202",
+      "catalog_estilo": "PA2202",
+      "color": "LATE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2208",
+      "catalog_estilo": "PA2208",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 10,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2208",
+      "catalog_estilo": "PA2208",
+      "color": "NEGRO",
+      "excel_pairs": 9,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2208",
+      "catalog_estilo": "PA2208",
+      "color": "VERDE",
+      "excel_pairs": 20,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2209",
+      "catalog_estilo": "PA2209",
+      "color": "AZUL",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2303",
+      "catalog_estilo": "PA2303",
+      "color": "ORO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2303",
+      "catalog_estilo": "PA2303",
+      "color": "PLATA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2410",
+      "catalog_estilo": "PA2410",
+      "color": "HUESO",
+      "excel_pairs": 7,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2410",
+      "catalog_estilo": "PA2410",
+      "color": "NEGRO",
+      "excel_pairs": 10,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2412",
+      "catalog_estilo": "PA2412",
+      "color": "AZUL",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2412",
+      "catalog_estilo": "PA2412",
+      "color": "BEIGE",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2501",
+      "catalog_estilo": "PA2501",
+      "color": "ORO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2501",
+      "catalog_estilo": "PA2501",
+      "color": "ORO ROSADO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2501",
+      "catalog_estilo": "PA2501",
+      "color": "PLATA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2503",
+      "catalog_estilo": "PA2503",
+      "color": "AZUL",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2702",
+      "catalog_estilo": "PA2702",
+      "color": "ORO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2704",
+      "catalog_estilo": "PA2704",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA2704",
+      "catalog_estilo": "PA2704",
+      "color": "TAN",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA3022",
+      "catalog_estilo": "PA3022",
+      "color": "MARINO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA3022",
+      "catalog_estilo": "PA3022",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA3025",
+      "catalog_estilo": "PA3025",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA3031",
+      "catalog_estilo": "PA3031",
+      "color": "MIEL",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA3203",
+      "catalog_estilo": "PA3203",
+      "color": "ORO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA3761",
+      "catalog_estilo": "PA3761",
+      "color": "BLANCO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA3761",
+      "catalog_estilo": "PA3761",
+      "color": "HUESO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA3761",
+      "catalog_estilo": "PA3761",
+      "color": "MEZCLILLA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA3765",
+      "catalog_estilo": "PA3765",
+      "color": "ORO ROSADO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA3772",
+      "catalog_estilo": "PA3772",
+      "color": "LATE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA3772",
+      "catalog_estilo": "PA3772",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA3772",
+      "catalog_estilo": "PA3772",
+      "color": "ORO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA3801",
+      "catalog_estilo": "PA3801",
+      "color": "NEGRO",
+      "excel_pairs": 8,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA5440",
+      "catalog_estilo": "PA5440",
+      "color": "LATE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA5440",
+      "catalog_estilo": "PA5440",
+      "color": "ORO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA5442",
+      "catalog_estilo": "PA5442",
+      "color": "ORO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA5446",
+      "catalog_estilo": "PA5446",
+      "color": "NEGRO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA5446",
+      "catalog_estilo": "PA5446",
+      "color": "TAN",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA5451",
+      "catalog_estilo": "PA5451",
+      "color": "BEIGE",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PA5451",
+      "catalog_estilo": "PA5451",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PET106",
+      "catalog_estilo": "PET106",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI0248",
+      "catalog_estilo": "PI0248",
+      "color": "MARINO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI0248",
+      "catalog_estilo": "PI0248",
+      "color": "NEGRO FIUSHA",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI0248",
+      "catalog_estilo": "PI0248",
+      "color": "ROSA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI1310",
+      "catalog_estilo": "PI1310",
+      "color": "ROSA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI1313",
+      "catalog_estilo": "PI1313",
+      "color": "ROSA",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI2014",
+      "catalog_estilo": "PI2014",
+      "color": "PLATA",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI2017",
+      "catalog_estilo": "PI2017",
+      "color": "NARANJA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI2020",
+      "catalog_estilo": "PI2020",
+      "color": "BLANCO CIELO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI2020",
+      "catalog_estilo": "PI2020",
+      "color": "BLANCO LILA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI4517",
+      "catalog_estilo": "PI4517",
+      "color": "LILA",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI4517",
+      "catalog_estilo": "PI4517",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI4526",
+      "catalog_estilo": "PI4526",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI4527",
+      "catalog_estilo": "PI4527",
+      "color": "BLANCO NARANJA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI4529",
+      "catalog_estilo": "PI4529",
+      "color": "PLATA",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI5002",
+      "catalog_estilo": "PI5002",
+      "color": "GRIS BLANCO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI5053",
+      "catalog_estilo": "PI5053",
+      "color": "BEIGE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI5068",
+      "catalog_estilo": "PI5068",
+      "color": "FIUSHA",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI5070",
+      "catalog_estilo": "PI5070",
+      "color": "BEIGE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI5070",
+      "catalog_estilo": "PI5070",
+      "color": "ROSA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI5076",
+      "catalog_estilo": "PI5076",
+      "color": "LILA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI5076",
+      "catalog_estilo": "PI5076",
+      "color": "NEGRO ROSA",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI5083",
+      "catalog_estilo": "PI5083",
+      "color": "BLANCO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI5526",
+      "catalog_estilo": "PI5526",
+      "color": "BLANCO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI5534",
+      "catalog_estilo": "PI5534",
+      "color": "BLANCO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI5534",
+      "catalog_estilo": "PI5534",
+      "color": "BLANCO VERDE",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI7008",
+      "catalog_estilo": "PI7008",
+      "color": "AZUL BLANCO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI7008",
+      "catalog_estilo": "PI7008",
+      "color": "BLANCO AZUL",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI8016",
+      "catalog_estilo": "PI8016",
+      "color": "AZUL LILA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI8017",
+      "catalog_estilo": "PI8017",
+      "color": "ROSA",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI8017",
+      "catalog_estilo": "PI8017",
+      "color": "ROSA LILA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI8021",
+      "catalog_estilo": "PI8021",
+      "color": "NEGRO BLANCO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI8026",
+      "catalog_estilo": "PI8026",
+      "color": "CASIS",
+      "excel_pairs": 9,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI8026",
+      "catalog_estilo": "PI8026",
+      "color": "PLATA",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI8514",
+      "catalog_estilo": "PI8514",
+      "color": "NEGRO ROSA",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI8517",
+      "catalog_estilo": "PI8517",
+      "color": "LILA",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI8520",
+      "catalog_estilo": "PI8520",
+      "color": "GRIS ROSA",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "PI8520",
+      "catalog_estilo": "PI8520",
+      "color": "NEGRO BLANCO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "POP232",
+      "catalog_estilo": "POP232",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "POP235",
+      "catalog_estilo": "POP235",
+      "color": "NEGRO",
+      "excel_pairs": 13,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "POP239",
+      "catalog_estilo": "POP239",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "POP285",
+      "catalog_estilo": "POP285",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "R14097",
+      "catalog_estilo": "R14097",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "R16014",
+      "catalog_estilo": "R16014",
+      "color": "CLAY",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "R16014",
+      "catalog_estilo": "R16014",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "R2706E",
+      "catalog_estilo": "R2706E",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "R8937V",
+      "catalog_estilo": "R8937V",
+      "color": "NEGRO",
+      "excel_pairs": 8,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RA9068",
+      "catalog_estilo": "RA9068",
+      "color": "COGNAC",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RA9070",
+      "catalog_estilo": "RA9070",
+      "color": "NEGRO",
+      "excel_pairs": 9,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RAM514",
+      "catalog_estilo": "RAM514",
+      "color": "OXFORD",
+      "excel_pairs": 7,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RAM537",
+      "catalog_estilo": "RAM537",
+      "color": "ROJO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RAM538",
+      "catalog_estilo": "RAM538",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI1004",
+      "catalog_estilo": "RI1004",
+      "color": "PLATA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI112K",
+      "catalog_estilo": "RI112K",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI112K",
+      "catalog_estilo": "RI112K",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI116E",
+      "catalog_estilo": "RI116E",
+      "color": "ORO INGLES",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI1176",
+      "catalog_estilo": "RI1176",
+      "color": "BLANCO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI1230",
+      "catalog_estilo": "RI1230",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI1230",
+      "catalog_estilo": "RI1230",
+      "color": "MIGA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI1230",
+      "catalog_estilo": "RI1230",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI130E",
+      "catalog_estilo": "RI130E",
+      "color": "LATE NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI2002",
+      "catalog_estilo": "RI2002",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI2006",
+      "catalog_estilo": "RI2006",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI2007",
+      "catalog_estilo": "RI2007",
+      "color": "NEGRO",
+      "excel_pairs": 7,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI2008",
+      "catalog_estilo": "RI2008",
+      "color": "NEGRO",
+      "excel_pairs": 9,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI2022",
+      "catalog_estilo": "RI2022",
+      "color": "INOX",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI2022",
+      "catalog_estilo": "RI2022",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI2022",
+      "catalog_estilo": "RI2022",
+      "color": "ROSADO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI2027",
+      "catalog_estilo": "RI2027",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI2028",
+      "catalog_estilo": "RI2028",
+      "color": "BLANCO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI2028",
+      "catalog_estilo": "RI2028",
+      "color": "CAMEL",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI2028",
+      "catalog_estilo": "RI2028",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI2032",
+      "catalog_estilo": "RI2032",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI236",
+      "catalog_estilo": "RI236",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI2514",
+      "catalog_estilo": "RI2514",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI2525",
+      "catalog_estilo": "RI2525",
+      "color": "CAPUCHINO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI2528",
+      "catalog_estilo": "RI2528",
+      "color": "LATE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI2528",
+      "catalog_estilo": "RI2528",
+      "color": "NEGRO",
+      "excel_pairs": 7,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI2614",
+      "catalog_estilo": "RI2614",
+      "color": "LATE",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI2706",
+      "catalog_estilo": "RI2706",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI3304",
+      "catalog_estilo": "RI3304",
+      "color": "LATE",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI377G",
+      "catalog_estilo": "RI377G",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI377G",
+      "catalog_estilo": "RI377G",
+      "color": "PLATA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI380",
+      "catalog_estilo": "RI380",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI380",
+      "catalog_estilo": "RI380",
+      "color": "NEGRO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI456G",
+      "catalog_estilo": "RI456G",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI459G",
+      "catalog_estilo": "RI459G",
+      "color": "BAILEYS",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI459G",
+      "catalog_estilo": "RI459G",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI465G",
+      "catalog_estilo": "RI465G",
+      "color": "VINO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI467G",
+      "catalog_estilo": "RI467G",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI476G",
+      "catalog_estilo": "RI476G",
+      "color": "NEUTRO NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI477G",
+      "catalog_estilo": "RI477G",
+      "color": "NEGRO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI481G",
+      "catalog_estilo": "RI481G",
+      "color": "CLAY",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI481G",
+      "catalog_estilo": "RI481G",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI484G",
+      "catalog_estilo": "RI484G",
+      "color": "LATE",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI485G",
+      "catalog_estilo": "RI485G",
+      "color": "VINO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI5903",
+      "catalog_estilo": "RI5903",
+      "color": "FLAMA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI602E",
+      "catalog_estilo": "RI602E",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI6559",
+      "catalog_estilo": "RI6559",
+      "color": "ORO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI660H",
+      "catalog_estilo": "RI660H",
+      "color": "CIRCON",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI660H",
+      "catalog_estilo": "RI660H",
+      "color": "LATE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI660H",
+      "catalog_estilo": "RI660H",
+      "color": "PLATA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI7060",
+      "catalog_estilo": "RI7060",
+      "color": "ROJO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI7078",
+      "catalog_estilo": "RI7078",
+      "color": "LATE",
+      "excel_pairs": 8,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI7080",
+      "catalog_estilo": "RI7080",
+      "color": "ROJO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI710",
+      "catalog_estilo": "RI710",
+      "color": "NEGRO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI7230",
+      "catalog_estilo": "RI7230",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI8004",
+      "catalog_estilo": "RI8004",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI886E",
+      "catalog_estilo": "RI886E",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI886E",
+      "catalog_estilo": "RI886E",
+      "color": "PASTE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI9129",
+      "catalog_estilo": "RI9129",
+      "color": "ROJO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI9214",
+      "catalog_estilo": "RI9214",
+      "color": "FLAMA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI990K",
+      "catalog_estilo": "RI990K",
+      "color": "LATE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RI990K",
+      "catalog_estilo": "RI990K",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIGALA",
+      "catalog_estilo": "RIGALA",
+      "color": "LATE",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIGALA",
+      "catalog_estilo": "RIGALA",
+      "color": "NEGRO",
+      "excel_pairs": 7,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIGALA",
+      "catalog_estilo": "RIGALA",
+      "color": "ORO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIGALA",
+      "catalog_estilo": "RIGALA",
+      "color": "ORO ROSADO",
+      "excel_pairs": 8,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK044",
+      "catalog_estilo": "RIK044",
+      "color": "SHEDRON",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK109",
+      "catalog_estilo": "RIK109",
+      "color": "PLATA",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK203",
+      "catalog_estilo": "RIK203",
+      "color": "MANTA",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK203",
+      "catalog_estilo": "RIK203",
+      "color": "MELLE",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK235",
+      "catalog_estilo": "RIK235",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK235",
+      "catalog_estilo": "RIK235",
+      "color": "ORO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK474",
+      "catalog_estilo": "RIK474",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK478",
+      "catalog_estilo": "RIK478",
+      "color": "ORO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK478",
+      "catalog_estilo": "RIK478",
+      "color": "PLATA",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK509",
+      "catalog_estilo": "RIK509",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK509",
+      "catalog_estilo": "RIK509",
+      "color": "ROJO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK510",
+      "catalog_estilo": "RIK510",
+      "color": "LATE",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK510",
+      "catalog_estilo": "RIK510",
+      "color": "NEGRO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK510",
+      "catalog_estilo": "RIK510",
+      "color": "VINO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK745",
+      "catalog_estilo": "RIK745",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK760",
+      "catalog_estilo": "RIK760",
+      "color": "MIGA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK760",
+      "catalog_estilo": "RIK760",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK900",
+      "catalog_estilo": "RIK900",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK900",
+      "catalog_estilo": "RIK900",
+      "color": "NEUTRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK901",
+      "catalog_estilo": "RIK901",
+      "color": "VENADO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK909",
+      "catalog_estilo": "RIK909",
+      "color": "LINO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "RIK909",
+      "catalog_estilo": "RIK909",
+      "color": "ORO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "ROC965",
+      "catalog_estilo": "ROC965",
+      "color": "PLATA",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "SC2721",
+      "catalog_estilo": "SC2721",
+      "color": "ORO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "SC2721",
+      "catalog_estilo": "SC2721",
+      "color": "PLATA",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "SCA140",
+      "catalog_estilo": "SCA140",
+      "color": "LILA",
+      "excel_pairs": 10,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "SCA142",
+      "catalog_estilo": "SCA142",
+      "color": "FIUSHA",
+      "excel_pairs": 11,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "SOF415",
+      "catalog_estilo": "SOF415",
+      "color": "NEGRO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "SP1200",
+      "catalog_estilo": "SP1200",
+      "color": "BLANCO",
+      "excel_pairs": 7,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "SP1410",
+      "catalog_estilo": "SP1410",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "SP1410",
+      "catalog_estilo": "SP1410",
+      "color": "MARINO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "SP1410",
+      "catalog_estilo": "SP1410",
+      "color": "NEGRO ORO",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "SP1415",
+      "catalog_estilo": "SP1415",
+      "color": "CAFE",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "SU409S",
+      "catalog_estilo": "SU409S",
+      "color": "LATE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "SUA270",
+      "catalog_estilo": "SUA270",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "SUA409",
+      "catalog_estilo": "SUA409",
+      "color": "MIEL",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "SUP246",
+      "catalog_estilo": "SUP246",
+      "color": "NEGRO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "TAD109",
+      "catalog_estilo": "TAD109",
+      "color": "BLANCO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "THANIA",
+      "catalog_estilo": "THANIA",
+      "color": "BLANCO",
+      "excel_pairs": 7,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "THANIA",
+      "catalog_estilo": "THANIA",
+      "color": "NEGRO",
+      "excel_pairs": 8,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "TRE100",
+      "catalog_estilo": "TRE100",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "TRE100",
+      "catalog_estilo": "TRE100",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "TRE160",
+      "catalog_estilo": "TRE160",
+      "color": "BLANCO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "UN3103",
+      "catalog_estilo": "UN3103",
+      "color": "NEGRO FOSFORESCENTE",
+      "excel_pairs": 5,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "UNGOLD",
+      "catalog_estilo": "UNGOLD",
+      "color": "NEGRO",
+      "excel_pairs": 2,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "VAL914",
+      "catalog_estilo": "VAL914",
+      "color": "NEGRO",
+      "excel_pairs": 7,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "VI0049",
+      "catalog_estilo": "VI0049",
+      "color": "BLANCO",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "VI0049",
+      "catalog_estilo": "VI0049",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "VI0418",
+      "catalog_estilo": "VI0418",
+      "color": "MAQUILLAJE",
+      "excel_pairs": 1,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "VI0418",
+      "catalog_estilo": "VI0418",
+      "color": "NEGRO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "YOL023",
+      "catalog_estilo": "YOL023",
+      "color": "NEGRO",
+      "excel_pairs": 7,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "YOL023",
+      "catalog_estilo": "YOL023",
+      "color": "ORO",
+      "excel_pairs": 3,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "YOL024",
+      "catalog_estilo": "YOL024",
+      "color": "ORO",
+      "excel_pairs": 6,
+      "catalog_precio": 0
+    },
+    {
+      "excel_estilo": "ZAL795",
+      "catalog_estilo": "ZAL795",
+      "color": "BLANCO",
+      "excel_pairs": 4,
+      "catalog_precio": 0
+    }
+  ],
+  "unmatched": [
+    {
+      "estilo": "4e+120",
+      "color": "PLATA",
+      "precio": 0,
+      "marca": "4EVER",
+      "pairs": 3,
+      "rows": [
+        92
+      ]
+    }
+  ],
+  "unmatched_with_price": [],
+  "ambiguous": [
+    {
+      "excel": {
+        "estilo": "135203",
+        "color": "NEGRO",
+        "precio": 1199,
+        "marca": "FLEXI",
+        "pairs": 5
+      },
+      "candidates": [
+        {
+          "id": "8329d880-c8a8-4f80-aedf-7b87e06d8cf7",
+          "estilo": "135203",
+          "color": "NEGRO",
+          "marca": "FLEXI",
+          "precio": 1149,
+          "source_system": "saz_excel"
+        },
+        {
+          "id": "cfe0e0fb-5f63-45dc-ad17-6127005004e8",
+          "estilo": "135203",
+          "color": "NEGRO",
+          "marca": "FLEXI",
+          "precio": 1149,
+          "source_system": "saz_excel"
+        },
+        {
+          "id": "eff2a609-8eeb-4a02-b412-8d3a34eb6c93",
+          "estilo": "135203",
+          "color": "NEGRO",
+          "marca": "NAN",
+          "precio": 1149,
+          "source_system": "saz_excel"
+        }
+      ]
+    },
+    {
+      "excel": {
+        "estilo": "136711",
+        "color": "TAN",
+        "precio": 1499,
+        "marca": "FLEXI",
+        "pairs": 5
+      },
+      "candidates": [
+        {
+          "id": "4165f250-60cd-4c7d-bec6-917986a783b0",
+          "estilo": "136711",
+          "color": "TAN",
+          "marca": "FLEXI",
+          "precio": 1499,
+          "source_system": "saz_excel"
+        },
+        {
+          "id": "4c818d0f-ea5b-440c-8aac-a9272e1b90f4",
+          "estilo": "136711",
+          "color": "TAN",
+          "marca": "FLEXI",
+          "precio": 1499,
+          "source_system": "saz_excel"
+        },
+        {
+          "id": "945e0359-7213-4c56-bfb4-416e591111b0",
+          "estilo": "136711",
+          "color": "TAN",
+          "marca": "CLAREMM",
+          "precio": 1499,
+          "source_system": "saz_excel"
+        }
+      ]
+    },
+    {
+      "excel": {
+        "estilo": "138803",
+        "color": "NEGRO",
+        "precio": 1199,
+        "marca": "FLEXI",
+        "pairs": 6
+      },
+      "candidates": [
+        {
+          "id": "9ccad1df-fdc4-4e2e-95f6-0fd64067a0a0",
+          "estilo": "138803",
+          "color": "NEGRO",
+          "marca": "FLEXI",
+          "precio": 0,
+          "source_system": "saz_excel"
+        },
+        {
+          "id": "d172b679-1b8c-432e-99c0-f73178bb22ae",
+          "estilo": "138803",
+          "color": "NEGRO",
+          "marca": "FLEXI",
+          "precio": 0,
+          "source_system": "saz_excel"
+        }
+      ]
+    },
+    {
+      "excel": {
+        "estilo": "401911",
+        "color": "NEGRO",
+        "precio": 949,
+        "marca": "FLEXI",
+        "pairs": 2
+      },
+      "candidates": [
+        {
+          "id": "cb0d92cf-ce2c-4d15-8d3d-94072647f404",
+          "estilo": "401911",
+          "color": "Negro",
+          "marca": "FLEXI",
+          "precio": 949,
+          "source_system": "sqlite"
+        },
+        {
+          "id": "fa90435a-4352-4012-a0d3-f388dc7ca44f",
+          "estilo": "401911",
+          "color": "NEGRO",
+          "marca": "FLEXI",
+          "precio": 949,
+          "source_system": "saz_excel"
+        }
+      ]
+    },
+    {
+      "excel": {
+        "estilo": "EVE500",
+        "color": "ROSA",
+        "precio": 0,
+        "marca": "4EVER",
+        "pairs": 11
+      },
+      "candidates": [
+        {
+          "id": "b72b8305-ed50-4ed2-af5a-187ffc5660c8",
+          "estilo": "EVE500",
+          "color": "ROSA",
+          "marca": "4EVER",
+          "precio": 0,
+          "source_system": "saz_excel"
+        },
+        {
+          "id": "dc439acd-afc8-4902-89ef-62ee41f1ed02",
+          "estilo": "EVE500",
+          "color": "ROSA",
+          "marca": "4EVER",
+          "precio": 0,
+          "source_system": "saz_excel"
+        },
+        {
+          "id": "02dbd594-6690-4c88-bea6-7a9b0205aca2",
+          "estilo": "EVE500",
+          "color": "ROSA",
+          "marca": "4EVER",
+          "precio": 0,
+          "source_system": "saz_excel"
+        }
+      ]
+    },
+    {
+      "excel": {
+        "estilo": "GI1922",
+        "color": "NEGRO",
+        "precio": 0,
+        "marca": "GIOBABY",
+        "pairs": 5
+      },
+      "candidates": [
+        {
+          "id": "14b9ca9d-ce75-44cb-ac99-894304aa0b63",
+          "estilo": "GI1922",
+          "color": "NEGRO",
+          "marca": "GIOBABY",
+          "precio": 0,
+          "source_system": "saz_excel"
+        },
+        {
+          "id": "409e479b-16ba-4bca-b6dc-b6e501f03375",
+          "estilo": "GI1922",
+          "color": "NEGRO",
+          "marca": "GIOBABY",
+          "precio": 0,
+          "source_system": "saz_excel"
+        }
+      ]
+    },
+    {
+      "excel": {
+        "estilo": "GIO062",
+        "color": "BLANCO",
+        "precio": 0,
+        "marca": "GIOBABY",
+        "pairs": 2
+      },
+      "candidates": [
+        {
+          "id": "4bfa5c47-d616-42ba-8f23-0035ea4b54de",
+          "estilo": "GIO062",
+          "color": "BLANCO",
+          "marca": "GIOBABY",
+          "precio": 0,
+          "source_system": "saz_excel"
+        },
+        {
+          "id": "8a654ef3-64ff-4790-aed1-d144082894e8",
+          "estilo": "GIO062",
+          "color": "BLANCO",
+          "marca": "GIOBABY",
+          "precio": 0,
+          "source_system": "saz_excel"
+        }
+      ]
+    },
+    {
+      "excel": {
+        "estilo": "LE1023",
+        "color": "LATE",
+        "precio": 0,
+        "marca": "LEYDI LAURA",
+        "pairs": 2
+      },
+      "candidates": [
+        {
+          "id": "101e501a-e2ac-4479-9687-1dc9240822ed",
+          "estilo": "LE1023",
+          "color": "LATE",
+          "marca": "LEYDI LAURA",
+          "precio": 0,
+          "source_system": "saz_excel"
+        },
+        {
+          "id": "9f536902-db83-4e85-ba5d-74d537f96c2d",
+          "estilo": "LE1023",
+          "color": "LATE",
+          "marca": "LEYDI LAURA",
+          "precio": 0,
+          "source_system": "saz_excel"
+        }
+      ]
+    },
+    {
+      "excel": {
+        "estilo": "LES419",
+        "color": "PLATA",
+        "precio": 0,
+        "marca": "LESLIE",
+        "pairs": 4
+      },
+      "candidates": [
+        {
+          "id": "6dbe970b-3cce-488b-9e8f-92f8bf380174",
+          "estilo": "LES419",
+          "color": "PLATA",
+          "marca": "LESLIE",
+          "precio": 0,
+          "source_system": "saz_excel"
+        },
+        {
+          "id": "c482d9a9-7396-4b34-bc81-9b6c98b952af",
+          "estilo": "LES419",
+          "color": "PLATA",
+          "marca": "LESLIE",
+          "precio": 0,
+          "source_system": "saz_excel"
+        }
+      ]
+    },
+    {
+      "excel": {
+        "estilo": "LES814",
+        "color": "NEGRO",
+        "precio": 0,
+        "marca": "LESLIE",
+        "pairs": 8
+      },
+      "candidates": [
+        {
+          "id": "b88c7e71-9392-4245-91d5-98f1a163678a",
+          "estilo": "LES814",
+          "color": "NEGRO",
+          "marca": "LESLIE",
+          "precio": 0,
+          "source_system": "saz_excel"
+        },
+        {
+          "id": "c2499f14-7bf3-4c87-8b8a-0f85b65ac707",
+          "estilo": "LES814",
+          "color": "NEGRO",
+          "marca": "LESLIE",
+          "precio": 0,
+          "source_system": "saz_excel"
+        }
+      ]
+    },
+    {
+      "excel": {
+        "estilo": "MA1210",
+        "color": "NEGRO",
+        "precio": 0,
+        "marca": "MAXIM",
+        "pairs": 8
+      },
+      "candidates": [
+        {
+          "id": "5dbd0d31-f543-4b4c-b40c-3a40479ce08a",
+          "estilo": "MA1210",
+          "color": "NEGRO",
+          "marca": "MAXIM",
+          "precio": 0,
+          "source_system": "saz_excel"
+        },
+        {
+          "id": "58a9394b-ceeb-47a5-8504-e4aa24e163e2",
+          "estilo": "MA1210",
+          "color": "NEGRO",
+          "marca": "MAXIM",
+          "precio": 0,
+          "source_system": "saz_excel"
+        }
+      ]
+    },
+    {
+      "excel": {
+        "estilo": "MA2405",
+        "color": "NEGRO",
+        "precio": 0,
+        "marca": "MARZE",
+        "pairs": 7
+      },
+      "candidates": [
+        {
+          "id": "755588f1-df73-4895-bd3e-012ad23541c5",
+          "estilo": "MA2405",
+          "color": "NEGRO",
+          "marca": "MARZE",
+          "precio": 0,
+          "source_system": "saz_excel"
+        },
+        {
+          "id": "eaf80f27-a1d3-4b0c-b652-de3c4aaa2e92",
+          "estilo": "MA2405",
+          "color": "NEGRO",
+          "marca": "MARZE",
+          "precio": 0,
+          "source_system": "saz_excel"
+        }
+      ]
+    },
+    {
+      "excel": {
+        "estilo": "MAR113",
+        "color": "PLATA",
+        "precio": 0,
+        "marca": "MARIQUITAS",
+        "pairs": 3
+      },
+      "candidates": [
+        {
+          "id": "bb1efc32-0515-4778-a152-17a7d268fe88",
+          "estilo": "MAR113",
+          "color": "PLATA",
+          "marca": "MARIQUITAS",
+          "precio": 0,
+          "source_system": "saz_excel"
+        },
+        {
+          "id": "5379c260-4685-4f51-bd8e-f76a0a2c9dc9",
+          "estilo": "MAR113",
+          "color": "PLATA",
+          "marca": "MARIQUITAS",
+          "precio": 0,
+          "source_system": "saz_excel"
+        }
+      ]
+    },
+    {
+      "excel": {
+        "estilo": "NI3908",
+        "color": "NEGRO",
+        "precio": 0,
+        "marca": "NICE",
+        "pairs": 3
+      },
+      "candidates": [
+        {
+          "id": "e248eff9-a7c3-4412-8113-00388f5072e7",
+          "estilo": "NI3908",
+          "color": "NEGRO",
+          "marca": "NICE",
+          "precio": 0,
+          "source_system": "saz_excel"
+        },
+        {
+          "id": "675ef41b-255b-48de-af7a-166628b7fc00",
+          "estilo": "NI3908",
+          "color": "NEGRO",
+          "marca": "NICE",
+          "precio": 0,
+          "source_system": "saz_excel"
+        }
+      ]
+    }
+  ],
+  "consolidated": [
+    {
+      "estilo": "131606",
+      "color": "NEGRO",
+      "rows": [
+        3,
+        87
+      ],
+      "pairs": 9
+    },
+    {
+      "estilo": "135203",
+      "color": "NEGRO",
+      "rows": [
+        21,
+        22,
+        23
+      ],
+      "pairs": 5
+    },
+    {
+      "estilo": "136711",
+      "color": "TAN",
+      "rows": [
+        34,
+        35,
+        36
+      ],
+      "pairs": 5
+    },
+    {
+      "estilo": "138801",
+      "color": "NEGRO",
+      "rows": [
+        47,
+        58
+      ],
+      "pairs": 2
+    },
+    {
+      "estilo": "138501",
+      "color": "NEGRO",
+      "rows": [
+        52,
+        53
+      ],
+      "pairs": 2
+    },
+    {
+      "estilo": "138803",
+      "color": "NEGRO",
+      "rows": [
+        61,
+        62
+      ],
+      "pairs": 6
+    },
+    {
+      "estilo": "4E1584",
+      "color": "BLANCO",
+      "rows": [
+        96,
+        97
+      ],
+      "pairs": 9
+    },
+    {
+      "estilo": "EVE500",
+      "color": "ROSA",
+      "rows": [
+        238,
+        239,
+        240
+      ],
+      "pairs": 11
+    },
+    {
+      "estilo": "GI1922",
+      "color": "NEGRO",
+      "rows": [
+        285,
+        286
+      ],
+      "pairs": 5
+    },
+    {
+      "estilo": "GI1923",
+      "color": "AVENA",
+      "rows": [
+        287,
+        288
+      ],
+      "pairs": 9
+    },
+    {
+      "estilo": "GIO062",
+      "color": "BLANCO",
+      "rows": [
+        289,
+        290
+      ],
+      "pairs": 2
+    },
+    {
+      "estilo": "LE1023",
+      "color": "LATE",
+      "rows": [
+        324,
+        325
+      ],
+      "pairs": 2
+    },
+    {
+      "estilo": "LES419",
+      "color": "PLATA",
+      "rows": [
+        332,
+        333
+      ],
+      "pairs": 4
+    },
+    {
+      "estilo": "LES814",
+      "color": "NEGRO",
+      "rows": [
+        336,
+        337
+      ],
+      "pairs": 8
+    },
+    {
+      "estilo": "MA1210",
+      "color": "NEGRO",
+      "rows": [
+        366,
+        367
+      ],
+      "pairs": 8
+    },
+    {
+      "estilo": "MA2405",
+      "color": "NEGRO",
+      "rows": [
+        376,
+        377
+      ],
+      "pairs": 7
+    },
+    {
+      "estilo": "MAR113",
+      "color": "PLATA",
+      "rows": [
+        381,
+        382
+      ],
+      "pairs": 3
+    },
+    {
+      "estilo": "NI2004",
+      "color": "NEGRO",
+      "rows": [
+        433,
+        434
+      ],
+      "pairs": 4
+    },
+    {
+      "estilo": "NI3908",
+      "color": "NEGRO",
+      "rows": [
+        436,
+        437
+      ],
+      "pairs": 3
+    },
+    {
+      "estilo": "PI7008",
+      "color": "BLANCO",
+      "rows": [
+        546,
+        547
+      ],
+      "pairs": 4
+    },
+    {
+      "estilo": "RA9070",
+      "color": "NEGRO",
+      "rows": [
+        569,
+        570,
+        571,
+        572
+      ],
+      "pairs": 9
+    },
+    {
+      "estilo": "SP1480",
+      "color": "NEGRO",
+      "rows": [
+        676,
+        677
+      ],
+      "pairs": 2
+    },
+    {
+      "estilo": "UN3096",
+      "color": "NEGRO OXFORD",
+      "rows": [
+        688,
+        689
+      ],
+      "pairs": 2
+    }
+  ]
+}

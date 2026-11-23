@@ -92,7 +92,7 @@
       const proposed = field.key === 'precio' ? proposedPriceFor(product) : '';
       const value = field.key === 'precio' ? String(proposed || product.precio || '') : text(product[field.key]);
       const body = editing
-        ? `<input data-edit-input="${esc(field.key)}" value="${esc(value)}" inputmode="${field.key === 'precio' ? 'decimal' : 'text'}" aria-label="${esc(field.label)}">`
+        ? `<input data-edit-input="${esc(field.key)}" value="${esc(value)}" inputmode="${field.key === 'precio' ? 'decimal' : 'text'}" aria-label="${esc(field.label)}"${window.ClaremmSazCatalog?.datalistId?.(field.key) ? ` list="${esc(window.ClaremmSazCatalog.datalistId(field.key))}"` : ''}>`
         : `<button type="button" data-edit-field="${esc(field.key)}"${field.key === 'precio' ? ` data-relational-price="${esc(productId)}"` : ''}>${esc(fieldValue(product, field.key))}</button>`;
       return `<div class="relationalField${editing ? ' isEditing' : ''}${proposed ? ' isProposed' : ''}" data-field="${esc(field.key)}"><dt>${esc(field.label)}</dt><dd>${body}</dd></div>`;
     }).join('');
@@ -291,9 +291,14 @@
       const products = await cloud().searchBranchCatalog(query);
       if (sequence !== searchSequence) return;
       const folded = value => normalized(value).replace(/[\/\-_,+|.]/g, ' ').replace(/\s+/g, ' ').trim().split(' ').filter(Boolean).sort().join(' ');
-    const exact = products.filter(product => {
+      const saz = window.ClaremmSazCatalog;
+      const exact = products.filter(product => {
       const styleOk = !style || normalized(product.estilo).includes(normalized(style)) || compactEstilo(product.estilo) === compactEstilo(style);
-      const colorOk = !color || folded(product.color) === folded(color) || normalized(product.color).includes(normalized(color)) || normalized(color).includes(normalized(product.color).replace(/[\/\-]/g, ' '));
+      const colorOk = !color
+        || saz?.matches?.('color', product.color, color)
+        || folded(product.color) === folded(color)
+        || normalized(product.color).includes(normalized(color))
+        || normalized(color).includes(normalized(product.color).replace(/[\/\-]/g, ' '));
       return styleOk && colorOk;
     });
       renderSearchResults(exact);
@@ -313,7 +318,7 @@
 
   function manualRow(product = selectedProduct) {
     return {
-      productId: product?.id || '', estilo: normalized(byId('branchStockStyle').value), color: normalized(byId('branchStockColor').value),
+      productId: product?.id || '', estilo: normalized(byId('branchStockStyle').value), color: window.ClaremmSazCatalog?.resolve?.('color', byId('branchStockColor').value) || normalized(byId('branchStockColor').value),
       talla: normalizedSize(byId('branchStockSize').value), cantidad: Number(byId('branchStockQuantity').value),
       marca: product?.marca || '', linea: product?.linea || '', material: product?.acabado || '', precio: product?.precio || '', notas: '', createProduct: false,
     };
@@ -368,7 +373,7 @@
     Object.entries(source || {}).forEach(([key, value]) => { indexed[header(key)] = value; });
     const createValue = normalized(valueByAliases(indexed, HEADER_ALIASES.createProduct)), quantityValue = valueByAliases(indexed, HEADER_ALIASES.cantidad);
     return {
-      estilo: normalized(valueByAliases(indexed, HEADER_ALIASES.estilo)), color: normalized(valueByAliases(indexed, HEADER_ALIASES.color)),
+      estilo: normalized(valueByAliases(indexed, HEADER_ALIASES.estilo)), color: window.ClaremmSazCatalog?.resolve?.('color', valueByAliases(indexed, HEADER_ALIASES.color)) || normalized(valueByAliases(indexed, HEADER_ALIASES.color)),
       talla: normalizedSize(valueByAliases(indexed, HEADER_ALIASES.talla)), cantidad: Number(quantityValue), quantityPresent: text(quantityValue) !== '',
       marca: normalized(valueByAliases(indexed, HEADER_ALIASES.marca)), linea: normalized(valueByAliases(indexed, HEADER_ALIASES.linea)),
       material: normalized(valueByAliases(indexed, HEADER_ALIASES.material)), precio: text(valueByAliases(indexed, HEADER_ALIASES.precio)).replace(/[^0-9.-]/g, ''),
@@ -640,8 +645,8 @@
 
   async function saveProductDuplicate() {
     if (!productDuplicate || inventoryPhotoBusy || productDuplicateSaving) return;
-    const color = text(byId('productDuplicateColor').value);
-    const corrida = text(byId('productDuplicateCorrida').value);
+    const color = window.ClaremmSazCatalog?.resolve?.('color', byId('productDuplicateColor').value) || text(byId('productDuplicateColor').value);
+    const corrida = window.ClaremmSazCatalog?.resolve?.('corrida', byId('productDuplicateCorrida').value) || text(byId('productDuplicateCorrida').value);
     const precio = text(byId('productDuplicatePrecio').value);
     const talla = text(byId('productDuplicateTalla').value);
     const cantidad = text(byId('productDuplicateCantidad').value) || '1';

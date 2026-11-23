@@ -1,0 +1,21 @@
+{
+  "name": "claremm-zapateria",
+  "version": "1.0.0",
+  "description": "Panel de Control VIP para captura de calzado con IA Gemini, SQLite, Node.js, Vite y React",
+  "scripts": {
+    "dev:backend": "cd backend && node --watch server.js",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "start": "node backend/server.js"
+  },
+  "keywords": [
+    "claremm",
+    "zapateria",
+    "gemini",
+    "sqlite",
+    "react",
+    "vite"
+  ],
+  "author": "CLAREMM Zapatería",
+  "license": "ISC"
+}

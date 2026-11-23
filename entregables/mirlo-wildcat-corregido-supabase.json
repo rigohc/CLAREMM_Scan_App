@@ -1,0 +1,1538 @@
+{
+  "generated_at": "2026-11-23T02:55:15.354Z",
+  "mode": "APPLY",
+  "file": "MIRLO Y WILDCAT 16_11_26 CORREGIDO POR SUBIR A SAZ.xlsx",
+  "excel": {
+    "rows": 87,
+    "products": 85,
+    "pairs": 541,
+    "with_price": 85,
+    "total_mismatches": []
+  },
+  "plan": {
+    "create_products": 0,
+    "update_fichas": 85,
+    "add_stock_sizes": 0,
+    "add_pairs": 0,
+    "kept_higher_juarez": 0,
+    "will_not": [
+      "No se marca SAZ.",
+      "No se pisa imagen.",
+      "No se baja stock de JUÁREZ.",
+      "No se toca inventory_items."
+    ]
+  },
+  "juarez_pairs_now": 5350,
+  "juarez_pairs_after": 5350,
+  "creates": [],
+  "field_updates_sample": [
+    {
+      "estilo": "MI4425",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "estilo": "MIR950",
+      "color": "LATE",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "estilo": "MIR943",
+      "color": "PLATA",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "estilo": "MI2508",
+      "color": "MAQUILLAJE",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "estilo": "MI2508",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "estilo": "MI2512",
+      "color": "TESTA",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "estilo": "MI2512",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "estilo": "WI9006",
+      "color": "PLATA",
+      "patch": {
+        "costo": 736.23,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "estilo": "WI9003",
+      "color": "MAQUILLAJE",
+      "patch": {
+        "costo": 736.23,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "estilo": "WI6001",
+      "color": "ORO",
+      "patch": {
+        "costo": 716.83,
+        "departamento": "CALZADO",
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "estilo": "WI6001",
+      "color": "PLATA",
+      "patch": {
+        "costo": 716.83,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "estilo": "WI6121",
+      "color": "PLATA",
+      "patch": {
+        "costo": 678.03,
+        "corrida": "21.5-27.0"
+      }
+    }
+  ],
+  "kept_higher_stock_sample": [],
+  "field_updates": [
+    {
+      "id": "220c7819-78f4-4046-9ab1-45e5b6819afe",
+      "estilo": "MI4425",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "23b0d979-42c9-44e0-b26e-9b7d2eda503e",
+      "estilo": "MIR950",
+      "color": "LATE",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "861074f0-193f-48c5-88c0-f5e917465b4a",
+      "estilo": "MIR943",
+      "color": "PLATA",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "9afe2b7b-83aa-4260-80b0-dcf04a17638f",
+      "estilo": "MI2508",
+      "color": "MAQUILLAJE",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "90a3abef-1400-4ada-a718-ff05e8afe29f",
+      "estilo": "MI2508",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "53ae4f44-0919-46e4-94a2-f4e0f1b64cb8",
+      "estilo": "MI2512",
+      "color": "TESTA",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "804a1ef2-6849-454c-bf6c-f4b70ccb1698",
+      "estilo": "MI2512",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "18a5ab3d-6cd8-4458-bb42-276da95572ab",
+      "estilo": "WI9006",
+      "color": "PLATA",
+      "patch": {
+        "costo": 736.23,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "f47f6711-3cae-4a9d-981f-161347775d14",
+      "estilo": "WI9003",
+      "color": "MAQUILLAJE",
+      "patch": {
+        "costo": 736.23,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "850ffc0a-3ed5-4cc5-b33f-77d8109309c2",
+      "estilo": "WI6001",
+      "color": "ORO",
+      "patch": {
+        "costo": 716.83,
+        "departamento": "CALZADO",
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "38d9cdc7-ff88-4462-b804-8ca02ef7e0f1",
+      "estilo": "WI6001",
+      "color": "PLATA",
+      "patch": {
+        "costo": 716.83,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "73fae481-e25f-4db3-9c00-9184686735d4",
+      "estilo": "WI6121",
+      "color": "PLATA",
+      "patch": {
+        "costo": 678.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "14f22611-525d-41d2-b7b1-cbc80fb339b2",
+      "estilo": "WI6121",
+      "color": "ORO",
+      "patch": {
+        "costo": 678.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "4e479042-65d9-4d9f-9409-4b8d44737295",
+      "estilo": "WI9135",
+      "color": "BLANCO",
+      "patch": {
+        "costo": 639.23,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "47fa9c24-b90b-42f8-bc0d-4d22dc9bc28a",
+      "estilo": "WI6121",
+      "color": "NEGRO",
+      "patch": {
+        "costo": 678.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "d7fe3580-fc05-4906-b9f9-13539824181b",
+      "estilo": "WI6121",
+      "color": "MAQUILLAJE",
+      "patch": {
+        "costo": 678.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "3045970d-658d-491f-9d83-98ac4927d386",
+      "estilo": "WIL512",
+      "color": "DENIM",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "c7ffde5b-d4f3-465d-95a6-0797a4f89356",
+      "estilo": "WI1407",
+      "color": "SANDALO",
+      "patch": {
+        "precio": 559,
+        "costo": 542.23,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "18f2bd99-5c30-4ca3-bdaa-098b258bffe7",
+      "estilo": "WIL525",
+      "color": "ORO ROSADO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "3d66b74b-89a0-48b1-8443-2f86133fcdcf",
+      "estilo": "WI1407",
+      "color": "NEGRO",
+      "patch": {
+        "costo": 639.23,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "30fcbef1-80da-4b9c-9564-d8623b104bb7",
+      "estilo": "WIL525",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "e2bca140-c0d0-403f-a4d3-42d5f4966599",
+      "estilo": "WIL523",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "1ee8356c-5034-4f77-bd47-94dfb5da9093",
+      "estilo": "WIL521",
+      "color": "ORO ROSADO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "c68d560c-99ec-4567-bd3d-11afbc6d3450",
+      "estilo": "WI0208",
+      "color": "BLANCO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "fc89a56a-8fd2-4229-92a4-e4048df902a5",
+      "estilo": "WI0124",
+      "color": "ORO ROSADO",
+      "patch": {
+        "costo": 484.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "120aff3f-5629-4554-8b2b-35efc4001cfc",
+      "estilo": "WIL523",
+      "color": "PLATA",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "4f134617-4d57-4ec3-b841-9b7f10032254",
+      "estilo": "WIL512",
+      "color": "SALMON",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "0efcf953-0a47-4d47-9bea-313b8865ea64",
+      "estilo": "WIL521",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "1d0ee00d-e7da-46eb-a2ec-98e704a75d1a",
+      "estilo": "WI8004",
+      "color": "MAQUILLAJE",
+      "patch": {
+        "costo": 678.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "ea5d63b7-9e76-452b-ba6f-49958dc85fc3",
+      "estilo": "WI4066",
+      "color": "ORO",
+      "patch": {
+        "costo": 678.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "27462b82-90bf-4003-bbd3-acbad673376a",
+      "estilo": "WI5707",
+      "color": "NEGRO",
+      "patch": {
+        "costo": 678.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "0fd96aef-e3c0-474b-b4c4-e42e7dc0997d",
+      "estilo": "WI5398",
+      "color": "NUTTY",
+      "patch": {
+        "costo": 678.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "357bfe4d-4a60-4ee4-ab61-22a5fde2fdf9",
+      "estilo": "WIL508",
+      "color": "MONZA",
+      "patch": {
+        "costo": 581.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "2280b33e-b4e5-43eb-a0a0-6baeaec7ee57",
+      "estilo": "WI2037",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "5acdd62f-7f1b-4e6d-bf15-ca1f9e7149cf",
+      "estilo": "WI2037",
+      "color": "LATE",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "4a289d69-3f62-4667-84aa-361e85a49c12",
+      "estilo": "WI4115",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "08f714d0-d56f-45e4-91bc-e722c4a6e5e8",
+      "estilo": "WI4115",
+      "color": "CAFE",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "a19c269b-688a-46ab-a808-97f38586d4b6",
+      "estilo": "WI4115",
+      "color": "PLATA",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "90c5b676-00fd-40c4-b56d-b01a481f454c",
+      "estilo": "WI2036",
+      "color": "LATE",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "de26b63e-5379-41d4-9cc2-36d205f25fc5",
+      "estilo": "WI2036",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "cf7a43be-fd06-4757-a830-d563ff1e5de9",
+      "estilo": "WI4416",
+      "color": "BEIGE",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "61a88267-2e4a-4d17-8671-b4b372ab8672",
+      "estilo": "WI4416",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "cfc97a72-0adc-428d-9a6b-7fa0cca2b7e8",
+      "estilo": "WI0307",
+      "color": "PLATA",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "7152fb1d-4694-4f99-a026-421a69522ce5",
+      "estilo": "WI4043",
+      "color": "MAQUILLAJE",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "b0d0a991-54ec-4ef5-89ac-65d922c15dec",
+      "estilo": "WI4418",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "29e46c74-ae0f-4815-a9cd-e013fc0eb3a5",
+      "estilo": "WI4418",
+      "color": "ORO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "c582d6b2-0bbe-4195-b897-d8fd88dd08bc",
+      "estilo": "WI4418",
+      "color": "ROJO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "05a3612a-368c-4148-b200-805e619c66d4",
+      "estilo": "WI4418",
+      "color": "PLATA",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "94bb46f1-75fb-473c-a641-44821f54531b",
+      "estilo": "WI2010",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "9a1072d3-88e1-41c4-ab72-362e1c47db28",
+      "estilo": "WI2010",
+      "color": "MIGA",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "87bf0de0-349e-4afe-a355-fcc1755bf7fc",
+      "estilo": "WI2016",
+      "color": "ROJO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "90c9307d-ad89-43c5-b5e5-379b3130b19b",
+      "estilo": "WI4047",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "7b3ff7e4-71a5-46b1-b5d2-e48eba1b19d4",
+      "estilo": "WI4047",
+      "color": "LATE",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "8e834805-86ef-49a9-b905-635369221149",
+      "estilo": "WI0308",
+      "color": "PLATA",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "b296ef62-e27b-4211-bb8b-9693a1ba5389",
+      "estilo": "WI4027",
+      "color": "MAQUILLAJE",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "d67ac8d1-06eb-4adb-99e4-bb5a2f3aa1a6",
+      "estilo": "WI4027",
+      "color": "CAFE",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "10d7730f-2acd-4507-b5d9-e5cd000b06e1",
+      "estilo": "WI4020",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "b52aaf34-ce3f-4a74-b6c5-3c648d279e5e",
+      "estilo": "WI5711",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "80609449-0ca1-4708-ae5a-d039d95a6ed0",
+      "estilo": "WI1523",
+      "color": "NEGRO",
+      "patch": {
+        "precio": 699,
+        "costo": 678.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "ecded026-188b-4109-a952-ede8a9656de6",
+      "estilo": "WI2752",
+      "color": "PLATA",
+      "patch": {
+        "costo": 678.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "f4414b8c-4c2e-4858-8f42-591a15d8d36a",
+      "estilo": "WI3394",
+      "color": "VINO",
+      "patch": {
+        "costo": 736.23,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "9c8a790f-a4f3-4e03-a3b8-787f9767bb75",
+      "estilo": "WI5398",
+      "color": "PLATA",
+      "patch": {
+        "costo": 678.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "e052118b-f43b-4a2f-8fbe-4f5dfd647a41",
+      "estilo": "WI0041",
+      "color": "NEGRO",
+      "patch": {
+        "costo": 639.23,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "e2360ac7-0763-4018-99c0-4e1ece45639c",
+      "estilo": "WI2029",
+      "color": "LATE",
+      "patch": {
+        "costo": 678.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "6c6d147d-0cf8-481a-ab70-c77ed068bfa8",
+      "estilo": "WIL151",
+      "color": "BEIGE",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "04c3a974-05f7-456c-a205-903c09d9d2d1",
+      "estilo": "WIL003",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "9032ffeb-50ff-4c69-ab1d-290326cc181d",
+      "estilo": "WIL151",
+      "color": "BLANCO",
+      "patch": {
+        "costo": 484.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "20991454-2f76-4a5d-9838-4f59447528d6",
+      "estilo": "WIL010",
+      "color": "NEGRO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "90b8f659-5dcd-4eec-89a7-5b50c3292082",
+      "estilo": "WIL010",
+      "color": "ORO ROSADO",
+      "patch": {
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "f19148cb-aca4-4454-8ad9-fe5081741d7f",
+      "estilo": "WI2802",
+      "color": "CAFE",
+      "patch": {
+        "costo": 872.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "30f30086-d09b-4332-875a-206110c828d2",
+      "estilo": "WI2802",
+      "color": "NEGRO",
+      "patch": {
+        "costo": 872.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "750bb0a9-e22b-4715-af8b-4f7d49eb8e16",
+      "estilo": "WI2805",
+      "color": "NEGRO",
+      "patch": {
+        "costo": 872.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "85b603df-e51e-43c1-9a9e-160ed27d7b15",
+      "estilo": "WI8112",
+      "color": "CAFE",
+      "patch": {
+        "costo": 921.5,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "0bdd7ba9-52d8-4e91-ae68-d2ce75a5b85e",
+      "estilo": "WI5812",
+      "color": "CAFE",
+      "patch": {
+        "costo": 872.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "00d74fdd-bf56-4bea-b98a-40de7b27c17f",
+      "estilo": "WI7000",
+      "color": "MERLOT",
+      "patch": {
+        "costo": 872.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "fa1b9af3-d214-410f-bf27-2d160dac74ab",
+      "estilo": "WI6787",
+      "color": "NEGRO",
+      "patch": {
+        "costo": 920.53,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "be17ed3f-a540-4a91-beef-0e928491fe8a",
+      "estilo": "WI7003",
+      "color": "NEGRO",
+      "patch": {
+        "costo": 920.53,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "f37205c7-300e-4df1-8421-f9b6db498fa3",
+      "estilo": "WI7000",
+      "color": "NEGRO",
+      "patch": {
+        "costo": 872.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "daa9d0ae-9fc3-434b-9f3d-3417e9b0a6bb",
+      "estilo": "WI7022",
+      "color": "NEGRO",
+      "patch": {
+        "costo": 872.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "241f9bb2-7414-4647-aa8c-3a66e0793860",
+      "estilo": "WI6785",
+      "color": "NEGRO",
+      "patch": {
+        "costo": 920.53,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "4d1085f2-f0cd-469e-90ec-2a600ec7a0b7",
+      "estilo": "WI7002",
+      "color": "NEGRO",
+      "patch": {
+        "costo": 959.33,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "543f465e-0620-4531-b2b0-793ca6e2890a",
+      "estilo": "WI1180",
+      "color": "CAFE",
+      "patch": {
+        "costo": 969.03,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "ec3f6442-e62e-4a77-9c6e-c043e4dbeb78",
+      "estilo": "WI1646",
+      "color": "TAN",
+      "patch": {
+        "costo": 1115.5,
+        "corrida": "21.5-27.0"
+      }
+    },
+    {
+      "id": "00b2b1cd-9438-42a6-a3a0-a4b40c65ce4c",
+      "estilo": "WIL108",
+      "color": "NEGRO",
+      "patch": {
+        "costo": 668.33,
+        "sublinea": "BOTA",
+        "linea": "NINAS",
+        "corrida": "12.0-17.5",
+        "tacon": "PISO",
+        "observaciones": "Mon Nov 16 2026 00:00:36 GMT-0600 (Central Standard Time)"
+      }
+    },
+    {
+      "id": "0c6c477e-2f48-4fb9-946e-122312cd7d45",
+      "estilo": "WIL108",
+      "color": "TAN",
+      "patch": {
+        "costo": 668.33,
+        "sublinea": "BOTA",
+        "departamento": "CALZADO",
+        "linea": "NINAS",
+        "corrida": "12.0-17.5",
+        "catalogo": "DEPARTAMENTO",
+        "observaciones": "Mon Nov 16 2026 00:00:36 GMT-0600 (Central Standard Time)"
+      }
+    }
+  ],
+  "matched_existing": [
+    {
+      "excel_estilo": "MI4425",
+      "catalog_estilo": "MI4425",
+      "color": "NEGRO",
+      "product_id": "220c7819-78f4-4046-9ab1-45e5b6819afe",
+      "catalog_precio": 759,
+      "excel_precio": 759
+    },
+    {
+      "excel_estilo": "MIR950",
+      "catalog_estilo": "MIR950",
+      "color": "LATE",
+      "product_id": "23b0d979-42c9-44e0-b26e-9b7d2eda503e",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "MIR943",
+      "catalog_estilo": "MIR943",
+      "color": "PLATA",
+      "product_id": "861074f0-193f-48c5-88c0-f5e917465b4a",
+      "catalog_precio": 799,
+      "excel_precio": 799
+    },
+    {
+      "excel_estilo": "MI2508",
+      "catalog_estilo": "MI2508",
+      "color": "MAQUILLAJE",
+      "product_id": "9afe2b7b-83aa-4260-80b0-dcf04a17638f",
+      "catalog_precio": 499,
+      "excel_precio": 499
+    },
+    {
+      "excel_estilo": "MI2508",
+      "catalog_estilo": "MI2508",
+      "color": "NEGRO",
+      "product_id": "90a3abef-1400-4ada-a718-ff05e8afe29f",
+      "catalog_precio": 499,
+      "excel_precio": 499
+    },
+    {
+      "excel_estilo": "MI2512",
+      "catalog_estilo": "MI2512",
+      "color": "TESTA",
+      "product_id": "53ae4f44-0919-46e4-94a2-f4e0f1b64cb8",
+      "catalog_precio": 499,
+      "excel_precio": 499
+    },
+    {
+      "excel_estilo": "MI2512",
+      "catalog_estilo": "MI2512",
+      "color": "NEGRO",
+      "product_id": "804a1ef2-6849-454c-bf6c-f4b70ccb1698",
+      "catalog_precio": 499,
+      "excel_precio": 499
+    },
+    {
+      "excel_estilo": "WI9006",
+      "catalog_estilo": "WI9006",
+      "color": "PLATA",
+      "product_id": "18a5ab3d-6cd8-4458-bb42-276da95572ab",
+      "catalog_precio": 759,
+      "excel_precio": 759
+    },
+    {
+      "excel_estilo": "WI9003",
+      "catalog_estilo": "WI9003",
+      "color": "MAQUILLAJE",
+      "product_id": "f47f6711-3cae-4a9d-981f-161347775d14",
+      "catalog_precio": 759,
+      "excel_precio": 759
+    },
+    {
+      "excel_estilo": "WI6001",
+      "catalog_estilo": "WI6001",
+      "color": "ORO",
+      "product_id": "850ffc0a-3ed5-4cc5-b33f-77d8109309c2",
+      "catalog_precio": 739,
+      "excel_precio": 739
+    },
+    {
+      "excel_estilo": "WI6001",
+      "catalog_estilo": "WI6001",
+      "color": "PLATA",
+      "product_id": "38d9cdc7-ff88-4462-b804-8ca02ef7e0f1",
+      "catalog_precio": 739,
+      "excel_precio": 739
+    },
+    {
+      "excel_estilo": "WI6121",
+      "catalog_estilo": "WI6121",
+      "color": "PLATA",
+      "product_id": "73fae481-e25f-4db3-9c00-9184686735d4",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI6121",
+      "catalog_estilo": "WI6121",
+      "color": "ORO",
+      "product_id": "14f22611-525d-41d2-b7b1-cbc80fb339b2",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI9135",
+      "catalog_estilo": "WI9135",
+      "color": "BLANCO",
+      "product_id": "4e479042-65d9-4d9f-9409-4b8d44737295",
+      "catalog_precio": 659,
+      "excel_precio": 659
+    },
+    {
+      "excel_estilo": "WI6121",
+      "catalog_estilo": "WI6121",
+      "color": "NEGRO",
+      "product_id": "47fa9c24-b90b-42f8-bc0d-4d22dc9bc28a",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI6121",
+      "catalog_estilo": "WI6121",
+      "color": "MAQUILLAJE",
+      "product_id": "d7fe3580-fc05-4906-b9f9-13539824181b",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WIL512",
+      "catalog_estilo": "WIL512",
+      "color": "DENIM",
+      "product_id": "3045970d-658d-491f-9d83-98ac4927d386",
+      "catalog_precio": 559,
+      "excel_precio": 559
+    },
+    {
+      "excel_estilo": "WI1407",
+      "catalog_estilo": "WI1407",
+      "color": "SANDALO",
+      "product_id": "c7ffde5b-d4f3-465d-95a6-0797a4f89356",
+      "catalog_precio": 659,
+      "excel_precio": 559
+    },
+    {
+      "excel_estilo": "WIL525",
+      "catalog_estilo": "WIL525",
+      "color": "ORO ROSADO",
+      "product_id": "18f2bd99-5c30-4ca3-bdaa-098b258bffe7",
+      "catalog_precio": 459,
+      "excel_precio": 459
+    },
+    {
+      "excel_estilo": "WI1407",
+      "catalog_estilo": "WI1407",
+      "color": "NEGRO",
+      "product_id": "3d66b74b-89a0-48b1-8443-2f86133fcdcf",
+      "catalog_precio": 659,
+      "excel_precio": 659
+    },
+    {
+      "excel_estilo": "WIL525",
+      "catalog_estilo": "WIL525",
+      "color": "NEGRO",
+      "product_id": "30fcbef1-80da-4b9c-9564-d8623b104bb7",
+      "catalog_precio": 459,
+      "excel_precio": 459
+    },
+    {
+      "excel_estilo": "WIL523",
+      "catalog_estilo": "WIL523",
+      "color": "NEGRO",
+      "product_id": "e2bca140-c0d0-403f-a4d3-42d5f4966599",
+      "catalog_precio": 459,
+      "excel_precio": 459
+    },
+    {
+      "excel_estilo": "WIL521",
+      "catalog_estilo": "WIL521",
+      "color": "ORO ROSADO",
+      "product_id": "1ee8356c-5034-4f77-bd47-94dfb5da9093",
+      "catalog_precio": 399,
+      "excel_precio": 399
+    },
+    {
+      "excel_estilo": "WI0208",
+      "catalog_estilo": "WI0208",
+      "color": "BLANCO",
+      "product_id": "c68d560c-99ec-4567-bd3d-11afbc6d3450",
+      "catalog_precio": 459,
+      "excel_precio": 459
+    },
+    {
+      "excel_estilo": "WI0124",
+      "catalog_estilo": "WI0124",
+      "color": "ORO ROSADO",
+      "product_id": "fc89a56a-8fd2-4229-92a4-e4048df902a5",
+      "catalog_precio": 499,
+      "excel_precio": 499
+    },
+    {
+      "excel_estilo": "WIL523",
+      "catalog_estilo": "WIL523",
+      "color": "PLATA",
+      "product_id": "120aff3f-5629-4554-8b2b-35efc4001cfc",
+      "catalog_precio": 459,
+      "excel_precio": 459
+    },
+    {
+      "excel_estilo": "WIL512",
+      "catalog_estilo": "WIL512",
+      "color": "SALMON",
+      "product_id": "4f134617-4d57-4ec3-b841-9b7f10032254",
+      "catalog_precio": 559,
+      "excel_precio": 559
+    },
+    {
+      "excel_estilo": "WIL521",
+      "catalog_estilo": "WIL521",
+      "color": "NEGRO",
+      "product_id": "0efcf953-0a47-4d47-9bea-313b8865ea64",
+      "catalog_precio": 399,
+      "excel_precio": 399
+    },
+    {
+      "excel_estilo": "WI8004",
+      "catalog_estilo": "WI8004",
+      "color": "MAQUILLAJE",
+      "product_id": "1d0ee00d-e7da-46eb-a2ec-98e704a75d1a",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI4066",
+      "catalog_estilo": "WI4066",
+      "color": "ORO",
+      "product_id": "ea5d63b7-9e76-452b-ba6f-49958dc85fc3",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI5707",
+      "catalog_estilo": "WI5707",
+      "color": "NEGRO",
+      "product_id": "27462b82-90bf-4003-bbd3-acbad673376a",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI5398",
+      "catalog_estilo": "WI5398",
+      "color": "NUTTY",
+      "product_id": "0fd96aef-e3c0-474b-b4c4-e42e7dc0997d",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WIL508",
+      "catalog_estilo": "WIL508",
+      "color": "MONZA",
+      "product_id": "357bfe4d-4a60-4ee4-ab61-22a5fde2fdf9",
+      "catalog_precio": 599,
+      "excel_precio": 599
+    },
+    {
+      "excel_estilo": "WI2037",
+      "catalog_estilo": "WI2037",
+      "color": "NEGRO",
+      "product_id": "2280b33e-b4e5-43eb-a0a0-6baeaec7ee57",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI2037",
+      "catalog_estilo": "WI2037",
+      "color": "LATE",
+      "product_id": "5acdd62f-7f1b-4e6d-bf15-ca1f9e7149cf",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI4115",
+      "catalog_estilo": "WI4115",
+      "color": "NEGRO",
+      "product_id": "4a289d69-3f62-4667-84aa-361e85a49c12",
+      "catalog_precio": 799,
+      "excel_precio": 799
+    },
+    {
+      "excel_estilo": "WI4115",
+      "catalog_estilo": "WI4115",
+      "color": "CAFE",
+      "product_id": "08f714d0-d56f-45e4-91bc-e722c4a6e5e8",
+      "catalog_precio": 799,
+      "excel_precio": 799
+    },
+    {
+      "excel_estilo": "WI4115",
+      "catalog_estilo": "WI4115",
+      "color": "PLATA",
+      "product_id": "a19c269b-688a-46ab-a808-97f38586d4b6",
+      "catalog_precio": 799,
+      "excel_precio": 799
+    },
+    {
+      "excel_estilo": "WI2036",
+      "catalog_estilo": "WI2036",
+      "color": "LATE",
+      "product_id": "90c5b676-00fd-40c4-b56d-b01a481f454c",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI2036",
+      "catalog_estilo": "WI2036",
+      "color": "NEGRO",
+      "product_id": "de26b63e-5379-41d4-9cc2-36d205f25fc5",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI4416",
+      "catalog_estilo": "WI4416",
+      "color": "BEIGE",
+      "product_id": "cf7a43be-fd06-4757-a830-d563ff1e5de9",
+      "catalog_precio": 799,
+      "excel_precio": 799
+    },
+    {
+      "excel_estilo": "WI4416",
+      "catalog_estilo": "WI4416",
+      "color": "NEGRO",
+      "product_id": "61a88267-2e4a-4d17-8671-b4b372ab8672",
+      "catalog_precio": 799,
+      "excel_precio": 799
+    },
+    {
+      "excel_estilo": "WI0307",
+      "catalog_estilo": "WI0307",
+      "color": "PLATA",
+      "product_id": "cfc97a72-0adc-428d-9a6b-7fa0cca2b7e8",
+      "catalog_precio": 759,
+      "excel_precio": 759
+    },
+    {
+      "excel_estilo": "WI4043",
+      "catalog_estilo": "WI4043",
+      "color": "MAQUILLAJE",
+      "product_id": "7152fb1d-4694-4f99-a026-421a69522ce5",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI4418",
+      "catalog_estilo": "WI4418",
+      "color": "NEGRO",
+      "product_id": "b0d0a991-54ec-4ef5-89ac-65d922c15dec",
+      "catalog_precio": 799,
+      "excel_precio": 799
+    },
+    {
+      "excel_estilo": "WI4418",
+      "catalog_estilo": "WI4418",
+      "color": "ORO",
+      "product_id": "29e46c74-ae0f-4815-a9cd-e013fc0eb3a5",
+      "catalog_precio": 799,
+      "excel_precio": 799
+    },
+    {
+      "excel_estilo": "WI4418",
+      "catalog_estilo": "WI4418",
+      "color": "ROJO",
+      "product_id": "c582d6b2-0bbe-4195-b897-d8fd88dd08bc",
+      "catalog_precio": 799,
+      "excel_precio": 799
+    },
+    {
+      "excel_estilo": "WI4418",
+      "catalog_estilo": "WI4418",
+      "color": "PLATA",
+      "product_id": "05a3612a-368c-4148-b200-805e619c66d4",
+      "catalog_precio": 799,
+      "excel_precio": 799
+    },
+    {
+      "excel_estilo": "WI2010",
+      "catalog_estilo": "WI2010",
+      "color": "NEGRO",
+      "product_id": "94bb46f1-75fb-473c-a641-44821f54531b",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI2010",
+      "catalog_estilo": "WI2010",
+      "color": "MIGA",
+      "product_id": "9a1072d3-88e1-41c4-ab72-362e1c47db28",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI2016",
+      "catalog_estilo": "WI2016",
+      "color": "ROJO",
+      "product_id": "87bf0de0-349e-4afe-a355-fcc1755bf7fc",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI4047",
+      "catalog_estilo": "WI4047",
+      "color": "NEGRO",
+      "product_id": "90c9307d-ad89-43c5-b5e5-379b3130b19b",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI4047",
+      "catalog_estilo": "WI4047",
+      "color": "LATE",
+      "product_id": "7b3ff7e4-71a5-46b1-b5d2-e48eba1b19d4",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI0308",
+      "catalog_estilo": "WI0308",
+      "color": "PLATA",
+      "product_id": "8e834805-86ef-49a9-b905-635369221149",
+      "catalog_precio": 759,
+      "excel_precio": 759
+    },
+    {
+      "excel_estilo": "WI4027",
+      "catalog_estilo": "WI4027",
+      "color": "MAQUILLAJE",
+      "product_id": "b296ef62-e27b-4211-bb8b-9693a1ba5389",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI4027",
+      "catalog_estilo": "WI4027",
+      "color": "CAFE",
+      "product_id": "d67ac8d1-06eb-4adb-99e4-bb5a2f3aa1a6",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI4020",
+      "catalog_estilo": "WI4020",
+      "color": "NEGRO",
+      "product_id": "10d7730f-2acd-4507-b5d9-e5cd000b06e1",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI5711",
+      "catalog_estilo": "WI5711",
+      "color": "NEGRO",
+      "product_id": "b52aaf34-ce3f-4a74-b6c5-3c648d279e5e",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI1523",
+      "catalog_estilo": "WI1523",
+      "color": "NEGRO",
+      "product_id": "80609449-0ca1-4708-ae5a-d039d95a6ed0",
+      "catalog_precio": 0,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI2752",
+      "catalog_estilo": "WI2752",
+      "color": "PLATA",
+      "product_id": "ecded026-188b-4109-a952-ede8a9656de6",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI3394",
+      "catalog_estilo": "WI3394",
+      "color": "VINO",
+      "product_id": "f4414b8c-4c2e-4858-8f42-591a15d8d36a",
+      "catalog_precio": 759,
+      "excel_precio": 759
+    },
+    {
+      "excel_estilo": "WI5398",
+      "catalog_estilo": "WI5398",
+      "color": "PLATA",
+      "product_id": "9c8a790f-a4f3-4e03-a3b8-787f9767bb75",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WI0041",
+      "catalog_estilo": "WI0041",
+      "color": "NEGRO",
+      "product_id": "e052118b-f43b-4a2f-8fbe-4f5dfd647a41",
+      "catalog_precio": 659,
+      "excel_precio": 659
+    },
+    {
+      "excel_estilo": "WI2029",
+      "catalog_estilo": "WI2029",
+      "color": "LATE",
+      "product_id": "e2360ac7-0763-4018-99c0-4e1ece45639c",
+      "catalog_precio": 699,
+      "excel_precio": 699
+    },
+    {
+      "excel_estilo": "WIL151",
+      "catalog_estilo": "WIL151",
+      "color": "BEIGE",
+      "product_id": "6c6d147d-0cf8-481a-ab70-c77ed068bfa8",
+      "catalog_precio": 499,
+      "excel_precio": 499
+    },
+    {
+      "excel_estilo": "WIL003",
+      "catalog_estilo": "WIL003",
+      "color": "NEGRO",
+      "product_id": "04c3a974-05f7-456c-a205-903c09d9d2d1",
+      "catalog_precio": 459,
+      "excel_precio": 459
+    },
+    {
+      "excel_estilo": "WIL151",
+      "catalog_estilo": "WIL151",
+      "color": "BLANCO",
+      "product_id": "9032ffeb-50ff-4c69-ab1d-290326cc181d",
+      "catalog_precio": 499,
+      "excel_precio": 499
+    },
+    {
+      "excel_estilo": "WIL010",
+      "catalog_estilo": "WIL010",
+      "color": "NEGRO",
+      "product_id": "20991454-2f76-4a5d-9838-4f59447528d6",
+      "catalog_precio": 459,
+      "excel_precio": 459
+    },
+    {
+      "excel_estilo": "WIL010",
+      "catalog_estilo": "WIL010",
+      "color": "ORO ROSADO",
+      "product_id": "90b8f659-5dcd-4eec-89a7-5b50c3292082",
+      "catalog_precio": 459,
+      "excel_precio": 459
+    },
+    {
+      "excel_estilo": "WI2802",
+      "catalog_estilo": "WI2802",
+      "color": "CAFE",
+      "product_id": "f19148cb-aca4-4454-8ad9-fe5081741d7f",
+      "catalog_precio": 899,
+      "excel_precio": 899
+    },
+    {
+      "excel_estilo": "WI2802",
+      "catalog_estilo": "WI2802",
+      "color": "NEGRO",
+      "product_id": "30f30086-d09b-4332-875a-206110c828d2",
+      "catalog_precio": 899,
+      "excel_precio": 899
+    },
+    {
+      "excel_estilo": "WI2805",
+      "catalog_estilo": "WI2805",
+      "color": "NEGRO",
+      "product_id": "750bb0a9-e22b-4715-af8b-4f7d49eb8e16",
+      "catalog_precio": 899,
+      "excel_precio": 899
+    },
+    {
+      "excel_estilo": "WI8112",
+      "catalog_estilo": "WI8112",
+      "color": "CAFE",
+      "product_id": "85b603df-e51e-43c1-9a9e-160ed27d7b15",
+      "catalog_precio": 950,
+      "excel_precio": 950
+    },
+    {
+      "excel_estilo": "WI5812",
+      "catalog_estilo": "WI5812",
+      "color": "CAFE",
+      "product_id": "0bdd7ba9-52d8-4e91-ae68-d2ce75a5b85e",
+      "catalog_precio": 899,
+      "excel_precio": 899
+    },
+    {
+      "excel_estilo": "WI7000",
+      "catalog_estilo": "WI7000",
+      "color": "MERLOT",
+      "product_id": "00d74fdd-bf56-4bea-b98a-40de7b27c17f",
+      "catalog_precio": 899,
+      "excel_precio": 899
+    },
+    {
+      "excel_estilo": "WI6787",
+      "catalog_estilo": "WI6787",
+      "color": "NEGRO",
+      "product_id": "fa1b9af3-d214-410f-bf27-2d160dac74ab",
+      "catalog_precio": 949,
+      "excel_precio": 949
+    },
+    {
+      "excel_estilo": "WI7003",
+      "catalog_estilo": "WI7003",
+      "color": "NEGRO",
+      "product_id": "be17ed3f-a540-4a91-beef-0e928491fe8a",
+      "catalog_precio": 949,
+      "excel_precio": 949
+    },
+    {
+      "excel_estilo": "WI7000",
+      "catalog_estilo": "WI7000",
+      "color": "NEGRO",
+      "product_id": "f37205c7-300e-4df1-8421-f9b6db498fa3",
+      "catalog_precio": 899,
+      "excel_precio": 899
+    },
+    {
+      "excel_estilo": "WI7022",
+      "catalog_estilo": "WI7022",
+      "color": "NEGRO",
+      "product_id": "daa9d0ae-9fc3-434b-9f3d-3417e9b0a6bb",
+      "catalog_precio": 899,
+      "excel_precio": 899
+    },
+    {
+      "excel_estilo": "WI6785",
+      "catalog_estilo": "WI6785",
+      "color": "NEGRO",
+      "product_id": "241f9bb2-7414-4647-aa8c-3a66e0793860",
+      "catalog_precio": 949,
+      "excel_precio": 949
+    },
+    {
+      "excel_estilo": "WI7002",
+      "catalog_estilo": "WI7002",
+      "color": "NEGRO",
+      "product_id": "4d1085f2-f0cd-469e-90ec-2a600ec7a0b7",
+      "catalog_precio": 989,
+      "excel_precio": 989
+    },
+    {
+      "excel_estilo": "WI1180",
+      "catalog_estilo": "WI1180",
+      "color": "CAFE",
+      "product_id": "543f465e-0620-4531-b2b0-793ca6e2890a",
+      "catalog_precio": 999,
+      "excel_precio": 999
+    },
+    {
+      "excel_estilo": "WI1646",
+      "catalog_estilo": "WI1646",
+      "color": "TAN",
+      "product_id": "ec3f6442-e62e-4a77-9c6e-c043e4dbeb78",
+      "catalog_precio": 1150,
+      "excel_precio": 1150
+    },
+    {
+      "excel_estilo": "WIL108",
+      "catalog_estilo": "WIL108",
+      "color": "NEGRO",
+      "product_id": "00b2b1cd-9438-42a6-a3a0-a4b40c65ce4c",
+      "catalog_precio": 689,
+      "excel_precio": 689
+    },
+    {
+      "excel_estilo": "WIL108",
+      "catalog_estilo": "WIL108",
+      "color": "TAN",
+      "product_id": "0c6c477e-2f48-4fb9-946e-122312cd7d45",
+      "catalog_precio": 689,
+      "excel_precio": 689
+    }
+  ],
+  "stock_adds": []
+}

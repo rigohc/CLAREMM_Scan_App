@@ -1,0 +1,4073 @@
+{
+  "generated_at": "2026-11-20T08:00:42.547Z",
+  "mode": "APPLY",
+  "organization": {
+    "id": "a9017238-d45c-4e36-b4f0-17dc332aeb4c",
+    "name": "CLAREMM"
+  },
+  "branch": {
+    "id": "61d4f1c7-db48-426d-a64e-64dfb3e3d1df",
+    "code": "JUAREZ",
+    "name": "CLAREMM ZAPATERIA JUAREZ"
+  },
+  "summary": {
+    "products": 1329,
+    "unique_estilo_color": 1233,
+    "duplicate_groups": 77,
+    "price_conflicts_kept_canonical": 23,
+    "fichas_to_deactivate": 96,
+    "pairs_to_add": 206,
+    "ghost_pairs_zeroed_not_added": 10,
+    "juarez_pairs_before": 4241,
+    "juarez_pairs_after_expected": 4229
+  },
+  "conflicts": [
+    {
+      "key": "103007|NEGRO",
+      "prices": [
+        799,
+        699
+      ],
+      "keep_precio": 699,
+      "canonical": {
+        "id": "982982d4-daf0-4dfc-b94f-af2c834a57b6",
+        "estilo": "103007",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 699,
+        "imagen": true,
+        "source_system": "sqlite",
+        "pairs": 0
+      },
+      "duplicates": [
+        {
+          "id": "b2403fb1-dc9e-4792-bc96-64c86e2bbbe9",
+          "estilo": "103007",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 799,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 1
+        }
+      ]
+    },
+    {
+      "key": "106004|CAFE",
+      "prices": [
+        799,
+        759
+      ],
+      "keep_precio": 759,
+      "canonical": {
+        "id": "7c329d6f-c3cf-484c-8229-4fbebd90f857",
+        "estilo": "106004",
+        "marca": "COQUETA",
+        "linea": "NINOS",
+        "acabado": "PIEL",
+        "precio": 759,
+        "imagen": true,
+        "source_system": "sqlite",
+        "pairs": 1
+      },
+      "duplicates": [
+        {
+          "id": "9f0032e8-f262-4e4d-b8c2-3c00ca90b5c8",
+          "estilo": "106004",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 799,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 2
+        }
+      ]
+    },
+    {
+      "key": "139901|NEGRO",
+      "prices": [
+        799,
+        859
+      ],
+      "keep_precio": 799,
+      "canonical": {
+        "id": "61426a9e-eee0-4e0a-bd22-8371ab35e4a1",
+        "estilo": "139901",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 799,
+        "imagen": false,
+        "source_system": "sqlite",
+        "pairs": 3
+      },
+      "duplicates": [
+        {
+          "id": "4b454fcd-f303-4409-bce3-e10f1317763c",
+          "estilo": "139901",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 859,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 0
+        }
+      ]
+    },
+    {
+      "key": "139906|BLANCO",
+      "prices": [
+        749,
+        799
+      ],
+      "keep_precio": 799,
+      "canonical": {
+        "id": "8eafbd30-b523-41aa-a8a2-01b2bfcd05a6",
+        "estilo": "139906",
+        "marca": "COQUETA",
+        "linea": "NINOS",
+        "acabado": "SINTETICO",
+        "precio": 799,
+        "imagen": true,
+        "source_system": "sqlite",
+        "pairs": 5
+      },
+      "duplicates": [
+        {
+          "id": "ad2a80ec-deac-46a7-bb96-52303922054c",
+          "estilo": "139906",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTENTICO",
+          "precio": 749,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 0
+        }
+      ]
+    },
+    {
+      "key": "156754|BLANCO",
+      "prices": [
+        879,
+        849
+      ],
+      "keep_precio": 849,
+      "canonical": {
+        "id": "93ef31ca-3566-4708-8d4a-795d84fda3be",
+        "estilo": "156754",
+        "marca": "COQUETA",
+        "linea": "NINOS",
+        "acabado": "PIEL",
+        "precio": 849,
+        "imagen": true,
+        "source_system": "sqlite",
+        "pairs": 1
+      },
+      "duplicates": [
+        {
+          "id": "c97b91d6-103c-49b8-b100-ed98bd1d6f5d",
+          "estilo": "156754",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTENTICO",
+          "precio": 879,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 0
+        }
+      ]
+    },
+    {
+      "key": "164009|NEGRO",
+      "prices": [
+        799,
+        749
+      ],
+      "keep_precio": 749,
+      "canonical": {
+        "id": "954f0d11-104e-4cae-b0c6-ab60cfc55168",
+        "estilo": "164009",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 749,
+        "imagen": true,
+        "source_system": "sqlite",
+        "pairs": 3
+      },
+      "duplicates": [
+        {
+          "id": "c404b01c-f249-4bc7-9349-2f9efafcf4a5",
+          "estilo": "164009",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 799,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 3
+        }
+      ]
+    },
+    {
+      "key": "204500|ARENA",
+      "prices": [
+        859,
+        799
+      ],
+      "keep_precio": 799,
+      "canonical": {
+        "id": "9f2a4981-748e-4bd2-b9a8-6bb6c9e5caa0",
+        "estilo": "204500",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 799,
+        "imagen": true,
+        "source_system": "sqlite",
+        "pairs": 0
+      },
+      "duplicates": [
+        {
+          "id": "c0895041-d3dc-45a7-b749-5d14e416819c",
+          "estilo": "204500",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTENTICO",
+          "precio": 859,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 6
+        }
+      ]
+    },
+    {
+      "key": "204500|GRIS",
+      "prices": [
+        859,
+        799
+      ],
+      "keep_precio": 799,
+      "canonical": {
+        "id": "9a385981-d5f1-49ee-8105-77fb0d24395a",
+        "estilo": "204500",
+        "marca": "COQUETA",
+        "linea": "NINOS",
+        "acabado": "PIEL",
+        "precio": 799,
+        "imagen": true,
+        "source_system": "sqlite",
+        "pairs": 9
+      },
+      "duplicates": [
+        {
+          "id": "6cbd9e8f-d881-41f5-80c9-9b9a06f44571",
+          "estilo": "204500",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTENTICO",
+          "precio": 859,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 0
+        }
+      ]
+    },
+    {
+      "key": "205302|GRIS",
+      "prices": [
+        790,
+        759
+      ],
+      "keep_precio": 759,
+      "canonical": {
+        "id": "507a940b-3620-4239-938d-b09e5448a198",
+        "estilo": "205302",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 759,
+        "imagen": true,
+        "source_system": "sqlite",
+        "pairs": 0
+      },
+      "duplicates": [
+        {
+          "id": "7df95f97-3666-4860-bf71-c1203149363b",
+          "estilo": "205302",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTENTICO",
+          "precio": 790,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 0
+        }
+      ]
+    },
+    {
+      "key": "206506|GRIS AZUL",
+      "prices": [
+        729,
+        699
+      ],
+      "keep_precio": 699,
+      "canonical": {
+        "id": "5996b4c0-1ec5-4dbd-abae-ca378752dca8",
+        "estilo": "206506",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 699,
+        "imagen": true,
+        "source_system": "sqlite",
+        "pairs": 4
+      },
+      "duplicates": [
+        {
+          "id": "a8c7e51f-6cbc-4ef7-8993-32b5b10585af",
+          "estilo": "206506",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 729,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 0
+        }
+      ]
+    },
+    {
+      "key": "43502|NEGRO",
+      "prices": [
+        759,
+        899
+      ],
+      "keep_precio": 759,
+      "canonical": {
+        "id": "179f4f00-b367-418d-ae61-3274423f13b6",
+        "estilo": "043502",
+        "marca": "COQUETA",
+        "linea": "NIÑAS",
+        "acabado": "PIEL",
+        "precio": 759,
+        "imagen": true,
+        "source_system": "sqlite",
+        "pairs": 0
+      },
+      "duplicates": [
+        {
+          "id": "de22e406-6c22-458e-98f0-215aa8e255fd",
+          "estilo": "43502",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 899,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 0
+        }
+      ]
+    },
+    {
+      "key": "435500|MIEL",
+      "prices": [
+        859,
+        999
+      ],
+      "keep_precio": 999,
+      "canonical": {
+        "id": "b2cc3186-24a6-421a-b9f7-010700b8bcd3",
+        "estilo": "435500",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 999,
+        "imagen": false,
+        "source_system": "sqlite",
+        "pairs": 15
+      },
+      "duplicates": [
+        {
+          "id": "abe528a0-e682-491c-858b-c7a4f259b9ee",
+          "estilo": "435500",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 859,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 14
+        }
+      ]
+    },
+    {
+      "key": "435501|NEGRO",
+      "prices": [
+        899,
+        939
+      ],
+      "keep_precio": 899,
+      "canonical": {
+        "id": "fb306e31-c574-4714-819b-8714ed6d0490",
+        "estilo": "435501",
+        "marca": "COQUETA",
+        "linea": "NINOS",
+        "acabado": "PIEL",
+        "precio": 899,
+        "imagen": false,
+        "source_system": "sqlite",
+        "pairs": 10
+      },
+      "duplicates": [
+        {
+          "id": "21a03221-8910-41d8-a157-d696ff7a7550",
+          "estilo": "435501",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 939,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 7
+        }
+      ]
+    },
+    {
+      "key": "435503|CAFE",
+      "prices": [
+        899,
+        939
+      ],
+      "keep_precio": 939,
+      "canonical": {
+        "id": "f8f3e271-c758-4577-b5e0-210cebbaeaa1",
+        "estilo": "435503",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 939,
+        "imagen": false,
+        "source_system": "sqlite",
+        "pairs": 8
+      },
+      "duplicates": [
+        {
+          "id": "31b95961-6b9d-42be-b0b1-fc7c2be1a24c",
+          "estilo": "435503",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 899,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 1
+        },
+        {
+          "id": "04e97bca-b99c-413c-aa18-29eca2004b82",
+          "estilo": "435503",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 939,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 8
+        }
+      ]
+    },
+    {
+      "key": "435504|NEGRO",
+      "prices": [
+        859,
+        899
+      ],
+      "keep_precio": 859,
+      "canonical": {
+        "id": "fd6a9fb0-e1f2-4371-a9fb-c9f5bee7d30f",
+        "estilo": "435504",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 859,
+        "imagen": false,
+        "source_system": "sqlite",
+        "pairs": 14
+      },
+      "duplicates": [
+        {
+          "id": "dd5585c1-df2a-4822-a6f4-13f24c4d11cb",
+          "estilo": "435504",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 899,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 10
+        }
+      ]
+    },
+    {
+      "key": "435505|CAFE CLARO",
+      "prices": [
+        899,
+        949
+      ],
+      "keep_precio": 899,
+      "canonical": {
+        "id": "79870c40-8bbe-4e15-a1aa-2f62157cd215",
+        "estilo": "435505",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 899,
+        "imagen": false,
+        "source_system": "sqlite",
+        "pairs": 14
+      },
+      "duplicates": [
+        {
+          "id": "5298643d-0dfc-472f-a2c8-5fcac0b80878",
+          "estilo": "435505",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 949,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 0
+        }
+      ]
+    },
+    {
+      "key": "435506|NEGRO",
+      "prices": [
+        999,
+        899
+      ],
+      "keep_precio": 999,
+      "canonical": {
+        "id": "a127e6a8-db2f-4c53-a9a8-2ba0485a8335",
+        "estilo": "435506",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 999,
+        "imagen": false,
+        "source_system": "sqlite",
+        "pairs": 22
+      },
+      "duplicates": [
+        {
+          "id": "55186f36-9d1e-4911-b21b-f422beae28cf",
+          "estilo": "435506",
+          "marca": "COQUETA",
+          "linea": "NINOS",
+          "acabado": "PIEL",
+          "precio": 899,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 12
+        }
+      ]
+    },
+    {
+      "key": "442807|CAFE",
+      "prices": [
+        899,
+        959
+      ],
+      "keep_precio": 959,
+      "canonical": {
+        "id": "048dddde-7a79-43a8-905d-c20d1a411993",
+        "estilo": "442807",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 959,
+        "imagen": false,
+        "source_system": "sqlite",
+        "pairs": 1
+      },
+      "duplicates": [
+        {
+          "id": "70e3123b-b3be-4569-b3dd-44d39132601e",
+          "estilo": "442807",
+          "marca": "COQUETA",
+          "linea": "NINOS",
+          "acabado": "PIEL",
+          "precio": 899,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 1
+        },
+        {
+          "id": "4b14bc1b-7901-42aa-bfbb-232f873f87f5",
+          "estilo": "442807",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 959,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0
+        }
+      ]
+    },
+    {
+      "key": "80606A|NEGRO",
+      "prices": [
+        799,
+        899
+      ],
+      "keep_precio": 799,
+      "canonical": {
+        "id": "44e727fc-4d74-4608-ad28-b9d2cdda29ae",
+        "estilo": "80606A",
+        "marca": "COQUETA",
+        "linea": "NINOS",
+        "acabado": "PIEL",
+        "precio": 799,
+        "imagen": false,
+        "source_system": "sqlite",
+        "pairs": 4
+      },
+      "duplicates": [
+        {
+          "id": "13a92627-3ab7-4778-aa31-c021cf06bda6",
+          "estilo": "80606A",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 899,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 3
+        }
+      ]
+    },
+    {
+      "key": "DIE501|NEGRO",
+      "prices": [
+        499,
+        459,
+        489
+      ],
+      "keep_precio": 459,
+      "canonical": {
+        "id": "23cdb59e-8eff-4372-9782-775b9ae9c560",
+        "estilo": "DIE501",
+        "marca": "DIEGO",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 459,
+        "imagen": true,
+        "source_system": "sqlite",
+        "pairs": 7
+      },
+      "duplicates": [
+        {
+          "id": "e45a07ca-f3f2-46ac-bde5-9ffe85f2ae7a",
+          "estilo": "DIE501",
+          "marca": "DIEGO",
+          "linea": "CABALLERO",
+          "acabado": "PIEL",
+          "precio": 499,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 0
+        },
+        {
+          "id": "9dd9be8e-4262-47a5-b16e-b87b81fa9c03",
+          "estilo": "DIE501",
+          "marca": "DIEGO",
+          "linea": "JOVEN",
+          "acabado": "NAPA",
+          "precio": 489,
+          "source_system": "saz_registered",
+          "activo": true,
+          "pairs": 11
+        }
+      ]
+    },
+    {
+      "key": "JH0006|NEGRO",
+      "prices": [
+        499,
+        399
+      ],
+      "keep_precio": 399,
+      "canonical": {
+        "id": "47a10641-8c84-452a-a27b-80f1d9094c05",
+        "estilo": "JH0006",
+        "marca": "JHON.",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 399,
+        "imagen": true,
+        "source_system": "sqlite",
+        "pairs": 6
+      },
+      "duplicates": [
+        {
+          "id": "b1fcf131-b37f-475a-9582-6552b8eea763",
+          "estilo": "JH0006",
+          "marca": "JHON",
+          "linea": "CABALLERO",
+          "acabado": "PIEL",
+          "precio": 499,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 6
+        }
+      ]
+    },
+    {
+      "key": "KYG300|MULTICOLOR",
+      "prices": [
+        399,
+        389
+      ],
+      "keep_precio": 399,
+      "canonical": {
+        "id": "bf52b3d4-9307-4eec-90dc-4e9e18467bb9",
+        "estilo": "KYG300",
+        "marca": "D & G",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 399,
+        "imagen": true,
+        "source_system": "sqlite",
+        "pairs": 2
+      },
+      "duplicates": [
+        {
+          "id": "4d581b20-fc17-44b3-a691-914deec6f077",
+          "estilo": "KYG300",
+          "marca": "D & G",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 389,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 0
+        }
+      ]
+    },
+    {
+      "key": "PI3058|ROJO",
+      "prices": [
+        999,
+        739
+      ],
+      "keep_precio": 739,
+      "canonical": {
+        "id": "3402d3cd-d7c6-4361-8c1f-030a49d8c021",
+        "estilo": "PI3058",
+        "marca": "PIRMA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 739,
+        "imagen": true,
+        "source_system": "sqlite",
+        "pairs": 0
+      },
+      "duplicates": [
+        {
+          "id": "39a887c3-8193-44bd-9361-18945b8a2dc0",
+          "estilo": "PI3058",
+          "marca": "PIRMA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 999,
+          "source_system": "sqlite",
+          "activo": true,
+          "pairs": 0
+        }
+      ]
+    }
+  ],
+  "plans": [
+    {
+      "key": "103007|NEGRO",
+      "conflict": true,
+      "keep": "103007 NEGRO COQUETA $699 sqlite 0p",
+      "merge": [
+        "103007 COQUETA $799 sqlite 1p"
+      ],
+      "patch": {
+        "match_key": "103007|NEGRO"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "b2403fb1-dc9e-4792-bc96-64c86e2bbbe9",
+          "duplicate_estilo": "103007",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "26.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "106004|CAFE",
+      "conflict": true,
+      "keep": "106004 CAFE COQUETA $759 sqlite 1p",
+      "merge": [
+        "106004 COQUETA $799 sqlite 2p"
+      ],
+      "patch": {
+        "match_key": "106004|CAFE"
+      },
+      "added_pairs": 2,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "9f0032e8-f262-4e4d-b8c2-3c00ca90b5c8",
+          "duplicate_estilo": "106004",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "21.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "9f0032e8-f262-4e4d-b8c2-3c00ca90b5c8",
+          "duplicate_estilo": "106004",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "24.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "139901|NEGRO",
+      "conflict": true,
+      "keep": "139901 NEGRO COQUETA $799 sqlite 3p",
+      "merge": [
+        "139901 COQUETA $859 sqlite 0p"
+      ],
+      "patch": {
+        "match_key": "139901|NEGRO"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 0,
+      "sizeMoves": []
+    },
+    {
+      "key": "139906|BLANCO",
+      "conflict": true,
+      "keep": "139906 BLANCO COQUETA $799 sqlite 5p",
+      "merge": [
+        "139906 COQUETA $749 sqlite 0p"
+      ],
+      "patch": {
+        "match_key": "139906|BLANCO"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 0,
+      "sizeMoves": []
+    },
+    {
+      "key": "156754|BLANCO",
+      "conflict": true,
+      "keep": "156754 BLANCO COQUETA $849 sqlite 1p",
+      "merge": [
+        "156754 COQUETA $879 sqlite 0p"
+      ],
+      "patch": {
+        "match_key": "156754|BLANCO"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 0,
+      "sizeMoves": []
+    },
+    {
+      "key": "164009|NEGRO",
+      "conflict": true,
+      "keep": "164009 NEGRO COQUETA $749 sqlite 3p",
+      "merge": [
+        "164009 COQUETA $799 sqlite 3p"
+      ],
+      "patch": {
+        "match_key": "164009|NEGRO"
+      },
+      "added_pairs": 3,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "c404b01c-f249-4bc7-9349-2f9efafcf4a5",
+          "duplicate_estilo": "164009",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "18.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "c404b01c-f249-4bc7-9349-2f9efafcf4a5",
+          "duplicate_estilo": "164009",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "19.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "c404b01c-f249-4bc7-9349-2f9efafcf4a5",
+          "duplicate_estilo": "164009",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "20.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "204500|ARENA",
+      "conflict": true,
+      "keep": "204500 ARENA COQUETA $799 sqlite 0p",
+      "merge": [
+        "204500 COQUETA $859 sqlite 6p"
+      ],
+      "patch": {
+        "match_key": "204500|ARENA"
+      },
+      "added_pairs": 6,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "c0895041-d3dc-45a7-b749-5d14e416819c",
+          "duplicate_estilo": "204500",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "23.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "c0895041-d3dc-45a7-b749-5d14e416819c",
+          "duplicate_estilo": "204500",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "24.0",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "c0895041-d3dc-45a7-b749-5d14e416819c",
+          "duplicate_estilo": "204500",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "25.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "c0895041-d3dc-45a7-b749-5d14e416819c",
+          "duplicate_estilo": "204500",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "26.0",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "204500|GRIS",
+      "conflict": true,
+      "keep": "204500 GRIS COQUETA $799 sqlite 9p",
+      "merge": [
+        "204500 COQUETA $859 sqlite 0p"
+      ],
+      "patch": {
+        "match_key": "204500|GRIS"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 0,
+      "sizeMoves": []
+    },
+    {
+      "key": "205302|GRIS",
+      "conflict": true,
+      "keep": "205302 GRIS COQUETA $759 sqlite 0p",
+      "merge": [
+        "205302 COQUETA $790 sqlite 0p"
+      ],
+      "patch": {
+        "match_key": "205302|GRIS"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 0,
+      "sizeMoves": []
+    },
+    {
+      "key": "206506|GRIS AZUL",
+      "conflict": true,
+      "keep": "206506 GRIS AZUL COQUETA $699 sqlite 4p",
+      "merge": [
+        "206506 COQUETA $729 sqlite 0p"
+      ],
+      "patch": {
+        "match_key": "206506|GRIS AZUL"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 0,
+      "sizeMoves": []
+    },
+    {
+      "key": "43502|NEGRO",
+      "conflict": true,
+      "keep": "043502 NEGRO COQUETA $759 sqlite 0p",
+      "merge": [
+        "43502 COQUETA $899 sqlite 0p"
+      ],
+      "patch": {
+        "match_key": "43502|NEGRO"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 0,
+      "sizeMoves": []
+    },
+    {
+      "key": "435500|MIEL",
+      "conflict": true,
+      "keep": "435500 MIEL COQUETA $999 sqlite 15p",
+      "merge": [
+        "435500 COQUETA $859 sqlite 14p"
+      ],
+      "patch": {
+        "match_key": "435500|MIEL"
+      },
+      "added_pairs": 14,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "abe528a0-e682-491c-858b-c7a4f259b9ee",
+          "duplicate_estilo": "435500",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "18.0",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "abe528a0-e682-491c-858b-c7a4f259b9ee",
+          "duplicate_estilo": "435500",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "18.5",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "abe528a0-e682-491c-858b-c7a4f259b9ee",
+          "duplicate_estilo": "435500",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "19.0",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "abe528a0-e682-491c-858b-c7a4f259b9ee",
+          "duplicate_estilo": "435500",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "19.5",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "abe528a0-e682-491c-858b-c7a4f259b9ee",
+          "duplicate_estilo": "435500",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "20.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "abe528a0-e682-491c-858b-c7a4f259b9ee",
+          "duplicate_estilo": "435500",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "20.5",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "abe528a0-e682-491c-858b-c7a4f259b9ee",
+          "duplicate_estilo": "435500",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "21.0",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "abe528a0-e682-491c-858b-c7a4f259b9ee",
+          "duplicate_estilo": "435500",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "21.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "435501|NEGRO",
+      "conflict": true,
+      "keep": "435501 NEGRO COQUETA $899 sqlite 10p",
+      "merge": [
+        "435501 COQUETA $939 sqlite 7p"
+      ],
+      "patch": {
+        "match_key": "435501|NEGRO"
+      },
+      "added_pairs": 7,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "21a03221-8910-41d8-a157-d696ff7a7550",
+          "duplicate_estilo": "435501",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "22.0",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "21a03221-8910-41d8-a157-d696ff7a7550",
+          "duplicate_estilo": "435501",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "22.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "21a03221-8910-41d8-a157-d696ff7a7550",
+          "duplicate_estilo": "435501",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "23.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "21a03221-8910-41d8-a157-d696ff7a7550",
+          "duplicate_estilo": "435501",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "26.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "21a03221-8910-41d8-a157-d696ff7a7550",
+          "duplicate_estilo": "435501",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "26.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "21a03221-8910-41d8-a157-d696ff7a7550",
+          "duplicate_estilo": "435501",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "27.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "435503|CAFE",
+      "conflict": true,
+      "keep": "435503 CAFE COQUETA $939 sqlite 8p",
+      "merge": [
+        "435503 COQUETA $899 sqlite 1p",
+        "435503 COQUETA $939 sqlite 8p inactivo"
+      ],
+      "patch": {
+        "match_key": "435503|CAFE"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 8,
+      "sizeMoves": [
+        {
+          "duplicate_id": "31b95961-6b9d-42be-b0b1-fc7c2be1a24c",
+          "duplicate_estilo": "435503",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "20.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "04e97bca-b99c-413c-aa18-29eca2004b82",
+          "duplicate_estilo": "435503",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": false,
+          "size": "21.5",
+          "from_quantity": 1,
+          "canonical_before": 1,
+          "add": 0,
+          "canonical_after": 1,
+          "ghost": true,
+          "rule": "ghost_inactive"
+        },
+        {
+          "duplicate_id": "04e97bca-b99c-413c-aa18-29eca2004b82",
+          "duplicate_estilo": "435503",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": false,
+          "size": "22.0",
+          "from_quantity": 1,
+          "canonical_before": 1,
+          "add": 0,
+          "canonical_after": 1,
+          "ghost": true,
+          "rule": "ghost_inactive"
+        },
+        {
+          "duplicate_id": "04e97bca-b99c-413c-aa18-29eca2004b82",
+          "duplicate_estilo": "435503",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": false,
+          "size": "23.0",
+          "from_quantity": 1,
+          "canonical_before": 1,
+          "add": 0,
+          "canonical_after": 1,
+          "ghost": true,
+          "rule": "ghost_inactive"
+        },
+        {
+          "duplicate_id": "04e97bca-b99c-413c-aa18-29eca2004b82",
+          "duplicate_estilo": "435503",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": false,
+          "size": "24.0",
+          "from_quantity": 2,
+          "canonical_before": 2,
+          "add": 0,
+          "canonical_after": 2,
+          "ghost": true,
+          "rule": "ghost_inactive"
+        },
+        {
+          "duplicate_id": "04e97bca-b99c-413c-aa18-29eca2004b82",
+          "duplicate_estilo": "435503",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": false,
+          "size": "24.5",
+          "from_quantity": 1,
+          "canonical_before": 1,
+          "add": 0,
+          "canonical_after": 1,
+          "ghost": true,
+          "rule": "ghost_inactive"
+        },
+        {
+          "duplicate_id": "04e97bca-b99c-413c-aa18-29eca2004b82",
+          "duplicate_estilo": "435503",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": false,
+          "size": "25.5",
+          "from_quantity": 1,
+          "canonical_before": 1,
+          "add": 0,
+          "canonical_after": 1,
+          "ghost": true,
+          "rule": "ghost_inactive"
+        },
+        {
+          "duplicate_id": "04e97bca-b99c-413c-aa18-29eca2004b82",
+          "duplicate_estilo": "435503",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": false,
+          "size": "27.0",
+          "from_quantity": 1,
+          "canonical_before": 1,
+          "add": 0,
+          "canonical_after": 1,
+          "ghost": true,
+          "rule": "ghost_inactive"
+        }
+      ]
+    },
+    {
+      "key": "435504|NEGRO",
+      "conflict": true,
+      "keep": "435504 NEGRO COQUETA $859 sqlite 14p",
+      "merge": [
+        "435504 COQUETA $899 sqlite 10p"
+      ],
+      "patch": {
+        "match_key": "435504|NEGRO"
+      },
+      "added_pairs": 10,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "dd5585c1-df2a-4822-a6f4-13f24c4d11cb",
+          "duplicate_estilo": "435504",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "22.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "dd5585c1-df2a-4822-a6f4-13f24c4d11cb",
+          "duplicate_estilo": "435504",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "22.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "dd5585c1-df2a-4822-a6f4-13f24c4d11cb",
+          "duplicate_estilo": "435504",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "23.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "dd5585c1-df2a-4822-a6f4-13f24c4d11cb",
+          "duplicate_estilo": "435504",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "23.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "dd5585c1-df2a-4822-a6f4-13f24c4d11cb",
+          "duplicate_estilo": "435504",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "24.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "dd5585c1-df2a-4822-a6f4-13f24c4d11cb",
+          "duplicate_estilo": "435504",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "25.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "dd5585c1-df2a-4822-a6f4-13f24c4d11cb",
+          "duplicate_estilo": "435504",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "25.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "dd5585c1-df2a-4822-a6f4-13f24c4d11cb",
+          "duplicate_estilo": "435504",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "26.5",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "dd5585c1-df2a-4822-a6f4-13f24c4d11cb",
+          "duplicate_estilo": "435504",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "27.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "435505|CAFE CLARO",
+      "conflict": true,
+      "keep": "435505 CAFE CLARO COQUETA $899 sqlite 14p",
+      "merge": [
+        "435505 COQUETA $949 sqlite 0p"
+      ],
+      "patch": {
+        "match_key": "435505|CAFE CLARO"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 0,
+      "sizeMoves": []
+    },
+    {
+      "key": "435506|NEGRO",
+      "conflict": true,
+      "keep": "435506 NEGRO COQUETA $999 sqlite 22p",
+      "merge": [
+        "435506 COQUETA $899 sqlite 12p"
+      ],
+      "patch": {
+        "match_key": "435506|NEGRO"
+      },
+      "added_pairs": 12,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "55186f36-9d1e-4911-b21b-f422beae28cf",
+          "duplicate_estilo": "435506",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "18.0",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "55186f36-9d1e-4911-b21b-f422beae28cf",
+          "duplicate_estilo": "435506",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "19.0",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "55186f36-9d1e-4911-b21b-f422beae28cf",
+          "duplicate_estilo": "435506",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "19.5",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "55186f36-9d1e-4911-b21b-f422beae28cf",
+          "duplicate_estilo": "435506",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "20.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "55186f36-9d1e-4911-b21b-f422beae28cf",
+          "duplicate_estilo": "435506",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "21.0",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "55186f36-9d1e-4911-b21b-f422beae28cf",
+          "duplicate_estilo": "435506",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "18.5",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "55186f36-9d1e-4911-b21b-f422beae28cf",
+          "duplicate_estilo": "435506",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "20.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "442807|CAFE",
+      "conflict": true,
+      "keep": "442807 CAFE COQUETA $959 sqlite 1p",
+      "merge": [
+        "442807 COQUETA $899 sqlite 1p",
+        "442807 COQUETA $959 sqlite 0p inactivo"
+      ],
+      "patch": {
+        "match_key": "442807|CAFE"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "70e3123b-b3be-4569-b3dd-44d39132601e",
+          "duplicate_estilo": "442807",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "18.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "80606A|NEGRO",
+      "conflict": true,
+      "keep": "80606A NEGRO COQUETA $799 sqlite 4p",
+      "merge": [
+        "80606A COQUETA $899 sqlite 3p"
+      ],
+      "patch": {
+        "match_key": "80606A|NEGRO"
+      },
+      "added_pairs": 3,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "13a92627-3ab7-4778-aa31-c021cf06bda6",
+          "duplicate_estilo": "80606A",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "22.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "13a92627-3ab7-4778-aa31-c021cf06bda6",
+          "duplicate_estilo": "80606A",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "23.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "13a92627-3ab7-4778-aa31-c021cf06bda6",
+          "duplicate_estilo": "80606A",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "25.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "DIE501|NEGRO",
+      "conflict": true,
+      "keep": "DIE501 NEGRO DIEGO $459 sqlite 7p",
+      "merge": [
+        "DIE501 DIEGO $499 sqlite 0p",
+        "DIE501 DIEGO $489 saz_registered 11p"
+      ],
+      "patch": {
+        "match_key": "DIE501|NEGRO"
+      },
+      "added_pairs": 10,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "9dd9be8e-4262-47a5-b16e-b87b81fa9c03",
+          "duplicate_estilo": "DIE501",
+          "duplicate_source": "saz_registered",
+          "duplicate_activo": true,
+          "size": "21.5",
+          "from_quantity": 1,
+          "canonical_before": 1,
+          "add": 0,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "max_mixed_source"
+        },
+        {
+          "duplicate_id": "9dd9be8e-4262-47a5-b16e-b87b81fa9c03",
+          "duplicate_estilo": "DIE501",
+          "duplicate_source": "saz_registered",
+          "duplicate_activo": true,
+          "size": "22.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "9dd9be8e-4262-47a5-b16e-b87b81fa9c03",
+          "duplicate_estilo": "DIE501",
+          "duplicate_source": "saz_registered",
+          "duplicate_activo": true,
+          "size": "23.0",
+          "from_quantity": 3,
+          "canonical_before": 0,
+          "add": 3,
+          "canonical_after": 3,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "9dd9be8e-4262-47a5-b16e-b87b81fa9c03",
+          "duplicate_estilo": "DIE501",
+          "duplicate_source": "saz_registered",
+          "duplicate_activo": true,
+          "size": "24.0",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "9dd9be8e-4262-47a5-b16e-b87b81fa9c03",
+          "duplicate_estilo": "DIE501",
+          "duplicate_source": "saz_registered",
+          "duplicate_activo": true,
+          "size": "24.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "9dd9be8e-4262-47a5-b16e-b87b81fa9c03",
+          "duplicate_estilo": "DIE501",
+          "duplicate_source": "saz_registered",
+          "duplicate_activo": true,
+          "size": "25.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "9dd9be8e-4262-47a5-b16e-b87b81fa9c03",
+          "duplicate_estilo": "DIE501",
+          "duplicate_source": "saz_registered",
+          "duplicate_activo": true,
+          "size": "25.5",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "JH0006|NEGRO",
+      "conflict": true,
+      "keep": "JH0006 NEGRO JHON. $399 sqlite 6p",
+      "merge": [
+        "JH0006 JHON $499 sqlite 6p"
+      ],
+      "patch": {
+        "match_key": "JH0006|NEGRO"
+      },
+      "added_pairs": 6,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "b1fcf131-b37f-475a-9582-6552b8eea763",
+          "duplicate_estilo": "JH0006",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "25.0",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "b1fcf131-b37f-475a-9582-6552b8eea763",
+          "duplicate_estilo": "JH0006",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "27.0",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "b1fcf131-b37f-475a-9582-6552b8eea763",
+          "duplicate_estilo": "JH0006",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "28.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "b1fcf131-b37f-475a-9582-6552b8eea763",
+          "duplicate_estilo": "JH0006",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "29.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "KYG300|MULTICOLOR",
+      "conflict": true,
+      "keep": "KYG300 MULTICOLOR D & G $399 sqlite 2p",
+      "merge": [
+        "KYG300 D & G $389 sqlite 0p"
+      ],
+      "patch": {
+        "match_key": "KYG300|MULTICOLOR"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 0,
+      "sizeMoves": []
+    },
+    {
+      "key": "PI3058|ROJO",
+      "conflict": true,
+      "keep": "PI3058 ROJO PIRMA $739 sqlite 0p",
+      "merge": [
+        "PI3058 PIRMA $999 sqlite 0p"
+      ],
+      "patch": {
+        "match_key": "PI3058|ROJO"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 0,
+      "sizeMoves": []
+    },
+    {
+      "key": "100803|CAFE",
+      "conflict": false,
+      "keep": "100803 CAFE COQUETA $659 sqlite 4p",
+      "merge": [
+        "100803 COQUETA $659 sqlite 0p",
+        "100803 COQUETA $659 saz_registered 1p"
+      ],
+      "patch": {
+        "match_key": "100803|CAFE"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "418ee606-9f2a-4379-864c-2e6d21c99ab7",
+          "duplicate_estilo": "100803",
+          "duplicate_source": "saz_registered",
+          "duplicate_activo": true,
+          "size": "18.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "101708|MIEL",
+      "conflict": false,
+      "keep": "101708 MIEL COQUETA $659 sqlite 2p",
+      "merge": [
+        "101708 COQUETA $659 sqlite 0p"
+      ],
+      "patch": {
+        "match_key": "101708|MIEL"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 0,
+      "sizeMoves": []
+    },
+    {
+      "key": "102003|BLANCO",
+      "conflict": false,
+      "keep": "102003 BLANCO FLEXI $0 saz_excel 5p",
+      "merge": [
+        "102003 FLEXI $0 saz_excel 4p"
+      ],
+      "patch": {
+        "match_key": "102003|BLANCO"
+      },
+      "added_pairs": 4,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "31e49bf4-b7c1-40cc-9702-cc4dfc383d85",
+          "duplicate_estilo": "102003",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "22.0",
+          "from_quantity": 3,
+          "canonical_before": 0,
+          "add": 3,
+          "canonical_after": 3,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "31e49bf4-b7c1-40cc-9702-cc4dfc383d85",
+          "duplicate_estilo": "102003",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "22.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "102501|BLANCO",
+      "conflict": false,
+      "keep": "102501 BLANCO COQUETA $659 sqlite 0p",
+      "merge": [
+        "102501 COQUETA $659 sqlite 0p inactivo"
+      ],
+      "patch": {
+        "match_key": "102501|BLANCO"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 0,
+      "sizeMoves": []
+    },
+    {
+      "key": "104806|ARENA",
+      "conflict": false,
+      "keep": "104806 ARENA FLEXI $0 saz_excel 6p",
+      "merge": [
+        "104806 FLEXI $0 saz_excel 3p"
+      ],
+      "patch": {
+        "match_key": "104806|ARENA"
+      },
+      "added_pairs": 3,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "82129dac-5af6-4dcb-b403-5849d4128d46",
+          "duplicate_estilo": "104806",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "22.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "82129dac-5af6-4dcb-b403-5849d4128d46",
+          "duplicate_estilo": "104806",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "23.0",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "104936|BEIGE",
+      "conflict": false,
+      "keep": "104936 BEIGE FLEXI $0 saz_excel 6p",
+      "merge": [
+        "104936 CLAREMM $0 saz_excel 1p",
+        "104936 FLEXI $0 saz_excel 1p",
+        "104936 FLEXI $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "104936|BEIGE"
+      },
+      "added_pairs": 3,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "0f5df366-d0e4-482a-a8f4-6134b305cc34",
+          "duplicate_estilo": "104936",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "23.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "7a4f8be5-54bb-440d-aae4-81d042c6efb2",
+          "duplicate_estilo": "104936",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "25.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "8e7ab25d-95f8-4305-a00a-5b12123b9110",
+          "duplicate_estilo": "104936",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "26.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "104936|MARINO",
+      "conflict": false,
+      "keep": "104936 MARINO FLEXI $0 saz_excel 8p",
+      "merge": [
+        "104936 CLAREMM $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "104936|MARINO"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "8290039f-34c1-4ecc-81dc-e0ef23c3b01a",
+          "duplicate_estilo": "104936",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "22.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "105125|BURGUNDY",
+      "conflict": false,
+      "keep": "105125 BURGUNDY FLEXI $0 saz_excel 4p",
+      "merge": [
+        "105125 FLEXI $0 saz_excel 3p"
+      ],
+      "patch": {
+        "match_key": "105125|BURGUNDY"
+      },
+      "added_pairs": 3,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "5861e7ce-6e91-4ba0-abe1-ce6a5b32dbcd",
+          "duplicate_estilo": "105125",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "23.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "5861e7ce-6e91-4ba0-abe1-ce6a5b32dbcd",
+          "duplicate_estilo": "105125",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "24.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "5861e7ce-6e91-4ba0-abe1-ce6a5b32dbcd",
+          "duplicate_estilo": "105125",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "25.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "105125|NEGRO",
+      "conflict": false,
+      "keep": "105125 NEGRO FLEXI $0 saz_excel 9p",
+      "merge": [
+        "105125 FLEXI $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "105125|NEGRO"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "c0d99176-aaf4-477d-8995-7eb90be1a3ed",
+          "duplicate_estilo": "105125",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "27.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "128406|CAMEL",
+      "conflict": false,
+      "keep": "128406 CAMEL FLEXI $0 saz_excel 1p",
+      "merge": [
+        "128406 FLEXI $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "128406|CAMEL"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "fa2b5ae3-3879-4dfd-8853-6fb12504371c",
+          "duplicate_estilo": "128406",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "24.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "130208|DORADO",
+      "conflict": false,
+      "keep": "130208 DORADO FLEXI $0 saz_excel 3p",
+      "merge": [
+        "130208 FLEXI $0 saz_excel 1p",
+        "130208 NAN $0 saz_excel 20p"
+      ],
+      "patch": {
+        "match_key": "130208|DORADO"
+      },
+      "added_pairs": 21,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "d3872be2-7f97-4548-bf2d-99d98e6ab629",
+          "duplicate_estilo": "130208",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "22.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "a415901f-c2cb-41b0-8918-61d1bbcda5fe",
+          "duplicate_estilo": "130208",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "22.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "a415901f-c2cb-41b0-8918-61d1bbcda5fe",
+          "duplicate_estilo": "130208",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "23.0",
+          "from_quantity": 3,
+          "canonical_before": 0,
+          "add": 3,
+          "canonical_after": 3,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "a415901f-c2cb-41b0-8918-61d1bbcda5fe",
+          "duplicate_estilo": "130208",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "23.5",
+          "from_quantity": 4,
+          "canonical_before": 0,
+          "add": 4,
+          "canonical_after": 4,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "a415901f-c2cb-41b0-8918-61d1bbcda5fe",
+          "duplicate_estilo": "130208",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "24.0",
+          "from_quantity": 3,
+          "canonical_before": 0,
+          "add": 3,
+          "canonical_after": 3,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "a415901f-c2cb-41b0-8918-61d1bbcda5fe",
+          "duplicate_estilo": "130208",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "24.5",
+          "from_quantity": 4,
+          "canonical_before": 0,
+          "add": 4,
+          "canonical_after": 4,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "a415901f-c2cb-41b0-8918-61d1bbcda5fe",
+          "duplicate_estilo": "130208",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "25.0",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "a415901f-c2cb-41b0-8918-61d1bbcda5fe",
+          "duplicate_estilo": "130208",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "25.5",
+          "from_quantity": 3,
+          "canonical_before": 0,
+          "add": 3,
+          "canonical_after": 3,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "131501|NEGRO",
+      "conflict": false,
+      "keep": "131501 NEGRO FLEXI $0 saz_excel 3p",
+      "merge": [
+        "131501 NAN $0 saz_excel 5p"
+      ],
+      "patch": {
+        "match_key": "131501|NEGRO"
+      },
+      "added_pairs": 5,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "280d4b4e-8ab0-43e7-96b4-518f772ec967",
+          "duplicate_estilo": "131501",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "24.0",
+          "from_quantity": 3,
+          "canonical_before": 0,
+          "add": 3,
+          "canonical_after": 3,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "280d4b4e-8ab0-43e7-96b4-518f772ec967",
+          "duplicate_estilo": "131501",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "24.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "280d4b4e-8ab0-43e7-96b4-518f772ec967",
+          "duplicate_estilo": "131501",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "25.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "131504|BLANCO",
+      "conflict": false,
+      "keep": "131504 BLANCO FLEXI $0 saz_excel 1p",
+      "merge": [
+        "131504 NAN $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "131504|BLANCO"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "6c3e5cf4-3068-4b98-a4bc-57d960c2ab1f",
+          "duplicate_estilo": "131504",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "24.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "135203|NEGRO",
+      "conflict": false,
+      "keep": "135203 NEGRO FLEXI $1149 saz_excel 1p",
+      "merge": [
+        "135203 FLEXI $1149 saz_excel 1p",
+        "135203 NAN $1149 saz_excel 3p"
+      ],
+      "patch": {
+        "match_key": "135203|NEGRO"
+      },
+      "added_pairs": 4,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "cfe0e0fb-5f63-45dc-ad17-6127005004e8",
+          "duplicate_estilo": "135203",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "24.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "eff2a609-8eeb-4a02-b412-8d3a34eb6c93",
+          "duplicate_estilo": "135203",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "23.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "eff2a609-8eeb-4a02-b412-8d3a34eb6c93",
+          "duplicate_estilo": "135203",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "25.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "eff2a609-8eeb-4a02-b412-8d3a34eb6c93",
+          "duplicate_estilo": "135203",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "25.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "136711|TAN",
+      "conflict": false,
+      "keep": "136711 TAN FLEXI $1499 saz_excel 3p",
+      "merge": [
+        "136711 FLEXI $1499 saz_excel 1p",
+        "136711 CLAREMM $1499 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "136711|TAN"
+      },
+      "added_pairs": 2,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "4c818d0f-ea5b-440c-8aac-a9272e1b90f4",
+          "duplicate_estilo": "136711",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "25.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "945e0359-7213-4c56-bfb4-416e591111b0",
+          "duplicate_estilo": "136711",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "26.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "138501|NEGRO",
+      "conflict": false,
+      "keep": "138501 NEGRO FLEXI $0 saz_excel 1p",
+      "merge": [
+        "138501 NAN $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "138501|NEGRO"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "d43a004c-53c1-43a6-9be7-f226d1ec2a98",
+          "duplicate_estilo": "138501",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "25.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "138803|NEGRO",
+      "conflict": false,
+      "keep": "138803 NEGRO FLEXI $0 saz_excel 5p",
+      "merge": [
+        "138803 FLEXI $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "138803|NEGRO"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "9ccad1df-fdc4-4e2e-95f6-0fd64067a0a0",
+          "duplicate_estilo": "138803",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "25.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "209104|BLANCO",
+      "conflict": false,
+      "keep": "209104 BLANCO COQUETA $849 sqlite 3p",
+      "merge": [
+        "209104 COQUETA $849 sqlite 1p"
+      ],
+      "patch": {
+        "match_key": "209104|BLANCO"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "96769ff6-54ae-4cc2-a4cd-9e955772bded",
+          "duplicate_estilo": "209104",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "24.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "25901|NEGRO",
+      "conflict": false,
+      "keep": "025901 NEGRO FLEXI $0 saz_excel 2p",
+      "merge": [
+        "025901 FLEXI $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "25901|NEGRO"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "a062c188-26ef-420d-b114-99a848c2d17d",
+          "duplicate_estilo": "025901",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "22.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "25911|NEGRO",
+      "conflict": false,
+      "keep": "025911 NEGRO FLEXI $1249 saz_excel 5p",
+      "merge": [
+        "25911 FLEXI $0 saz_excel 1p inactivo"
+      ],
+      "patch": {
+        "match_key": "25911|NEGRO"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 1,
+      "sizeMoves": [
+        {
+          "duplicate_id": "fc24da06-8ecc-4a46-a40c-f79b78bda22e",
+          "duplicate_estilo": "25911",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": false,
+          "size": "25.5",
+          "from_quantity": 1,
+          "canonical_before": 1,
+          "add": 0,
+          "canonical_after": 1,
+          "ghost": true,
+          "rule": "ghost_inactive"
+        }
+      ]
+    },
+    {
+      "key": "37829|ARENA",
+      "conflict": false,
+      "keep": "037829 ARENA FLEXI $0 saz_excel 10p",
+      "merge": [
+        "037829 CLAREMM $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "37829|ARENA"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "791edb4b-df0e-4f31-9929-585062a94638",
+          "duplicate_estilo": "037829",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "23.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "37830|NEGRO",
+      "conflict": false,
+      "keep": "037830 NEGRO FLEXI $0 saz_excel 11p",
+      "merge": [
+        "037830 CLAREMM $0 saz_excel 3p"
+      ],
+      "patch": {
+        "match_key": "37830|NEGRO"
+      },
+      "added_pairs": 3,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "28a4eaa7-94f2-4137-80ee-36afedba2945",
+          "duplicate_estilo": "037830",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "23.5",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "28a4eaa7-94f2-4137-80ee-36afedba2945",
+          "duplicate_estilo": "037830",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "26.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "401911|NEGRO",
+      "conflict": false,
+      "keep": "401911 NEGRO FLEXI $949 saz_excel 2p",
+      "merge": [
+        "401911 FLEXI $949 sqlite 0p"
+      ],
+      "patch": {
+        "match_key": "401911|NEGRO"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 0,
+      "sizeMoves": []
+    },
+    {
+      "key": "433608|NEGRO",
+      "conflict": false,
+      "keep": "433608 NEGRO COQUETA $899 sqlite 10p",
+      "merge": [
+        "433608 COQUETA $899 sqlite 9p"
+      ],
+      "patch": {
+        "match_key": "433608|NEGRO"
+      },
+      "added_pairs": 9,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "b1274107-412c-470f-9e2c-ba7d86302b79",
+          "duplicate_estilo": "433608",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "18.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "b1274107-412c-470f-9e2c-ba7d86302b79",
+          "duplicate_estilo": "433608",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "18.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "b1274107-412c-470f-9e2c-ba7d86302b79",
+          "duplicate_estilo": "433608",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "19.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "b1274107-412c-470f-9e2c-ba7d86302b79",
+          "duplicate_estilo": "433608",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "20.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "b1274107-412c-470f-9e2c-ba7d86302b79",
+          "duplicate_estilo": "433608",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "20.5",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "b1274107-412c-470f-9e2c-ba7d86302b79",
+          "duplicate_estilo": "433608",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "21.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "b1274107-412c-470f-9e2c-ba7d86302b79",
+          "duplicate_estilo": "433608",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "21.5",
+          "from_quantity": 1,
+          "canonical_before": 1,
+          "add": 1,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "sum_same_source"
+        },
+        {
+          "duplicate_id": "b1274107-412c-470f-9e2c-ba7d86302b79",
+          "duplicate_estilo": "433608",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "23.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "435502|MIEL",
+      "conflict": false,
+      "keep": "435502 MIEL COQUETA $939 sqlite 24p",
+      "merge": [
+        "435502 COQUETA $939 sqlite 19p"
+      ],
+      "patch": {
+        "match_key": "435502|MIEL"
+      },
+      "added_pairs": 19,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "15c5ced9-2cc0-49cb-a1ff-7ae3dadd8fc8",
+          "duplicate_estilo": "435502",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "22.5",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "15c5ced9-2cc0-49cb-a1ff-7ae3dadd8fc8",
+          "duplicate_estilo": "435502",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "23.0",
+          "from_quantity": 2,
+          "canonical_before": 1,
+          "add": 2,
+          "canonical_after": 3,
+          "ghost": false,
+          "rule": "sum_same_source"
+        },
+        {
+          "duplicate_id": "15c5ced9-2cc0-49cb-a1ff-7ae3dadd8fc8",
+          "duplicate_estilo": "435502",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "23.5",
+          "from_quantity": 2,
+          "canonical_before": 1,
+          "add": 2,
+          "canonical_after": 3,
+          "ghost": false,
+          "rule": "sum_same_source"
+        },
+        {
+          "duplicate_id": "15c5ced9-2cc0-49cb-a1ff-7ae3dadd8fc8",
+          "duplicate_estilo": "435502",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "24.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "15c5ced9-2cc0-49cb-a1ff-7ae3dadd8fc8",
+          "duplicate_estilo": "435502",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "24.5",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "15c5ced9-2cc0-49cb-a1ff-7ae3dadd8fc8",
+          "duplicate_estilo": "435502",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "25.0",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "15c5ced9-2cc0-49cb-a1ff-7ae3dadd8fc8",
+          "duplicate_estilo": "435502",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "25.5",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "15c5ced9-2cc0-49cb-a1ff-7ae3dadd8fc8",
+          "duplicate_estilo": "435502",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "26.0",
+          "from_quantity": 3,
+          "canonical_before": 0,
+          "add": 3,
+          "canonical_after": 3,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "15c5ced9-2cc0-49cb-a1ff-7ae3dadd8fc8",
+          "duplicate_estilo": "435502",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "26.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "15c5ced9-2cc0-49cb-a1ff-7ae3dadd8fc8",
+          "duplicate_estilo": "435502",
+          "duplicate_source": "sqlite",
+          "duplicate_activo": true,
+          "size": "27.0",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "45233|NEGRO",
+      "conflict": false,
+      "keep": "045233 NEGRO FLEXI $0 saz_excel 5p",
+      "merge": [
+        "045233 FLEXI $0 saz_excel 3p"
+      ],
+      "patch": {
+        "match_key": "45233|NEGRO"
+      },
+      "added_pairs": 3,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "07219dfc-c882-4370-95ed-8ba129817d4c",
+          "duplicate_estilo": "045233",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "22.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "07219dfc-c882-4370-95ed-8ba129817d4c",
+          "duplicate_estilo": "045233",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "24.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "07219dfc-c882-4370-95ed-8ba129817d4c",
+          "duplicate_estilo": "045233",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "26.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "48304|BLANCO",
+      "conflict": false,
+      "keep": "048304 BLANCO FLEXI $1099 saz_excel 11p",
+      "merge": [
+        "48304 FLEXI $0 saz_excel 1p inactivo"
+      ],
+      "patch": {
+        "match_key": "48304|BLANCO"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 1,
+      "sizeMoves": [
+        {
+          "duplicate_id": "5bf37dd2-f03c-4450-b650-bcf6903586b1",
+          "duplicate_estilo": "48304",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": false,
+          "size": "24.0",
+          "from_quantity": 1,
+          "canonical_before": 1,
+          "add": 0,
+          "canonical_after": 1,
+          "ghost": true,
+          "rule": "ghost_inactive"
+        }
+      ]
+    },
+    {
+      "key": "4E1584|BLANCO",
+      "conflict": false,
+      "keep": "4E1584 BLANCO GIOBABY $0 saz_excel 8p",
+      "merge": [
+        "4E1584 GIOBABY KIDS $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "4E1584|BLANCO"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "927c3be7-b4ca-4416-9756-52fa95348174",
+          "duplicate_estilo": "4E1584",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "23.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "54403A|NEGRO",
+      "conflict": false,
+      "keep": "54403A NEGRO COQUETA $789.88 sqlite 0p",
+      "merge": [
+        "54403A COQUETA $789.88 sqlite 0p inactivo"
+      ],
+      "patch": {
+        "match_key": "54403A|NEGRO"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 0,
+      "sizeMoves": []
+    },
+    {
+      "key": "EVE500|ROSA",
+      "conflict": false,
+      "keep": "EVE500 ROSA 4EVER $0 saz_excel 5p",
+      "merge": [
+        "EVE500 4EVER $0 saz_excel 2p",
+        "EVE500 4EVER $0 saz_excel 4p"
+      ],
+      "patch": {
+        "match_key": "EVE500|ROSA"
+      },
+      "added_pairs": 6,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "b72b8305-ed50-4ed2-af5a-187ffc5660c8",
+          "duplicate_estilo": "EVE500",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "17.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "b72b8305-ed50-4ed2-af5a-187ffc5660c8",
+          "duplicate_estilo": "EVE500",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "17.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "02dbd594-6690-4c88-bea6-7a9b0205aca2",
+          "duplicate_estilo": "EVE500",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "13.0",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "02dbd594-6690-4c88-bea6-7a9b0205aca2",
+          "duplicate_estilo": "EVE500",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "13.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "02dbd594-6690-4c88-bea6-7a9b0205aca2",
+          "duplicate_estilo": "EVE500",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "14.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "GI1922|NEGRO",
+      "conflict": false,
+      "keep": "GI1922 NEGRO GIOBABY $0 saz_excel 4p",
+      "merge": [
+        "GI1922 GIOBABY $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "GI1922|NEGRO"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "409e479b-16ba-4bca-b6dc-b6e501f03375",
+          "duplicate_estilo": "GI1922",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "12.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "GI1923|AVENA",
+      "conflict": false,
+      "keep": "GI1923 AVENA GIOBABY $0 saz_excel 8p",
+      "merge": [
+        "GI1923 NAN $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "GI1923|AVENA"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "e52d029e-770e-42f5-8fe6-d603f026a350",
+          "duplicate_estilo": "GI1923",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "18.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "GIO062|BLANCO",
+      "conflict": false,
+      "keep": "GIO062 BLANCO GIOBABY $0 saz_excel 1p",
+      "merge": [
+        "GIO062 GIOBABY $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "GIO062|BLANCO"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "8a654ef3-64ff-4790-aed1-d144082894e8",
+          "duplicate_estilo": "GIO062",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "19.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "LAP020|NEGRO",
+      "conflict": false,
+      "keep": "LAP020 NEGRO LA PAG $1100 sqlite 0p",
+      "merge": [
+        "LAP020 LA PAG $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "LAP020|NEGRO"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "592394d1-1a85-44e1-9149-bfa4bd0c20ad",
+          "duplicate_estilo": "LAP020",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "26.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "LAP856|SHEDRON",
+      "conflict": false,
+      "keep": "LAP856 SHEDRON LA PAG $899 sqlite 0p",
+      "merge": [
+        "LAP856 NAN $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "LAP856|SHEDRON"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "90a41584-2ffa-42e5-9d65-0ff7041399c7",
+          "duplicate_estilo": "LAP856",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "27.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "LE1023|LATE",
+      "conflict": false,
+      "keep": "LE1023 LATE LEYDI LAURA $0 saz_excel 1p",
+      "merge": [
+        "LE1023 LEYDI LAURA $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "LE1023|LATE"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "9f536902-db83-4e85-ba5d-74d537f96c2d",
+          "duplicate_estilo": "LE1023",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "24.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "LES419|PLATA",
+      "conflict": false,
+      "keep": "LES419 PLATA LESLIE $0 saz_excel 2p",
+      "merge": [
+        "LES419 LESLIE $0 saz_excel 2p"
+      ],
+      "patch": {
+        "match_key": "LES419|PLATA"
+      },
+      "added_pairs": 2,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "c482d9a9-7396-4b34-bc81-9b6c98b952af",
+          "duplicate_estilo": "LES419",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "16.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "c482d9a9-7396-4b34-bc81-9b6c98b952af",
+          "duplicate_estilo": "LES419",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "17.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "LES814|NEGRO",
+      "conflict": false,
+      "keep": "LES814 NEGRO LESLIE $0 saz_excel 7p",
+      "merge": [
+        "LES814 LESLIE $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "LES814|NEGRO"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "c2499f14-7bf3-4c87-8b8a-0f85b65ac707",
+          "duplicate_estilo": "LES814",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "15.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "MA1210|NEGRO",
+      "conflict": false,
+      "keep": "MA1210 NEGRO MAXIM $0 saz_excel 6p",
+      "merge": [
+        "MA1210 MAXIM $0 saz_excel 2p"
+      ],
+      "patch": {
+        "match_key": "MA1210|NEGRO"
+      },
+      "added_pairs": 2,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "5dbd0d31-f543-4b4c-b40c-3a40479ce08a",
+          "duplicate_estilo": "MA1210",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "25.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "5dbd0d31-f543-4b4c-b40c-3a40479ce08a",
+          "duplicate_estilo": "MA1210",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "26.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "MA2405|NEGRO",
+      "conflict": false,
+      "keep": "MA2405 NEGRO MARZE $0 saz_excel 5p",
+      "merge": [
+        "MA2405 MARZE $0 saz_excel 2p"
+      ],
+      "patch": {
+        "match_key": "MA2405|NEGRO"
+      },
+      "added_pairs": 2,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "eaf80f27-a1d3-4b0c-b652-de3c4aaa2e92",
+          "duplicate_estilo": "MA2405",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "24.0",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "MAR113|PLATA",
+      "conflict": false,
+      "keep": "MAR113 PLATA MARIQUITAS $0 saz_excel 2p",
+      "merge": [
+        "MAR113 MARIQUITAS $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "MAR113|PLATA"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "5379c260-4685-4f51-bd8e-f76a0a2c9dc9",
+          "duplicate_estilo": "MAR113",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "15.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "NI2004|NEGRO",
+      "conflict": false,
+      "keep": "NI2004 NEGRO NICE $0 saz_excel 3p",
+      "merge": [
+        "NI2004 CLAREMM $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "NI2004|NEGRO"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "735a2a69-4159-4054-9ba1-8fc166bd2893",
+          "duplicate_estilo": "NI2004",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "26.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "NI3908|NEGRO",
+      "conflict": false,
+      "keep": "NI3908 NEGRO NICE $0 saz_excel 2p",
+      "merge": [
+        "NI3908 NICE $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "NI3908|NEGRO"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "e248eff9-a7c3-4412-8113-00388f5072e7",
+          "duplicate_estilo": "NI3908",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "24.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "PEK590|CAFE",
+      "conflict": false,
+      "keep": "PEK590 CAFE HUARACHE $399 sqlite 3p",
+      "merge": [
+        "PEK590 PEKID´S $399 sqlite 0p"
+      ],
+      "patch": {
+        "match_key": "PEK590|CAFE"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 0,
+      "sizeMoves": []
+    },
+    {
+      "key": "PI0248|NEGRO",
+      "conflict": false,
+      "keep": "PI0248 NEGRO PIRMA $799 sqlite 0p",
+      "merge": [
+        "PI0248 PIRMA $0 saz_excel 2p"
+      ],
+      "patch": {
+        "match_key": "PI0248|NEGRO"
+      },
+      "added_pairs": 2,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "005f242f-fd17-4c18-b476-18d003fea059",
+          "duplicate_estilo": "PI0248",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "24.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "005f242f-fd17-4c18-b476-18d003fea059",
+          "duplicate_estilo": "PI0248",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "26.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "PI2018|NEGRO NARANJA",
+      "conflict": false,
+      "keep": "PI2018 NEGRO NARANJA PIRMA $699 sqlite 0p",
+      "merge": [
+        "PI2018 PIRMA $699 sqlite 0p"
+      ],
+      "patch": {
+        "match_key": "PI2018|NEGRO NARANJA"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 0,
+      "sizeMoves": []
+    },
+    {
+      "key": "PI2020|BLANCO",
+      "conflict": false,
+      "keep": "PI2020 BLANCO PIRMA $699 sqlite 0p",
+      "merge": [
+        "PI2020 PIRMA $0 saz_excel 3p"
+      ],
+      "patch": {
+        "match_key": "PI2020|BLANCO"
+      },
+      "added_pairs": 3,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "d8f73dec-4916-4691-a863-2234604e7177",
+          "duplicate_estilo": "PI2020",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "18.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "d8f73dec-4916-4691-a863-2234604e7177",
+          "duplicate_estilo": "PI2020",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "18.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "d8f73dec-4916-4691-a863-2234604e7177",
+          "duplicate_estilo": "PI2020",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "19.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "PI4037|AZUL REY",
+      "conflict": false,
+      "keep": "PI4037 AZUL REY PIRMA $759 sqlite 0p",
+      "merge": [
+        "PI4037 PIRMA $759 sqlite 0p",
+        "PI4037 PIRMA $759 saz_registered 1p"
+      ],
+      "patch": {
+        "match_key": "PI4037|AZUL REY"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "74395131-73e5-44b0-8d08-30d14e97e916",
+          "duplicate_estilo": "PI4037",
+          "duplicate_source": "saz_registered",
+          "duplicate_activo": true,
+          "size": "18.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "PI7008|BLANCO",
+      "conflict": false,
+      "keep": "PI7008 BLANCO PIRMA $789 sqlite 0p",
+      "merge": [
+        "PI7008 CLAREMM $0 saz_excel 1p",
+        "PI7008 PIRMA $0 saz_excel 3p"
+      ],
+      "patch": {
+        "match_key": "PI7008|BLANCO"
+      },
+      "added_pairs": 4,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "e618a047-0a01-4c27-9b4b-658508389817",
+          "duplicate_estilo": "PI7008",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "21.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "b0ebc6f5-ac0b-4f11-8f3d-e3ea73f9ef1a",
+          "duplicate_estilo": "PI7008",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "20.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "b0ebc6f5-ac0b-4f11-8f3d-e3ea73f9ef1a",
+          "duplicate_estilo": "PI7008",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "20.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "b0ebc6f5-ac0b-4f11-8f3d-e3ea73f9ef1a",
+          "duplicate_estilo": "PI7008",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "21.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "RA9070|NEGRO",
+      "conflict": false,
+      "keep": "RA9070 NEGRO RAHVAN $0 saz_excel 3p",
+      "merge": [
+        "RA9070 RIK-LAND $0 saz_excel 2p",
+        "RA9070 RIK-LAND $0 saz_excel 2p",
+        "RA9070 RIKLAND $0 saz_excel 2p"
+      ],
+      "patch": {
+        "match_key": "RA9070|NEGRO"
+      },
+      "added_pairs": 6,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "d4517bae-0acf-43f3-9f18-e4d0f5b3083e",
+          "duplicate_estilo": "RA9070",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "23.0",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "d4517bae-0acf-43f3-9f18-e4d0f5b3083e",
+          "duplicate_estilo": "RA9070",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "23.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "c947d6e7-d878-437f-9b92-c6c6c6d3772a",
+          "duplicate_estilo": "RA9070",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "25.0",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "42646da8-7de7-4fee-a147-b7dd23864bd0",
+          "duplicate_estilo": "RA9070",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "24.5",
+          "from_quantity": 2,
+          "canonical_before": 0,
+          "add": 2,
+          "canonical_after": 2,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "SP1480|NEGRO",
+      "conflict": false,
+      "keep": "SP1480 NEGRO SPOOK $650 saz_registered 4p",
+      "merge": [
+        "SP1480 SPOOK $0 saz_excel 1p",
+        "SP1480 SPOOK $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "SP1480|NEGRO"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "1baa4ffe-46be-4403-ba99-f1851b89688a",
+          "duplicate_estilo": "SP1480",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "24.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        },
+        {
+          "duplicate_id": "b5fdf784-ee97-439c-9bd5-79ffaeb76ac7",
+          "duplicate_estilo": "SP1480",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "26.0",
+          "from_quantity": 1,
+          "canonical_before": 1,
+          "add": 0,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "max_mixed_source"
+        }
+      ]
+    },
+    {
+      "key": "UN3096|NEGRO",
+      "conflict": false,
+      "keep": "UN3096 NEGRO UNION $0 saz_excel 1p",
+      "merge": [
+        "UN3096 NAN $0 saz_excel 1p"
+      ],
+      "patch": {
+        "match_key": "UN3096|NEGRO"
+      },
+      "added_pairs": 1,
+      "ghost_pairs": 0,
+      "sizeMoves": [
+        {
+          "duplicate_id": "36fe1712-d9fc-4486-afca-0a0c74d57a2c",
+          "duplicate_estilo": "UN3096",
+          "duplicate_source": "saz_excel",
+          "duplicate_activo": true,
+          "size": "26.5",
+          "from_quantity": 1,
+          "canonical_before": 0,
+          "add": 1,
+          "canonical_after": 1,
+          "ghost": false,
+          "rule": "new_size"
+        }
+      ]
+    },
+    {
+      "key": "WIL108|NEGRO",
+      "conflict": false,
+      "keep": "WIL108 NEGRO WILDCAT $689 sqlite 0p",
+      "merge": [
+        "WIL108 WILDCAT $689 sqlite 0p inactivo",
+        "WIL108 WILDCAT $689 sqlite 0p inactivo",
+        "WIL108 Claremm $689 sqlite 0p inactivo",
+        "WIL108 Claremm $689 sqlite 0p inactivo",
+        "WIL108 WILDCAT $689 sqlite 0p inactivo"
+      ],
+      "patch": {
+        "match_key": "WIL108|NEGRO"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 0,
+      "sizeMoves": []
+    },
+    {
+      "key": "WIL108|TAN",
+      "conflict": false,
+      "keep": "WIL108 TAN WILDCAT $689 sqlite 0p",
+      "merge": [
+        "WIL108 WILDCAT $689 sqlite 0p inactivo"
+      ],
+      "patch": {
+        "match_key": "WIL108|TAN"
+      },
+      "added_pairs": 0,
+      "ghost_pairs": 0,
+      "sizeMoves": []
+    }
+  ]
+}

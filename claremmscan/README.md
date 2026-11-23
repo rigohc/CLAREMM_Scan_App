@@ -91,6 +91,23 @@ El botón **Carga por sucursal** abre un espacio separado del inventario princip
 
 Puedes descargar la plantilla directamente desde el módulo. Cada operación genera movimientos relacionales en Supabase para conservar el historial.
 
+## API de carga por sucursal (`/api/v1`)
+
+Pensada para un agente externo. Autenticación: header `X-API-Key` (variable `CLAREMM_AGENT_API_KEY` en Vercel). Alcance: catálogo e inventario relacional; no toca usuarios ni facturación.
+
+- `GET /api/v1/branches`
+- `GET /api/v1/catalog/products?estilo=&color=&marca=`
+- `GET /api/v1/branches/{JUAREZ|NUEVO_LEON}/inventory?estilo=&color=&talla=`
+- `POST /api/v1/branches/{branch}/upload/preview` — nunca escribe
+- `POST /api/v1/branches/{branch}/upload/apply` — `mode` obligatorio (`set` o `sum`), `batch_id` único, `create_unknowns` para altas
+- `PATCH /api/v1/catalog/products/{ficha_id}` — precio, tipo y material, con `motivo`
+- `GET /api/v1/branches/{branch}/history?batch_id=`
+- `GET /api/v1/review/pending?branch=&estado=`
+
+Reglas: color exacto (N/B sí es alias de NEGRO BLANCO; NEGRO BLANCO no es BLANCO NEGRO); ceros a la izquierda se igualan; no se pisa imagen ni material/precio/tipo de fichas ya existentes; `set`/`sum` solo en la sucursal indicada; **JUÁREZ está bloqueada** para preview/apply. Reaplicar el mismo `batch_id` no duplica pares.
+
+En la app, **Revisión pendiente** muestra fichas nuevas, precios heredados o en $0, desajustes PIEL vs SINTETICO, y permite corregir y exportar Excel.
+
 ## Instalación como app
 - Android (Chrome/Samsung Internet): abre la versión HTTPS y pulsa **Instalar app**.
 - iPhone/iPad: abre la versión HTTPS, toca **Compartir** y elige **Agregar a pantalla de inicio**.

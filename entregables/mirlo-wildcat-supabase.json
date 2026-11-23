@@ -1,0 +1,3295 @@
+{
+  "generated_at": "2026-11-20T17:21:18.205Z",
+  "mode": "APPLY",
+  "file": "MIRLO Y WILDCAT 16_11_26 CORREGIR MAÑANA.xlsx",
+  "organization": {
+    "id": "a9017238-d45c-4e36-b4f0-17dc332aeb4c",
+    "name": "CLAREMM"
+  },
+  "branch": {
+    "id": "61d4f1c7-db48-426d-a64e-64dfb3e3d1df",
+    "code": "JUAREZ",
+    "name": "CLAREMM ZAPATERIA JUAREZ"
+  },
+  "excel": {
+    "rows": 88,
+    "products": 86,
+    "pairs": 542,
+    "with_price": 48,
+    "without_price": 38,
+    "brands": {
+      "MIRLO": 8,
+      "WILDCAT": 78
+    },
+    "total_mismatches": []
+  },
+  "plan": {
+    "create_products": 36,
+    "create_pairs": 154,
+    "match_existing": 50,
+    "fill_missing_prices": 0,
+    "fill_empty_fields": 0,
+    "add_stock_sizes": 94,
+    "add_pairs": 154,
+    "skipped_no_price": 36,
+    "already_applied_sizes": 240,
+    "will_not": [
+      "No se registra en SAZ.",
+      "No se pisa precio > 0 ni imagen.",
+      "No se baja stock: solo se suman pares del Excel.",
+      "Este Excel sí crea fichas sin precio si el usuario lo autorizó.",
+      "No se toca inventory_items."
+    ]
+  },
+  "juarez_pairs_now": 4618,
+  "juarez_pairs_after": 4772,
+  "creates": [
+    {
+      "estilo": "WI9006",
+      "color": "PLATA",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 4,
+      "sizes": {
+        "23.0": 1,
+        "23.5": 1,
+        "24.5": 1,
+        "26.0": 1
+      }
+    },
+    {
+      "estilo": "WI9003",
+      "color": "MAQUILLAJE",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 4,
+      "sizes": {
+        "23.5": 2,
+        "25.5": 1,
+        "26.0": 1
+      }
+    },
+    {
+      "estilo": "WI6001",
+      "color": "ORO",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 4,
+      "sizes": {
+        "23.0": 1,
+        "23.5": 1,
+        "24.0": 1,
+        "25.5": 1
+      }
+    },
+    {
+      "estilo": "WI6001",
+      "color": "PLATA",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 3,
+      "sizes": {
+        "24.0": 1,
+        "24.5": 1,
+        "25.0": 1
+      }
+    },
+    {
+      "estilo": "WI6121",
+      "color": "PLATA",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 4,
+      "sizes": {
+        "24.0": 2,
+        "24.5": 1,
+        "25.0": 1
+      }
+    },
+    {
+      "estilo": "WI6121",
+      "color": "ORO",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 4,
+      "sizes": {
+        "23.0": 1,
+        "23.5": 2,
+        "24.5": 1
+      }
+    },
+    {
+      "estilo": "WI9135",
+      "color": "BLANCO",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 1,
+      "sizes": {
+        "25.0": 1
+      }
+    },
+    {
+      "estilo": "WI6121",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 4,
+      "sizes": {
+        "23.0": 1,
+        "24.0": 2,
+        "24.5": 1
+      }
+    },
+    {
+      "estilo": "WI6121",
+      "color": "MAQUILLAJE",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 5,
+      "sizes": {
+        "23.0": 1,
+        "23.5": 1,
+        "24.0": 3
+      }
+    },
+    {
+      "estilo": "WI1407",
+      "color": "SANDALO",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 1,
+      "sizes": {
+        "25.0": 1
+      }
+    },
+    {
+      "estilo": "WI1407",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 3,
+      "sizes": {
+        "24.5": 1,
+        "25.0": 1,
+        "25.5": 1
+      }
+    },
+    {
+      "estilo": "WI0124",
+      "color": "ORO ROSADO",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 4,
+      "sizes": {
+        "24.0": 1,
+        "25.0": 3
+      }
+    },
+    {
+      "estilo": "WI8004",
+      "color": "MAQUILLAJE",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 1,
+      "sizes": {
+        "25.0": 1
+      }
+    },
+    {
+      "estilo": "WI4066",
+      "color": "ORO",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 1,
+      "sizes": {
+        "25.0": 1
+      }
+    },
+    {
+      "estilo": "WI5398",
+      "color": "NUTTY",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 2,
+      "sizes": {
+        "24.0": 1,
+        "25.0": 1
+      }
+    },
+    {
+      "estilo": "WIL508",
+      "color": "MONZA",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 1,
+      "sizes": {
+        "24.0": 1
+      }
+    },
+    {
+      "estilo": "WI1523",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 2,
+      "sizes": {
+        "23.0": 1,
+        "26.0": 1
+      }
+    },
+    {
+      "estilo": "WI2752",
+      "color": "PLATA",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 1,
+      "sizes": {
+        "25.0": 1
+      }
+    },
+    {
+      "estilo": "WI3394",
+      "color": "VINO",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 8,
+      "sizes": {
+        "23.0": 2,
+        "23.5": 1,
+        "24.0": 1,
+        "24.5": 1,
+        "25.0": 1,
+        "25.5": 1,
+        "26.0": 1
+      }
+    },
+    {
+      "estilo": "WI5398",
+      "color": "PLATA",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 1,
+      "sizes": {
+        "24.0": 1
+      }
+    },
+    {
+      "estilo": "WI0041",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 3,
+      "sizes": {
+        "23.0": 1,
+        "25.0": 2
+      }
+    },
+    {
+      "estilo": "WI2029",
+      "color": "LATE",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 3,
+      "sizes": {
+        "25.0": 3
+      }
+    },
+    {
+      "estilo": "WI2802",
+      "color": "CAFE",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 4,
+      "sizes": {
+        "25.0": 2,
+        "26.0": 2
+      }
+    },
+    {
+      "estilo": "WI2802",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 5,
+      "sizes": {
+        "24.0": 1,
+        "25.0": 2,
+        "26.0": 2
+      }
+    },
+    {
+      "estilo": "WI2805",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 2,
+      "sizes": {
+        "25.0": 2
+      }
+    },
+    {
+      "estilo": "WI8112",
+      "color": "CAFE",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 11,
+      "sizes": {
+        "23.0": 2,
+        "24.0": 4,
+        "25.0": 3,
+        "26.0": 2
+      }
+    },
+    {
+      "estilo": "WI5812",
+      "color": "CAFE",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 7,
+      "sizes": {
+        "23.0": 1,
+        "24.0": 2,
+        "25.0": 3,
+        "26.0": 1
+      }
+    },
+    {
+      "estilo": "WI7000",
+      "color": "MERLOT",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 12,
+      "sizes": {
+        "23.0": 1,
+        "24.0": 3,
+        "25.0": 5,
+        "26.0": 3
+      }
+    },
+    {
+      "estilo": "WI6787",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 11,
+      "sizes": {
+        "23.0": 1,
+        "24.0": 4,
+        "25.0": 4,
+        "26.0": 2
+      }
+    },
+    {
+      "estilo": "WI7003",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 6,
+      "sizes": {
+        "24.0": 2,
+        "25.0": 3,
+        "26.0": 1
+      }
+    },
+    {
+      "estilo": "WI7000",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 4,
+      "sizes": {
+        "24.0": 1,
+        "25.0": 2,
+        "26.0": 1
+      }
+    },
+    {
+      "estilo": "WI7022",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 6,
+      "sizes": {
+        "24.0": 1,
+        "25.0": 3,
+        "26.0": 2
+      }
+    },
+    {
+      "estilo": "WI6785",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 8,
+      "sizes": {
+        "23.0": 1,
+        "24.0": 3,
+        "25.0": 3,
+        "26.0": 1
+      }
+    },
+    {
+      "estilo": "WI7002",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 7,
+      "sizes": {
+        "24.0": 2,
+        "25.0": 3,
+        "26.0": 2
+      }
+    },
+    {
+      "estilo": "WI1180",
+      "color": "CAFE",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 6,
+      "sizes": {
+        "23.0": 1,
+        "25.0": 3,
+        "26.0": 2
+      }
+    },
+    {
+      "estilo": "WI1646",
+      "color": "TAN",
+      "marca": "WILDCAT",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 1,
+      "sizes": {
+        "25.0": 1
+      }
+    }
+  ],
+  "matched_existing": [
+    {
+      "excel_estilo": "MI4425",
+      "catalog_estilo": "MI4425",
+      "color": "NEGRO",
+      "product_id": "220c7819-78f4-4046-9ab1-45e5b6819afe",
+      "catalog_precio": 759,
+      "excel_precio": 759,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 12,
+      "excel_pairs": 12,
+      "activo": true
+    },
+    {
+      "excel_estilo": "MIR950",
+      "catalog_estilo": "MIR950",
+      "color": "LATE",
+      "product_id": "23b0d979-42c9-44e0-b26e-9b7d2eda503e",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 13,
+      "excel_pairs": 13,
+      "activo": true
+    },
+    {
+      "excel_estilo": "MIR943",
+      "catalog_estilo": "MIR943",
+      "color": "PLATA",
+      "product_id": "861074f0-193f-48c5-88c0-f5e917465b4a",
+      "catalog_precio": 799,
+      "excel_precio": 799,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 14,
+      "excel_pairs": 14,
+      "activo": true
+    },
+    {
+      "excel_estilo": "MI2508",
+      "catalog_estilo": "MI2508",
+      "color": "MAQUILLAJE",
+      "product_id": "9afe2b7b-83aa-4260-80b0-dcf04a17638f",
+      "catalog_precio": 499,
+      "excel_precio": 499,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 14,
+      "excel_pairs": 14,
+      "activo": true
+    },
+    {
+      "excel_estilo": "MI2508",
+      "catalog_estilo": "MI2508",
+      "color": "NEGRO",
+      "product_id": "90a3abef-1400-4ada-a718-ff05e8afe29f",
+      "catalog_precio": 499,
+      "excel_precio": 499,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 12,
+      "excel_pairs": 12,
+      "activo": true
+    },
+    {
+      "excel_estilo": "MI2508",
+      "catalog_estilo": "MI2508",
+      "color": "TESTA",
+      "product_id": "3f93f1b6-832f-4333-82ef-1f2665136e34",
+      "catalog_precio": 499,
+      "excel_precio": 499,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 1,
+      "excel_pairs": 1,
+      "activo": true
+    },
+    {
+      "excel_estilo": "MI2512",
+      "catalog_estilo": "MI2512",
+      "color": "TESTA",
+      "product_id": "53ae4f44-0919-46e4-94a2-f4e0f1b64cb8",
+      "catalog_precio": 499,
+      "excel_precio": 499,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 13,
+      "excel_pairs": 13,
+      "activo": true
+    },
+    {
+      "excel_estilo": "MI2512",
+      "catalog_estilo": "MI2512",
+      "color": "NEGRO",
+      "product_id": "804a1ef2-6849-454c-bf6c-f4b70ccb1698",
+      "catalog_precio": 499,
+      "excel_precio": 499,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 14,
+      "excel_pairs": 14,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WIL512",
+      "catalog_estilo": "WIL512",
+      "color": "DENIM",
+      "product_id": "3045970d-658d-491f-9d83-98ac4927d386",
+      "catalog_precio": 559,
+      "excel_precio": 559,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 2,
+      "excel_pairs": 2,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WIL525",
+      "catalog_estilo": "WIL525",
+      "color": "ORO ROSADO",
+      "product_id": "18f2bd99-5c30-4ca3-bdaa-098b258bffe7",
+      "catalog_precio": 459,
+      "excel_precio": 459,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 10,
+      "excel_pairs": 10,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WIL525",
+      "catalog_estilo": "WIL525",
+      "color": "NEGRO",
+      "product_id": "30fcbef1-80da-4b9c-9564-d8623b104bb7",
+      "catalog_precio": 459,
+      "excel_precio": 459,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 18,
+      "excel_pairs": 18,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WIL523",
+      "catalog_estilo": "WIL523",
+      "color": "NEGRO",
+      "product_id": "e2bca140-c0d0-403f-a4d3-42d5f4966599",
+      "catalog_precio": 459,
+      "excel_precio": 459,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 4,
+      "excel_pairs": 4,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WIL521",
+      "catalog_estilo": "WIL521",
+      "color": "ORO ROSADO",
+      "product_id": "1ee8356c-5034-4f77-bd47-94dfb5da9093",
+      "catalog_precio": 399,
+      "excel_precio": 399,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 8,
+      "excel_pairs": 8,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI0208",
+      "catalog_estilo": "WI0208",
+      "color": "BLANCO",
+      "product_id": "c68d560c-99ec-4567-bd3d-11afbc6d3450",
+      "catalog_precio": 459,
+      "excel_precio": 459,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 10,
+      "excel_pairs": 10,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WIL523",
+      "catalog_estilo": "WIL523",
+      "color": "PLATA",
+      "product_id": "120aff3f-5629-4554-8b2b-35efc4001cfc",
+      "catalog_precio": 459,
+      "excel_precio": 459,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 4,
+      "excel_pairs": 4,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WIL512",
+      "catalog_estilo": "WIL512",
+      "color": "SALMON",
+      "product_id": "4f134617-4d57-4ec3-b841-9b7f10032254",
+      "catalog_precio": 559,
+      "excel_precio": 559,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 2,
+      "excel_pairs": 2,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WIL521",
+      "catalog_estilo": "WIL521",
+      "color": "NEGRO",
+      "product_id": "0efcf953-0a47-4d47-9bea-313b8865ea64",
+      "catalog_precio": 399,
+      "excel_precio": 399,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 4,
+      "excel_pairs": 4,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI5707",
+      "catalog_estilo": "WI5707",
+      "color": "NEGRO",
+      "product_id": "27462b82-90bf-4003-bbd3-acbad673376a",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 1,
+      "excel_pairs": 1,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI2037",
+      "catalog_estilo": "WI2037",
+      "color": "NEGRO",
+      "product_id": "2280b33e-b4e5-43eb-a0a0-6baeaec7ee57",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 9,
+      "excel_pairs": 9,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI2037",
+      "catalog_estilo": "WI2037",
+      "color": "LATE",
+      "product_id": "5acdd62f-7f1b-4e6d-bf15-ca1f9e7149cf",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 9,
+      "excel_pairs": 9,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI4115",
+      "catalog_estilo": "WI4115",
+      "color": "NEGRO",
+      "product_id": "4a289d69-3f62-4667-84aa-361e85a49c12",
+      "catalog_precio": 799,
+      "excel_precio": 799,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 8,
+      "excel_pairs": 8,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI4115",
+      "catalog_estilo": "WI4115",
+      "color": "CAFE",
+      "product_id": "08f714d0-d56f-45e4-91bc-e722c4a6e5e8",
+      "catalog_precio": 799,
+      "excel_precio": 799,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 8,
+      "excel_pairs": 8,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI4115",
+      "catalog_estilo": "WI4115",
+      "color": "PLATA",
+      "product_id": "a19c269b-688a-46ab-a808-97f38586d4b6",
+      "catalog_precio": 799,
+      "excel_precio": 799,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 8,
+      "excel_pairs": 8,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI2036",
+      "catalog_estilo": "WI2036",
+      "color": "LATE",
+      "product_id": "90c5b676-00fd-40c4-b56d-b01a481f454c",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 8,
+      "excel_pairs": 8,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI2036",
+      "catalog_estilo": "WI2036",
+      "color": "NEGRO",
+      "product_id": "de26b63e-5379-41d4-9cc2-36d205f25fc5",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 8,
+      "excel_pairs": 8,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI4416",
+      "catalog_estilo": "WI4416",
+      "color": "BEIGE",
+      "product_id": "cf7a43be-fd06-4757-a830-d563ff1e5de9",
+      "catalog_precio": 799,
+      "excel_precio": 799,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 8,
+      "excel_pairs": 8,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI4416",
+      "catalog_estilo": "WI4416",
+      "color": "NEGRO",
+      "product_id": "61a88267-2e4a-4d17-8671-b4b372ab8672",
+      "catalog_precio": 799,
+      "excel_precio": 799,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 7,
+      "excel_pairs": 7,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI0307",
+      "catalog_estilo": "WI0307",
+      "color": "PLATA",
+      "product_id": "cfc97a72-0adc-428d-9a6b-7fa0cca2b7e8",
+      "catalog_precio": 759,
+      "excel_precio": 759,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 3,
+      "excel_pairs": 3,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI4043",
+      "catalog_estilo": "WI4043",
+      "color": "MAQUILLAJE",
+      "product_id": "7152fb1d-4694-4f99-a026-421a69522ce5",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 4,
+      "excel_pairs": 4,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI4418",
+      "catalog_estilo": "WI4418",
+      "color": "NEGRO",
+      "product_id": "b0d0a991-54ec-4ef5-89ac-65d922c15dec",
+      "catalog_precio": 799,
+      "excel_precio": 799,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 7,
+      "excel_pairs": 7,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI4418",
+      "catalog_estilo": "WI4418",
+      "color": "ORO",
+      "product_id": "29e46c74-ae0f-4815-a9cd-e013fc0eb3a5",
+      "catalog_precio": 799,
+      "excel_precio": 799,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 10,
+      "excel_pairs": 10,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI4418",
+      "catalog_estilo": "WI4418",
+      "color": "ROJO",
+      "product_id": "c582d6b2-0bbe-4195-b897-d8fd88dd08bc",
+      "catalog_precio": 799,
+      "excel_precio": 799,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 8,
+      "excel_pairs": 8,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI4418",
+      "catalog_estilo": "WI4418",
+      "color": "PLATA",
+      "product_id": "05a3612a-368c-4148-b200-805e619c66d4",
+      "catalog_precio": 799,
+      "excel_precio": 799,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 8,
+      "excel_pairs": 8,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI2010",
+      "catalog_estilo": "WI2010",
+      "color": "NEGRO",
+      "product_id": "94bb46f1-75fb-473c-a641-44821f54531b",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 8,
+      "excel_pairs": 8,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI2010",
+      "catalog_estilo": "WI2010",
+      "color": "MIGA",
+      "product_id": "9a1072d3-88e1-41c4-ab72-362e1c47db28",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 1,
+      "excel_pairs": 1,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI2016",
+      "catalog_estilo": "WI2016",
+      "color": "ROJO",
+      "product_id": "87bf0de0-349e-4afe-a355-fcc1755bf7fc",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 1,
+      "excel_pairs": 1,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI4047",
+      "catalog_estilo": "WI4047",
+      "color": "NEGRO",
+      "product_id": "90c9307d-ad89-43c5-b5e5-379b3130b19b",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 8,
+      "excel_pairs": 8,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI4047",
+      "catalog_estilo": "WI4047",
+      "color": "LATE",
+      "product_id": "7b3ff7e4-71a5-46b1-b5d2-e48eba1b19d4",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 8,
+      "excel_pairs": 8,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI0308",
+      "catalog_estilo": "WI0308",
+      "color": "PLATA",
+      "product_id": "8e834805-86ef-49a9-b905-635369221149",
+      "catalog_precio": 759,
+      "excel_precio": 759,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 2,
+      "excel_pairs": 2,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI4027",
+      "catalog_estilo": "WI4027",
+      "color": "MAQUILLAJE",
+      "product_id": "b296ef62-e27b-4211-bb8b-9693a1ba5389",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 1,
+      "excel_pairs": 1,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI4027",
+      "catalog_estilo": "WI4027",
+      "color": "CAFE",
+      "product_id": "d67ac8d1-06eb-4adb-99e4-bb5a2f3aa1a6",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 5,
+      "excel_pairs": 5,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI4020",
+      "catalog_estilo": "WI4020",
+      "color": "NEGRO",
+      "product_id": "10d7730f-2acd-4507-b5d9-e5cd000b06e1",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 1,
+      "excel_pairs": 1,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WI5711",
+      "catalog_estilo": "WI5711",
+      "color": "NEGRO",
+      "product_id": "b52aaf34-ce3f-4a74-b6c5-3c648d279e5e",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 3,
+      "excel_pairs": 3,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WIL151",
+      "catalog_estilo": "WIL151",
+      "color": "BEIGE",
+      "product_id": "6c6d147d-0cf8-481a-ab70-c77ed068bfa8",
+      "catalog_precio": 499,
+      "excel_precio": 499,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 9,
+      "excel_pairs": 9,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WIL003",
+      "catalog_estilo": "WIL003",
+      "color": "NEGRO",
+      "product_id": "04c3a974-05f7-456c-a205-903c09d9d2d1",
+      "catalog_precio": 459,
+      "excel_precio": 459,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 11,
+      "excel_pairs": 11,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WIL151",
+      "catalog_estilo": "WIL151",
+      "color": "BLANCO",
+      "product_id": "9032ffeb-50ff-4c69-ab1d-290326cc181d",
+      "catalog_precio": 499,
+      "excel_precio": 499,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 7,
+      "excel_pairs": 7,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WIL010",
+      "catalog_estilo": "WIL010",
+      "color": "NEGRO",
+      "product_id": "20991454-2f76-4a5d-9838-4f59447528d6",
+      "catalog_precio": 459,
+      "excel_precio": 459,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 10,
+      "excel_pairs": 10,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WIL010",
+      "catalog_estilo": "WIL010",
+      "color": "ORO ROSADO",
+      "product_id": "90b8f659-5dcd-4eec-89a7-5b50c3292082",
+      "catalog_precio": 459,
+      "excel_precio": 459,
+      "has_image": false,
+      "source_system": "excel_mirlo_wildcat",
+      "current_pairs": 11,
+      "excel_pairs": 11,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WIL108",
+      "catalog_estilo": "WIL108",
+      "color": "NEGRO",
+      "product_id": "00b2b1cd-9438-42a6-a3a0-a4b40c65ce4c",
+      "catalog_precio": 689,
+      "excel_precio": 0,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 24,
+      "excel_pairs": 24,
+      "activo": true
+    },
+    {
+      "excel_estilo": "WIL108",
+      "catalog_estilo": "WIL108",
+      "color": "TAN",
+      "product_id": "0c6c477e-2f48-4fb9-946e-122312cd7d45",
+      "catalog_precio": 689,
+      "excel_precio": 0,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 9,
+      "excel_pairs": 9,
+      "activo": true
+    }
+  ],
+  "price_fills": [],
+  "skipped_no_price": [
+    {
+      "estilo": "WI9006",
+      "color": "PLATA",
+      "marca": "WILDCAT",
+      "pairs": 4
+    },
+    {
+      "estilo": "WI9003",
+      "color": "MAQUILLAJE",
+      "marca": "WILDCAT",
+      "pairs": 4
+    },
+    {
+      "estilo": "WI6001",
+      "color": "ORO",
+      "marca": "WILDCAT",
+      "pairs": 4
+    },
+    {
+      "estilo": "WI6001",
+      "color": "PLATA",
+      "marca": "WILDCAT",
+      "pairs": 3
+    },
+    {
+      "estilo": "WI6121",
+      "color": "PLATA",
+      "marca": "WILDCAT",
+      "pairs": 4
+    },
+    {
+      "estilo": "WI6121",
+      "color": "ORO",
+      "marca": "WILDCAT",
+      "pairs": 4
+    },
+    {
+      "estilo": "WI9135",
+      "color": "BLANCO",
+      "marca": "WILDCAT",
+      "pairs": 1
+    },
+    {
+      "estilo": "WI6121",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "pairs": 4
+    },
+    {
+      "estilo": "WI6121",
+      "color": "MAQUILLAJE",
+      "marca": "WILDCAT",
+      "pairs": 5
+    },
+    {
+      "estilo": "WI1407",
+      "color": "SANDALO",
+      "marca": "WILDCAT",
+      "pairs": 1
+    },
+    {
+      "estilo": "WI1407",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "pairs": 3
+    },
+    {
+      "estilo": "WI0124",
+      "color": "ORO ROSADO",
+      "marca": "WILDCAT",
+      "pairs": 4
+    },
+    {
+      "estilo": "WI8004",
+      "color": "MAQUILLAJE",
+      "marca": "WILDCAT",
+      "pairs": 1
+    },
+    {
+      "estilo": "WI4066",
+      "color": "ORO",
+      "marca": "WILDCAT",
+      "pairs": 1
+    },
+    {
+      "estilo": "WI5398",
+      "color": "NUTTY",
+      "marca": "WILDCAT",
+      "pairs": 2
+    },
+    {
+      "estilo": "WIL508",
+      "color": "MONZA",
+      "marca": "WILDCAT",
+      "pairs": 1
+    },
+    {
+      "estilo": "WI1523",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "pairs": 2
+    },
+    {
+      "estilo": "WI2752",
+      "color": "PLATA",
+      "marca": "WILDCAT",
+      "pairs": 1
+    },
+    {
+      "estilo": "WI3394",
+      "color": "VINO",
+      "marca": "WILDCAT",
+      "pairs": 8
+    },
+    {
+      "estilo": "WI5398",
+      "color": "PLATA",
+      "marca": "WILDCAT",
+      "pairs": 1
+    },
+    {
+      "estilo": "WI0041",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "pairs": 3
+    },
+    {
+      "estilo": "WI2029",
+      "color": "LATE",
+      "marca": "WILDCAT",
+      "pairs": 3
+    },
+    {
+      "estilo": "WI2802",
+      "color": "CAFE",
+      "marca": "WILDCAT",
+      "pairs": 4
+    },
+    {
+      "estilo": "WI2802",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "pairs": 5
+    },
+    {
+      "estilo": "WI2805",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "pairs": 2
+    },
+    {
+      "estilo": "WI8112",
+      "color": "CAFE",
+      "marca": "WILDCAT",
+      "pairs": 11
+    },
+    {
+      "estilo": "WI5812",
+      "color": "CAFE",
+      "marca": "WILDCAT",
+      "pairs": 7
+    },
+    {
+      "estilo": "WI7000",
+      "color": "MERLOT",
+      "marca": "WILDCAT",
+      "pairs": 12
+    },
+    {
+      "estilo": "WI6787",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "pairs": 11
+    },
+    {
+      "estilo": "WI7003",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "pairs": 6
+    },
+    {
+      "estilo": "WI7000",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "pairs": 4
+    },
+    {
+      "estilo": "WI7022",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "pairs": 6
+    },
+    {
+      "estilo": "WI6785",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "pairs": 8
+    },
+    {
+      "estilo": "WI7002",
+      "color": "NEGRO",
+      "marca": "WILDCAT",
+      "pairs": 7
+    },
+    {
+      "estilo": "WI1180",
+      "color": "CAFE",
+      "marca": "WILDCAT",
+      "pairs": 6
+    },
+    {
+      "estilo": "WI1646",
+      "color": "TAN",
+      "marca": "WILDCAT",
+      "pairs": 1
+    }
+  ],
+  "already_applied": [
+    {
+      "estilo": "MI4425",
+      "color": "NEGRO",
+      "size": "22.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI4425|NEGRO:22.0",
+      "product_id": "220c7819-78f4-4046-9ab1-45e5b6819afe"
+    },
+    {
+      "estilo": "MI4425",
+      "color": "NEGRO",
+      "size": "22.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:MI4425|NEGRO:22.5",
+      "product_id": "220c7819-78f4-4046-9ab1-45e5b6819afe"
+    },
+    {
+      "estilo": "MI4425",
+      "color": "NEGRO",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI4425|NEGRO:23.0",
+      "product_id": "220c7819-78f4-4046-9ab1-45e5b6819afe"
+    },
+    {
+      "estilo": "MI4425",
+      "color": "NEGRO",
+      "size": "23.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI4425|NEGRO:23.5",
+      "product_id": "220c7819-78f4-4046-9ab1-45e5b6819afe"
+    },
+    {
+      "estilo": "MI4425",
+      "color": "NEGRO",
+      "size": "24.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI4425|NEGRO:24.0",
+      "product_id": "220c7819-78f4-4046-9ab1-45e5b6819afe"
+    },
+    {
+      "estilo": "MI4425",
+      "color": "NEGRO",
+      "size": "24.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI4425|NEGRO:24.5",
+      "product_id": "220c7819-78f4-4046-9ab1-45e5b6819afe"
+    },
+    {
+      "estilo": "MI4425",
+      "color": "NEGRO",
+      "size": "25.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:MI4425|NEGRO:25.0",
+      "product_id": "220c7819-78f4-4046-9ab1-45e5b6819afe"
+    },
+    {
+      "estilo": "MI4425",
+      "color": "NEGRO",
+      "size": "25.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI4425|NEGRO:25.5",
+      "product_id": "220c7819-78f4-4046-9ab1-45e5b6819afe"
+    },
+    {
+      "estilo": "MI4425",
+      "color": "NEGRO",
+      "size": "26.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI4425|NEGRO:26.5",
+      "product_id": "220c7819-78f4-4046-9ab1-45e5b6819afe"
+    },
+    {
+      "estilo": "MI4425",
+      "color": "NEGRO",
+      "size": "27.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI4425|NEGRO:27.0",
+      "product_id": "220c7819-78f4-4046-9ab1-45e5b6819afe"
+    },
+    {
+      "estilo": "MIR950",
+      "color": "LATE",
+      "size": "22.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:MIR950|LATE:22.0",
+      "product_id": "23b0d979-42c9-44e0-b26e-9b7d2eda503e"
+    },
+    {
+      "estilo": "MIR950",
+      "color": "LATE",
+      "size": "22.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MIR950|LATE:22.5",
+      "product_id": "23b0d979-42c9-44e0-b26e-9b7d2eda503e"
+    },
+    {
+      "estilo": "MIR950",
+      "color": "LATE",
+      "size": "23.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:MIR950|LATE:23.0",
+      "product_id": "23b0d979-42c9-44e0-b26e-9b7d2eda503e"
+    },
+    {
+      "estilo": "MIR950",
+      "color": "LATE",
+      "size": "23.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MIR950|LATE:23.5",
+      "product_id": "23b0d979-42c9-44e0-b26e-9b7d2eda503e"
+    },
+    {
+      "estilo": "MIR950",
+      "color": "LATE",
+      "size": "24.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MIR950|LATE:24.0",
+      "product_id": "23b0d979-42c9-44e0-b26e-9b7d2eda503e"
+    },
+    {
+      "estilo": "MIR950",
+      "color": "LATE",
+      "size": "24.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MIR950|LATE:24.5",
+      "product_id": "23b0d979-42c9-44e0-b26e-9b7d2eda503e"
+    },
+    {
+      "estilo": "MIR950",
+      "color": "LATE",
+      "size": "25.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MIR950|LATE:25.0",
+      "product_id": "23b0d979-42c9-44e0-b26e-9b7d2eda503e"
+    },
+    {
+      "estilo": "MIR950",
+      "color": "LATE",
+      "size": "25.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MIR950|LATE:25.5",
+      "product_id": "23b0d979-42c9-44e0-b26e-9b7d2eda503e"
+    },
+    {
+      "estilo": "MIR950",
+      "color": "LATE",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MIR950|LATE:26.0",
+      "product_id": "23b0d979-42c9-44e0-b26e-9b7d2eda503e"
+    },
+    {
+      "estilo": "MIR950",
+      "color": "LATE",
+      "size": "26.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MIR950|LATE:26.5",
+      "product_id": "23b0d979-42c9-44e0-b26e-9b7d2eda503e"
+    },
+    {
+      "estilo": "MIR950",
+      "color": "LATE",
+      "size": "27.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MIR950|LATE:27.0",
+      "product_id": "23b0d979-42c9-44e0-b26e-9b7d2eda503e"
+    },
+    {
+      "estilo": "MIR943",
+      "color": "PLATA",
+      "size": "22.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MIR943|PLATA:22.0",
+      "product_id": "861074f0-193f-48c5-88c0-f5e917465b4a"
+    },
+    {
+      "estilo": "MIR943",
+      "color": "PLATA",
+      "size": "22.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:MIR943|PLATA:22.5",
+      "product_id": "861074f0-193f-48c5-88c0-f5e917465b4a"
+    },
+    {
+      "estilo": "MIR943",
+      "color": "PLATA",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MIR943|PLATA:23.0",
+      "product_id": "861074f0-193f-48c5-88c0-f5e917465b4a"
+    },
+    {
+      "estilo": "MIR943",
+      "color": "PLATA",
+      "size": "23.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:MIR943|PLATA:23.5",
+      "product_id": "861074f0-193f-48c5-88c0-f5e917465b4a"
+    },
+    {
+      "estilo": "MIR943",
+      "color": "PLATA",
+      "size": "24.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MIR943|PLATA:24.0",
+      "product_id": "861074f0-193f-48c5-88c0-f5e917465b4a"
+    },
+    {
+      "estilo": "MIR943",
+      "color": "PLATA",
+      "size": "24.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:MIR943|PLATA:24.5",
+      "product_id": "861074f0-193f-48c5-88c0-f5e917465b4a"
+    },
+    {
+      "estilo": "MIR943",
+      "color": "PLATA",
+      "size": "25.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MIR943|PLATA:25.0",
+      "product_id": "861074f0-193f-48c5-88c0-f5e917465b4a"
+    },
+    {
+      "estilo": "MIR943",
+      "color": "PLATA",
+      "size": "25.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MIR943|PLATA:25.5",
+      "product_id": "861074f0-193f-48c5-88c0-f5e917465b4a"
+    },
+    {
+      "estilo": "MIR943",
+      "color": "PLATA",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MIR943|PLATA:26.0",
+      "product_id": "861074f0-193f-48c5-88c0-f5e917465b4a"
+    },
+    {
+      "estilo": "MIR943",
+      "color": "PLATA",
+      "size": "26.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MIR943|PLATA:26.5",
+      "product_id": "861074f0-193f-48c5-88c0-f5e917465b4a"
+    },
+    {
+      "estilo": "MIR943",
+      "color": "PLATA",
+      "size": "27.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MIR943|PLATA:27.0",
+      "product_id": "861074f0-193f-48c5-88c0-f5e917465b4a"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "MAQUILLAJE",
+      "size": "22.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:MI2508|MAQUILLAJE:22.0",
+      "product_id": "9afe2b7b-83aa-4260-80b0-dcf04a17638f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "MAQUILLAJE",
+      "size": "22.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:MI2508|MAQUILLAJE:22.5",
+      "product_id": "9afe2b7b-83aa-4260-80b0-dcf04a17638f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "MAQUILLAJE",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2508|MAQUILLAJE:23.0",
+      "product_id": "9afe2b7b-83aa-4260-80b0-dcf04a17638f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "MAQUILLAJE",
+      "size": "23.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2508|MAQUILLAJE:23.5",
+      "product_id": "9afe2b7b-83aa-4260-80b0-dcf04a17638f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "MAQUILLAJE",
+      "size": "24.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2508|MAQUILLAJE:24.0",
+      "product_id": "9afe2b7b-83aa-4260-80b0-dcf04a17638f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "MAQUILLAJE",
+      "size": "24.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2508|MAQUILLAJE:24.5",
+      "product_id": "9afe2b7b-83aa-4260-80b0-dcf04a17638f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "MAQUILLAJE",
+      "size": "25.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:MI2508|MAQUILLAJE:25.0",
+      "product_id": "9afe2b7b-83aa-4260-80b0-dcf04a17638f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "MAQUILLAJE",
+      "size": "25.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2508|MAQUILLAJE:25.5",
+      "product_id": "9afe2b7b-83aa-4260-80b0-dcf04a17638f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "MAQUILLAJE",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2508|MAQUILLAJE:26.0",
+      "product_id": "9afe2b7b-83aa-4260-80b0-dcf04a17638f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "MAQUILLAJE",
+      "size": "26.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2508|MAQUILLAJE:26.5",
+      "product_id": "9afe2b7b-83aa-4260-80b0-dcf04a17638f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "MAQUILLAJE",
+      "size": "27.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2508|MAQUILLAJE:27.0",
+      "product_id": "9afe2b7b-83aa-4260-80b0-dcf04a17638f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "NEGRO",
+      "size": "22.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:MI2508|NEGRO:22.0",
+      "product_id": "90a3abef-1400-4ada-a718-ff05e8afe29f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "NEGRO",
+      "size": "22.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:MI2508|NEGRO:22.5",
+      "product_id": "90a3abef-1400-4ada-a718-ff05e8afe29f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "NEGRO",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2508|NEGRO:23.0",
+      "product_id": "90a3abef-1400-4ada-a718-ff05e8afe29f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "NEGRO",
+      "size": "23.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2508|NEGRO:23.5",
+      "product_id": "90a3abef-1400-4ada-a718-ff05e8afe29f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "NEGRO",
+      "size": "24.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2508|NEGRO:24.0",
+      "product_id": "90a3abef-1400-4ada-a718-ff05e8afe29f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "NEGRO",
+      "size": "25.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2508|NEGRO:25.0",
+      "product_id": "90a3abef-1400-4ada-a718-ff05e8afe29f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "NEGRO",
+      "size": "25.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2508|NEGRO:25.5",
+      "product_id": "90a3abef-1400-4ada-a718-ff05e8afe29f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "NEGRO",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2508|NEGRO:26.0",
+      "product_id": "90a3abef-1400-4ada-a718-ff05e8afe29f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "NEGRO",
+      "size": "26.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2508|NEGRO:26.5",
+      "product_id": "90a3abef-1400-4ada-a718-ff05e8afe29f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "NEGRO",
+      "size": "27.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2508|NEGRO:27.0",
+      "product_id": "90a3abef-1400-4ada-a718-ff05e8afe29f"
+    },
+    {
+      "estilo": "MI2508",
+      "color": "TESTA",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2508|TESTA:26.0",
+      "product_id": "3f93f1b6-832f-4333-82ef-1f2665136e34"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "TESTA",
+      "size": "22.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:MI2512|TESTA:22.0",
+      "product_id": "53ae4f44-0919-46e4-94a2-f4e0f1b64cb8"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "TESTA",
+      "size": "22.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:MI2512|TESTA:22.5",
+      "product_id": "53ae4f44-0919-46e4-94a2-f4e0f1b64cb8"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "TESTA",
+      "size": "23.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:MI2512|TESTA:23.0",
+      "product_id": "53ae4f44-0919-46e4-94a2-f4e0f1b64cb8"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "TESTA",
+      "size": "23.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2512|TESTA:23.5",
+      "product_id": "53ae4f44-0919-46e4-94a2-f4e0f1b64cb8"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "TESTA",
+      "size": "24.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2512|TESTA:24.0",
+      "product_id": "53ae4f44-0919-46e4-94a2-f4e0f1b64cb8"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "TESTA",
+      "size": "24.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2512|TESTA:24.5",
+      "product_id": "53ae4f44-0919-46e4-94a2-f4e0f1b64cb8"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "TESTA",
+      "size": "25.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:MI2512|TESTA:25.0",
+      "product_id": "53ae4f44-0919-46e4-94a2-f4e0f1b64cb8"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "TESTA",
+      "size": "25.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2512|TESTA:25.5",
+      "product_id": "53ae4f44-0919-46e4-94a2-f4e0f1b64cb8"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "TESTA",
+      "size": "26.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2512|TESTA:26.5",
+      "product_id": "53ae4f44-0919-46e4-94a2-f4e0f1b64cb8"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "NEGRO",
+      "size": "22.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:MI2512|NEGRO:22.0",
+      "product_id": "804a1ef2-6849-454c-bf6c-f4b70ccb1698"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "NEGRO",
+      "size": "22.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:MI2512|NEGRO:22.5",
+      "product_id": "804a1ef2-6849-454c-bf6c-f4b70ccb1698"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "NEGRO",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2512|NEGRO:23.0",
+      "product_id": "804a1ef2-6849-454c-bf6c-f4b70ccb1698"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "NEGRO",
+      "size": "23.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2512|NEGRO:23.5",
+      "product_id": "804a1ef2-6849-454c-bf6c-f4b70ccb1698"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "NEGRO",
+      "size": "24.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2512|NEGRO:24.0",
+      "product_id": "804a1ef2-6849-454c-bf6c-f4b70ccb1698"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "NEGRO",
+      "size": "24.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2512|NEGRO:24.5",
+      "product_id": "804a1ef2-6849-454c-bf6c-f4b70ccb1698"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "NEGRO",
+      "size": "25.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:MI2512|NEGRO:25.0",
+      "product_id": "804a1ef2-6849-454c-bf6c-f4b70ccb1698"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "NEGRO",
+      "size": "25.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2512|NEGRO:25.5",
+      "product_id": "804a1ef2-6849-454c-bf6c-f4b70ccb1698"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "NEGRO",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2512|NEGRO:26.0",
+      "product_id": "804a1ef2-6849-454c-bf6c-f4b70ccb1698"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "NEGRO",
+      "size": "26.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2512|NEGRO:26.5",
+      "product_id": "804a1ef2-6849-454c-bf6c-f4b70ccb1698"
+    },
+    {
+      "estilo": "MI2512",
+      "color": "NEGRO",
+      "size": "27.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:MI2512|NEGRO:27.0",
+      "product_id": "804a1ef2-6849-454c-bf6c-f4b70ccb1698"
+    },
+    {
+      "estilo": "WIL512",
+      "color": "DENIM",
+      "size": "24.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL512|DENIM:24.0",
+      "product_id": "3045970d-658d-491f-9d83-98ac4927d386"
+    },
+    {
+      "estilo": "WIL512",
+      "color": "DENIM",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL512|DENIM:26.0",
+      "product_id": "3045970d-658d-491f-9d83-98ac4927d386"
+    },
+    {
+      "estilo": "WIL525",
+      "color": "ORO ROSADO",
+      "size": "23.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL525|ORO ROSADO:23.0",
+      "product_id": "18f2bd99-5c30-4ca3-bdaa-098b258bffe7"
+    },
+    {
+      "estilo": "WIL525",
+      "color": "ORO ROSADO",
+      "size": "23.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL525|ORO ROSADO:23.5",
+      "product_id": "18f2bd99-5c30-4ca3-bdaa-098b258bffe7"
+    },
+    {
+      "estilo": "WIL525",
+      "color": "ORO ROSADO",
+      "size": "24.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL525|ORO ROSADO:24.0",
+      "product_id": "18f2bd99-5c30-4ca3-bdaa-098b258bffe7"
+    },
+    {
+      "estilo": "WIL525",
+      "color": "ORO ROSADO",
+      "size": "24.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL525|ORO ROSADO:24.5",
+      "product_id": "18f2bd99-5c30-4ca3-bdaa-098b258bffe7"
+    },
+    {
+      "estilo": "WIL525",
+      "color": "ORO ROSADO",
+      "size": "25.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL525|ORO ROSADO:25.0",
+      "product_id": "18f2bd99-5c30-4ca3-bdaa-098b258bffe7"
+    },
+    {
+      "estilo": "WIL525",
+      "color": "ORO ROSADO",
+      "size": "25.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL525|ORO ROSADO:25.5",
+      "product_id": "18f2bd99-5c30-4ca3-bdaa-098b258bffe7"
+    },
+    {
+      "estilo": "WIL525",
+      "color": "ORO ROSADO",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL525|ORO ROSADO:26.0",
+      "product_id": "18f2bd99-5c30-4ca3-bdaa-098b258bffe7"
+    },
+    {
+      "estilo": "WIL525",
+      "color": "NEGRO",
+      "size": "23.0",
+      "quantity": 6,
+      "importKey": "mirlo-wildcat-20261116:WIL525|NEGRO:23.0",
+      "product_id": "30fcbef1-80da-4b9c-9564-d8623b104bb7"
+    },
+    {
+      "estilo": "WIL525",
+      "color": "NEGRO",
+      "size": "23.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL525|NEGRO:23.5",
+      "product_id": "30fcbef1-80da-4b9c-9564-d8623b104bb7"
+    },
+    {
+      "estilo": "WIL525",
+      "color": "NEGRO",
+      "size": "24.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WIL525|NEGRO:24.0",
+      "product_id": "30fcbef1-80da-4b9c-9564-d8623b104bb7"
+    },
+    {
+      "estilo": "WIL525",
+      "color": "NEGRO",
+      "size": "24.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL525|NEGRO:24.5",
+      "product_id": "30fcbef1-80da-4b9c-9564-d8623b104bb7"
+    },
+    {
+      "estilo": "WIL525",
+      "color": "NEGRO",
+      "size": "25.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WIL525|NEGRO:25.0",
+      "product_id": "30fcbef1-80da-4b9c-9564-d8623b104bb7"
+    },
+    {
+      "estilo": "WIL525",
+      "color": "NEGRO",
+      "size": "25.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL525|NEGRO:25.5",
+      "product_id": "30fcbef1-80da-4b9c-9564-d8623b104bb7"
+    },
+    {
+      "estilo": "WIL525",
+      "color": "NEGRO",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL525|NEGRO:26.0",
+      "product_id": "30fcbef1-80da-4b9c-9564-d8623b104bb7"
+    },
+    {
+      "estilo": "WIL523",
+      "color": "NEGRO",
+      "size": "23.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL523|NEGRO:23.5",
+      "product_id": "e2bca140-c0d0-403f-a4d3-42d5f4966599"
+    },
+    {
+      "estilo": "WIL523",
+      "color": "NEGRO",
+      "size": "24.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL523|NEGRO:24.5",
+      "product_id": "e2bca140-c0d0-403f-a4d3-42d5f4966599"
+    },
+    {
+      "estilo": "WIL523",
+      "color": "NEGRO",
+      "size": "25.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL523|NEGRO:25.0",
+      "product_id": "e2bca140-c0d0-403f-a4d3-42d5f4966599"
+    },
+    {
+      "estilo": "WIL521",
+      "color": "ORO ROSADO",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL521|ORO ROSADO:23.0",
+      "product_id": "1ee8356c-5034-4f77-bd47-94dfb5da9093"
+    },
+    {
+      "estilo": "WIL521",
+      "color": "ORO ROSADO",
+      "size": "23.5",
+      "quantity": 4,
+      "importKey": "mirlo-wildcat-20261116:WIL521|ORO ROSADO:23.5",
+      "product_id": "1ee8356c-5034-4f77-bd47-94dfb5da9093"
+    },
+    {
+      "estilo": "WIL521",
+      "color": "ORO ROSADO",
+      "size": "25.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL521|ORO ROSADO:25.0",
+      "product_id": "1ee8356c-5034-4f77-bd47-94dfb5da9093"
+    },
+    {
+      "estilo": "WIL521",
+      "color": "ORO ROSADO",
+      "size": "25.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL521|ORO ROSADO:25.5",
+      "product_id": "1ee8356c-5034-4f77-bd47-94dfb5da9093"
+    },
+    {
+      "estilo": "WI0208",
+      "color": "BLANCO",
+      "size": "23.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI0208|BLANCO:23.0",
+      "product_id": "c68d560c-99ec-4567-bd3d-11afbc6d3450"
+    },
+    {
+      "estilo": "WI0208",
+      "color": "BLANCO",
+      "size": "23.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WI0208|BLANCO:23.5",
+      "product_id": "c68d560c-99ec-4567-bd3d-11afbc6d3450"
+    },
+    {
+      "estilo": "WI0208",
+      "color": "BLANCO",
+      "size": "24.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WI0208|BLANCO:24.0",
+      "product_id": "c68d560c-99ec-4567-bd3d-11afbc6d3450"
+    },
+    {
+      "estilo": "WI0208",
+      "color": "BLANCO",
+      "size": "24.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WI0208|BLANCO:24.5",
+      "product_id": "c68d560c-99ec-4567-bd3d-11afbc6d3450"
+    },
+    {
+      "estilo": "WI0208",
+      "color": "BLANCO",
+      "size": "25.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI0208|BLANCO:25.5",
+      "product_id": "c68d560c-99ec-4567-bd3d-11afbc6d3450"
+    },
+    {
+      "estilo": "WIL523",
+      "color": "PLATA",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL523|PLATA:23.0",
+      "product_id": "120aff3f-5629-4554-8b2b-35efc4001cfc"
+    },
+    {
+      "estilo": "WIL523",
+      "color": "PLATA",
+      "size": "23.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL523|PLATA:23.5",
+      "product_id": "120aff3f-5629-4554-8b2b-35efc4001cfc"
+    },
+    {
+      "estilo": "WIL523",
+      "color": "PLATA",
+      "size": "24.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL523|PLATA:24.5",
+      "product_id": "120aff3f-5629-4554-8b2b-35efc4001cfc"
+    },
+    {
+      "estilo": "WIL523",
+      "color": "PLATA",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL523|PLATA:26.0",
+      "product_id": "120aff3f-5629-4554-8b2b-35efc4001cfc"
+    },
+    {
+      "estilo": "WIL512",
+      "color": "SALMON",
+      "size": "24.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL512|SALMON:24.0",
+      "product_id": "4f134617-4d57-4ec3-b841-9b7f10032254"
+    },
+    {
+      "estilo": "WIL512",
+      "color": "SALMON",
+      "size": "25.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL512|SALMON:25.0",
+      "product_id": "4f134617-4d57-4ec3-b841-9b7f10032254"
+    },
+    {
+      "estilo": "WIL521",
+      "color": "NEGRO",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL521|NEGRO:23.0",
+      "product_id": "0efcf953-0a47-4d47-9bea-313b8865ea64"
+    },
+    {
+      "estilo": "WIL521",
+      "color": "NEGRO",
+      "size": "24.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL521|NEGRO:24.5",
+      "product_id": "0efcf953-0a47-4d47-9bea-313b8865ea64"
+    },
+    {
+      "estilo": "WIL521",
+      "color": "NEGRO",
+      "size": "25.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL521|NEGRO:25.0",
+      "product_id": "0efcf953-0a47-4d47-9bea-313b8865ea64"
+    },
+    {
+      "estilo": "WI5707",
+      "color": "NEGRO",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI5707|NEGRO:23.0",
+      "product_id": "27462b82-90bf-4003-bbd3-acbad673376a"
+    },
+    {
+      "estilo": "WI2037",
+      "color": "NEGRO",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI2037|NEGRO:23.0",
+      "product_id": "2280b33e-b4e5-43eb-a0a0-6baeaec7ee57"
+    },
+    {
+      "estilo": "WI2037",
+      "color": "NEGRO",
+      "size": "24.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI2037|NEGRO:24.0",
+      "product_id": "2280b33e-b4e5-43eb-a0a0-6baeaec7ee57"
+    },
+    {
+      "estilo": "WI2037",
+      "color": "NEGRO",
+      "size": "25.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI2037|NEGRO:25.0",
+      "product_id": "2280b33e-b4e5-43eb-a0a0-6baeaec7ee57"
+    },
+    {
+      "estilo": "WI2037",
+      "color": "NEGRO",
+      "size": "26.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WI2037|NEGRO:26.0",
+      "product_id": "2280b33e-b4e5-43eb-a0a0-6baeaec7ee57"
+    },
+    {
+      "estilo": "WI2037",
+      "color": "LATE",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI2037|LATE:23.0",
+      "product_id": "5acdd62f-7f1b-4e6d-bf15-ca1f9e7149cf"
+    },
+    {
+      "estilo": "WI2037",
+      "color": "LATE",
+      "size": "24.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI2037|LATE:24.0",
+      "product_id": "5acdd62f-7f1b-4e6d-bf15-ca1f9e7149cf"
+    },
+    {
+      "estilo": "WI2037",
+      "color": "LATE",
+      "size": "25.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI2037|LATE:25.0",
+      "product_id": "5acdd62f-7f1b-4e6d-bf15-ca1f9e7149cf"
+    },
+    {
+      "estilo": "WI2037",
+      "color": "LATE",
+      "size": "26.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WI2037|LATE:26.0",
+      "product_id": "5acdd62f-7f1b-4e6d-bf15-ca1f9e7149cf"
+    },
+    {
+      "estilo": "WI4115",
+      "color": "NEGRO",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4115|NEGRO:23.0",
+      "product_id": "4a289d69-3f62-4667-84aa-361e85a49c12"
+    },
+    {
+      "estilo": "WI4115",
+      "color": "NEGRO",
+      "size": "24.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI4115|NEGRO:24.0",
+      "product_id": "4a289d69-3f62-4667-84aa-361e85a49c12"
+    },
+    {
+      "estilo": "WI4115",
+      "color": "NEGRO",
+      "size": "25.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI4115|NEGRO:25.0",
+      "product_id": "4a289d69-3f62-4667-84aa-361e85a49c12"
+    },
+    {
+      "estilo": "WI4115",
+      "color": "NEGRO",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4115|NEGRO:26.0",
+      "product_id": "4a289d69-3f62-4667-84aa-361e85a49c12"
+    },
+    {
+      "estilo": "WI4115",
+      "color": "CAFE",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4115|CAFE:23.0",
+      "product_id": "08f714d0-d56f-45e4-91bc-e722c4a6e5e8"
+    },
+    {
+      "estilo": "WI4115",
+      "color": "CAFE",
+      "size": "24.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI4115|CAFE:24.0",
+      "product_id": "08f714d0-d56f-45e4-91bc-e722c4a6e5e8"
+    },
+    {
+      "estilo": "WI4115",
+      "color": "CAFE",
+      "size": "25.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI4115|CAFE:25.0",
+      "product_id": "08f714d0-d56f-45e4-91bc-e722c4a6e5e8"
+    },
+    {
+      "estilo": "WI4115",
+      "color": "CAFE",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4115|CAFE:26.0",
+      "product_id": "08f714d0-d56f-45e4-91bc-e722c4a6e5e8"
+    },
+    {
+      "estilo": "WI4115",
+      "color": "PLATA",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4115|PLATA:23.0",
+      "product_id": "a19c269b-688a-46ab-a808-97f38586d4b6"
+    },
+    {
+      "estilo": "WI4115",
+      "color": "PLATA",
+      "size": "24.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI4115|PLATA:24.0",
+      "product_id": "a19c269b-688a-46ab-a808-97f38586d4b6"
+    },
+    {
+      "estilo": "WI4115",
+      "color": "PLATA",
+      "size": "25.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI4115|PLATA:25.0",
+      "product_id": "a19c269b-688a-46ab-a808-97f38586d4b6"
+    },
+    {
+      "estilo": "WI4115",
+      "color": "PLATA",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4115|PLATA:26.0",
+      "product_id": "a19c269b-688a-46ab-a808-97f38586d4b6"
+    },
+    {
+      "estilo": "WI2036",
+      "color": "LATE",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI2036|LATE:23.0",
+      "product_id": "90c5b676-00fd-40c4-b56d-b01a481f454c"
+    },
+    {
+      "estilo": "WI2036",
+      "color": "LATE",
+      "size": "24.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI2036|LATE:24.0",
+      "product_id": "90c5b676-00fd-40c4-b56d-b01a481f454c"
+    },
+    {
+      "estilo": "WI2036",
+      "color": "LATE",
+      "size": "25.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI2036|LATE:25.0",
+      "product_id": "90c5b676-00fd-40c4-b56d-b01a481f454c"
+    },
+    {
+      "estilo": "WI2036",
+      "color": "LATE",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI2036|LATE:26.0",
+      "product_id": "90c5b676-00fd-40c4-b56d-b01a481f454c"
+    },
+    {
+      "estilo": "WI2036",
+      "color": "NEGRO",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI2036|NEGRO:23.0",
+      "product_id": "de26b63e-5379-41d4-9cc2-36d205f25fc5"
+    },
+    {
+      "estilo": "WI2036",
+      "color": "NEGRO",
+      "size": "24.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI2036|NEGRO:24.0",
+      "product_id": "de26b63e-5379-41d4-9cc2-36d205f25fc5"
+    },
+    {
+      "estilo": "WI2036",
+      "color": "NEGRO",
+      "size": "25.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI2036|NEGRO:25.0",
+      "product_id": "de26b63e-5379-41d4-9cc2-36d205f25fc5"
+    },
+    {
+      "estilo": "WI2036",
+      "color": "NEGRO",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI2036|NEGRO:26.0",
+      "product_id": "de26b63e-5379-41d4-9cc2-36d205f25fc5"
+    },
+    {
+      "estilo": "WI4416",
+      "color": "BEIGE",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4416|BEIGE:23.0",
+      "product_id": "cf7a43be-fd06-4757-a830-d563ff1e5de9"
+    },
+    {
+      "estilo": "WI4416",
+      "color": "BEIGE",
+      "size": "24.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI4416|BEIGE:24.0",
+      "product_id": "cf7a43be-fd06-4757-a830-d563ff1e5de9"
+    },
+    {
+      "estilo": "WI4416",
+      "color": "BEIGE",
+      "size": "25.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI4416|BEIGE:25.0",
+      "product_id": "cf7a43be-fd06-4757-a830-d563ff1e5de9"
+    },
+    {
+      "estilo": "WI4416",
+      "color": "BEIGE",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4416|BEIGE:26.0",
+      "product_id": "cf7a43be-fd06-4757-a830-d563ff1e5de9"
+    },
+    {
+      "estilo": "WI4416",
+      "color": "NEGRO",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4416|NEGRO:23.0",
+      "product_id": "61a88267-2e4a-4d17-8671-b4b372ab8672"
+    },
+    {
+      "estilo": "WI4416",
+      "color": "NEGRO",
+      "size": "24.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI4416|NEGRO:24.0",
+      "product_id": "61a88267-2e4a-4d17-8671-b4b372ab8672"
+    },
+    {
+      "estilo": "WI4416",
+      "color": "NEGRO",
+      "size": "25.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WI4416|NEGRO:25.0",
+      "product_id": "61a88267-2e4a-4d17-8671-b4b372ab8672"
+    },
+    {
+      "estilo": "WI4416",
+      "color": "NEGRO",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4416|NEGRO:26.0",
+      "product_id": "61a88267-2e4a-4d17-8671-b4b372ab8672"
+    },
+    {
+      "estilo": "WI0307",
+      "color": "PLATA",
+      "size": "24.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI0307|PLATA:24.0",
+      "product_id": "cfc97a72-0adc-428d-9a6b-7fa0cca2b7e8"
+    },
+    {
+      "estilo": "WI0307",
+      "color": "PLATA",
+      "size": "25.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI0307|PLATA:25.0",
+      "product_id": "cfc97a72-0adc-428d-9a6b-7fa0cca2b7e8"
+    },
+    {
+      "estilo": "WI0307",
+      "color": "PLATA",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI0307|PLATA:26.0",
+      "product_id": "cfc97a72-0adc-428d-9a6b-7fa0cca2b7e8"
+    },
+    {
+      "estilo": "WI4043",
+      "color": "MAQUILLAJE",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4043|MAQUILLAJE:23.0",
+      "product_id": "7152fb1d-4694-4f99-a026-421a69522ce5"
+    },
+    {
+      "estilo": "WI4043",
+      "color": "MAQUILLAJE",
+      "size": "24.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4043|MAQUILLAJE:24.0",
+      "product_id": "7152fb1d-4694-4f99-a026-421a69522ce5"
+    },
+    {
+      "estilo": "WI4043",
+      "color": "MAQUILLAJE",
+      "size": "25.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4043|MAQUILLAJE:25.0",
+      "product_id": "7152fb1d-4694-4f99-a026-421a69522ce5"
+    },
+    {
+      "estilo": "WI4043",
+      "color": "MAQUILLAJE",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4043|MAQUILLAJE:26.0",
+      "product_id": "7152fb1d-4694-4f99-a026-421a69522ce5"
+    },
+    {
+      "estilo": "WI4418",
+      "color": "NEGRO",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4418|NEGRO:23.0",
+      "product_id": "b0d0a991-54ec-4ef5-89ac-65d922c15dec"
+    },
+    {
+      "estilo": "WI4418",
+      "color": "NEGRO",
+      "size": "24.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WI4418|NEGRO:24.0",
+      "product_id": "b0d0a991-54ec-4ef5-89ac-65d922c15dec"
+    },
+    {
+      "estilo": "WI4418",
+      "color": "NEGRO",
+      "size": "25.0",
+      "quantity": 4,
+      "importKey": "mirlo-wildcat-20261116:WI4418|NEGRO:25.0",
+      "product_id": "b0d0a991-54ec-4ef5-89ac-65d922c15dec"
+    },
+    {
+      "estilo": "WI4418",
+      "color": "ORO",
+      "size": "24.0",
+      "quantity": 4,
+      "importKey": "mirlo-wildcat-20261116:WI4418|ORO:24.0",
+      "product_id": "29e46c74-ae0f-4815-a9cd-e013fc0eb3a5"
+    },
+    {
+      "estilo": "WI4418",
+      "color": "ORO",
+      "size": "25.0",
+      "quantity": 4,
+      "importKey": "mirlo-wildcat-20261116:WI4418|ORO:25.0",
+      "product_id": "29e46c74-ae0f-4815-a9cd-e013fc0eb3a5"
+    },
+    {
+      "estilo": "WI4418",
+      "color": "ORO",
+      "size": "26.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WI4418|ORO:26.0",
+      "product_id": "29e46c74-ae0f-4815-a9cd-e013fc0eb3a5"
+    },
+    {
+      "estilo": "WI4418",
+      "color": "ROJO",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4418|ROJO:23.0",
+      "product_id": "c582d6b2-0bbe-4195-b897-d8fd88dd08bc"
+    },
+    {
+      "estilo": "WI4418",
+      "color": "ROJO",
+      "size": "24.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI4418|ROJO:24.0",
+      "product_id": "c582d6b2-0bbe-4195-b897-d8fd88dd08bc"
+    },
+    {
+      "estilo": "WI4418",
+      "color": "ROJO",
+      "size": "25.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI4418|ROJO:25.0",
+      "product_id": "c582d6b2-0bbe-4195-b897-d8fd88dd08bc"
+    },
+    {
+      "estilo": "WI4418",
+      "color": "ROJO",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4418|ROJO:26.0",
+      "product_id": "c582d6b2-0bbe-4195-b897-d8fd88dd08bc"
+    },
+    {
+      "estilo": "WI4418",
+      "color": "PLATA",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4418|PLATA:23.0",
+      "product_id": "05a3612a-368c-4148-b200-805e619c66d4"
+    },
+    {
+      "estilo": "WI4418",
+      "color": "PLATA",
+      "size": "24.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI4418|PLATA:24.0",
+      "product_id": "05a3612a-368c-4148-b200-805e619c66d4"
+    },
+    {
+      "estilo": "WI4418",
+      "color": "PLATA",
+      "size": "25.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI4418|PLATA:25.0",
+      "product_id": "05a3612a-368c-4148-b200-805e619c66d4"
+    },
+    {
+      "estilo": "WI4418",
+      "color": "PLATA",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4418|PLATA:26.0",
+      "product_id": "05a3612a-368c-4148-b200-805e619c66d4"
+    },
+    {
+      "estilo": "WI2010",
+      "color": "NEGRO",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI2010|NEGRO:23.0",
+      "product_id": "94bb46f1-75fb-473c-a641-44821f54531b"
+    },
+    {
+      "estilo": "WI2010",
+      "color": "NEGRO",
+      "size": "24.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI2010|NEGRO:24.0",
+      "product_id": "94bb46f1-75fb-473c-a641-44821f54531b"
+    },
+    {
+      "estilo": "WI2010",
+      "color": "NEGRO",
+      "size": "25.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI2010|NEGRO:25.0",
+      "product_id": "94bb46f1-75fb-473c-a641-44821f54531b"
+    },
+    {
+      "estilo": "WI2010",
+      "color": "NEGRO",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI2010|NEGRO:26.0",
+      "product_id": "94bb46f1-75fb-473c-a641-44821f54531b"
+    },
+    {
+      "estilo": "WI2010",
+      "color": "MIGA",
+      "size": "24.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI2010|MIGA:24.0",
+      "product_id": "9a1072d3-88e1-41c4-ab72-362e1c47db28"
+    },
+    {
+      "estilo": "WI2016",
+      "color": "ROJO",
+      "size": "24.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI2016|ROJO:24.0",
+      "product_id": "87bf0de0-349e-4afe-a355-fcc1755bf7fc"
+    },
+    {
+      "estilo": "WI4047",
+      "color": "NEGRO",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4047|NEGRO:23.0",
+      "product_id": "90c9307d-ad89-43c5-b5e5-379b3130b19b"
+    },
+    {
+      "estilo": "WI4047",
+      "color": "NEGRO",
+      "size": "24.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI4047|NEGRO:24.0",
+      "product_id": "90c9307d-ad89-43c5-b5e5-379b3130b19b"
+    },
+    {
+      "estilo": "WI4047",
+      "color": "NEGRO",
+      "size": "25.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI4047|NEGRO:25.0",
+      "product_id": "90c9307d-ad89-43c5-b5e5-379b3130b19b"
+    },
+    {
+      "estilo": "WI4047",
+      "color": "NEGRO",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4047|NEGRO:26.0",
+      "product_id": "90c9307d-ad89-43c5-b5e5-379b3130b19b"
+    },
+    {
+      "estilo": "WI4047",
+      "color": "LATE",
+      "size": "23.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4047|LATE:23.0",
+      "product_id": "7b3ff7e4-71a5-46b1-b5d2-e48eba1b19d4"
+    },
+    {
+      "estilo": "WI4047",
+      "color": "LATE",
+      "size": "24.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WI4047|LATE:24.0",
+      "product_id": "7b3ff7e4-71a5-46b1-b5d2-e48eba1b19d4"
+    },
+    {
+      "estilo": "WI4047",
+      "color": "LATE",
+      "size": "25.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WI4047|LATE:25.0",
+      "product_id": "7b3ff7e4-71a5-46b1-b5d2-e48eba1b19d4"
+    },
+    {
+      "estilo": "WI4047",
+      "color": "LATE",
+      "size": "26.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WI4047|LATE:26.0",
+      "product_id": "7b3ff7e4-71a5-46b1-b5d2-e48eba1b19d4"
+    },
+    {
+      "estilo": "WI0308",
+      "color": "PLATA",
+      "size": "24.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI0308|PLATA:24.0",
+      "product_id": "8e834805-86ef-49a9-b905-635369221149"
+    },
+    {
+      "estilo": "WI0308",
+      "color": "PLATA",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI0308|PLATA:26.0",
+      "product_id": "8e834805-86ef-49a9-b905-635369221149"
+    },
+    {
+      "estilo": "WI4027",
+      "color": "MAQUILLAJE",
+      "size": "24.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4027|MAQUILLAJE:24.0",
+      "product_id": "b296ef62-e27b-4211-bb8b-9693a1ba5389"
+    },
+    {
+      "estilo": "WI4027",
+      "color": "CAFE",
+      "size": "23.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WI4027|CAFE:23.5",
+      "product_id": "d67ac8d1-06eb-4adb-99e4-bb5a2f3aa1a6"
+    },
+    {
+      "estilo": "WI4027",
+      "color": "CAFE",
+      "size": "24.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WI4027|CAFE:24.5",
+      "product_id": "d67ac8d1-06eb-4adb-99e4-bb5a2f3aa1a6"
+    },
+    {
+      "estilo": "WI4027",
+      "color": "CAFE",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4027|CAFE:26.0",
+      "product_id": "d67ac8d1-06eb-4adb-99e4-bb5a2f3aa1a6"
+    },
+    {
+      "estilo": "WI4020",
+      "color": "NEGRO",
+      "size": "24.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI4020|NEGRO:24.5",
+      "product_id": "10d7730f-2acd-4507-b5d9-e5cd000b06e1"
+    },
+    {
+      "estilo": "WI5711",
+      "color": "NEGRO",
+      "size": "24.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI5711|NEGRO:24.0",
+      "product_id": "b52aaf34-ce3f-4a74-b6c5-3c648d279e5e"
+    },
+    {
+      "estilo": "WI5711",
+      "color": "NEGRO",
+      "size": "25.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI5711|NEGRO:25.0",
+      "product_id": "b52aaf34-ce3f-4a74-b6c5-3c648d279e5e"
+    },
+    {
+      "estilo": "WI5711",
+      "color": "NEGRO",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WI5711|NEGRO:26.0",
+      "product_id": "b52aaf34-ce3f-4a74-b6c5-3c648d279e5e"
+    },
+    {
+      "estilo": "WIL151",
+      "color": "BEIGE",
+      "size": "23.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WIL151|BEIGE:23.0",
+      "product_id": "6c6d147d-0cf8-481a-ab70-c77ed068bfa8"
+    },
+    {
+      "estilo": "WIL151",
+      "color": "BEIGE",
+      "size": "24.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL151|BEIGE:24.0",
+      "product_id": "6c6d147d-0cf8-481a-ab70-c77ed068bfa8"
+    },
+    {
+      "estilo": "WIL151",
+      "color": "BEIGE",
+      "size": "25.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL151|BEIGE:25.0",
+      "product_id": "6c6d147d-0cf8-481a-ab70-c77ed068bfa8"
+    },
+    {
+      "estilo": "WIL151",
+      "color": "BEIGE",
+      "size": "25.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL151|BEIGE:25.5",
+      "product_id": "6c6d147d-0cf8-481a-ab70-c77ed068bfa8"
+    },
+    {
+      "estilo": "WIL151",
+      "color": "BEIGE",
+      "size": "26.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL151|BEIGE:26.0",
+      "product_id": "6c6d147d-0cf8-481a-ab70-c77ed068bfa8"
+    },
+    {
+      "estilo": "WIL003",
+      "color": "NEGRO",
+      "size": "23.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WIL003|NEGRO:23.0",
+      "product_id": "04c3a974-05f7-456c-a205-903c09d9d2d1"
+    },
+    {
+      "estilo": "WIL003",
+      "color": "NEGRO",
+      "size": "23.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL003|NEGRO:23.5",
+      "product_id": "04c3a974-05f7-456c-a205-903c09d9d2d1"
+    },
+    {
+      "estilo": "WIL003",
+      "color": "NEGRO",
+      "size": "24.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL003|NEGRO:24.0",
+      "product_id": "04c3a974-05f7-456c-a205-903c09d9d2d1"
+    },
+    {
+      "estilo": "WIL003",
+      "color": "NEGRO",
+      "size": "24.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL003|NEGRO:24.5",
+      "product_id": "04c3a974-05f7-456c-a205-903c09d9d2d1"
+    },
+    {
+      "estilo": "WIL003",
+      "color": "NEGRO",
+      "size": "25.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL003|NEGRO:25.5",
+      "product_id": "04c3a974-05f7-456c-a205-903c09d9d2d1"
+    },
+    {
+      "estilo": "WIL003",
+      "color": "NEGRO",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL003|NEGRO:26.0",
+      "product_id": "04c3a974-05f7-456c-a205-903c09d9d2d1"
+    },
+    {
+      "estilo": "WIL151",
+      "color": "BLANCO",
+      "size": "23.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL151|BLANCO:23.0",
+      "product_id": "9032ffeb-50ff-4c69-ab1d-290326cc181d"
+    },
+    {
+      "estilo": "WIL151",
+      "color": "BLANCO",
+      "size": "24.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL151|BLANCO:24.0",
+      "product_id": "9032ffeb-50ff-4c69-ab1d-290326cc181d"
+    },
+    {
+      "estilo": "WIL151",
+      "color": "BLANCO",
+      "size": "25.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WIL151|BLANCO:25.0",
+      "product_id": "9032ffeb-50ff-4c69-ab1d-290326cc181d"
+    },
+    {
+      "estilo": "WIL151",
+      "color": "BLANCO",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL151|BLANCO:26.0",
+      "product_id": "9032ffeb-50ff-4c69-ab1d-290326cc181d"
+    },
+    {
+      "estilo": "WIL010",
+      "color": "NEGRO",
+      "size": "23.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WIL010|NEGRO:23.0",
+      "product_id": "20991454-2f76-4a5d-9838-4f59447528d6"
+    },
+    {
+      "estilo": "WIL010",
+      "color": "NEGRO",
+      "size": "23.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL010|NEGRO:23.5",
+      "product_id": "20991454-2f76-4a5d-9838-4f59447528d6"
+    },
+    {
+      "estilo": "WIL010",
+      "color": "NEGRO",
+      "size": "24.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL010|NEGRO:24.0",
+      "product_id": "20991454-2f76-4a5d-9838-4f59447528d6"
+    },
+    {
+      "estilo": "WIL010",
+      "color": "NEGRO",
+      "size": "24.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL010|NEGRO:24.5",
+      "product_id": "20991454-2f76-4a5d-9838-4f59447528d6"
+    },
+    {
+      "estilo": "WIL010",
+      "color": "NEGRO",
+      "size": "25.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL010|NEGRO:25.0",
+      "product_id": "20991454-2f76-4a5d-9838-4f59447528d6"
+    },
+    {
+      "estilo": "WIL010",
+      "color": "NEGRO",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL010|NEGRO:26.0",
+      "product_id": "20991454-2f76-4a5d-9838-4f59447528d6"
+    },
+    {
+      "estilo": "WIL010",
+      "color": "ORO ROSADO",
+      "size": "23.0",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WIL010|ORO ROSADO:23.0",
+      "product_id": "90b8f659-5dcd-4eec-89a7-5b50c3292082"
+    },
+    {
+      "estilo": "WIL010",
+      "color": "ORO ROSADO",
+      "size": "23.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL010|ORO ROSADO:23.5",
+      "product_id": "90b8f659-5dcd-4eec-89a7-5b50c3292082"
+    },
+    {
+      "estilo": "WIL010",
+      "color": "ORO ROSADO",
+      "size": "24.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL010|ORO ROSADO:24.0",
+      "product_id": "90b8f659-5dcd-4eec-89a7-5b50c3292082"
+    },
+    {
+      "estilo": "WIL010",
+      "color": "ORO ROSADO",
+      "size": "24.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL010|ORO ROSADO:24.5",
+      "product_id": "90b8f659-5dcd-4eec-89a7-5b50c3292082"
+    },
+    {
+      "estilo": "WIL010",
+      "color": "ORO ROSADO",
+      "size": "25.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL010|ORO ROSADO:25.0",
+      "product_id": "90b8f659-5dcd-4eec-89a7-5b50c3292082"
+    },
+    {
+      "estilo": "WIL010",
+      "color": "ORO ROSADO",
+      "size": "25.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL010|ORO ROSADO:25.5",
+      "product_id": "90b8f659-5dcd-4eec-89a7-5b50c3292082"
+    },
+    {
+      "estilo": "WIL010",
+      "color": "ORO ROSADO",
+      "size": "26.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL010|ORO ROSADO:26.0",
+      "product_id": "90b8f659-5dcd-4eec-89a7-5b50c3292082"
+    },
+    {
+      "estilo": "WIL108",
+      "color": "NEGRO",
+      "size": "18.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL108|NEGRO:18.0",
+      "product_id": "00b2b1cd-9438-42a6-a3a0-a4b40c65ce4c"
+    },
+    {
+      "estilo": "WIL108",
+      "color": "NEGRO",
+      "size": "19.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL108|NEGRO:19.0",
+      "product_id": "00b2b1cd-9438-42a6-a3a0-a4b40c65ce4c"
+    },
+    {
+      "estilo": "WIL108",
+      "color": "NEGRO",
+      "size": "19.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL108|NEGRO:19.5",
+      "product_id": "00b2b1cd-9438-42a6-a3a0-a4b40c65ce4c"
+    },
+    {
+      "estilo": "WIL108",
+      "color": "NEGRO",
+      "size": "20.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL108|NEGRO:20.0",
+      "product_id": "00b2b1cd-9438-42a6-a3a0-a4b40c65ce4c"
+    },
+    {
+      "estilo": "WIL108",
+      "color": "NEGRO",
+      "size": "20.5",
+      "quantity": 4,
+      "importKey": "mirlo-wildcat-20261116:WIL108|NEGRO:20.5",
+      "product_id": "00b2b1cd-9438-42a6-a3a0-a4b40c65ce4c"
+    },
+    {
+      "estilo": "WIL108",
+      "color": "NEGRO",
+      "size": "21.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL108|NEGRO:21.0",
+      "product_id": "00b2b1cd-9438-42a6-a3a0-a4b40c65ce4c"
+    },
+    {
+      "estilo": "WIL108",
+      "color": "NEGRO",
+      "size": "21.5",
+      "quantity": 3,
+      "importKey": "mirlo-wildcat-20261116:WIL108|NEGRO:21.5",
+      "product_id": "00b2b1cd-9438-42a6-a3a0-a4b40c65ce4c"
+    },
+    {
+      "estilo": "WIL108",
+      "color": "NEGRO",
+      "size": "15.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL108|NEGRO:15.0",
+      "product_id": "00b2b1cd-9438-42a6-a3a0-a4b40c65ce4c"
+    },
+    {
+      "estilo": "WIL108",
+      "color": "NEGRO",
+      "size": "15.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL108|NEGRO:15.5",
+      "product_id": "00b2b1cd-9438-42a6-a3a0-a4b40c65ce4c"
+    },
+    {
+      "estilo": "WIL108",
+      "color": "NEGRO",
+      "size": "16.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL108|NEGRO:16.0",
+      "product_id": "00b2b1cd-9438-42a6-a3a0-a4b40c65ce4c"
+    },
+    {
+      "estilo": "WIL108",
+      "color": "NEGRO",
+      "size": "16.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL108|NEGRO:16.5",
+      "product_id": "00b2b1cd-9438-42a6-a3a0-a4b40c65ce4c"
+    },
+    {
+      "estilo": "WIL108",
+      "color": "NEGRO",
+      "size": "17.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL108|NEGRO:17.0",
+      "product_id": "00b2b1cd-9438-42a6-a3a0-a4b40c65ce4c"
+    },
+    {
+      "estilo": "WIL108",
+      "color": "NEGRO",
+      "size": "17.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL108|NEGRO:17.5",
+      "product_id": "00b2b1cd-9438-42a6-a3a0-a4b40c65ce4c"
+    },
+    {
+      "estilo": "WIL108",
+      "color": "TAN",
+      "size": "15.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL108|TAN:15.0",
+      "product_id": "0c6c477e-2f48-4fb9-946e-122312cd7d45"
+    },
+    {
+      "estilo": "WIL108",
+      "color": "TAN",
+      "size": "15.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL108|TAN:15.5",
+      "product_id": "0c6c477e-2f48-4fb9-946e-122312cd7d45"
+    },
+    {
+      "estilo": "WIL108",
+      "color": "TAN",
+      "size": "16.0",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL108|TAN:16.0",
+      "product_id": "0c6c477e-2f48-4fb9-946e-122312cd7d45"
+    },
+    {
+      "estilo": "WIL108",
+      "color": "TAN",
+      "size": "16.5",
+      "quantity": 2,
+      "importKey": "mirlo-wildcat-20261116:WIL108|TAN:16.5",
+      "product_id": "0c6c477e-2f48-4fb9-946e-122312cd7d45"
+    },
+    {
+      "estilo": "WIL108",
+      "color": "TAN",
+      "size": "17.0",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL108|TAN:17.0",
+      "product_id": "0c6c477e-2f48-4fb9-946e-122312cd7d45"
+    },
+    {
+      "estilo": "WIL108",
+      "color": "TAN",
+      "size": "17.5",
+      "quantity": 1,
+      "importKey": "mirlo-wildcat-20261116:WIL108|TAN:17.5",
+      "product_id": "0c6c477e-2f48-4fb9-946e-122312cd7d45"
+    }
+  ]
+}

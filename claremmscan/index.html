@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="tokens.css?v=30-historial-foto">
+  <link rel="stylesheet" href="tokens.css?v=33-api-sucursal">
   <style>
     /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 · genre: atmospheric · macrostructure: Workbench · theme: Midnight · enrichment: none · nav: N9 · footer: Ft2 · contrast: pass (40–41) · slop: pass (42–49) · mobile: pass (34,49–57) */
     *,*::before,*::after{box-sizing:border-box}
@@ -175,6 +175,13 @@
     .branchStockStatus{margin:0;padding:var(--space-sm);border-radius:var(--radius-input);background:var(--color-field);color:var(--color-neutral)}
     .branchStockStatus.ok{background:var(--color-success-surface);color:var(--color-success)}
     .branchStockStatus.warn{background:var(--color-warning-surface);color:var(--color-warning)}
+    .catalogReviewFilters{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-sm);margin-block:var(--space-sm)}
+    .catalogReviewFilters label{display:grid;gap:var(--space-2xs);min-width:0}
+    .catalogReviewTableWrap{max-height:min(70vh,40rem);overflow:auto}
+    .catalogReviewRowActions{display:flex;flex-wrap:wrap;gap:var(--space-2xs)}
+    .catalogReviewRowActions button{width:auto;min-height:2.5rem;padding-inline:var(--space-sm);font-size:var(--text-xs)}
+    .catalogReviewTableWrap small{color:var(--color-muted)}
+    @media (min-width:40rem){.catalogReviewFilters{grid-template-columns:repeat(2,minmax(0,1fr))}}
     .branchStockRecentList{display:grid;gap:var(--space-2xs);max-height:22rem;margin:var(--space-sm) 0 0;padding:0;overflow:auto;list-style:none}
     .branchStockRecentItem{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--space-xs);align-items:center;padding:var(--space-xs) var(--space-sm);border:var(--rule-thin) solid var(--color-rule);border-radius:var(--radius-input);background:var(--color-field)}
     .branchStockRecentItem strong{display:block;font-size:var(--text-sm)}
@@ -262,7 +269,7 @@
           <div class="brandLine"><h1>CLAREMM Scan <span>v20</span></h1><div class="tagline">Cámara · Lectura con IA · Revisión · Excel</div></div>
           <small id="installHelp" hidden></small>
         </div>
-        <div class="headerActions"><button id="branchStockOpen" type="button" class="secondary">Carga por sucursal</button><button id="installApp" type="button" class="secondary" hidden>Instalar app</button></div>
+        <div class="headerActions"><button id="catalogReviewOpen" type="button" class="secondary">Revisión pendiente</button><button id="branchStockOpen" type="button" class="secondary">Carga por sucursal</button><button id="installApp" type="button" class="secondary" hidden>Instalar app</button></div>
       </div>
       <div class="metrics" aria-label="Resumen del inventario">
         <div class="metric"><span>Registros</span><strong id="statRecords">0</strong></div>
@@ -317,16 +324,26 @@
       </section>
       <datalist id="lineOptions"><option value="Tenis"></option><option value="Zapato"></option><option value="Bota"></option><option value="Huarache"></option><option value="Sandalia"></option><option value="Otro"></option></datalist>
       <datalist id="branchOptions"><option value="CLAREMM ZAPATERIA JUAREZ"></option><option value="Zapateria CLAREMM Nuevo Leon"></option></datalist>
+      <datalist id="sazColorOptions"></datalist>
+      <datalist id="sazMarcaOptions"></datalist>
+      <datalist id="sazLineaOptions"></datalist>
+      <datalist id="sazAcabadoOptions"></datalist>
+      <datalist id="sazTemporadaOptions"></datalist>
+      <datalist id="sazClasificacionOptions"></datalist>
+      <datalist id="sazSublineaOptions"></datalist>
+      <datalist id="sazProveedorOptions"></datalist>
+      <datalist id="sazCorridaOptions"></datalist>
+      <datalist id="sazDepartamentoOptions"></datalist>
       <section class="card manualPanel" id="manualCard">
         <div class="cardHead"><h2>3. Captura / edición manual</h2><small id="editNotice"></small></div>
         <div class="grid">
           <label for="estilo">Estilo alfanumérico<input id="estilo" placeholder="LAP603" aria-required="true"></label>
-          <label for="marca">Marca<input id="marca" placeholder="CLAREMM, RODRI SAN…"></label>
+          <label for="marca">Marca<input id="marca" list="sazMarcaOptions" placeholder="CLAREMM, RODRI SAN…"></label>
           <label for="sucursal">Sucursal<input id="sucursal" list="branchOptions" value="CLAREMM ZAPATERIA JUAREZ" placeholder="CLAREMM ZAPATERIA JUAREZ" aria-required="true"><small>Se recuerda para las siguientes capturas.</small></label>
-          <label for="color">Color<input id="color" placeholder="NEGRO" aria-required="true"></label>
+          <label for="color">Color<input id="color" list="sazColorOptions" placeholder="NEGRO" aria-required="true"><small>Tal como lo registra SAZ. N/B se busca como NEGRO BLANCO.</small></label>
           <label for="linea">Tipo de línea<input id="linea" list="lineOptions" placeholder="Tenis, bota…"></label>
           <label for="talla">Talla<input id="talla" inputmode="decimal" placeholder="27.5" aria-required="true"></label>
-          <label for="material">Material<input id="material" placeholder="PIEL"></label>
+          <label for="material">Material<input id="material" list="sazAcabadoOptions" placeholder="PIEL"></label>
           <label for="cantidad">Cantidad<input id="cantidad" type="number" min="1" value="1" aria-required="true"></label>
           <label for="precio">Precio<input id="precio" inputmode="decimal" placeholder="770"><small>Al editarlo, se aplicará a los colores del mismo estilo y la misma corrida.</small></label>
           <label for="notas">Notas<input id="notas" placeholder="Opcional"></label>
@@ -351,7 +368,7 @@
           <label for="inventorySazFilter">Estado SAZ<select id="inventorySazFilter"><option value="all">Todos</option><option value="pending">Pendientes</option><option value="loaded">Cargados</option></select></label>
         </div>
         <p id="inventoryResultInfo" class="inventoryResultInfo" aria-live="polite">Mostrando todos los registros.</p>
-        <section id="relationalSearchPanel" class="relationalResults" hidden aria-labelledby="relationalSearchTitle"><div class="relationalResultsHead"><div><h3 id="relationalSearchTitle">Inventario relacional</h3><p id="relationalSearchInfo">Buscando en catálogo y existencias por sucursal…</p></div><small>Supabase</small></div><div id="stylePriceReview" class="stylePriceReview" hidden><strong>Precio leído de la foto</strong><p id="stylePriceReviewInfo">Revisa el precio antes de aplicarlo a los colores del mismo estilo y la misma corrida.</p><label for="stylePriceProposal">Precio para estilo y corrida<input id="stylePriceProposal" inputmode="decimal" autocomplete="off"></label><div class="stylePriceReviewActions"><button type="button" id="stylePriceConfirm">Confirmar y aplicar</button><button type="button" class="secondary" id="stylePriceCancel">Descartar</button></div></div><div id="productDuplicate" class="productDuplicate" hidden><strong>Duplicar ficha</strong><p id="productDuplicateInfo">Mismo estilo, otro color. Ajusta corrida, precio, talla y foto.</p><div class="productDuplicateForm"><label for="productDuplicateEstilo">Estilo<input id="productDuplicateEstilo" readonly></label><label for="productDuplicateColor">Color nuevo<input id="productDuplicateColor" autocomplete="off"></label><label for="productDuplicateCorrida">Corrida<input id="productDuplicateCorrida" autocomplete="off"></label><label for="productDuplicatePrecio">Precio<input id="productDuplicatePrecio" inputmode="decimal" autocomplete="off"></label><label for="productDuplicateTalla">Talla<input id="productDuplicateTalla" inputmode="decimal" autocomplete="off"></label><label for="productDuplicateCantidad">Cantidad<input id="productDuplicateCantidad" inputmode="numeric" value="1" autocomplete="off"></label><div class="productDuplicatePhoto"><button type="button" id="productDuplicateCamera">Tomar foto</button><button type="button" class="secondary" id="productDuplicateGallery">Elegir imagen</button><small id="productDuplicatePhotoInfo">Sin foto. La imagen es de este color, no se copia.</small><input id="productDuplicateCameraFile" type="file" accept="image/*" capture="environment" hidden><input id="productDuplicateGalleryFile" type="file" accept="image/*" hidden></div><div class="productDuplicateActions"><button type="button" id="productDuplicateSave">Guardar ficha</button><button type="button" class="secondary" id="productDuplicateCancel">Cancelar</button></div></div></div><div id="relationalSearchResults" class="relationalResultGrid"></div><input id="relationalProductImageCamera" type="file" accept="image/*" capture="environment" hidden><input id="relationalProductImageGallery" type="file" accept="image/*" hidden></section>
+        <section id="relationalSearchPanel" class="relationalResults" hidden aria-labelledby="relationalSearchTitle"><div class="relationalResultsHead"><div><h3 id="relationalSearchTitle">Inventario relacional</h3><p id="relationalSearchInfo">Buscando en catálogo y existencias por sucursal…</p></div><small>Supabase</small></div><div id="stylePriceReview" class="stylePriceReview" hidden><strong>Precio leído de la foto</strong><p id="stylePriceReviewInfo">Revisa el precio antes de aplicarlo a los colores del mismo estilo y la misma corrida.</p><label for="stylePriceProposal">Precio para estilo y corrida<input id="stylePriceProposal" inputmode="decimal" autocomplete="off"></label><div class="stylePriceReviewActions"><button type="button" id="stylePriceConfirm">Confirmar y aplicar</button><button type="button" class="secondary" id="stylePriceCancel">Descartar</button></div></div><div id="productDuplicate" class="productDuplicate" hidden><strong>Duplicar ficha</strong><p id="productDuplicateInfo">Mismo estilo, otro color. Ajusta corrida, precio, talla y foto.</p><div class="productDuplicateForm"><label for="productDuplicateEstilo">Estilo<input id="productDuplicateEstilo" readonly></label><label for="productDuplicateColor">Color nuevo<input id="productDuplicateColor" list="sazColorOptions" autocomplete="off"></label><label for="productDuplicateCorrida">Corrida<input id="productDuplicateCorrida" list="sazCorridaOptions" autocomplete="off"></label><label for="productDuplicatePrecio">Precio<input id="productDuplicatePrecio" inputmode="decimal" autocomplete="off"></label><label for="productDuplicateTalla">Talla<input id="productDuplicateTalla" inputmode="decimal" autocomplete="off"></label><label for="productDuplicateCantidad">Cantidad<input id="productDuplicateCantidad" inputmode="numeric" value="1" autocomplete="off"></label><div class="productDuplicatePhoto"><button type="button" id="productDuplicateCamera">Tomar foto</button><button type="button" class="secondary" id="productDuplicateGallery">Elegir imagen</button><small id="productDuplicatePhotoInfo">Sin foto. La imagen es de este color, no se copia.</small><input id="productDuplicateCameraFile" type="file" accept="image/*" capture="environment" hidden><input id="productDuplicateGalleryFile" type="file" accept="image/*" hidden></div><div class="productDuplicateActions"><button type="button" id="productDuplicateSave">Guardar ficha</button><button type="button" class="secondary" id="productDuplicateCancel">Cancelar</button></div></div></div><div id="relationalSearchResults" class="relationalResultGrid"></div><input id="relationalProductImageCamera" type="file" accept="image/*" capture="environment" hidden><input id="relationalProductImageGallery" type="file" accept="image/*" hidden></section>
         <details class="exportMenu"><summary>Exportar datos y respaldo</summary><div class="exportActions"><button id="xlsx">Excel (.xlsx)</button><button id="csv" class="secondary">CSV</button><button id="backup" class="secondary">Respaldo JSON</button><button id="clear" class="danger">Borrar todo</button></div></details>
         <div class="tablewrap"><table><thead><tr><th>Estilo</th><th>Marca</th><th>Sucursal</th><th>Color</th><th>Línea</th><th>Talla</th><th>Cantidad</th><th>Material</th><th>Precio</th><th>Imagen</th><th>Estado SAZ</th><th>Acciones</th></tr></thead><tbody id="rows"></tbody></table></div>
         <nav id="inventoryPagination" class="inventoryPagination" aria-label="Páginas del inventario" hidden><button id="pagePrev" type="button" class="secondary">Anterior</button><div id="pageNumbers" class="pageNumbers"></div><button id="pageNext" type="button" class="secondary">Siguiente</button></nav>
@@ -399,7 +416,7 @@
           <p>Busca un estilo o color existente y agrega la existencia de una talla.</p>
           <div class="branchStockForm">
             <label for="branchStockStyle">Estilo<input id="branchStockStyle" type="search" autocomplete="off" placeholder="ROD410"></label>
-            <label for="branchStockColor">Color<input id="branchStockColor" type="search" autocomplete="off" placeholder="NEGRO"></label>
+            <label for="branchStockColor">Color<input id="branchStockColor" type="search" list="sazColorOptions" autocomplete="off" placeholder="NEGRO"></label>
             <label for="branchStockSize">Talla<input id="branchStockSize" inputmode="decimal" placeholder="26.5" list="branchSizeOptions"></label>
             <label for="branchStockQuantity">Cantidad<input id="branchStockQuantity" type="number" min="0" step="1" value="1"></label>
           </div>
@@ -438,13 +455,28 @@
       <p id="branchStockStatus" class="branchStockStatus" role="status" aria-live="polite">Módulo listo para iniciar.</p>
     </div>
   </dialog>
-  <footer class="footLine">CLAREMM Scan v17 · Inventario local con respaldo privado en Supabase.</footer>
+  <dialog id="catalogReviewDialog" class="branchStockDialog" aria-labelledby="catalogReviewTitle">
+    <div class="branchStockBody">
+      <div class="cardHead"><div><h2 id="catalogReviewTitle">Revisión pendiente <span id="catalogReviewCount">0</span></h2><small>Fichas nuevas, precio heredado o $0, y material por corregir</small></div><button id="catalogReviewClose" type="button" class="secondary">Cerrar</button></div>
+      <p>Lo que crea la carga por sucursal queda aquí para que el encargado confirme precio, tipo y material. Nada se oculta: si el precio se heredó o quedó en $0, se ve marcado.</p>
+      <div class="catalogReviewFilters">
+        <label for="catalogReviewBranch">Sucursal<select id="catalogReviewBranch"><option value="">Todas</option></select></label>
+        <label for="catalogReviewEstado">Estado<select id="catalogReviewEstado"><option value="pendiente">Pendiente</option><option value="revisado">Revisado</option><option value="todos">Todos</option></select></label>
+      </div>
+      <div class="branchStockActions"><button id="catalogReviewReload" type="button" class="secondary">Actualizar</button><button id="catalogReviewExport" type="button">Exportar Excel</button></div>
+      <div class="tablewrap catalogReviewTableWrap"><table><thead><tr><th>Estilo</th><th>Color</th><th>Marca</th><th>Tipo</th><th>Material</th><th>Precio</th><th>Tallas</th><th>Pares</th><th>Lote</th><th>SAZ</th><th>Origen</th><th>Acciones</th></tr></thead><tbody id="catalogReviewRows"></tbody></table></div>
+      <p id="catalogReviewStatus" class="branchStockStatus" role="status" aria-live="polite">Inicia sesión para ver la cola.</p>
+    </div>
+  </dialog>
+  <footer class="footLine">CLAREMM Scan v20 · Inventario local con respaldo privado en Supabase.</footer>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <script src="app.js?v=30-historial-foto"></script>
-  <script src="supabase-sync.js?v=30-historial-foto"></script>
-  <script src="branch-stock.js?v=30-historial-foto"></script>
+  <script src="saz-catalog.js?v=33-api-sucursal"></script>
+  <script src="app.js?v=33-api-sucursal"></script>
+  <script src="supabase-sync.js?v=33-api-sucursal"></script>
+  <script src="branch-stock.js?v=33-api-sucursal"></script>
+  <script src="review-queue.js?v=33-api-sucursal"></script>
 </body>
 </html>

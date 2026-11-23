@@ -1,3 +1,42 @@
+# Secretos
+.env
+.env.*
+!.env.example
+!**/.env.example
+
+# Dependencias y builds
+node_modules/
+dist/
+dist-ssr/
+.vercel/
+*.tsbuildinfo
+
+# Bases locales y respaldos
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.tar.gz
+*.zip
+
+# Logs y sistema
+logs/
+*.log
+.DS_Store
+Thumbs.db
+
+# Subidas e imágenes locales
+uploads/
+**/backend/data/
+
+# Editor
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Pruebas locales del escáner
 /claremmscan/tests/prueba/
-/claremmscan/.env*
-!/claremmscan/.env.example

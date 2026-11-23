@@ -1,0 +1,18 @@
+CLAREMM - Exportacion SQLite para Supabase
+
+NO ejecute CLAREMM_Importar_Supabase.sql en el proyecto actual.
+Ese script crea public.products con IDs bigint y rompe el catalogo relacional
+(UUID, organizations, branches, product_variants, inventory_levels).
+
+Estado revisado:
+- El dump local (326 productos, 376 tallas, 482 pares, 388 movimientos)
+  ya vive en Supabase como source_system=sqlite. No faltan IDs.
+- JUAREZ ya tiene mas pares que este SQLite. No se vuelve a sumar ni a bajar stock.
+- Las fichas e imagenes de este paquete se dejan fuera por ahora.
+- settings/Gemini no se sube.
+
+Si necesita un archivo consultable aparte del catalogo, ejecute en el SQL Editor:
+  claremmscan/supabase/sqlite-local-archive-schema.sql
+Eso crea sqlite_local_products, sqlite_local_size_inventory y sqlite_local_movements.
+No toca public.products. Despues:
+  node claremmscan/scripts/archive-sqlite-export-supabase.mjs --apply

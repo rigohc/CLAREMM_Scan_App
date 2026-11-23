@@ -1,0 +1,262 @@
+{
+  "generated_at": "2026-11-21T18:58:12.853Z",
+  "mode": "APPLY",
+  "file": "Document (1).xlsx",
+  "organization": {
+    "id": "a9017238-d45c-4e36-b4f0-17dc332aeb4c",
+    "name": "CLAREMM"
+  },
+  "branch": {
+    "id": "61d4f1c7-db48-426d-a64e-64dfb3e3d1df",
+    "code": "JUAREZ",
+    "name": "CLAREMM ZAPATERIA JUAREZ"
+  },
+  "excel": {
+    "rows": 61242,
+    "unique_estilo_color": 53218,
+    "duplicate_groups": 6194
+  },
+  "plan": {
+    "already_in_catalog": 613,
+    "create_preloaded": 52605,
+    "fill_existing_prices": 0,
+    "add_stock": 0,
+    "register_official_saz": 0
+  },
+  "will": [
+    "Crear 52605 fichas nuevas con estatus YA PRECARGADO EN SAZ.",
+    "Dejar intactos los registros que ya existen (precios e imágenes actuales)."
+  ],
+  "will_not": [
+    "No se pisa precio ni imagen de fichas actuales: este SAZ es antiguo y está desactualizado.",
+    "No se mueve inventario: el archivo no trae tallas ni existencias.",
+    "No se escribe en saz_product_registry: no es una carga oficial reciente.",
+    "No se toca inventory_items."
+  ],
+  "matched_sample": [
+    {
+      "key": "136606|NEGRO",
+      "excel_estilo": "136606",
+      "excel_color": "NEGRO",
+      "excel_precio": 1199,
+      "catalog_precio": 1199,
+      "catalog_source": "saz_excel",
+      "has_image": true,
+      "product_id": "77d7a703-e346-4fc6-9dc0-9aa8bf4659d0",
+      "excel_dups": 2
+    },
+    {
+      "key": "104836|NEGRO",
+      "excel_estilo": "104836",
+      "excel_color": "NEGRO",
+      "excel_precio": 1499,
+      "catalog_precio": 0,
+      "catalog_source": "saz_excel",
+      "has_image": true,
+      "product_id": "49bb4e95-a9c2-4e88-b135-2822ede5d876",
+      "excel_dups": 2
+    },
+    {
+      "key": "138502|VINO",
+      "excel_estilo": "138502",
+      "excel_color": "VINO",
+      "excel_precio": 1299,
+      "catalog_precio": 1299,
+      "catalog_source": "saz_excel",
+      "has_image": true,
+      "product_id": "8200e3e5-9056-4bf5-9a7f-a9f14c44d8cf",
+      "excel_dups": 2
+    },
+    {
+      "key": "138502|CAMEL",
+      "excel_estilo": "138502",
+      "excel_color": "CAMEL",
+      "excel_precio": 1299,
+      "catalog_precio": 1299,
+      "catalog_source": "saz_excel",
+      "has_image": true,
+      "product_id": "ee47baef-6e63-4367-9734-c68473aa6473",
+      "excel_dups": 2
+    },
+    {
+      "key": "138301|NEGRO",
+      "excel_estilo": "138301",
+      "excel_color": "NEGRO",
+      "excel_precio": 1599,
+      "catalog_precio": 1599,
+      "catalog_source": "saz_excel",
+      "has_image": true,
+      "product_id": "ce194c4e-8746-4aea-b66c-a236e8d3ed41",
+      "excel_dups": 2
+    },
+    {
+      "key": "985107|PERLA",
+      "excel_estilo": "985107",
+      "excel_color": "PERLA",
+      "excel_precio": 429,
+      "catalog_precio": 429,
+      "catalog_source": "saz_registered",
+      "has_image": false,
+      "product_id": "2d309580-ddd4-4d36-a774-b85d70b51bb1",
+      "excel_dups": 2
+    },
+    {
+      "key": "112804|BLANCO",
+      "excel_estilo": "112804",
+      "excel_color": "BLANCO",
+      "excel_precio": 699,
+      "catalog_precio": 699,
+      "catalog_source": "sqlite",
+      "has_image": true,
+      "product_id": "1f43dfe9-f6e8-49af-a46d-771853fcd043",
+      "excel_dups": 2
+    },
+    {
+      "key": "985021|PERLA",
+      "excel_estilo": "985021",
+      "excel_color": "PERLA",
+      "excel_precio": 459,
+      "catalog_precio": 459,
+      "catalog_source": "saz_registered",
+      "has_image": false,
+      "product_id": "85c50490-ce10-4454-8f01-3b39bf9a4b35",
+      "excel_dups": 2
+    },
+    {
+      "key": "WI2029|LATE",
+      "excel_estilo": "WI2029",
+      "excel_color": "LATE",
+      "excel_precio": 649,
+      "catalog_precio": 0,
+      "catalog_source": "excel_mirlo_wildcat",
+      "has_image": false,
+      "product_id": "e2360ac7-0763-4018-99c0-4e1ece45639c",
+      "excel_dups": 1
+    },
+    {
+      "key": "435503|CAFE",
+      "excel_estilo": "435503",
+      "excel_color": "CAFE",
+      "excel_precio": 799,
+      "catalog_precio": 939,
+      "catalog_source": "sqlite",
+      "has_image": false,
+      "product_id": "f8f3e271-c758-4577-b5e0-210cebbaeaa1",
+      "excel_dups": 2
+    },
+    {
+      "key": "137400|BLANCO",
+      "excel_estilo": "137400",
+      "excel_color": "BLANCO",
+      "excel_precio": 799,
+      "catalog_precio": 899,
+      "catalog_source": "excel_coqueta",
+      "has_image": false,
+      "product_id": "e6a35eda-2b73-4978-9200-e04bf9b7a730",
+      "excel_dups": 2
+    },
+    {
+      "key": "103903|ORO ROSADO",
+      "excel_estilo": "103903",
+      "excel_color": "ORO ROSADO",
+      "excel_precio": 549,
+      "catalog_precio": 659,
+      "catalog_source": "excel_coqueta",
+      "has_image": false,
+      "product_id": "36bb19e6-d99f-40a6-9c7f-4ec942193ba3",
+      "excel_dups": 1
+    }
+  ],
+  "create_sample": [
+    {
+      "estilo": "ZU9502",
+      "color": "BLANCO",
+      "marca": "ZULLY-MEN",
+      "precio": 285,
+      "corrida": "25.00-31.00"
+    },
+    {
+      "estilo": "ZU9502",
+      "color": "NEGRO",
+      "marca": "ZULLY-MEN",
+      "precio": 225,
+      "corrida": "25.00-31.00"
+    },
+    {
+      "estilo": "0ZOMBIE",
+      "color": "MARINO GRIS",
+      "marca": "BUBBLE GUMMERS",
+      "precio": 315,
+      "corrida": "15.00-17.50"
+    },
+    {
+      "estilo": "ZOMBI2",
+      "color": "VERDE NARANJA",
+      "marca": "BUBBLE GUMMERS",
+      "precio": 235,
+      "corrida": "15.00-17.50"
+    },
+    {
+      "estilo": "ZELLER",
+      "color": "BLANCO MARINO",
+      "marca": "BUBBLE GUMMERS",
+      "precio": 495,
+      "corrida": "18.00-21.50"
+    },
+    {
+      "estilo": "ZAM600",
+      "color": "NEGRO",
+      "marca": "ZAMPAR",
+      "precio": 225,
+      "corrida": "25.00-31.00"
+    },
+    {
+      "estilo": "ZAM600",
+      "color": "MIEL",
+      "marca": "ZAMPAR",
+      "precio": 295,
+      "corrida": "25.00-31.00"
+    },
+    {
+      "estilo": "Y10217",
+      "color": "MARINO",
+      "marca": "YOKER",
+      "precio": 185,
+      "corrida": "15.00-17.50"
+    },
+    {
+      "estilo": "Y10202",
+      "color": "CAFE",
+      "marca": "YOKER",
+      "precio": 135,
+      "corrida": "15.00-17.50"
+    },
+    {
+      "estilo": "Y10201",
+      "color": "NEGRO",
+      "marca": "YOKER",
+      "precio": 185,
+      "corrida": "15.00-17.50"
+    },
+    {
+      "estilo": "Y10016",
+      "color": "NEGRO ROJO",
+      "marca": "YOKER",
+      "precio": 150,
+      "corrida": "15.00-17.50"
+    },
+    {
+      "estilo": "Y10011",
+      "color": "MARINO",
+      "marca": "YOKER",
+      "precio": 150,
+      "corrida": "15.00-17.50"
+    }
+  ],
+  "applied": {
+    "created": 52605,
+    "catalog_products_after": 54066,
+    "preloaded_after": 52605,
+    "existing_prices_images_unchanged": true
+  }
+}

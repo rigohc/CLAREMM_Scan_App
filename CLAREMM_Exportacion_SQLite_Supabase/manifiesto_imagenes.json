@@ -1,0 +1,2395 @@
+[
+  {
+    "product_id": 12,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794440495184-467045.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794440495184-467045.jpg"
+  },
+  {
+    "product_id": 12,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794440494227.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794440494227.jpg"
+  },
+  {
+    "product_id": 12,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794440495233-668562.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794440495233-668562.jpg"
+  },
+  {
+    "product_id": 13,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794440631668-331863.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794440631668-331863.jpg"
+  },
+  {
+    "product_id": 13,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794440631375.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794440631375.jpg"
+  },
+  {
+    "product_id": 13,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794440631722-850253.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794440631722-850253.jpg"
+  },
+  {
+    "product_id": 16,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794503477640-580811.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794503477640-580811.jpg"
+  },
+  {
+    "product_id": 16,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794503477211.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794503477211.jpg"
+  },
+  {
+    "product_id": 16,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794503477711-127839.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794503477711-127839.jpg"
+  },
+  {
+    "product_id": 17,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794505396363-916429.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794505396363-916429.jpg"
+  },
+  {
+    "product_id": 17,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794505396010.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794505396010.jpg"
+  },
+  {
+    "product_id": 17,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794505396432-860507.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794505396432-860507.jpg"
+  },
+  {
+    "product_id": 18,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794505613842-337625.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794505613842-337625.jpg"
+  },
+  {
+    "product_id": 18,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794505613567.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794505613567.jpg"
+  },
+  {
+    "product_id": 18,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794505613890-677578.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794505613890-677578.jpg"
+  },
+  {
+    "product_id": 19,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794506346924-950077.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794506346924-950077.jpg"
+  },
+  {
+    "product_id": 19,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794506346476.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794506346476.jpg"
+  },
+  {
+    "product_id": 19,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794506347018-874046.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794506347018-874046.jpg"
+  },
+  {
+    "product_id": 20,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794506661158-672920.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794506661158-672920.jpg"
+  },
+  {
+    "product_id": 20,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794506660932.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794506660932.jpg"
+  },
+  {
+    "product_id": 20,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794506661210-995487.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794506661210-995487.jpg"
+  },
+  {
+    "product_id": 21,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794507604234-514275.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794507604234-514275.jpg"
+  },
+  {
+    "product_id": 21,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794507603766.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794507603766.jpg"
+  },
+  {
+    "product_id": 21,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794507604284-774474.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794507604284-774474.jpg"
+  },
+  {
+    "product_id": 22,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794507775183-381646.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794507775183-381646.jpg"
+  },
+  {
+    "product_id": 22,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794507774783.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794507774783.jpg"
+  },
+  {
+    "product_id": 22,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794507775305-774195.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794507775305-774195.jpg"
+  },
+  {
+    "product_id": 23,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794508056865-208401.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794508056865-208401.jpg"
+  },
+  {
+    "product_id": 23,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794508056414.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794508056414.jpg"
+  },
+  {
+    "product_id": 23,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794508056989-908516.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794508056989-908516.jpg"
+  },
+  {
+    "product_id": 24,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794508956332-988803.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794508956332-988803.jpg"
+  },
+  {
+    "product_id": 24,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794508955874.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794508955874.jpg"
+  },
+  {
+    "product_id": 24,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794508956452-175558.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794508956452-175558.jpg"
+  },
+  {
+    "product_id": 25,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794509860012-835365.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794509860012-835365.jpg"
+  },
+  {
+    "product_id": 25,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794509859548.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794509859548.jpg"
+  },
+  {
+    "product_id": 25,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794509860161-2708.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794509860161-2708.jpg"
+  },
+  {
+    "product_id": 26,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794512131992-223295.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794512131992-223295.jpg"
+  },
+  {
+    "product_id": 26,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794512130354.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794512130354.jpg"
+  },
+  {
+    "product_id": 26,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794512132085-786776.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794512132085-786776.jpg"
+  },
+  {
+    "product_id": 27,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794512313637-136180.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794512313637-136180.jpg"
+  },
+  {
+    "product_id": 27,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794512313181.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794512313181.jpg"
+  },
+  {
+    "product_id": 27,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794512313693-236510.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794512313693-236510.jpg"
+  },
+  {
+    "product_id": 28,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794512573419-358971.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794512573419-358971.jpg"
+  },
+  {
+    "product_id": 28,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794512572956.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794512572956.jpg"
+  },
+  {
+    "product_id": 28,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794512573527-470829.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794512573527-470829.jpg"
+  },
+  {
+    "product_id": 29,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794512707476-926140.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794512707476-926140.jpg"
+  },
+  {
+    "product_id": 29,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794512707027.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794512707027.jpg"
+  },
+  {
+    "product_id": 29,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794512707546-303211.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794512707546-303211.jpg"
+  },
+  {
+    "product_id": 30,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794512861939-287754.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794512861939-287754.jpg"
+  },
+  {
+    "product_id": 30,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794512861478.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794512861478.jpg"
+  },
+  {
+    "product_id": 30,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794512862055-245185.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794512862055-245185.jpg"
+  },
+  {
+    "product_id": 31,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794512985426-757234.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794512985426-757234.jpg"
+  },
+  {
+    "product_id": 31,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794512984999.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794512984999.jpg"
+  },
+  {
+    "product_id": 31,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794512985486-570967.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794512985486-570967.jpg"
+  },
+  {
+    "product_id": 32,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794513750485-850959.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794513750485-850959.jpg"
+  },
+  {
+    "product_id": 32,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794513749962.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794513749962.jpg"
+  },
+  {
+    "product_id": 32,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794513750576-503070.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794513750576-503070.jpg"
+  },
+  {
+    "product_id": 33,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794513837904-982749.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794513837904-982749.jpg"
+  },
+  {
+    "product_id": 33,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794513837582.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794513837582.jpg"
+  },
+  {
+    "product_id": 33,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794513837959-833267.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794513837959-833267.jpg"
+  },
+  {
+    "product_id": 34,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794514010070-310566.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794514010070-310566.jpg"
+  },
+  {
+    "product_id": 34,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794514009600.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794514009600.jpg"
+  },
+  {
+    "product_id": 34,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794514010129-482265.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794514010129-482265.jpg"
+  },
+  {
+    "product_id": 35,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794514162544-760840.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794514162544-760840.jpg"
+  },
+  {
+    "product_id": 35,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794514162121.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794514162121.jpg"
+  },
+  {
+    "product_id": 35,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794514162649-839944.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794514162649-839944.jpg"
+  },
+  {
+    "product_id": 36,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794514220450-258251.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794514220450-258251.jpg"
+  },
+  {
+    "product_id": 36,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794514220135.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794514220135.jpg"
+  },
+  {
+    "product_id": 36,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794514220515-136661.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794514220515-136661.jpg"
+  },
+  {
+    "product_id": 37,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794514278930-840046.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794514278930-840046.jpg"
+  },
+  {
+    "product_id": 37,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794514278488.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794514278488.jpg"
+  },
+  {
+    "product_id": 37,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794514278979-674345.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794514278979-674345.jpg"
+  },
+  {
+    "product_id": 38,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794514354586-724843.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794514354586-724843.jpg"
+  },
+  {
+    "product_id": 38,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794514354191.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794514354191.jpg"
+  },
+  {
+    "product_id": 38,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794514354663-685610.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794514354663-685610.jpg"
+  },
+  {
+    "product_id": 39,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794514485064-5258.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794514485064-5258.jpg"
+  },
+  {
+    "product_id": 39,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794514484574.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794514484574.jpg"
+  },
+  {
+    "product_id": 39,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794514485177-976169.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794514485177-976169.jpg"
+  },
+  {
+    "product_id": 40,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794514625482-843434.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794514625482-843434.jpg"
+  },
+  {
+    "product_id": 40,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794514625075.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794514625075.jpg"
+  },
+  {
+    "product_id": 40,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794514625528-286652.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794514625528-286652.jpg"
+  },
+  {
+    "product_id": 41,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794514673810-614510.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794514673810-614510.jpg"
+  },
+  {
+    "product_id": 41,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794514673502.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794514673502.jpg"
+  },
+  {
+    "product_id": 41,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794514673895-253275.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794514673895-253275.jpg"
+  },
+  {
+    "product_id": 42,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794514797091-950610.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794514797091-950610.jpg"
+  },
+  {
+    "product_id": 42,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794514796615.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794514796615.jpg"
+  },
+  {
+    "product_id": 42,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794514797224-654315.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794514797224-654315.jpg"
+  },
+  {
+    "product_id": 43,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794514846678-777326.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794514846678-777326.jpg"
+  },
+  {
+    "product_id": 43,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794514846276.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794514846276.jpg"
+  },
+  {
+    "product_id": 43,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794514846722-546718.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794514846722-546718.jpg"
+  },
+  {
+    "product_id": 44,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794514891550-856742.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794514891550-856742.jpg"
+  },
+  {
+    "product_id": 44,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794514891322.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794514891322.jpg"
+  },
+  {
+    "product_id": 44,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794514891601-852431.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794514891601-852431.jpg"
+  },
+  {
+    "product_id": 45,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794521517459-37897.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794521517459-37897.jpg"
+  },
+  {
+    "product_id": 45,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794521516857.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794521516857.jpg"
+  },
+  {
+    "product_id": 45,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794521517511-528408.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794521517511-528408.jpg"
+  },
+  {
+    "product_id": 46,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794521523943-491544.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794521523943-491544.jpg"
+  },
+  {
+    "product_id": 46,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794521523410.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794521523410.jpg"
+  },
+  {
+    "product_id": 46,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794521524002-955346.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794521524002-955346.jpg"
+  },
+  {
+    "product_id": 47,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794521686528-729761.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794521686528-729761.jpg"
+  },
+  {
+    "product_id": 47,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794521685971.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794521685971.jpg"
+  },
+  {
+    "product_id": 47,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794521686579-793097.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794521686579-793097.jpg"
+  },
+  {
+    "product_id": 48,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794521698244-89745.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794521698244-89745.jpg"
+  },
+  {
+    "product_id": 48,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794521697739.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794521697739.jpg"
+  },
+  {
+    "product_id": 48,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794521698302-223579.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794521698302-223579.jpg"
+  },
+  {
+    "product_id": 49,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794521800911-299204.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794521800911-299204.jpg"
+  },
+  {
+    "product_id": 49,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794521800358.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794521800358.jpg"
+  },
+  {
+    "product_id": 49,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794521801050-614624.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794521801050-614624.jpg"
+  },
+  {
+    "product_id": 50,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794521819604-186685.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794521819604-186685.jpg"
+  },
+  {
+    "product_id": 50,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794521819026.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794521819026.jpg"
+  },
+  {
+    "product_id": 50,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794521819691-574582.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794521819691-574582.jpg"
+  },
+  {
+    "product_id": 51,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794521852944-35937.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794521852944-35937.jpg"
+  },
+  {
+    "product_id": 51,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794521852491.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794521852491.jpg"
+  },
+  {
+    "product_id": 51,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794521853020-816236.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794521853020-816236.jpg"
+  },
+  {
+    "product_id": 52,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794521895759-922903.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794521895759-922903.jpg"
+  },
+  {
+    "product_id": 52,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794521895220.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794521895220.jpg"
+  },
+  {
+    "product_id": 52,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794521895838-673732.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794521895838-673732.jpg"
+  },
+  {
+    "product_id": 53,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794521911926-807168.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794521911926-807168.jpg"
+  },
+  {
+    "product_id": 53,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794521911483.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794521911483.jpg"
+  },
+  {
+    "product_id": 53,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794521911975-612968.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794521911975-612968.jpg"
+  },
+  {
+    "product_id": 54,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794521952268-700603.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794521952268-700603.jpg"
+  },
+  {
+    "product_id": 54,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794521951875.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794521951875.jpg"
+  },
+  {
+    "product_id": 54,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794521952357-148975.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794521952357-148975.jpg"
+  },
+  {
+    "product_id": 55,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794522014915-93502.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794522014915-93502.jpg"
+  },
+  {
+    "product_id": 55,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794522014450.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794522014450.jpg"
+  },
+  {
+    "product_id": 55,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794522014974-64126.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794522014974-64126.jpg"
+  },
+  {
+    "product_id": 56,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794522015473-204539.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794522015473-204539.jpg"
+  },
+  {
+    "product_id": 56,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794522015023.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794522015023.jpg"
+  },
+  {
+    "product_id": 56,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794522015537-550788.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794522015537-550788.jpg"
+  },
+  {
+    "product_id": 57,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794522048683-411571.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794522048683-411571.jpg"
+  },
+  {
+    "product_id": 57,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794522048148.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794522048148.jpg"
+  },
+  {
+    "product_id": 57,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794522048726-925197.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794522048726-925197.jpg"
+  },
+  {
+    "product_id": 58,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794522079553-94833.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794522079553-94833.jpg"
+  },
+  {
+    "product_id": 58,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794522079047.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794522079047.jpg"
+  },
+  {
+    "product_id": 58,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794522079600-57150.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794522079600-57150.jpg"
+  },
+  {
+    "product_id": 59,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794522093962-501924.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794522093962-501924.jpg"
+  },
+  {
+    "product_id": 59,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794522093471.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794522093471.jpg"
+  },
+  {
+    "product_id": 59,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794522094010-314542.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794522094010-314542.jpg"
+  },
+  {
+    "product_id": 60,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794522173807-800213.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794522173807-800213.jpg"
+  },
+  {
+    "product_id": 60,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794522173364.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794522173364.jpg"
+  },
+  {
+    "product_id": 60,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794522173856-250941.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794522173856-250941.jpg"
+  },
+  {
+    "product_id": 61,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794522277252-315635.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794522277252-315635.jpg"
+  },
+  {
+    "product_id": 61,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794522277325-595311.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794522277325-595311.jpg"
+  },
+  {
+    "product_id": 62,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794522325214-879194.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794522325214-879194.jpg"
+  },
+  {
+    "product_id": 62,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794522324711.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794522324711.jpg"
+  },
+  {
+    "product_id": 62,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794522325303-871574.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794522325303-871574.jpg"
+  },
+  {
+    "product_id": 64,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794522516359-355748.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794522516359-355748.jpg"
+  },
+  {
+    "product_id": 64,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794522515789.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794522515789.jpg"
+  },
+  {
+    "product_id": 64,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794522516490-491140.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794522516490-491140.jpg"
+  },
+  {
+    "product_id": 65,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794522565746-598714.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794522565746-598714.jpg"
+  },
+  {
+    "product_id": 65,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794522565234.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794522565234.jpg"
+  },
+  {
+    "product_id": 65,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794522565774-217764.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794522565774-217764.jpg"
+  },
+  {
+    "product_id": 66,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794522610024-805859.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794522610024-805859.jpg"
+  },
+  {
+    "product_id": 66,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794522609632.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794522609632.jpg"
+  },
+  {
+    "product_id": 66,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794522610085-490619.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794522610085-490619.jpg"
+  },
+  {
+    "product_id": 67,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794522668848-678090.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794522668848-678090.jpg"
+  },
+  {
+    "product_id": 67,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794522668472.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794522668472.jpg"
+  },
+  {
+    "product_id": 67,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794522668892-107319.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794522668892-107319.jpg"
+  },
+  {
+    "product_id": 68,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794522748843-589042.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794522748843-589042.jpg"
+  },
+  {
+    "product_id": 68,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794522748275.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794522748275.jpg"
+  },
+  {
+    "product_id": 68,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794522748897-575061.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794522748897-575061.jpg"
+  },
+  {
+    "product_id": 69,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794522797055-527956.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794522797055-527956.jpg"
+  },
+  {
+    "product_id": 69,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794522796555.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794522796555.jpg"
+  },
+  {
+    "product_id": 69,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794522797208-159666.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794522797208-159666.jpg"
+  },
+  {
+    "product_id": 70,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794522836768-323317.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794522836768-323317.jpg"
+  },
+  {
+    "product_id": 70,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794522836222.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794522836222.jpg"
+  },
+  {
+    "product_id": 70,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794522836852-618142.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794522836852-618142.jpg"
+  },
+  {
+    "product_id": 71,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794522919853-625835.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794522919853-625835.jpg"
+  },
+  {
+    "product_id": 71,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794522919468.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794522919468.jpg"
+  },
+  {
+    "product_id": 71,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794522919932-892528.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794522919932-892528.jpg"
+  },
+  {
+    "product_id": 72,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794591428957-38799.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794591428957-38799.jpg"
+  },
+  {
+    "product_id": 72,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794591426939.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794591426939.jpg"
+  },
+  {
+    "product_id": 72,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794591429012-362279.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794591429012-362279.jpg"
+  },
+  {
+    "product_id": 73,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794591496356-634067.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794591496356-634067.jpg"
+  },
+  {
+    "product_id": 73,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794591495884.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794591495884.jpg"
+  },
+  {
+    "product_id": 73,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794591496427-628668.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794591496427-628668.jpg"
+  },
+  {
+    "product_id": 74,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794591633174-678346.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794591633174-678346.jpg"
+  },
+  {
+    "product_id": 74,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794591632592.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794591632592.jpg"
+  },
+  {
+    "product_id": 74,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794591633209-583448.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794591633209-583448.jpg"
+  },
+  {
+    "product_id": 75,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794591670926-903303.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794591670926-903303.jpg"
+  },
+  {
+    "product_id": 75,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794591670396.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794591670396.jpg"
+  },
+  {
+    "product_id": 75,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794591671025-552184.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794591671025-552184.jpg"
+  },
+  {
+    "product_id": 76,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794591724418-514195.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794591724418-514195.jpg"
+  },
+  {
+    "product_id": 76,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794591723913.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794591723913.jpg"
+  },
+  {
+    "product_id": 76,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794591724473-805178.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794591724473-805178.jpg"
+  },
+  {
+    "product_id": 77,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794591799712-58313.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794591799712-58313.jpg"
+  },
+  {
+    "product_id": 77,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794591799131.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794591799131.jpg"
+  },
+  {
+    "product_id": 77,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794591799837-835684.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794591799837-835684.jpg"
+  },
+  {
+    "product_id": 78,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794591843316-842710.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794591843316-842710.jpg"
+  },
+  {
+    "product_id": 78,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794591842693.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794591842693.jpg"
+  },
+  {
+    "product_id": 78,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794591843437-507385.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794591843437-507385.jpg"
+  },
+  {
+    "product_id": 79,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794591964416-337322.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794591964416-337322.jpg"
+  },
+  {
+    "product_id": 79,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794591963874.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794591963874.jpg"
+  },
+  {
+    "product_id": 79,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794591964470-505603.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794591964470-505603.jpg"
+  },
+  {
+    "product_id": 126,
+    "campo": "imagen",
+    "referencia_sqlite": "/uploads/prod-500-1794603157784-871733.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/prod-500-1794603157784-871733.jpg"
+  },
+  {
+    "product_id": 126,
+    "campo": "ficha_imagen",
+    "referencia_sqlite": "/uploads/ficha-webcam-1794603155813.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/ficha-webcam-1794603155813.jpg"
+  },
+  {
+    "product_id": 126,
+    "campo": "imagen_thumbnail",
+    "referencia_sqlite": "/uploads/thumb-100-1794603157850-877698.jpg",
+    "estado": "incluido",
+    "archivo": "uploads/thumb-100-1794603157850-877698.jpg"
+  },
+  {
+    "product_id": 194,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 1",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 195,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 1",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 196,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 1",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 197,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 1",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 198,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 1",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 199,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 1",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 200,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 1",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 201,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 1",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 202,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 1",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 203,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 1",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 204,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 1",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 205,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 1",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 206,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 1",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 207,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 1",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 208,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 1",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 209,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 1",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 210,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 1",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 211,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 1",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 212,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 1",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 213,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 2",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 214,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 2",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 215,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 2",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 216,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 2",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 217,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 2",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 218,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 2",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 219,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 2",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 220,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 2",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 221,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 2",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 222,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 2",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 223,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 2",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 224,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 2",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 225,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 2",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 226,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 2",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 227,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 2",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 228,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 2",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 229,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 2",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 230,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 3",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 231,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 3",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 232,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 3",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 233,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 3",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 234,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 3",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 235,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 3",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 236,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 3",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 237,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 3",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 238,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 3",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 239,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 3",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 240,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 3",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 241,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 3",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 242,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 3",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 243,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 4",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 244,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 4",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 245,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 4",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 246,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 4",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 247,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 4",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 248,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 4",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 249,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 4",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 250,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 4",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 251,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 4",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 252,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 4",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 253,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 4",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 254,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 4",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 255,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 4",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 256,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 5",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 257,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 5",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 258,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 5",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 259,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 5",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 260,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 5",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 261,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 5",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 262,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 5",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 263,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 5",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 264,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 5",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 265,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 5",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 266,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 5",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 267,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 5",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 268,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 6",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 269,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 6",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 270,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 6",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 271,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 6",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 272,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 6",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 273,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 6",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 274,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 6",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 275,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 6",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 276,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 6",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 277,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 6",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 278,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 6",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 279,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 7",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 280,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 7",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 281,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 7",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 282,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 7",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 283,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 8",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 284,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 8",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 285,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 8",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 286,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 8",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 287,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 9",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 288,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 9",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 289,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 9",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 290,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 9",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 291,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 10",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 292,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 10",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 293,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 10",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 294,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 10",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 295,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 10",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 296,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 10",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 297,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 10",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 298,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 10",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 299,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 10",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 300,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 10",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 301,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 10",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 302,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 10",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 303,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 10",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 304,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 11",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 305,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 11",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 306,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 11",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 307,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 11",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 308,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 11",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 309,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 11",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 310,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 11",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 311,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 11",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 312,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 11",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 313,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 11",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 314,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 11",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 315,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 11",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 316,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 12",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 317,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 12",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 318,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 12",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 319,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 12",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 320,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 12",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 321,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 12",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 322,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 12",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 323,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 12",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 324,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 12",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 325,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 12",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 326,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 13",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 327,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 13",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 328,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 13",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 329,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 13",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 330,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 13",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 331,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 13",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 332,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 13",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 333,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 13",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 334,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 13",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 335,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 13",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 336,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 13",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 337,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 13",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 338,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 13",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 339,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 13",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 340,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 13",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 341,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 13",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 342,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 14",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 343,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 14",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 344,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 14",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 345,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 14",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 346,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 14",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 347,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 14",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 348,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 14",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 349,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 14",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 350,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 14",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 351,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 14",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 352,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 14",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 353,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 14",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 354,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 14",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 355,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 14",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 356,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 14",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 357,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 14",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 358,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 14",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 359,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 15",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 360,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 15",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 361,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 15",
+    "estado": "referencia_sin_archivo_local"
+  },
+  {
+    "product_id": 362,
+    "campo": "imagen",
+    "referencia_sqlite": "Foto 15",
+    "estado": "referencia_sin_archivo_local"
+  }
+]

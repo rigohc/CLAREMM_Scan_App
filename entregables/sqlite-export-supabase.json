@@ -1,0 +1,129 @@
+{
+  "generated_at": "2026-11-21T18:45:45.368Z",
+  "mode": "APPLY",
+  "dump": {
+    "file": "datos.json",
+    "sha256": "d124d539de128b0b70a58a6d4ac866c4a96ac2bb0d7f079fea655e56c4023f4d",
+    "products": 326,
+    "inventory_rows": 376,
+    "pairs": 482,
+    "movements": 388
+  },
+  "organization": {
+    "id": "a9017238-d45c-4e36-b4f0-17dc332aeb4c",
+    "name": "CLAREMM"
+  },
+  "branch": {
+    "id": "61d4f1c7-db48-426d-a64e-64dfb3e3d1df",
+    "code": "JUAREZ",
+    "name": "CLAREMM ZAPATERIA JUAREZ"
+  },
+  "relational_before": {
+    "products": 1413,
+    "sqlite_products": 326,
+    "sources": {
+      "saz_excel": 810,
+      "sqlite": 326,
+      "saz_registered": 193,
+      "excel_mirlo_wildcat": 84
+    },
+    "juarez_pairs": 4772
+  },
+  "safety": {
+    "dump_sql_not_executed": true,
+    "fichas_skipped": true,
+    "images_not_uploaded": true,
+    "prices_not_changed": true,
+    "stock_not_set_down": true,
+    "inventory_items_untouched": true,
+    "sqlite_ids_already_in_catalog": 326,
+    "sqlite_ids_missing": [],
+    "skipped_duplicate_style_color_pairs": 8,
+    "skipped_duplicate_rows": [
+      {
+        "estilo": "435503",
+        "color": "CAFE",
+        "size": "21.5",
+        "dumpQty": 2,
+        "current": 1,
+        "skipped_add": 1
+      },
+      {
+        "estilo": "435503",
+        "color": "CAFE",
+        "size": "22.0",
+        "dumpQty": 2,
+        "current": 1,
+        "skipped_add": 1
+      },
+      {
+        "estilo": "435503",
+        "color": "CAFE",
+        "size": "23.0",
+        "dumpQty": 2,
+        "current": 1,
+        "skipped_add": 1
+      },
+      {
+        "estilo": "435503",
+        "color": "CAFE",
+        "size": "24.0",
+        "dumpQty": 4,
+        "current": 2,
+        "skipped_add": 2
+      },
+      {
+        "estilo": "435503",
+        "color": "CAFE",
+        "size": "24.5",
+        "dumpQty": 2,
+        "current": 1,
+        "skipped_add": 1
+      },
+      {
+        "estilo": "435503",
+        "color": "CAFE",
+        "size": "25.5",
+        "dumpQty": 2,
+        "current": 1,
+        "skipped_add": 1
+      },
+      {
+        "estilo": "435503",
+        "color": "CAFE",
+        "size": "27.0",
+        "dumpQty": 2,
+        "current": 1,
+        "skipped_add": 1
+      }
+    ]
+  },
+  "sidecar_tables": {
+    "products": false,
+    "inventory": false,
+    "movements": false
+  },
+  "will": [
+    "Registrar el dump como corrida de archivo. No se crean fichas ni se mueve stock."
+  ],
+  "will_not": [
+    "No se ejecuta CLAREMM_Importar_Supabase.sql.",
+    "No se crea ni altera public.products.",
+    "No se suben ficha_imagen ni archivos de foto.",
+    "No se pisa precio > 0 ni imagen.",
+    "No se baja ni se vuelve a sumar stock de SQLite: el catálogo ya lo tiene y JUAREZ está más alto.",
+    "No se toca inventory_items."
+  ],
+  "sidecar_written": {
+    "products": 0,
+    "inventory": 0,
+    "movements": 0,
+    "used": false
+  },
+  "relational_after": {
+    "products": 1413,
+    "sqlite_products": 326,
+    "juarez_pairs": 4772,
+    "unchanged": true
+  }
+}

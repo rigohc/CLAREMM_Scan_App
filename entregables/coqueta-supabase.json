@@ -1,0 +1,1401 @@
+{
+  "generated_at": "2026-11-21T18:49:54.218Z",
+  "mode": "APPLY",
+  "file": "COQUETA CLAREMM 16_11_26 REVISAR .xlsx",
+  "organization": {
+    "id": "a9017238-d45c-4e36-b4f0-17dc332aeb4c",
+    "name": "CLAREMM"
+  },
+  "branch": {
+    "id": "61d4f1c7-db48-426d-a64e-64dfb3e3d1df",
+    "code": "JUAREZ",
+    "name": "CLAREMM ZAPATERIA JUAREZ"
+  },
+  "excel": {
+    "rows": 144,
+    "products": 96,
+    "pairs": 576,
+    "with_price": 89,
+    "without_price": 7,
+    "brands": {
+      "COQUETA": 96
+    },
+    "total_mismatches": []
+  },
+  "plan": {
+    "create_products": 48,
+    "create_pairs": 173,
+    "match_existing": 48,
+    "fill_missing_prices": 1,
+    "fill_empty_fields": 18,
+    "add_stock_sizes": 444,
+    "add_pairs": 576,
+    "skipped_no_price": 7,
+    "already_applied_sizes": 0,
+    "already_covered_sizes": 0,
+    "will_not": [
+      "No se registra en SAZ.",
+      "No se pisa precio > 0 ni imagen.",
+      "No se baja stock: solo se suman pares del Excel.",
+      "Este Excel crea fichas aunque no tengan precio.",
+      "No se registra en saz_product_registry: queda pendiente de SAZ.",
+      "No se toca inventory_items."
+    ]
+  },
+  "juarez_pairs_now": 4772,
+  "juarez_pairs_after": 5348,
+  "creates": [
+    {
+      "estilo": "181515",
+      "color": "ROSA",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 569,
+      "pairs": 2,
+      "sizes": {
+        "18.0": 2
+      }
+    },
+    {
+      "estilo": "181515",
+      "color": "NEGRO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 569,
+      "pairs": 2,
+      "sizes": {
+        "18.0": 2
+      }
+    },
+    {
+      "estilo": "50402A",
+      "color": "NEGRO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 729,
+      "pairs": 8,
+      "sizes": {
+        "18.0": 1,
+        "18.5": 1,
+        "19.0": 1,
+        "20.0": 1,
+        "20.5": 1,
+        "21.0": 1,
+        "21.5": 1,
+        "24.0": 1
+      }
+    },
+    {
+      "estilo": "123406",
+      "color": "BLANCO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 649,
+      "pairs": 1,
+      "sizes": {
+        "18.0": 1
+      }
+    },
+    {
+      "estilo": "188501",
+      "color": "ORO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 699,
+      "pairs": 1,
+      "sizes": {
+        "21.0": 1
+      }
+    },
+    {
+      "estilo": "045107",
+      "color": "BLANCO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 699,
+      "pairs": 10,
+      "sizes": {
+        "18.0": 1,
+        "18.5": 1,
+        "19.0": 1,
+        "19.5": 1,
+        "20.0": 1,
+        "20.5": 1,
+        "21.0": 1,
+        "21.5": 1,
+        "23.0": 1,
+        "25.0": 1
+      }
+    },
+    {
+      "estilo": "045103",
+      "color": "NEGRO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 699,
+      "pairs": 2,
+      "sizes": {
+        "20.0": 1,
+        "21.0": 1
+      }
+    },
+    {
+      "estilo": "045005",
+      "color": "PERLA",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 729,
+      "pairs": 3,
+      "sizes": {
+        "19.0": 1,
+        "20.0": 1,
+        "21.0": 1
+      }
+    },
+    {
+      "estilo": "188602",
+      "color": "BLANCO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 699,
+      "pairs": 1,
+      "sizes": {
+        "18.0": 1
+      }
+    },
+    {
+      "estilo": "188602",
+      "color": "ORO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 699,
+      "pairs": 2,
+      "sizes": {
+        "18.0": 1,
+        "20.0": 1
+      }
+    },
+    {
+      "estilo": "045107",
+      "color": "ARENA",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 699,
+      "pairs": 4,
+      "sizes": {
+        "18.5": 1,
+        "19.5": 1,
+        "22.5": 1,
+        "23.0": 1
+      }
+    },
+    {
+      "estilo": "38700A",
+      "color": "NEGRO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 699,
+      "pairs": 4,
+      "sizes": {
+        "18.5": 1,
+        "24.0": 1,
+        "25.5": 1,
+        "26.0": 1
+      }
+    },
+    {
+      "estilo": "103718",
+      "color": "SALMON",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 599,
+      "pairs": 1,
+      "sizes": {
+        "20.0": 1
+      }
+    },
+    {
+      "estilo": "112805",
+      "color": "ARENA",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 759,
+      "pairs": 1,
+      "sizes": {
+        "18.0": 1
+      }
+    },
+    {
+      "estilo": "103714",
+      "color": "ROSA",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 659,
+      "pairs": 1,
+      "sizes": {
+        "18.0": 1
+      }
+    },
+    {
+      "estilo": "103903",
+      "color": "ORO ROSADO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 659,
+      "pairs": 1,
+      "sizes": {
+        "18.0": 1
+      }
+    },
+    {
+      "estilo": "112805",
+      "color": "MIEL",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 759,
+      "pairs": 5,
+      "sizes": {
+        "18.0": 1,
+        "19.0": 1,
+        "25.5": 2,
+        "26.0": 1
+      }
+    },
+    {
+      "estilo": "112517",
+      "color": "SALMON",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 699,
+      "pairs": 1,
+      "sizes": {
+        "21.0": 1
+      }
+    },
+    {
+      "estilo": "137400",
+      "color": "BLANCO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 899,
+      "pairs": 7,
+      "sizes": {
+        "18.0": 1,
+        "19.0": 1,
+        "20.0": 1,
+        "23.0": 1,
+        "24.0": 2,
+        "26.0": 1
+      }
+    },
+    {
+      "estilo": "203402",
+      "color": "BLANCO FIUSHA",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 790,
+      "pairs": 5,
+      "sizes": {
+        "18.0": 1,
+        "20.0": 1,
+        "23.0": 1,
+        "24.0": 1,
+        "25.0": 1
+      }
+    },
+    {
+      "estilo": "203903",
+      "color": "BLANCO FIUSHA",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 790,
+      "pairs": 3,
+      "sizes": {
+        "18.0": 1,
+        "19.0": 1,
+        "20.0": 1
+      }
+    },
+    {
+      "estilo": "092918",
+      "color": "NEGRO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 1059,
+      "pairs": 4,
+      "sizes": {
+        "18.0": 1,
+        "19.0": 1,
+        "20.0": 1,
+        "23.0": 1
+      }
+    },
+    {
+      "estilo": "092920",
+      "color": "NEGRO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 969,
+      "pairs": 6,
+      "sizes": {
+        "18.0": 1,
+        "20.0": 1,
+        "21.0": 1,
+        "22.0": 1,
+        "26.0": 2
+      }
+    },
+    {
+      "estilo": "097902",
+      "color": "NEGRO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 1089,
+      "pairs": 3,
+      "sizes": {
+        "18.0": 1,
+        "19.0": 1,
+        "26.0": 1
+      }
+    },
+    {
+      "estilo": "097903",
+      "color": "NEGRO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 899,
+      "pairs": 14,
+      "sizes": {
+        "18.0": 1,
+        "19.0": 2,
+        "20.0": 2,
+        "21.0": 2,
+        "22.0": 2,
+        "23.0": 1,
+        "24.0": 2,
+        "25.0": 1,
+        "26.0": 1
+      }
+    },
+    {
+      "estilo": "097904",
+      "color": "CAFE CLARO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 959,
+      "pairs": 8,
+      "sizes": {
+        "18.0": 1,
+        "19.0": 2,
+        "20.0": 1,
+        "21.0": 1,
+        "23.0": 1,
+        "24.0": 1,
+        "26.0": 1
+      }
+    },
+    {
+      "estilo": "431604",
+      "color": "CAFE CLARO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 959,
+      "pairs": 10,
+      "sizes": {
+        "18.0": 2,
+        "19.0": 1,
+        "21.0": 1,
+        "22.0": 2,
+        "23.0": 1,
+        "24.0": 2,
+        "25.0": 1
+      }
+    },
+    {
+      "estilo": "092318",
+      "color": "MIEL",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 899,
+      "pairs": 0,
+      "sizes": {}
+    },
+    {
+      "estilo": "092318",
+      "color": "NEGRO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 899,
+      "pairs": 11,
+      "sizes": {
+        "18.0": 2,
+        "19.0": 1,
+        "20.0": 2,
+        "21.0": 2,
+        "22.0": 2,
+        "25.0": 1,
+        "26.0": 1
+      }
+    },
+    {
+      "estilo": "92317A",
+      "color": "NEGRO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 949,
+      "pairs": 3,
+      "sizes": {
+        "18.0": 1,
+        "21.0": 1,
+        "26.0": 1
+      }
+    },
+    {
+      "estilo": "698003",
+      "color": "ROSA",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 789,
+      "pairs": 7,
+      "sizes": {
+        "18.0": 2,
+        "19.0": 1,
+        "20.0": 2,
+        "21.0": 2
+      }
+    },
+    {
+      "estilo": "092316",
+      "color": "NEGRO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 949,
+      "pairs": 1,
+      "sizes": {
+        "19.0": 1
+      }
+    },
+    {
+      "estilo": "094700",
+      "color": "MIEL",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 759,
+      "pairs": 1,
+      "sizes": {
+        "18.0": 1
+      }
+    },
+    {
+      "estilo": "947041",
+      "color": "ROSA",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 749,
+      "pairs": 2,
+      "sizes": {
+        "18.0": 2
+      }
+    },
+    {
+      "estilo": "097902",
+      "color": "LADRILLO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 1089,
+      "pairs": 2,
+      "sizes": {
+        "18.0": 1,
+        "19.0": 1
+      }
+    },
+    {
+      "estilo": "203905",
+      "color": "BLANCO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 729,
+      "pairs": 4,
+      "sizes": {
+        "18.0": 2,
+        "20.0": 1,
+        "21.0": 1
+      }
+    },
+    {
+      "estilo": "155001",
+      "color": "ORO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 659,
+      "pairs": 1,
+      "sizes": {
+        "18.0": 1
+      }
+    },
+    {
+      "estilo": "203501",
+      "color": "MULTICOLOR",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 0,
+      "pairs": 1,
+      "sizes": {
+        "21.0": 1
+      }
+    },
+    {
+      "estilo": "133700",
+      "color": "BLANCO",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 0,
+      "pairs": 2,
+      "sizes": {
+        "20.0": 1,
+        "26.0": 1
+      }
+    },
+    {
+      "estilo": "431605",
+      "color": "BEIGE",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 0,
+      "pairs": 9,
+      "sizes": {
+        "18.0": 1,
+        "19.0": 1,
+        "20.0": 1,
+        "21.0": 1,
+        "22.0": 2,
+        "23.0": 2,
+        "24.0": 1
+      }
+    },
+    {
+      "estilo": "204303",
+      "color": "BLANCO ROSA",
+      "marca": "COQUETA",
+      "linea": "NINAS",
+      "precio": 699,
+      "pairs": 2,
+      "sizes": {
+        "18.0": 2
+      }
+    },
+    {
+      "estilo": "92318A",
+      "color": "NEGRO",
+      "marca": "COQUETA",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 1,
+      "sizes": {
+        "22.0": 1
+      }
+    },
+    {
+      "estilo": "54402A",
+      "color": "NEGRO",
+      "marca": "COQUETA",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 2,
+      "sizes": {
+        "21.5": 1,
+        "24.5": 1
+      }
+    },
+    {
+      "estilo": "203303",
+      "color": "NUDE BEIGE",
+      "marca": "COQUETA",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 2,
+      "sizes": {
+        "24.0": 1,
+        "25.0": 1
+      }
+    },
+    {
+      "estilo": "188602",
+      "color": "BLANCO PIEDRA",
+      "marca": "COQUETA",
+      "linea": "DAMA",
+      "precio": 699,
+      "pairs": 1,
+      "sizes": {
+        "23.0": 1
+      }
+    },
+    {
+      "estilo": "188602",
+      "color": "ORO PIEL",
+      "marca": "COQUETA",
+      "linea": "DAMA",
+      "precio": 699,
+      "pairs": 3,
+      "sizes": {
+        "22.0": 1,
+        "23.0": 1,
+        "24.0": 1
+      }
+    },
+    {
+      "estilo": "431703",
+      "color": "NEGRO",
+      "marca": "COQUETA",
+      "linea": "DAMA",
+      "precio": 0,
+      "pairs": 7,
+      "sizes": {
+        "21.5": 1,
+        "22.5": 2,
+        "22.0": 1,
+        "25.5": 1,
+        "26.0": 2
+      }
+    },
+    {
+      "estilo": "112903",
+      "color": "BEIGE",
+      "marca": "COQUETA",
+      "linea": "DAMA",
+      "precio": 699,
+      "pairs": 1,
+      "sizes": {
+        "26.0": 1
+      }
+    }
+  ],
+  "matched_existing": [
+    {
+      "excel_estilo": "043502",
+      "catalog_estilo": "043502",
+      "color": "NEGRO",
+      "product_id": "179f4f00-b367-418d-ae61-3274423f13b6",
+      "catalog_precio": 759,
+      "excel_precio": 759,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 20,
+      "activo": true
+    },
+    {
+      "excel_estilo": "059000",
+      "catalog_estilo": "059000",
+      "color": "NEGRO",
+      "product_id": "08fccda5-aef5-4c04-a815-f6f3498fa87c",
+      "catalog_precio": 799,
+      "excel_precio": 799,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 16,
+      "activo": true
+    },
+    {
+      "excel_estilo": "059601",
+      "catalog_estilo": "059601",
+      "color": "NEGRO",
+      "product_id": "bad48c24-8b7c-4e26-a8d4-945ef601fe4b",
+      "catalog_precio": 799,
+      "excel_precio": 799,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 12,
+      "activo": true
+    },
+    {
+      "excel_estilo": "054906",
+      "catalog_estilo": "054906",
+      "color": "NEGRO",
+      "product_id": "4c40ac7b-c53c-4e70-8681-fd06c5d568a7",
+      "catalog_precio": 769,
+      "excel_precio": 769,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 2,
+      "activo": true
+    },
+    {
+      "excel_estilo": "38715A",
+      "catalog_estilo": "38715A",
+      "color": "NEGRO",
+      "product_id": "24534451-81bd-4639-9cd6-51ad62bee542",
+      "catalog_precio": 759,
+      "excel_precio": 759,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 10,
+      "activo": true
+    },
+    {
+      "excel_estilo": "59002A",
+      "catalog_estilo": "59002A",
+      "color": "NEGRO",
+      "product_id": "f32e8284-114c-4232-978f-cc9965f80ff8",
+      "catalog_precio": 0,
+      "excel_precio": 769,
+      "has_image": false,
+      "source_system": "saz_excel",
+      "current_pairs": 1,
+      "group_pairs": 1,
+      "excel_pairs": 5,
+      "activo": true
+    },
+    {
+      "excel_estilo": "59400A",
+      "catalog_estilo": "59400A",
+      "color": "NEGRO",
+      "product_id": "a1a53a7b-42e1-4e53-a2e3-1ff62e5ace6b",
+      "catalog_precio": 759,
+      "excel_precio": 759,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 11,
+      "activo": true
+    },
+    {
+      "excel_estilo": "043500",
+      "catalog_estilo": "043500",
+      "color": "NEGRO",
+      "product_id": "b678dd5f-9384-46da-9094-f4cd0f5c1814",
+      "catalog_precio": 759,
+      "excel_precio": 759,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 21,
+      "activo": true
+    },
+    {
+      "excel_estilo": "043505",
+      "catalog_estilo": "043505",
+      "color": "NEGRO",
+      "product_id": "9bf7a7d5-9086-4906-8976-956a1c6a9f83",
+      "catalog_precio": 649,
+      "excel_precio": 599,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 34,
+      "activo": true
+    },
+    {
+      "excel_estilo": "188604",
+      "catalog_estilo": "188604",
+      "color": "NEGRO",
+      "product_id": "858ae1d2-7cd4-4357-a49e-460c4baafa8d",
+      "catalog_precio": 559,
+      "excel_precio": 599,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 7,
+      "activo": true
+    },
+    {
+      "excel_estilo": "054402",
+      "catalog_estilo": "054402",
+      "color": "NEGRO",
+      "product_id": "a2bfe5af-30cd-424d-8120-6a4880bf2893",
+      "catalog_precio": 749,
+      "excel_precio": 749,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 0,
+      "activo": true
+    },
+    {
+      "excel_estilo": "172215",
+      "catalog_estilo": "172215",
+      "color": "NEGRO",
+      "product_id": "c6ba329a-4334-46d5-955c-c22a5ddd4c27",
+      "catalog_precio": 659,
+      "excel_precio": 659,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 15,
+      "activo": true
+    },
+    {
+      "excel_estilo": "043501",
+      "catalog_estilo": "043501",
+      "color": "NEGRO",
+      "product_id": "1c7b83e1-ab7b-4b83-a688-9bdfc48e03d1",
+      "catalog_precio": 759,
+      "excel_precio": 759,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 28,
+      "activo": true
+    },
+    {
+      "excel_estilo": "172216",
+      "catalog_estilo": "172216",
+      "color": "NEGRO",
+      "product_id": "3c220bef-e2f0-4b36-8709-258b8fa16d1d",
+      "catalog_precio": 599,
+      "excel_precio": 599,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 20,
+      "activo": true
+    },
+    {
+      "excel_estilo": "170810",
+      "catalog_estilo": "170810",
+      "color": "NEGRO",
+      "product_id": "51b742a2-c052-4656-870f-c2218ddf0f91",
+      "catalog_precio": 759,
+      "excel_precio": 759,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 10,
+      "activo": true
+    },
+    {
+      "excel_estilo": "134314",
+      "catalog_estilo": "134314",
+      "color": "NEGRO",
+      "product_id": "c8cbebb3-a058-43b0-a13c-511d66a31eca",
+      "catalog_precio": 799.88,
+      "excel_precio": 799,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 2,
+      "activo": true
+    },
+    {
+      "excel_estilo": "038700",
+      "catalog_estilo": "038700",
+      "color": "NEGRO",
+      "product_id": "d648b655-b1fb-4914-9886-84a68b8939f5",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 0,
+      "activo": true
+    },
+    {
+      "excel_estilo": "54403A",
+      "catalog_estilo": "54403A",
+      "color": "NEGRO",
+      "product_id": "1f9180f1-daa5-435c-ba3c-8941f152ec6b",
+      "catalog_precio": 789.88,
+      "excel_precio": 789,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 5,
+      "activo": true
+    },
+    {
+      "excel_estilo": "188502",
+      "catalog_estilo": "188502",
+      "color": "NEGRO",
+      "product_id": "a4b35114-55a4-408a-ad75-b4a8fa7ac176",
+      "catalog_precio": 559,
+      "excel_precio": 559,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 2,
+      "activo": true
+    },
+    {
+      "excel_estilo": "188502",
+      "catalog_estilo": "188502",
+      "color": "ROSA",
+      "product_id": "44696831-279d-414f-a7ae-63bf4bc4c816",
+      "catalog_precio": 559,
+      "excel_precio": 559,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 1,
+      "activo": true
+    },
+    {
+      "excel_estilo": "188503",
+      "catalog_estilo": "188503",
+      "color": "ROSA",
+      "product_id": "84dbf0c8-d736-44a7-b93c-df3bb74f87cc",
+      "catalog_precio": 549,
+      "excel_precio": 549,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 5,
+      "activo": true
+    },
+    {
+      "excel_estilo": "188604",
+      "catalog_estilo": "188604",
+      "color": "ORO ROSADO",
+      "product_id": "f5dbfae5-bcaa-49d5-9998-61c2b335093a",
+      "catalog_precio": 559,
+      "excel_precio": 559,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 9,
+      "activo": true
+    },
+    {
+      "excel_estilo": "045106",
+      "catalog_estilo": "045106",
+      "color": "BEIGE",
+      "product_id": "d1a18198-4c48-433b-9fcd-52e62baf2fb4",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 12,
+      "activo": true
+    },
+    {
+      "excel_estilo": "043505",
+      "catalog_estilo": "043505",
+      "color": "BLANCO",
+      "product_id": "d108b1e5-36ac-4b00-a9f9-314bbe36f35b",
+      "catalog_precio": 649,
+      "excel_precio": 599,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 24,
+      "activo": true
+    },
+    {
+      "excel_estilo": "181512",
+      "catalog_estilo": "181512",
+      "color": "PERLA",
+      "product_id": "af15a9c8-e030-4135-98b8-73aad4ab656a",
+      "catalog_precio": 749,
+      "excel_precio": 749,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 1,
+      "activo": true
+    },
+    {
+      "excel_estilo": "188603",
+      "catalog_estilo": "188603",
+      "color": "PLATA",
+      "product_id": "67bc06ba-5269-4b7a-ba27-2489502ccf7e",
+      "catalog_precio": 549,
+      "excel_precio": 549,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 0,
+      "activo": true
+    },
+    {
+      "excel_estilo": "102501",
+      "catalog_estilo": "102501",
+      "color": "BLANCO",
+      "product_id": "8de9da84-263e-4b67-9aa4-abd8873c5ac8",
+      "catalog_precio": 659,
+      "excel_precio": 659,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 1,
+      "activo": false
+    },
+    {
+      "excel_estilo": "112903",
+      "catalog_estilo": "112903",
+      "color": "ROSA",
+      "product_id": "9871867c-e461-492a-b14d-235460c0c70b",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 2,
+      "activo": false
+    },
+    {
+      "excel_estilo": "112520",
+      "catalog_estilo": "112520",
+      "color": "BEIGE",
+      "product_id": "467b128e-7ebe-4314-b426-822cf060ea1e",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 11,
+      "activo": false
+    },
+    {
+      "excel_estilo": "112804",
+      "catalog_estilo": "112804",
+      "color": "BEIGE",
+      "product_id": "2a354131-0f50-4b9b-87db-7eb05010732c",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 3,
+      "activo": false
+    },
+    {
+      "excel_estilo": "112804",
+      "catalog_estilo": "112804",
+      "color": "BLANCO",
+      "product_id": "1f43dfe9-f6e8-49af-a46d-771853fcd043",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 5,
+      "activo": false
+    },
+    {
+      "excel_estilo": "112902",
+      "catalog_estilo": "112902",
+      "color": "FIUSHA",
+      "product_id": "66cccecc-6c2e-49be-a7f1-e77a36f2d62b",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 9,
+      "activo": false
+    },
+    {
+      "excel_estilo": "112519",
+      "catalog_estilo": "112519",
+      "color": "PERLA",
+      "product_id": "6b81bc4c-d889-444e-b802-7c9ba6af1b43",
+      "catalog_precio": 799,
+      "excel_precio": 799,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 5,
+      "activo": false
+    },
+    {
+      "excel_estilo": "103903",
+      "catalog_estilo": "103903",
+      "color": "ORO",
+      "product_id": "4a24a00d-f3c9-4da6-808a-078a5089c076",
+      "catalog_precio": 659,
+      "excel_precio": 659,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 1,
+      "activo": false
+    },
+    {
+      "excel_estilo": "112519",
+      "catalog_estilo": "112519",
+      "color": "LATE",
+      "product_id": "5c4ccf24-2804-4f07-9ab4-536a60c574a2",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 8,
+      "activo": false
+    },
+    {
+      "excel_estilo": "112517",
+      "catalog_estilo": "112517",
+      "color": "MIEL",
+      "product_id": "f312ca2d-b10e-4c26-8b77-e091a25c0308",
+      "catalog_precio": 669,
+      "excel_precio": 699,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 1,
+      "activo": false
+    },
+    {
+      "excel_estilo": "112804",
+      "catalog_estilo": "112804",
+      "color": "NEGRO",
+      "product_id": "bfa3380a-75c9-4041-8a01-9e86f23c1613",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 8,
+      "activo": false
+    },
+    {
+      "excel_estilo": "103905",
+      "catalog_estilo": "103905",
+      "color": "ROSA",
+      "product_id": "4bc3d7e2-8f2c-4afa-a6f7-ff85ec17e243",
+      "catalog_precio": 659,
+      "excel_precio": 659,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 1,
+      "activo": false
+    },
+    {
+      "excel_estilo": "112520",
+      "catalog_estilo": "112520",
+      "color": "SALMON",
+      "product_id": "6fc11014-c924-4bf8-95c2-b18382b33634",
+      "catalog_precio": 649,
+      "excel_precio": 699,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 19,
+      "activo": false
+    },
+    {
+      "excel_estilo": "112300",
+      "catalog_estilo": "112300",
+      "color": "MULTICOLOR",
+      "product_id": "361748e2-f1d4-4606-af1d-4b751fb77460",
+      "catalog_precio": 689,
+      "excel_precio": 689,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 1,
+      "activo": false
+    },
+    {
+      "excel_estilo": "101807",
+      "catalog_estilo": "101807",
+      "color": "LILA",
+      "product_id": "6f8c24f9-7613-4b92-b106-6d171f200466",
+      "catalog_precio": 639,
+      "excel_precio": 639,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 1,
+      "activo": false
+    },
+    {
+      "excel_estilo": "102601",
+      "catalog_estilo": "102601",
+      "color": "BLANCO PLATA",
+      "product_id": "0c2530e5-c3c2-4195-bba6-0b1508b2613c",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 1,
+      "activo": false
+    },
+    {
+      "excel_estilo": "102501",
+      "catalog_estilo": "102501",
+      "color": "LATE",
+      "product_id": "2c6288ce-68fa-4aae-b26d-a0c705e8269e",
+      "catalog_precio": 659,
+      "excel_precio": 659,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 1,
+      "activo": false
+    },
+    {
+      "excel_estilo": "133903",
+      "catalog_estilo": "133903",
+      "color": "BLANCO",
+      "product_id": "63c32b3a-537b-4363-9a84-57f05af21118",
+      "catalog_precio": 779,
+      "excel_precio": 799,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 6,
+      "activo": true
+    },
+    {
+      "excel_estilo": "203904",
+      "catalog_estilo": "203904",
+      "color": "ROSA",
+      "product_id": "636d679d-ffdd-4f11-bd83-538a2e16a6ea",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 3,
+      "activo": true
+    },
+    {
+      "excel_estilo": "156748",
+      "catalog_estilo": "156748",
+      "color": "BLANCO",
+      "product_id": "f23138e8-c1fc-4333-b728-a69876342c04",
+      "catalog_precio": 899,
+      "excel_precio": 899,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 15,
+      "activo": true
+    },
+    {
+      "excel_estilo": "204202",
+      "catalog_estilo": "204202",
+      "color": "BEIGE",
+      "product_id": "284b6834-5f73-4cd5-b3d5-5c92ad307d88",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 12,
+      "activo": true
+    },
+    {
+      "excel_estilo": "204202",
+      "catalog_estilo": "204202",
+      "color": "ROSA",
+      "product_id": "5df935ea-4334-4a2e-b559-413b2f87fb2a",
+      "catalog_precio": 699,
+      "excel_precio": 699,
+      "has_image": true,
+      "source_system": "sqlite",
+      "current_pairs": 0,
+      "group_pairs": 0,
+      "excel_pairs": 17,
+      "activo": true
+    }
+  ],
+  "price_fills": [
+    {
+      "product_id": "f32e8284-114c-4232-978f-cc9965f80ff8",
+      "estilo": "59002A",
+      "color": "NEGRO",
+      "precio": 769
+    }
+  ],
+  "skipped_no_price": [
+    {
+      "estilo": "203501",
+      "color": "MULTICOLOR",
+      "marca": "COQUETA",
+      "pairs": 1
+    },
+    {
+      "estilo": "133700",
+      "color": "BLANCO",
+      "marca": "COQUETA",
+      "pairs": 2
+    },
+    {
+      "estilo": "431605",
+      "color": "BEIGE",
+      "marca": "COQUETA",
+      "pairs": 9
+    },
+    {
+      "estilo": "92318A",
+      "color": "NEGRO",
+      "marca": "COQUETA",
+      "pairs": 1
+    },
+    {
+      "estilo": "54402A",
+      "color": "NEGRO",
+      "marca": "COQUETA",
+      "pairs": 2
+    },
+    {
+      "estilo": "203303",
+      "color": "NUDE BEIGE",
+      "marca": "COQUETA",
+      "pairs": 2
+    },
+    {
+      "estilo": "431703",
+      "color": "NEGRO",
+      "marca": "COQUETA",
+      "pairs": 7
+    }
+  ],
+  "already_applied": [],
+  "already_covered": []
+}

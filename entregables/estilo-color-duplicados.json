@@ -1,0 +1,6935 @@
+{
+  "generated_at": "2026-11-20T08:06:53.633Z",
+  "products": 1329,
+  "unique_estilo_color": 1233,
+  "duplicate_groups": 77,
+  "safe_to_merge": 54,
+  "price_conflicts": 23,
+  "extra_fichas": 96,
+  "juarez_pairs_in_dups": 546,
+  "attr_variation": {
+    "marca": 20,
+    "linea": 12,
+    "acabado": 28,
+    "leading_zero": 3
+  },
+  "conflicts": [
+    {
+      "key": "435503|CAFE",
+      "prices": [
+        899,
+        939
+      ],
+      "canonical": {
+        "id": "f8f3e271-c758-4577-b5e0-210cebbaeaa1",
+        "estilo": "435503",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 939,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 9
+      },
+      "others": [
+        {
+          "id": "31b95961-6b9d-42be-b0b1-fc7c2be1a24c",
+          "estilo": "435503",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 899,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "04e97bca-b99c-413c-aa18-29eca2004b82",
+          "estilo": "435503",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 939,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    },
+    {
+      "key": "442807|CAFE",
+      "prices": [
+        899,
+        959
+      ],
+      "canonical": {
+        "id": "048dddde-7a79-43a8-905d-c20d1a411993",
+        "estilo": "442807",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 959,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 2
+      },
+      "others": [
+        {
+          "id": "70e3123b-b3be-4569-b3dd-44d39132601e",
+          "estilo": "442807",
+          "marca": "COQUETA",
+          "linea": "NINOS",
+          "acabado": "PIEL",
+          "precio": 899,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "4b14bc1b-7901-42aa-bfbb-232f873f87f5",
+          "estilo": "442807",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 959,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    },
+    {
+      "key": "DIE501|NEGRO",
+      "prices": [
+        499,
+        459,
+        489
+      ],
+      "canonical": {
+        "id": "23cdb59e-8eff-4372-9782-775b9ae9c560",
+        "estilo": "DIE501",
+        "marca": "DIEGO",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 459,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 17
+      },
+      "others": [
+        {
+          "id": "e45a07ca-f3f2-46ac-bde5-9ffe85f2ae7a",
+          "estilo": "DIE501",
+          "marca": "DIEGO",
+          "linea": "CABALLERO",
+          "acabado": "PIEL",
+          "precio": 499,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "9dd9be8e-4262-47a5-b16e-b87b81fa9c03",
+          "estilo": "DIE501",
+          "marca": "DIEGO",
+          "linea": "JOVEN",
+          "acabado": "NAPA",
+          "precio": 489,
+          "imagen": false,
+          "source_system": "saz_registered",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "DIEGO"
+      ],
+      "lineas": [
+        "CABALLERO",
+        "NINOS",
+        "JOVEN"
+      ]
+    },
+    {
+      "key": "103007|NEGRO",
+      "prices": [
+        799,
+        699
+      ],
+      "canonical": {
+        "id": "982982d4-daf0-4dfc-b94f-af2c834a57b6",
+        "estilo": "103007",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 699,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 1
+      },
+      "others": [
+        {
+          "id": "b2403fb1-dc9e-4792-bc96-64c86e2bbbe9",
+          "estilo": "103007",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 799,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    },
+    {
+      "key": "106004|CAFE",
+      "prices": [
+        799,
+        759
+      ],
+      "canonical": {
+        "id": "7c329d6f-c3cf-484c-8229-4fbebd90f857",
+        "estilo": "106004",
+        "marca": "COQUETA",
+        "linea": "NINOS",
+        "acabado": "PIEL",
+        "precio": 759,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 3
+      },
+      "others": [
+        {
+          "id": "9f0032e8-f262-4e4d-b8c2-3c00ca90b5c8",
+          "estilo": "106004",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 799,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    },
+    {
+      "key": "139901|NEGRO",
+      "prices": [
+        799,
+        859
+      ],
+      "canonical": {
+        "id": "61426a9e-eee0-4e0a-bd22-8371ab35e4a1",
+        "estilo": "139901",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 799,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 3
+      },
+      "others": [
+        {
+          "id": "4b454fcd-f303-4409-bce3-e10f1317763c",
+          "estilo": "139901",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 859,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    },
+    {
+      "key": "139906|BLANCO",
+      "prices": [
+        749,
+        799
+      ],
+      "canonical": {
+        "id": "8eafbd30-b523-41aa-a8a2-01b2bfcd05a6",
+        "estilo": "139906",
+        "marca": "COQUETA",
+        "linea": "NINOS",
+        "acabado": "SINTETICO",
+        "precio": 799,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 5
+      },
+      "others": [
+        {
+          "id": "ad2a80ec-deac-46a7-bb96-52303922054c",
+          "estilo": "139906",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTENTICO",
+          "precio": 749,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    },
+    {
+      "key": "156754|BLANCO",
+      "prices": [
+        879,
+        849
+      ],
+      "canonical": {
+        "id": "93ef31ca-3566-4708-8d4a-795d84fda3be",
+        "estilo": "156754",
+        "marca": "COQUETA",
+        "linea": "NINOS",
+        "acabado": "PIEL",
+        "precio": 849,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 1
+      },
+      "others": [
+        {
+          "id": "c97b91d6-103c-49b8-b100-ed98bd1d6f5d",
+          "estilo": "156754",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTENTICO",
+          "precio": 879,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    },
+    {
+      "key": "164009|NEGRO",
+      "prices": [
+        799,
+        749
+      ],
+      "canonical": {
+        "id": "954f0d11-104e-4cae-b0c6-ab60cfc55168",
+        "estilo": "164009",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 749,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 6
+      },
+      "others": [
+        {
+          "id": "c404b01c-f249-4bc7-9349-2f9efafcf4a5",
+          "estilo": "164009",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 799,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    },
+    {
+      "key": "204500|ARENA",
+      "prices": [
+        859,
+        799
+      ],
+      "canonical": {
+        "id": "9f2a4981-748e-4bd2-b9a8-6bb6c9e5caa0",
+        "estilo": "204500",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 799,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 6
+      },
+      "others": [
+        {
+          "id": "c0895041-d3dc-45a7-b749-5d14e416819c",
+          "estilo": "204500",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTENTICO",
+          "precio": 859,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    },
+    {
+      "key": "204500|GRIS",
+      "prices": [
+        859,
+        799
+      ],
+      "canonical": {
+        "id": "9a385981-d5f1-49ee-8105-77fb0d24395a",
+        "estilo": "204500",
+        "marca": "COQUETA",
+        "linea": "NINOS",
+        "acabado": "PIEL",
+        "precio": 799,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 9
+      },
+      "others": [
+        {
+          "id": "6cbd9e8f-d881-41f5-80c9-9b9a06f44571",
+          "estilo": "204500",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTENTICO",
+          "precio": 859,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    },
+    {
+      "key": "205302|GRIS",
+      "prices": [
+        790,
+        759
+      ],
+      "canonical": {
+        "id": "507a940b-3620-4239-938d-b09e5448a198",
+        "estilo": "205302",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 759,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 0
+      },
+      "others": [
+        {
+          "id": "7df95f97-3666-4860-bf71-c1203149363b",
+          "estilo": "205302",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTENTICO",
+          "precio": 790,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    },
+    {
+      "key": "206506|GRIS AZUL",
+      "prices": [
+        729,
+        699
+      ],
+      "canonical": {
+        "id": "5996b4c0-1ec5-4dbd-abae-ca378752dca8",
+        "estilo": "206506",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 699,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 4
+      },
+      "others": [
+        {
+          "id": "a8c7e51f-6cbc-4ef7-8993-32b5b10585af",
+          "estilo": "206506",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 729,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    },
+    {
+      "key": "43502|NEGRO",
+      "prices": [
+        899,
+        759
+      ],
+      "canonical": {
+        "id": "179f4f00-b367-418d-ae61-3274423f13b6",
+        "estilo": "043502",
+        "marca": "COQUETA",
+        "linea": "NIÑAS",
+        "acabado": "PIEL",
+        "precio": 759,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 0
+      },
+      "others": [
+        {
+          "id": "de22e406-6c22-458e-98f0-215aa8e255fd",
+          "estilo": "43502",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 899,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS",
+        "NINAS"
+      ]
+    },
+    {
+      "key": "435500|MIEL",
+      "prices": [
+        859,
+        999
+      ],
+      "canonical": {
+        "id": "b2cc3186-24a6-421a-b9f7-010700b8bcd3",
+        "estilo": "435500",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 999,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 29
+      },
+      "others": [
+        {
+          "id": "abe528a0-e682-491c-858b-c7a4f259b9ee",
+          "estilo": "435500",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 859,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    },
+    {
+      "key": "435501|NEGRO",
+      "prices": [
+        899,
+        939
+      ],
+      "canonical": {
+        "id": "fb306e31-c574-4714-819b-8714ed6d0490",
+        "estilo": "435501",
+        "marca": "COQUETA",
+        "linea": "NINOS",
+        "acabado": "PIEL",
+        "precio": 899,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 17
+      },
+      "others": [
+        {
+          "id": "21a03221-8910-41d8-a157-d696ff7a7550",
+          "estilo": "435501",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 939,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    },
+    {
+      "key": "435504|NEGRO",
+      "prices": [
+        859,
+        899
+      ],
+      "canonical": {
+        "id": "fd6a9fb0-e1f2-4371-a9fb-c9f5bee7d30f",
+        "estilo": "435504",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 859,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 24
+      },
+      "others": [
+        {
+          "id": "dd5585c1-df2a-4822-a6f4-13f24c4d11cb",
+          "estilo": "435504",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 899,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    },
+    {
+      "key": "435505|CAFE CLARO",
+      "prices": [
+        899,
+        949
+      ],
+      "canonical": {
+        "id": "79870c40-8bbe-4e15-a1aa-2f62157cd215",
+        "estilo": "435505",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 899,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 14
+      },
+      "others": [
+        {
+          "id": "5298643d-0dfc-472f-a2c8-5fcac0b80878",
+          "estilo": "435505",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 949,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    },
+    {
+      "key": "435506|NEGRO",
+      "prices": [
+        999,
+        899
+      ],
+      "canonical": {
+        "id": "a127e6a8-db2f-4c53-a9a8-2ba0485a8335",
+        "estilo": "435506",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 999,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 34
+      },
+      "others": [
+        {
+          "id": "55186f36-9d1e-4911-b21b-f422beae28cf",
+          "estilo": "435506",
+          "marca": "COQUETA",
+          "linea": "NINOS",
+          "acabado": "PIEL",
+          "precio": 899,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 1,
+          "sizes": {
+            "18.0": 1
+          }
+        }
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    },
+    {
+      "key": "80606A|NEGRO",
+      "prices": [
+        799,
+        899
+      ],
+      "canonical": {
+        "id": "44e727fc-4d74-4608-ad28-b9d2cdda29ae",
+        "estilo": "80606A",
+        "marca": "COQUETA",
+        "linea": "NINOS",
+        "acabado": "PIEL",
+        "precio": 799,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 7
+      },
+      "others": [
+        {
+          "id": "13a92627-3ab7-4778-aa31-c021cf06bda6",
+          "estilo": "80606A",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 899,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    },
+    {
+      "key": "JH0006|NEGRO",
+      "prices": [
+        499,
+        399
+      ],
+      "canonical": {
+        "id": "47a10641-8c84-452a-a27b-80f1d9094c05",
+        "estilo": "JH0006",
+        "marca": "JHON.",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 399,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 12
+      },
+      "others": [
+        {
+          "id": "b1fcf131-b37f-475a-9582-6552b8eea763",
+          "estilo": "JH0006",
+          "marca": "JHON",
+          "linea": "CABALLERO",
+          "acabado": "PIEL",
+          "precio": 499,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "JHON",
+        "JHON."
+      ],
+      "lineas": [
+        "CABALLERO",
+        "NINOS"
+      ]
+    },
+    {
+      "key": "KYG300|MULTICOLOR",
+      "prices": [
+        399,
+        389
+      ],
+      "canonical": {
+        "id": "bf52b3d4-9307-4eec-90dc-4e9e18467bb9",
+        "estilo": "KYG300",
+        "marca": "D & G",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 399,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 2
+      },
+      "others": [
+        {
+          "id": "4d581b20-fc17-44b3-a691-914deec6f077",
+          "estilo": "KYG300",
+          "marca": "D & G",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 389,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "D & G"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    },
+    {
+      "key": "PI3058|ROJO",
+      "prices": [
+        999,
+        739
+      ],
+      "canonical": {
+        "id": "3402d3cd-d7c6-4361-8c1f-030a49d8c021",
+        "estilo": "PI3058",
+        "marca": "PIRMA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 739,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 0
+      },
+      "others": [
+        {
+          "id": "39a887c3-8193-44bd-9361-18945b8a2dc0",
+          "estilo": "PI3058",
+          "marca": "PIRMA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 999,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "marcas": [
+        "PIRMA"
+      ],
+      "lineas": [
+        "NINOS"
+      ]
+    }
+  ],
+  "safe_preview": [
+    {
+      "key": "WIL108|NEGRO",
+      "keep": "WIL108 NEGRO WILDCAT $689 img 0p",
+      "merge": [
+        "WIL108 WILDCAT $689 0p (inactivo)",
+        "WIL108 WILDCAT $689 0p (inactivo)",
+        "WIL108 Claremm $689 0p (inactivo)",
+        "WIL108 Claremm $689 0p (inactivo)",
+        "WIL108 WILDCAT $689 0p (inactivo)"
+      ],
+      "marcas": [
+        "WILDCAT",
+        "CLAREMM"
+      ],
+      "lineas": [
+        "NINOS",
+        "NINAS"
+      ],
+      "acabados": [
+        "SINTETICO",
+        "SINTETICO WILDCAT"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 0
+    },
+    {
+      "key": "104936|BEIGE",
+      "keep": "104936 BEIGE FLEXI $0 img 9p",
+      "merge": [
+        "104936 CLAREMM $0 0p (inactivo)",
+        "104936 FLEXI $0 0p (inactivo)",
+        "104936 FLEXI $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "FLEXI",
+        "CLAREMM"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 9
+    },
+    {
+      "key": "RA9070|NEGRO",
+      "keep": "RA9070 NEGRO RAHVAN $0 no-img 9p",
+      "merge": [
+        "RA9070 RIK-LAND $0 0p (inactivo)",
+        "RA9070 RIK-LAND $0 0p (inactivo)",
+        "RA9070 RIKLAND $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "RIK-LAND",
+        "RIKLAND",
+        "RAHVAN"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL",
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 9
+    },
+    {
+      "key": "100803|CAFE",
+      "keep": "100803 CAFE COQUETA $659 img 5p",
+      "merge": [
+        "100803 COQUETA $659 0p (inactivo)",
+        "100803 COQUETA $659 0p (inactivo)"
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO",
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 5
+    },
+    {
+      "key": "130208|DORADO",
+      "keep": "130208 DORADO FLEXI $0 img 24p",
+      "merge": [
+        "130208 FLEXI $0 0p (inactivo)",
+        "130208 NAN $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "FLEXI",
+        "NAN"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 24
+    },
+    {
+      "key": "135203|NEGRO",
+      "keep": "135203 NEGRO FLEXI $1149 img 5p",
+      "merge": [
+        "135203 FLEXI $1149 0p (inactivo)",
+        "135203 NAN $1149 0p (inactivo)"
+      ],
+      "marcas": [
+        "FLEXI",
+        "NAN"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 5
+    },
+    {
+      "key": "136711|TAN",
+      "keep": "136711 TAN FLEXI $1499 no-img 5p",
+      "merge": [
+        "136711 CLAREMM $1499 0p (inactivo)",
+        "136711 FLEXI $1499 0p (inactivo)"
+      ],
+      "marcas": [
+        "FLEXI",
+        "CLAREMM"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL",
+        "NAN"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 5
+    },
+    {
+      "key": "EVE500|ROSA",
+      "keep": "EVE500 ROSA 4EVER $0 no-img 11p",
+      "merge": [
+        "EVE500 4EVER $0 0p (inactivo)",
+        "EVE500 4EVER $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "4EVER"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 11
+    },
+    {
+      "key": "PI4037|AZUL REY",
+      "keep": "PI4037 AZUL REY PIRMA $759 img 1p",
+      "merge": [
+        "PI4037 PIRMA $759 0p (inactivo)",
+        "PI4037 PIRMA $759 0p (inactivo)"
+      ],
+      "marcas": [
+        "PIRMA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 1
+    },
+    {
+      "key": "PI7008|BLANCO",
+      "keep": "PI7008 BLANCO PIRMA $789 img 4p",
+      "merge": [
+        "PI7008 PIRMA $0 0p (inactivo)",
+        "PI7008 CLAREMM $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "PIRMA",
+        "CLAREMM"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 4
+    },
+    {
+      "key": "SP1480|NEGRO",
+      "keep": "SP1480 NEGRO SPOOK $650 no-img 5p",
+      "merge": [
+        "SP1480 SPOOK $0 0p (inactivo)",
+        "SP1480 SPOOK $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "SPOOK"
+      ],
+      "lineas": [
+        "DAMA",
+        "JOVEN"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 5
+    },
+    {
+      "key": "101708|MIEL",
+      "keep": "101708 MIEL COQUETA $659 img 2p",
+      "merge": [
+        "101708 COQUETA $659 0p (inactivo)"
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 2
+    },
+    {
+      "key": "102003|BLANCO",
+      "keep": "102003 BLANCO FLEXI $0 img 9p",
+      "merge": [
+        "102003 FLEXI $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 9
+    },
+    {
+      "key": "102501|BLANCO",
+      "keep": "102501 BLANCO COQUETA $659 img 0p",
+      "merge": [
+        "102501 COQUETA $659 0p (inactivo)"
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINAS"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 0
+    },
+    {
+      "key": "104806|ARENA",
+      "keep": "104806 ARENA FLEXI $0 img 9p",
+      "merge": [
+        "104806 FLEXI $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 9
+    },
+    {
+      "key": "104936|MARINO",
+      "keep": "104936 MARINO FLEXI $0 img 9p",
+      "merge": [
+        "104936 CLAREMM $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "CLAREMM",
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 9
+    },
+    {
+      "key": "105125|BURGUNDY",
+      "keep": "105125 BURGUNDY FLEXI $0 img 7p",
+      "merge": [
+        "105125 FLEXI $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "NAN",
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 7
+    },
+    {
+      "key": "105125|NEGRO",
+      "keep": "105125 NEGRO FLEXI $0 img 10p",
+      "merge": [
+        "105125 FLEXI $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 10
+    },
+    {
+      "key": "128406|CAMEL",
+      "keep": "128406 CAMEL FLEXI $0 img 2p",
+      "merge": [
+        "128406 FLEXI $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "LISO",
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 2
+    },
+    {
+      "key": "131501|NEGRO",
+      "keep": "131501 NEGRO FLEXI $0 img 8p",
+      "merge": [
+        "131501 NAN $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "NAN",
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 8
+    },
+    {
+      "key": "131504|BLANCO",
+      "keep": "131504 BLANCO FLEXI $0 img 2p",
+      "merge": [
+        "131504 NAN $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "NAN",
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 2
+    },
+    {
+      "key": "138501|NEGRO",
+      "keep": "138501 NEGRO FLEXI $0 img 2p",
+      "merge": [
+        "138501 NAN $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "NAN",
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 2
+    },
+    {
+      "key": "138803|NEGRO",
+      "keep": "138803 NEGRO FLEXI $0 img 6p",
+      "merge": [
+        "138803 FLEXI $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "SINTETICO",
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 6
+    },
+    {
+      "key": "209104|BLANCO",
+      "keep": "209104 BLANCO COQUETA $849 img 4p",
+      "merge": [
+        "209104 COQUETA $849 0p (inactivo)"
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTENTICO",
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 4
+    },
+    {
+      "key": "25901|NEGRO",
+      "keep": "025901 NEGRO FLEXI $0 img 3p",
+      "merge": [
+        "025901 FLEXI $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 3
+    },
+    {
+      "key": "25911|NEGRO",
+      "keep": "025911 NEGRO FLEXI $1249 img 5p",
+      "merge": [
+        "25911 FLEXI $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 5
+    },
+    {
+      "key": "37829|ARENA",
+      "keep": "037829 ARENA FLEXI $0 img 11p",
+      "merge": [
+        "037829 CLAREMM $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "FLEXI",
+        "CLAREMM"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 11
+    },
+    {
+      "key": "37830|NEGRO",
+      "keep": "037830 NEGRO FLEXI $0 img 14p",
+      "merge": [
+        "037830 CLAREMM $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "CLAREMM",
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 14
+    },
+    {
+      "key": "401911|NEGRO",
+      "keep": "401911 NEGRO FLEXI $949 img 2p",
+      "merge": [
+        "401911 FLEXI $949 0p (inactivo)"
+      ],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "NINOS",
+        "DAMA"
+      ],
+      "acabados": [
+        "SINTETICO",
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 2
+    },
+    {
+      "key": "433608|NEGRO",
+      "keep": "433608 NEGRO COQUETA $899 no-img 19p",
+      "merge": [
+        "433608 COQUETA $899 0p (inactivo)"
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "JOVEN",
+        "NINOS"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 19
+    },
+    {
+      "key": "435502|MIEL",
+      "keep": "435502 MIEL COQUETA $939 no-img 43p",
+      "merge": [
+        "435502 COQUETA $939 0p (inactivo)"
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "JOVEN",
+        "NINOS"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 43
+    },
+    {
+      "key": "45233|NEGRO",
+      "keep": "045233 NEGRO FLEXI $0 no-img 8p",
+      "merge": [
+        "045233 FLEXI $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 8
+    },
+    {
+      "key": "48304|BLANCO",
+      "keep": "048304 BLANCO FLEXI $1099 img 11p",
+      "merge": [
+        "48304 FLEXI $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 11
+    },
+    {
+      "key": "4E1584|BLANCO",
+      "keep": "4E1584 BLANCO GIOBABY $0 no-img 9p",
+      "merge": [
+        "4E1584 GIOBABY KIDS $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "GIOBABY",
+        "GIOBABY KIDS"
+      ],
+      "lineas": [
+        "NINAS",
+        "DAMA"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 9
+    },
+    {
+      "key": "54403A|NEGRO",
+      "keep": "54403A NEGRO COQUETA $789.88 img 0p",
+      "merge": [
+        "54403A COQUETA $789.88 0p (inactivo)"
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINAS"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 0
+    },
+    {
+      "key": "GI1922|NEGRO",
+      "keep": "GI1922 NEGRO GIOBABY $0 no-img 5p",
+      "merge": [
+        "GI1922 GIOBABY $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "GIOBABY"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 5
+    },
+    {
+      "key": "GI1923|AVENA",
+      "keep": "GI1923 AVENA GIOBABY $0 no-img 9p",
+      "merge": [
+        "GI1923 NAN $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "GIOBABY",
+        "NAN"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 9
+    },
+    {
+      "key": "GIO062|BLANCO",
+      "keep": "GIO062 BLANCO GIOBABY $0 no-img 2p",
+      "merge": [
+        "GIO062 GIOBABY $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "GIOBABY"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 2
+    },
+    {
+      "key": "LAP020|NEGRO",
+      "keep": "LAP020 NEGRO LA PAG $1100 img 1p",
+      "merge": [
+        "LAP020 LA PAG $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "LA PAG"
+      ],
+      "lineas": [
+        "CABALLERO",
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL",
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 1
+    },
+    {
+      "key": "LAP856|SHEDRON",
+      "keep": "LAP856 SHEDRON LA PAG $899 img 1p",
+      "merge": [
+        "LAP856 NAN $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "NAN",
+        "LA PAG"
+      ],
+      "lineas": [
+        "DAMA",
+        "CABALLERO"
+      ],
+      "acabados": [
+        "SINTETICO",
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 1
+    },
+    {
+      "key": "LE1023|LATE",
+      "keep": "LE1023 LATE LEYDI LAURA $0 no-img 2p",
+      "merge": [
+        "LE1023 LEYDI LAURA $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "LEYDI LAURA"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 2
+    },
+    {
+      "key": "LES419|PLATA",
+      "keep": "LES419 PLATA LESLIE $0 no-img 4p",
+      "merge": [
+        "LES419 LESLIE $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "LESLIE"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 4
+    },
+    {
+      "key": "LES814|NEGRO",
+      "keep": "LES814 NEGRO LESLIE $0 no-img 8p",
+      "merge": [
+        "LES814 LESLIE $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "LESLIE"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 8
+    },
+    {
+      "key": "MA1210|NEGRO",
+      "keep": "MA1210 NEGRO MAXIM $0 no-img 8p",
+      "merge": [
+        "MA1210 MAXIM $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "MAXIM"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "ARGELIA",
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 8
+    },
+    {
+      "key": "MA2405|NEGRO",
+      "keep": "MA2405 NEGRO MARZE $0 no-img 7p",
+      "merge": [
+        "MA2405 MARZE $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "MARZE"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "CHAROL SINTETICO",
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 7
+    },
+    {
+      "key": "MAR113|PLATA",
+      "keep": "MAR113 PLATA MARIQUITAS $0 no-img 3p",
+      "merge": [
+        "MAR113 MARIQUITAS $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "MARIQUITAS"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 3
+    },
+    {
+      "key": "NI2004|NEGRO",
+      "keep": "NI2004 NEGRO NICE $0 no-img 4p",
+      "merge": [
+        "NI2004 CLAREMM $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "NICE",
+        "CLAREMM"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 4
+    },
+    {
+      "key": "NI3908|NEGRO",
+      "keep": "NI3908 NEGRO NICE $0 no-img 3p",
+      "merge": [
+        "NI3908 NICE $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "NICE"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL",
+        "NAN"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 3
+    },
+    {
+      "key": "PEK590|CAFE",
+      "keep": "PEK590 CAFE HUARACHE $399 img 3p",
+      "merge": [
+        "PEK590 PEKID´S $399 0p (inactivo)"
+      ],
+      "marcas": [
+        "HUARACHE",
+        "PEKID´S"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "PIEL",
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 3
+    },
+    {
+      "key": "PI0248|NEGRO",
+      "keep": "PI0248 NEGRO PIRMA $799 no-img 2p",
+      "merge": [
+        "PI0248 PIRMA $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "PIRMA"
+      ],
+      "lineas": [
+        "DAMA",
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 2
+    },
+    {
+      "key": "PI2018|NEGRO NARANJA",
+      "keep": "PI2018 NEGRO NARANJA PIRMA $699 img 0p",
+      "merge": [
+        "PI2018 PIRMA $699 0p (inactivo)"
+      ],
+      "marcas": [
+        "PIRMA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 0
+    },
+    {
+      "key": "PI2020|BLANCO",
+      "keep": "PI2020 BLANCO PIRMA $699 img 3p",
+      "merge": [
+        "PI2020 PIRMA $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "PIRMA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 3
+    },
+    {
+      "key": "UN3096|NEGRO",
+      "keep": "UN3096 NEGRO UNION $0 no-img 2p",
+      "merge": [
+        "UN3096 NAN $0 0p (inactivo)"
+      ],
+      "marcas": [
+        "UNION",
+        "NAN"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "SINTETICO",
+        "PIEL"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 2
+    },
+    {
+      "key": "WIL108|TAN",
+      "keep": "WIL108 TAN WILDCAT $689 img 0p",
+      "merge": [
+        "WIL108 WILDCAT $689 0p (inactivo)"
+      ],
+      "marcas": [
+        "WILDCAT"
+      ],
+      "lineas": [
+        "NINAS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "overlapping_sizes": [],
+      "merged_pairs": 0
+    }
+  ],
+  "groups": [
+    {
+      "key": "WIL108|NEGRO",
+      "estilos": [
+        "WIL108"
+      ],
+      "color": "NEGRO",
+      "count": 6,
+      "active": 0,
+      "conflict": false,
+      "prices": [
+        689
+      ],
+      "marcas": [
+        "WILDCAT",
+        "CLAREMM"
+      ],
+      "lineas": [
+        "NINOS",
+        "NINAS"
+      ],
+      "acabados": [
+        "SINTETICO",
+        "SINTETICO WILDCAT"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "00b2b1cd-9438-42a6-a3a0-a4b40c65ce4c",
+        "estilo": "WIL108",
+        "marca": "WILDCAT",
+        "linea": "NIÑOS",
+        "acabado": "Sintético",
+        "precio": 689,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": false,
+        "pairs": 0
+      },
+      "others": [
+        {
+          "id": "1055b375-21e2-465d-9db2-5c6fb9592ebd",
+          "estilo": "WIL108",
+          "marca": "WILDCAT",
+          "linea": "NIÑAS",
+          "acabado": "Sintético Wildcat",
+          "precio": 689,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "318f6845-6327-4578-9f93-e8995d156fb3",
+          "estilo": "WIL108",
+          "marca": "WILDCAT",
+          "linea": "NIÑAS",
+          "acabado": "Sintético Wildcat",
+          "precio": 689,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "34f0068e-95f0-40b3-92fa-9c7e4a250d67",
+          "estilo": "WIL108",
+          "marca": "Claremm",
+          "linea": "NIÑAS",
+          "acabado": "Sintético",
+          "precio": 689,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "2b7c9758-e94e-4f1a-8ef4-2cccfb07782f",
+          "estilo": "WIL108",
+          "marca": "Claremm",
+          "linea": "NIÑAS",
+          "acabado": "Sintético",
+          "precio": 689,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "026f08da-6493-428b-963c-9d5b6a119dcc",
+          "estilo": "WIL108",
+          "marca": "WILDCAT",
+          "linea": "NIÑAS",
+          "acabado": "Sintético",
+          "precio": 689,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 0,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": true,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "104936|BEIGE",
+      "estilos": [
+        "104936"
+      ],
+      "color": "BEIGE",
+      "count": 4,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "FLEXI",
+        "CLAREMM"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "033c2b2a-61ca-4092-a42f-92f700931845",
+        "estilo": "104936",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 0,
+        "imagen": true,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 9
+      },
+      "others": [
+        {
+          "id": "0f5df366-d0e4-482a-a8f4-6134b305cc34",
+          "estilo": "104936",
+          "marca": "CLAREMM",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "7a4f8be5-54bb-440d-aae4-81d042c6efb2",
+          "estilo": "104936",
+          "marca": "FLEXI",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "8e7ab25d-95f8-4305-a00a-5b12123b9110",
+          "estilo": "104936",
+          "marca": "FLEXI",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 9,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "RA9070|NEGRO",
+      "estilos": [
+        "RA9070"
+      ],
+      "color": "NEGRO",
+      "count": 4,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "RIK-LAND",
+        "RIKLAND",
+        "RAHVAN"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL",
+        "SINTETICO"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "f0b97272-450a-41c4-882b-64e4745b11cd",
+        "estilo": "RA9070",
+        "marca": "RAHVAN",
+        "linea": "DAMA",
+        "acabado": "SINTETICO",
+        "precio": 0,
+        "imagen": false,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 9
+      },
+      "others": [
+        {
+          "id": "d4517bae-0acf-43f3-9f18-e4d0f5b3083e",
+          "estilo": "RA9070",
+          "marca": "RIK-LAND",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "c947d6e7-d878-437f-9b92-c6c6c6d3772a",
+          "estilo": "RA9070",
+          "marca": "RIK-LAND",
+          "linea": "DAMA",
+          "acabado": "SINTETICO",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "42646da8-7de7-4fee-a147-b7dd23864bd0",
+          "estilo": "RA9070",
+          "marca": "RIKLAND",
+          "linea": "DAMA",
+          "acabado": "SINTETICO",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 9,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "100803|CAFE",
+      "estilos": [
+        "100803"
+      ],
+      "color": "CAFE",
+      "count": 3,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        659
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO",
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite",
+        "saz_registered"
+      ],
+      "canonical": {
+        "id": "ee4692ab-f95a-41a6-97d4-32f92834327c",
+        "estilo": "100803",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 659,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 5
+      },
+      "others": [
+        {
+          "id": "e6a6610c-0bf9-4519-933b-22e64781510f",
+          "estilo": "100803",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 659,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "418ee606-9f2a-4379-864c-2e6d21c99ab7",
+          "estilo": "100803",
+          "marca": "COQUETA",
+          "linea": "NINOS",
+          "acabado": "PIEL",
+          "precio": 659,
+          "imagen": false,
+          "source_system": "saz_registered",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 5,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "130208|DORADO",
+      "estilos": [
+        "130208"
+      ],
+      "color": "DORADO",
+      "count": 3,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "FLEXI",
+        "NAN"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "99a500f8-02c2-4bb5-a103-2c2b2863603d",
+        "estilo": "130208",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 0,
+        "imagen": true,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 24
+      },
+      "others": [
+        {
+          "id": "d3872be2-7f97-4548-bf2d-99d98e6ab629",
+          "estilo": "130208",
+          "marca": "FLEXI",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "a415901f-c2cb-41b0-8918-61d1bbcda5fe",
+          "estilo": "130208",
+          "marca": "NAN",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 24,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "135203|NEGRO",
+      "estilos": [
+        "135203"
+      ],
+      "color": "NEGRO",
+      "count": 3,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        1149
+      ],
+      "marcas": [
+        "FLEXI",
+        "NAN"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "8329d880-c8a8-4f80-aedf-7b87e06d8cf7",
+        "estilo": "135203",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 1149,
+        "imagen": true,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 5
+      },
+      "others": [
+        {
+          "id": "cfe0e0fb-5f63-45dc-ad17-6127005004e8",
+          "estilo": "135203",
+          "marca": "FLEXI",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 1149,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "eff2a609-8eeb-4a02-b412-8d3a34eb6c93",
+          "estilo": "135203",
+          "marca": "NAN",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 1149,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 5,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "136711|TAN",
+      "estilos": [
+        "136711"
+      ],
+      "color": "TAN",
+      "count": 3,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        1499
+      ],
+      "marcas": [
+        "FLEXI",
+        "CLAREMM"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL",
+        "NAN"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "4165f250-60cd-4c7d-bec6-917986a783b0",
+        "estilo": "136711",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 1499,
+        "imagen": false,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 5
+      },
+      "others": [
+        {
+          "id": "945e0359-7213-4c56-bfb4-416e591111b0",
+          "estilo": "136711",
+          "marca": "CLAREMM",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 1499,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "4c818d0f-ea5b-440c-8aac-a9272e1b90f4",
+          "estilo": "136711",
+          "marca": "FLEXI",
+          "linea": "DAMA",
+          "acabado": "NAN",
+          "precio": 1499,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 5,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "435503|CAFE",
+      "estilos": [
+        "435503"
+      ],
+      "color": "CAFE",
+      "count": 3,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        899,
+        939
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO",
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "f8f3e271-c758-4577-b5e0-210cebbaeaa1",
+        "estilo": "435503",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 939,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 9
+      },
+      "others": [
+        {
+          "id": "31b95961-6b9d-42be-b0b1-fc7c2be1a24c",
+          "estilo": "435503",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 899,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "04e97bca-b99c-413c-aa18-29eca2004b82",
+          "estilo": "435503",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 939,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 9,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "442807|CAFE",
+      "estilos": [
+        "442807"
+      ],
+      "color": "CAFE",
+      "count": 3,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        899,
+        959
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "048dddde-7a79-43a8-905d-c20d1a411993",
+        "estilo": "442807",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 959,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 2
+      },
+      "others": [
+        {
+          "id": "70e3123b-b3be-4569-b3dd-44d39132601e",
+          "estilo": "442807",
+          "marca": "COQUETA",
+          "linea": "NINOS",
+          "acabado": "PIEL",
+          "precio": 899,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "4b14bc1b-7901-42aa-bfbb-232f873f87f5",
+          "estilo": "442807",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 959,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 2,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "DIE501|NEGRO",
+      "estilos": [
+        "DIE501"
+      ],
+      "color": "NEGRO",
+      "count": 3,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        499,
+        459,
+        489
+      ],
+      "marcas": [
+        "DIEGO"
+      ],
+      "lineas": [
+        "CABALLERO",
+        "NINOS",
+        "JOVEN"
+      ],
+      "acabados": [
+        "PIEL",
+        "NAPA"
+      ],
+      "sources": [
+        "sqlite",
+        "saz_registered"
+      ],
+      "canonical": {
+        "id": "23cdb59e-8eff-4372-9782-775b9ae9c560",
+        "estilo": "DIE501",
+        "marca": "DIEGO",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 459,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 17
+      },
+      "others": [
+        {
+          "id": "e45a07ca-f3f2-46ac-bde5-9ffe85f2ae7a",
+          "estilo": "DIE501",
+          "marca": "DIEGO",
+          "linea": "CABALLERO",
+          "acabado": "PIEL",
+          "precio": 499,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "9dd9be8e-4262-47a5-b16e-b87b81fa9c03",
+          "estilo": "DIE501",
+          "marca": "DIEGO",
+          "linea": "JOVEN",
+          "acabado": "NAPA",
+          "precio": 489,
+          "imagen": false,
+          "source_system": "saz_registered",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 17,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": true,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "EVE500|ROSA",
+      "estilos": [
+        "EVE500"
+      ],
+      "color": "ROSA",
+      "count": 3,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "4EVER"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "dc439acd-afc8-4902-89ef-62ee41f1ed02",
+        "estilo": "EVE500",
+        "marca": "4EVER",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 0,
+        "imagen": false,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 11
+      },
+      "others": [
+        {
+          "id": "b72b8305-ed50-4ed2-af5a-187ffc5660c8",
+          "estilo": "EVE500",
+          "marca": "4EVER",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "02dbd594-6690-4c88-bea6-7a9b0205aca2",
+          "estilo": "EVE500",
+          "marca": "4EVER",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 11,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "PI4037|AZUL REY",
+      "estilos": [
+        "PI4037"
+      ],
+      "color": "AZUL REY",
+      "count": 3,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        759
+      ],
+      "marcas": [
+        "PIRMA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "sources": [
+        "sqlite",
+        "saz_registered"
+      ],
+      "canonical": {
+        "id": "83fbc1f4-6889-46e2-8302-a55b4d74f0e2",
+        "estilo": "PI4037",
+        "marca": "PIRMA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 759,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 1
+      },
+      "others": [
+        {
+          "id": "cd46155a-1ffa-4a81-bce2-3b1cb6062237",
+          "estilo": "PI4037",
+          "marca": "PIRMA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 759,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "74395131-73e5-44b0-8d08-30d14e97e916",
+          "estilo": "PI4037",
+          "marca": "PIRMA",
+          "linea": "NINOS",
+          "acabado": "SINTETICO",
+          "precio": 759,
+          "imagen": false,
+          "source_system": "saz_registered",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 1,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "PI7008|BLANCO",
+      "estilos": [
+        "PI7008"
+      ],
+      "color": "BLANCO",
+      "count": 3,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        789
+      ],
+      "marcas": [
+        "PIRMA",
+        "CLAREMM"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "sources": [
+        "saz_excel",
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "593b11af-f8ed-4675-ad9c-140c140cf0c1",
+        "estilo": "PI7008",
+        "marca": "PIRMA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 789,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 4
+      },
+      "others": [
+        {
+          "id": "b0ebc6f5-ac0b-4f11-8f3d-e3ea73f9ef1a",
+          "estilo": "PI7008",
+          "marca": "PIRMA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "e618a047-0a01-4c27-9b4b-658508389817",
+          "estilo": "PI7008",
+          "marca": "CLAREMM",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 4,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "SP1480|NEGRO",
+      "estilos": [
+        "SP1480"
+      ],
+      "color": "NEGRO",
+      "count": 3,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        650
+      ],
+      "marcas": [
+        "SPOOK"
+      ],
+      "lineas": [
+        "DAMA",
+        "JOVEN"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel",
+        "saz_registered"
+      ],
+      "canonical": {
+        "id": "b265a685-6e87-4af1-9717-94188e2b6475",
+        "estilo": "SP1480",
+        "marca": "SPOOK",
+        "linea": "JOVEN",
+        "acabado": "PIEL",
+        "precio": 650,
+        "imagen": false,
+        "source_system": "saz_registered",
+        "activo": true,
+        "pairs": 5
+      },
+      "others": [
+        {
+          "id": "1baa4ffe-46be-4403-ba99-f1851b89688a",
+          "estilo": "SP1480",
+          "marca": "SPOOK",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        },
+        {
+          "id": "b5fdf784-ee97-439c-9bd5-79ffaeb76ac7",
+          "estilo": "SP1480",
+          "marca": "SPOOK",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 5,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": true,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "101708|MIEL",
+      "estilos": [
+        "101708"
+      ],
+      "color": "MIEL",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        659
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "717831d7-a7ba-4e49-a863-a3a26d419346",
+        "estilo": "101708",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 659,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 2
+      },
+      "others": [
+        {
+          "id": "939fd2ff-f361-4ee7-9e3e-f3d583651844",
+          "estilo": "101708",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 659,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 2,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "102003|BLANCO",
+      "estilos": [
+        "102003"
+      ],
+      "color": "BLANCO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "2684986d-e98a-4b25-ad46-c5389089ad41",
+        "estilo": "102003",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 0,
+        "imagen": true,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 9
+      },
+      "others": [
+        {
+          "id": "31e49bf4-b7c1-40cc-9702-cc4dfc383d85",
+          "estilo": "102003",
+          "marca": "FLEXI",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 9,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "102501|BLANCO",
+      "estilos": [
+        "102501"
+      ],
+      "color": "BLANCO",
+      "count": 2,
+      "active": 0,
+      "conflict": false,
+      "prices": [
+        659
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINAS"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "8de9da84-263e-4b67-9aa4-abd8873c5ac8",
+        "estilo": "102501",
+        "marca": "COQUETA",
+        "linea": "NIÑAS",
+        "acabado": "PIEL",
+        "precio": 659,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": false,
+        "pairs": 0
+      },
+      "others": [
+        {
+          "id": "7625f137-2f63-420c-9cd2-d2a57bb2a66b",
+          "estilo": "102501",
+          "marca": "COQUETA",
+          "linea": "NIÑAS",
+          "acabado": "PIEL",
+          "precio": 659,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 0,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "103007|NEGRO",
+      "estilos": [
+        "103007"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        799,
+        699
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "982982d4-daf0-4dfc-b94f-af2c834a57b6",
+        "estilo": "103007",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 699,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 1
+      },
+      "others": [
+        {
+          "id": "b2403fb1-dc9e-4792-bc96-64c86e2bbbe9",
+          "estilo": "103007",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 799,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 1,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "104806|ARENA",
+      "estilos": [
+        "104806"
+      ],
+      "color": "ARENA",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "6addf62f-5696-4953-9052-8e7349a4acb1",
+        "estilo": "104806",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 0,
+        "imagen": true,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 9
+      },
+      "others": [
+        {
+          "id": "82129dac-5af6-4dcb-b403-5849d4128d46",
+          "estilo": "104806",
+          "marca": "FLEXI",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 9,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "104936|MARINO",
+      "estilos": [
+        "104936"
+      ],
+      "color": "MARINO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "CLAREMM",
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "329954a7-4d09-4868-a487-56f990b7d294",
+        "estilo": "104936",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 0,
+        "imagen": true,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 9
+      },
+      "others": [
+        {
+          "id": "8290039f-34c1-4ecc-81dc-e0ef23c3b01a",
+          "estilo": "104936",
+          "marca": "CLAREMM",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 9,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "105125|BURGUNDY",
+      "estilos": [
+        "105125"
+      ],
+      "color": "BURGUNDY",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "NAN",
+        "SINTETICO"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "1cf1cc25-4a55-4752-938c-d7bdec274f08",
+        "estilo": "105125",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "SINTETICO",
+        "precio": 0,
+        "imagen": true,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 7
+      },
+      "others": [
+        {
+          "id": "5861e7ce-6e91-4ba0-abe1-ce6a5b32dbcd",
+          "estilo": "105125",
+          "marca": "FLEXI",
+          "linea": "DAMA",
+          "acabado": "NAN",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 7,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "105125|NEGRO",
+      "estilos": [
+        "105125"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "39748490-37c7-44cb-a1ba-5615cace5e2d",
+        "estilo": "105125",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 0,
+        "imagen": true,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 10
+      },
+      "others": [
+        {
+          "id": "c0d99176-aaf4-477d-8995-7eb90be1a3ed",
+          "estilo": "105125",
+          "marca": "FLEXI",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 10,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "106004|CAFE",
+      "estilos": [
+        "106004"
+      ],
+      "color": "CAFE",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        799,
+        759
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "7c329d6f-c3cf-484c-8229-4fbebd90f857",
+        "estilo": "106004",
+        "marca": "COQUETA",
+        "linea": "NINOS",
+        "acabado": "PIEL",
+        "precio": 759,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 3
+      },
+      "others": [
+        {
+          "id": "9f0032e8-f262-4e4d-b8c2-3c00ca90b5c8",
+          "estilo": "106004",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 799,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 3,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "128406|CAMEL",
+      "estilos": [
+        "128406"
+      ],
+      "color": "CAMEL",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "LISO",
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "73db5aa9-e55b-4b3e-9cad-dad6dbe95618",
+        "estilo": "128406",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 0,
+        "imagen": true,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 2
+      },
+      "others": [
+        {
+          "id": "fa2b5ae3-3879-4dfd-8853-6fb12504371c",
+          "estilo": "128406",
+          "marca": "FLEXI",
+          "linea": "DAMA",
+          "acabado": "LISO",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 2,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "131501|NEGRO",
+      "estilos": [
+        "131501"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "NAN",
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "52b2dfec-a027-4b1d-be88-4076ad096d04",
+        "estilo": "131501",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 0,
+        "imagen": true,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 8
+      },
+      "others": [
+        {
+          "id": "280d4b4e-8ab0-43e7-96b4-518f772ec967",
+          "estilo": "131501",
+          "marca": "NAN",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 8,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "131504|BLANCO",
+      "estilos": [
+        "131504"
+      ],
+      "color": "BLANCO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "NAN",
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "67c11af7-52df-4055-9423-e1d175051195",
+        "estilo": "131504",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 0,
+        "imagen": true,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 2
+      },
+      "others": [
+        {
+          "id": "6c3e5cf4-3068-4b98-a4bc-57d960c2ab1f",
+          "estilo": "131504",
+          "marca": "NAN",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 2,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "138501|NEGRO",
+      "estilos": [
+        "138501"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "NAN",
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "e428b52f-e4ae-4231-83a6-964bb3ec548f",
+        "estilo": "138501",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 0,
+        "imagen": true,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 2
+      },
+      "others": [
+        {
+          "id": "d43a004c-53c1-43a6-9be7-f226d1ec2a98",
+          "estilo": "138501",
+          "marca": "NAN",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 2,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "138803|NEGRO",
+      "estilos": [
+        "138803"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "SINTETICO",
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "d172b679-1b8c-432e-99c0-f73178bb22ae",
+        "estilo": "138803",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 0,
+        "imagen": true,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 6
+      },
+      "others": [
+        {
+          "id": "9ccad1df-fdc4-4e2e-95f6-0fd64067a0a0",
+          "estilo": "138803",
+          "marca": "FLEXI",
+          "linea": "DAMA",
+          "acabado": "SINTETICO",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 6,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "139901|NEGRO",
+      "estilos": [
+        "139901"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        799,
+        859
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO",
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "61426a9e-eee0-4e0a-bd22-8371ab35e4a1",
+        "estilo": "139901",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 799,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 3
+      },
+      "others": [
+        {
+          "id": "4b454fcd-f303-4409-bce3-e10f1317763c",
+          "estilo": "139901",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 859,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 3,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "139906|BLANCO",
+      "estilos": [
+        "139906"
+      ],
+      "color": "BLANCO",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        749,
+        799
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTENTICO",
+        "SINTETICO"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "8eafbd30-b523-41aa-a8a2-01b2bfcd05a6",
+        "estilo": "139906",
+        "marca": "COQUETA",
+        "linea": "NINOS",
+        "acabado": "SINTETICO",
+        "precio": 799,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 5
+      },
+      "others": [
+        {
+          "id": "ad2a80ec-deac-46a7-bb96-52303922054c",
+          "estilo": "139906",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTENTICO",
+          "precio": 749,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 5,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "156754|BLANCO",
+      "estilos": [
+        "156754"
+      ],
+      "color": "BLANCO",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        879,
+        849
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTENTICO",
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "93ef31ca-3566-4708-8d4a-795d84fda3be",
+        "estilo": "156754",
+        "marca": "COQUETA",
+        "linea": "NINOS",
+        "acabado": "PIEL",
+        "precio": 849,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 1
+      },
+      "others": [
+        {
+          "id": "c97b91d6-103c-49b8-b100-ed98bd1d6f5d",
+          "estilo": "156754",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTENTICO",
+          "precio": 879,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 1,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "164009|NEGRO",
+      "estilos": [
+        "164009"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        799,
+        749
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "PIEL",
+        "SINTETICO"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "954f0d11-104e-4cae-b0c6-ab60cfc55168",
+        "estilo": "164009",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 749,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 6
+      },
+      "others": [
+        {
+          "id": "c404b01c-f249-4bc7-9349-2f9efafcf4a5",
+          "estilo": "164009",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 799,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 6,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "204500|ARENA",
+      "estilos": [
+        "204500"
+      ],
+      "color": "ARENA",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        859,
+        799
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTENTICO",
+        "SINTETICO"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "9f2a4981-748e-4bd2-b9a8-6bb6c9e5caa0",
+        "estilo": "204500",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 799,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 6
+      },
+      "others": [
+        {
+          "id": "c0895041-d3dc-45a7-b749-5d14e416819c",
+          "estilo": "204500",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTENTICO",
+          "precio": 859,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 6,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "204500|GRIS",
+      "estilos": [
+        "204500"
+      ],
+      "color": "GRIS",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        859,
+        799
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTENTICO",
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "9a385981-d5f1-49ee-8105-77fb0d24395a",
+        "estilo": "204500",
+        "marca": "COQUETA",
+        "linea": "NINOS",
+        "acabado": "PIEL",
+        "precio": 799,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 9
+      },
+      "others": [
+        {
+          "id": "6cbd9e8f-d881-41f5-80c9-9b9a06f44571",
+          "estilo": "204500",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTENTICO",
+          "precio": 859,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 9,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "205302|GRIS",
+      "estilos": [
+        "205302"
+      ],
+      "color": "GRIS",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        790,
+        759
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTENTICO",
+        "SINTETICO"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "507a940b-3620-4239-938d-b09e5448a198",
+        "estilo": "205302",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 759,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 0
+      },
+      "others": [
+        {
+          "id": "7df95f97-3666-4860-bf71-c1203149363b",
+          "estilo": "205302",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTENTICO",
+          "precio": 790,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 0,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "206506|GRIS AZUL",
+      "estilos": [
+        "206506"
+      ],
+      "color": "GRIS AZUL",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        729,
+        699
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "5996b4c0-1ec5-4dbd-abae-ca378752dca8",
+        "estilo": "206506",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 699,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 4
+      },
+      "others": [
+        {
+          "id": "a8c7e51f-6cbc-4ef7-8993-32b5b10585af",
+          "estilo": "206506",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 729,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 4,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "209104|BLANCO",
+      "estilos": [
+        "209104"
+      ],
+      "color": "BLANCO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        849
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTENTICO",
+        "SINTETICO"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "4dfe7359-9a51-439a-b852-9cf6b51d435f",
+        "estilo": "209104",
+        "marca": "COQUETA",
+        "linea": "NINOS",
+        "acabado": "SINTETICO",
+        "precio": 849,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 4
+      },
+      "others": [
+        {
+          "id": "96769ff6-54ae-4cc2-a4cd-9e955772bded",
+          "estilo": "209104",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTENTICO",
+          "precio": 849,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 4,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "25901|NEGRO",
+      "estilos": [
+        "025901"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "9190bc0b-b573-4379-baba-3f4f50e9c723",
+        "estilo": "025901",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 0,
+        "imagen": true,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 3
+      },
+      "others": [
+        {
+          "id": "a062c188-26ef-420d-b114-99a848c2d17d",
+          "estilo": "025901",
+          "marca": "FLEXI",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 3,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "25911|NEGRO",
+      "estilos": [
+        "025911",
+        "25911"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        1249
+      ],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "df1b3a56-0e06-456f-ae97-e983d84ee5dc",
+        "estilo": "025911",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 1249,
+        "imagen": true,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 5
+      },
+      "others": [
+        {
+          "id": "fc24da06-8ecc-4a46-a40c-f79b78bda22e",
+          "estilo": "25911",
+          "marca": "FLEXI",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 5,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": true
+      }
+    },
+    {
+      "key": "37829|ARENA",
+      "estilos": [
+        "037829"
+      ],
+      "color": "ARENA",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "FLEXI",
+        "CLAREMM"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "a8d6c9ca-5aa7-4a0f-85ce-6aafad2d71be",
+        "estilo": "037829",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 0,
+        "imagen": true,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 11
+      },
+      "others": [
+        {
+          "id": "791edb4b-df0e-4f31-9929-585062a94638",
+          "estilo": "037829",
+          "marca": "CLAREMM",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 11,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "37830|NEGRO",
+      "estilos": [
+        "037830"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "CLAREMM",
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "0496fae4-4d78-49df-adfa-76ccb27a049c",
+        "estilo": "037830",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 0,
+        "imagen": true,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 14
+      },
+      "others": [
+        {
+          "id": "28a4eaa7-94f2-4137-80ee-36afedba2945",
+          "estilo": "037830",
+          "marca": "CLAREMM",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 14,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "401911|NEGRO",
+      "estilos": [
+        "401911"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        949
+      ],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "NINOS",
+        "DAMA"
+      ],
+      "acabados": [
+        "SINTETICO",
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite",
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "fa90435a-4352-4012-a0d3-f388dc7ca44f",
+        "estilo": "401911",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 949,
+        "imagen": true,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 2
+      },
+      "others": [
+        {
+          "id": "cb0d92cf-ce2c-4d15-8d3d-94072647f404",
+          "estilo": "401911",
+          "marca": "FLEXI",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 949,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 2,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": true,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "433608|NEGRO",
+      "estilos": [
+        "433608"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        899
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "JOVEN",
+        "NINOS"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "1240c5b9-9087-46ee-baa6-b7d525a9b321",
+        "estilo": "433608",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 899,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 19
+      },
+      "others": [
+        {
+          "id": "b1274107-412c-470f-9e2c-ba7d86302b79",
+          "estilo": "433608",
+          "marca": "COQUETA",
+          "linea": "JOVEN",
+          "acabado": "PIEL",
+          "precio": 899,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 19,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": true,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "43502|NEGRO",
+      "estilos": [
+        "43502",
+        "043502"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        899,
+        759
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS",
+        "NINAS"
+      ],
+      "acabados": [
+        "SINTETICO",
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "179f4f00-b367-418d-ae61-3274423f13b6",
+        "estilo": "043502",
+        "marca": "COQUETA",
+        "linea": "NIÑAS",
+        "acabado": "PIEL",
+        "precio": 759,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 0
+      },
+      "others": [
+        {
+          "id": "de22e406-6c22-458e-98f0-215aa8e255fd",
+          "estilo": "43502",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 899,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 0,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": true,
+        "acabado": true,
+        "estilo": true
+      }
+    },
+    {
+      "key": "435500|MIEL",
+      "estilos": [
+        "435500"
+      ],
+      "color": "MIEL",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        859,
+        999
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO",
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "b2cc3186-24a6-421a-b9f7-010700b8bcd3",
+        "estilo": "435500",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 999,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 29
+      },
+      "others": [
+        {
+          "id": "abe528a0-e682-491c-858b-c7a4f259b9ee",
+          "estilo": "435500",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 859,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 29,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "435501|NEGRO",
+      "estilos": [
+        "435501"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        899,
+        939
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "fb306e31-c574-4714-819b-8714ed6d0490",
+        "estilo": "435501",
+        "marca": "COQUETA",
+        "linea": "NINOS",
+        "acabado": "PIEL",
+        "precio": 899,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 17
+      },
+      "others": [
+        {
+          "id": "21a03221-8910-41d8-a157-d696ff7a7550",
+          "estilo": "435501",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 939,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 17,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "435502|MIEL",
+      "estilos": [
+        "435502"
+      ],
+      "color": "MIEL",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        939
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "JOVEN",
+        "NINOS"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "e2614baf-ae34-4083-a251-c6c5d1403989",
+        "estilo": "435502",
+        "marca": "COQUETA",
+        "linea": "JOVEN",
+        "acabado": "PIEL",
+        "precio": 939,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 43
+      },
+      "others": [
+        {
+          "id": "15c5ced9-2cc0-49cb-a1ff-7ae3dadd8fc8",
+          "estilo": "435502",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 939,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 43,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": true,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "435504|NEGRO",
+      "estilos": [
+        "435504"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        859,
+        899
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO",
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "fd6a9fb0-e1f2-4371-a9fb-c9f5bee7d30f",
+        "estilo": "435504",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 859,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 24
+      },
+      "others": [
+        {
+          "id": "dd5585c1-df2a-4822-a6f4-13f24c4d11cb",
+          "estilo": "435504",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 899,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 24,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "435505|CAFE CLARO",
+      "estilos": [
+        "435505"
+      ],
+      "color": "CAFE CLARO",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        899,
+        949
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "79870c40-8bbe-4e15-a1aa-2f62157cd215",
+        "estilo": "435505",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 899,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 14
+      },
+      "others": [
+        {
+          "id": "5298643d-0dfc-472f-a2c8-5fcac0b80878",
+          "estilo": "435505",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 949,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 14,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "435506|NEGRO",
+      "estilos": [
+        "435506"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        999,
+        899
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "a127e6a8-db2f-4c53-a9a8-2ba0485a8335",
+        "estilo": "435506",
+        "marca": "COQUETA",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 999,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 34
+      },
+      "others": [
+        {
+          "id": "55186f36-9d1e-4911-b21b-f422beae28cf",
+          "estilo": "435506",
+          "marca": "COQUETA",
+          "linea": "NINOS",
+          "acabado": "PIEL",
+          "precio": 899,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 1,
+          "sizes": {
+            "18.0": 1
+          }
+        }
+      ],
+      "merged_pairs": 35,
+      "overlapping_sizes": [
+        {
+          "size": "18.0",
+          "from": "435506",
+          "add": 1,
+          "already": 2
+        }
+      ],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "45233|NEGRO",
+      "estilos": [
+        "045233"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "9cb36be2-2db8-4c8c-9ef4-c1bc09788904",
+        "estilo": "045233",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 0,
+        "imagen": false,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 8
+      },
+      "others": [
+        {
+          "id": "07219dfc-c882-4370-95ed-8ba129817d4c",
+          "estilo": "045233",
+          "marca": "FLEXI",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 8,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "48304|BLANCO",
+      "estilos": [
+        "048304",
+        "48304"
+      ],
+      "color": "BLANCO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        1099
+      ],
+      "marcas": [
+        "FLEXI"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "e3eb0875-0699-4f69-9aaa-8390b081f071",
+        "estilo": "048304",
+        "marca": "FLEXI",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 1099,
+        "imagen": true,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 11
+      },
+      "others": [
+        {
+          "id": "5bf37dd2-f03c-4450-b650-bcf6903586b1",
+          "estilo": "48304",
+          "marca": "FLEXI",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": true,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 11,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": true
+      }
+    },
+    {
+      "key": "4E1584|BLANCO",
+      "estilos": [
+        "4E1584"
+      ],
+      "color": "BLANCO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "GIOBABY",
+        "GIOBABY KIDS"
+      ],
+      "lineas": [
+        "NINAS",
+        "DAMA"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "1825ef80-24ec-41c9-ad3d-7d337668326f",
+        "estilo": "4E1584",
+        "marca": "GIOBABY",
+        "linea": "NIÑAS",
+        "acabado": "SINTETICO",
+        "precio": 0,
+        "imagen": false,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 9
+      },
+      "others": [
+        {
+          "id": "927c3be7-b4ca-4416-9756-52fa95348174",
+          "estilo": "4E1584",
+          "marca": "GIOBABY KIDS",
+          "linea": "DAMA",
+          "acabado": "SINTETICO",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 9,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": true,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "54403A|NEGRO",
+      "estilos": [
+        "54403A"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        789.88
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINAS"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "1f9180f1-daa5-435c-ba3c-8941f152ec6b",
+        "estilo": "54403A",
+        "marca": "COQUETA",
+        "linea": "NIÑAS",
+        "acabado": "PIEL",
+        "precio": 789.88,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 0
+      },
+      "others": [
+        {
+          "id": "c8da2900-b4e1-4688-9cd3-d742f0869f12",
+          "estilo": "54403A",
+          "marca": "COQUETA",
+          "linea": "NIÑAS",
+          "acabado": "PIEL",
+          "precio": 789.88,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 0,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "80606A|NEGRO",
+      "estilos": [
+        "80606A"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        799,
+        899
+      ],
+      "marcas": [
+        "COQUETA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "44e727fc-4d74-4608-ad28-b9d2cdda29ae",
+        "estilo": "80606A",
+        "marca": "COQUETA",
+        "linea": "NINOS",
+        "acabado": "PIEL",
+        "precio": 799,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 7
+      },
+      "others": [
+        {
+          "id": "13a92627-3ab7-4778-aa31-c021cf06bda6",
+          "estilo": "80606A",
+          "marca": "COQUETA",
+          "linea": "NIÑOS",
+          "acabado": "PIEL",
+          "precio": 899,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 7,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "GI1922|NEGRO",
+      "estilos": [
+        "GI1922"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "GIOBABY"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "14b9ca9d-ce75-44cb-ac99-894304aa0b63",
+        "estilo": "GI1922",
+        "marca": "GIOBABY",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 0,
+        "imagen": false,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 5
+      },
+      "others": [
+        {
+          "id": "409e479b-16ba-4bca-b6dc-b6e501f03375",
+          "estilo": "GI1922",
+          "marca": "GIOBABY",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 5,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "GI1923|AVENA",
+      "estilos": [
+        "GI1923"
+      ],
+      "color": "AVENA",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "GIOBABY",
+        "NAN"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "bdb75dc5-d41f-4fc2-9676-f91b250239bf",
+        "estilo": "GI1923",
+        "marca": "GIOBABY",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 0,
+        "imagen": false,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 9
+      },
+      "others": [
+        {
+          "id": "e52d029e-770e-42f5-8fe6-d603f026a350",
+          "estilo": "GI1923",
+          "marca": "NAN",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 9,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "GIO062|BLANCO",
+      "estilos": [
+        "GIO062"
+      ],
+      "color": "BLANCO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "GIOBABY"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "4bfa5c47-d616-42ba-8f23-0035ea4b54de",
+        "estilo": "GIO062",
+        "marca": "GIOBABY",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 0,
+        "imagen": false,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 2
+      },
+      "others": [
+        {
+          "id": "8a654ef3-64ff-4790-aed1-d144082894e8",
+          "estilo": "GIO062",
+          "marca": "GIOBABY",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 2,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "JH0006|NEGRO",
+      "estilos": [
+        "JH0006"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        499,
+        399
+      ],
+      "marcas": [
+        "JHON",
+        "JHON."
+      ],
+      "lineas": [
+        "CABALLERO",
+        "NINOS"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "47a10641-8c84-452a-a27b-80f1d9094c05",
+        "estilo": "JH0006",
+        "marca": "JHON.",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 399,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 12
+      },
+      "others": [
+        {
+          "id": "b1fcf131-b37f-475a-9582-6552b8eea763",
+          "estilo": "JH0006",
+          "marca": "JHON",
+          "linea": "CABALLERO",
+          "acabado": "PIEL",
+          "precio": 499,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 12,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": true,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "KYG300|MULTICOLOR",
+      "estilos": [
+        "KYG300"
+      ],
+      "color": "MULTICOLOR",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        399,
+        389
+      ],
+      "marcas": [
+        "D & G"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "bf52b3d4-9307-4eec-90dc-4e9e18467bb9",
+        "estilo": "KYG300",
+        "marca": "D & G",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 399,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 2
+      },
+      "others": [
+        {
+          "id": "4d581b20-fc17-44b3-a691-914deec6f077",
+          "estilo": "KYG300",
+          "marca": "D & G",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 389,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 2,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "LAP020|NEGRO",
+      "estilos": [
+        "LAP020"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        1100
+      ],
+      "marcas": [
+        "LA PAG"
+      ],
+      "lineas": [
+        "CABALLERO",
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL",
+        "SINTETICO"
+      ],
+      "sources": [
+        "sqlite",
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "a639904d-45e6-4c40-9c6e-ae074b1a0f67",
+        "estilo": "LAP020",
+        "marca": "LA PAG",
+        "linea": "CABALLERO",
+        "acabado": "PIEL",
+        "precio": 1100,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 1
+      },
+      "others": [
+        {
+          "id": "592394d1-1a85-44e1-9149-bfa4bd0c20ad",
+          "estilo": "LAP020",
+          "marca": "LA PAG",
+          "linea": "DAMA",
+          "acabado": "SINTETICO",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 1,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": true,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "LAP856|SHEDRON",
+      "estilos": [
+        "LAP856"
+      ],
+      "color": "SHEDRON",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        899
+      ],
+      "marcas": [
+        "NAN",
+        "LA PAG"
+      ],
+      "lineas": [
+        "DAMA",
+        "CABALLERO"
+      ],
+      "acabados": [
+        "SINTETICO",
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel",
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "b20c9de7-a3e3-43e7-9d5e-0d272db99c08",
+        "estilo": "LAP856",
+        "marca": "LA PAG",
+        "linea": "CABALLERO",
+        "acabado": "PIEL",
+        "precio": 899,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 1
+      },
+      "others": [
+        {
+          "id": "90a41584-2ffa-42e5-9d65-0ff7041399c7",
+          "estilo": "LAP856",
+          "marca": "NAN",
+          "linea": "DAMA",
+          "acabado": "SINTETICO",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 1,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": true,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "LE1023|LATE",
+      "estilos": [
+        "LE1023"
+      ],
+      "color": "LATE",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "LEYDI LAURA"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "101e501a-e2ac-4479-9687-1dc9240822ed",
+        "estilo": "LE1023",
+        "marca": "LEYDI LAURA",
+        "linea": "DAMA",
+        "acabado": "SINTETICO",
+        "precio": 0,
+        "imagen": false,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 2
+      },
+      "others": [
+        {
+          "id": "9f536902-db83-4e85-ba5d-74d537f96c2d",
+          "estilo": "LE1023",
+          "marca": "LEYDI LAURA",
+          "linea": "DAMA",
+          "acabado": "SINTETICO",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 2,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "LES419|PLATA",
+      "estilos": [
+        "LES419"
+      ],
+      "color": "PLATA",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "LESLIE"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "6dbe970b-3cce-488b-9e8f-92f8bf380174",
+        "estilo": "LES419",
+        "marca": "LESLIE",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 0,
+        "imagen": false,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 4
+      },
+      "others": [
+        {
+          "id": "c482d9a9-7396-4b34-bc81-9b6c98b952af",
+          "estilo": "LES419",
+          "marca": "LESLIE",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 4,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "LES814|NEGRO",
+      "estilos": [
+        "LES814"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "LESLIE"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "b88c7e71-9392-4245-91d5-98f1a163678a",
+        "estilo": "LES814",
+        "marca": "LESLIE",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 0,
+        "imagen": false,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 8
+      },
+      "others": [
+        {
+          "id": "c2499f14-7bf3-4c87-8b8a-0f85b65ac707",
+          "estilo": "LES814",
+          "marca": "LESLIE",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 8,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "MA1210|NEGRO",
+      "estilos": [
+        "MA1210"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "MAXIM"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "ARGELIA",
+        "SINTETICO"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "58a9394b-ceeb-47a5-8504-e4aa24e163e2",
+        "estilo": "MA1210",
+        "marca": "MAXIM",
+        "linea": "DAMA",
+        "acabado": "SINTETICO",
+        "precio": 0,
+        "imagen": false,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 8
+      },
+      "others": [
+        {
+          "id": "5dbd0d31-f543-4b4c-b40c-3a40479ce08a",
+          "estilo": "MA1210",
+          "marca": "MAXIM",
+          "linea": "DAMA",
+          "acabado": "ARGELIA",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 8,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "MA2405|NEGRO",
+      "estilos": [
+        "MA2405"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "MARZE"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "CHAROL SINTETICO",
+        "SINTETICO"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "755588f1-df73-4895-bd3e-012ad23541c5",
+        "estilo": "MA2405",
+        "marca": "MARZE",
+        "linea": "DAMA",
+        "acabado": "SINTETICO",
+        "precio": 0,
+        "imagen": false,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 7
+      },
+      "others": [
+        {
+          "id": "eaf80f27-a1d3-4b0c-b652-de3c4aaa2e92",
+          "estilo": "MA2405",
+          "marca": "MARZE",
+          "linea": "DAMA",
+          "acabado": "CHAROL SINTETICO",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 7,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "MAR113|PLATA",
+      "estilos": [
+        "MAR113"
+      ],
+      "color": "PLATA",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "MARIQUITAS"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "bb1efc32-0515-4778-a152-17a7d268fe88",
+        "estilo": "MAR113",
+        "marca": "MARIQUITAS",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 0,
+        "imagen": false,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 3
+      },
+      "others": [
+        {
+          "id": "5379c260-4685-4f51-bd8e-f76a0a2c9dc9",
+          "estilo": "MAR113",
+          "marca": "MARIQUITAS",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 3,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "NI2004|NEGRO",
+      "estilos": [
+        "NI2004"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "NICE",
+        "CLAREMM"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "5e7c0b9e-aadb-4c77-906e-e123780909ef",
+        "estilo": "NI2004",
+        "marca": "NICE",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 0,
+        "imagen": false,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 4
+      },
+      "others": [
+        {
+          "id": "735a2a69-4159-4054-9ba1-8fc166bd2893",
+          "estilo": "NI2004",
+          "marca": "CLAREMM",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 4,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "NI3908|NEGRO",
+      "estilos": [
+        "NI3908"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "NICE"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "PIEL",
+        "NAN"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "675ef41b-255b-48de-af7a-166628b7fc00",
+        "estilo": "NI3908",
+        "marca": "NICE",
+        "linea": "DAMA",
+        "acabado": "PIEL",
+        "precio": 0,
+        "imagen": false,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 3
+      },
+      "others": [
+        {
+          "id": "e248eff9-a7c3-4412-8113-00388f5072e7",
+          "estilo": "NI3908",
+          "marca": "NICE",
+          "linea": "DAMA",
+          "acabado": "NAN",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 3,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "PEK590|CAFE",
+      "estilos": [
+        "PEK590"
+      ],
+      "color": "CAFE",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        399
+      ],
+      "marcas": [
+        "HUARACHE",
+        "PEKID´S"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "PIEL",
+        "SINTETICO"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "74f42392-4308-4ab8-8361-48e2e7fe6c0e",
+        "estilo": "PEK590",
+        "marca": "HUARACHE",
+        "linea": "NIÑOS",
+        "acabado": "PIEL",
+        "precio": 399,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 3
+      },
+      "others": [
+        {
+          "id": "bdba6ca5-0410-4e9e-b71a-618679662236",
+          "estilo": "PEK590",
+          "marca": "PEKID´S",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 399,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 3,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "PI0248|NEGRO",
+      "estilos": [
+        "PI0248"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        799
+      ],
+      "marcas": [
+        "PIRMA"
+      ],
+      "lineas": [
+        "DAMA",
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "sources": [
+        "saz_excel",
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "be3e8e4e-86f1-441f-bb21-0ce10e8d8287",
+        "estilo": "PI0248",
+        "marca": "PIRMA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 799,
+        "imagen": false,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 2
+      },
+      "others": [
+        {
+          "id": "005f242f-fd17-4c18-b476-18d003fea059",
+          "estilo": "PI0248",
+          "marca": "PIRMA",
+          "linea": "DAMA",
+          "acabado": "SINTETICO",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 2,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": true,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "PI2018|NEGRO NARANJA",
+      "estilos": [
+        "PI2018"
+      ],
+      "color": "NEGRO NARANJA",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        699
+      ],
+      "marcas": [
+        "PIRMA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "7241fa63-a1d4-4c8d-90fb-0b983255265e",
+        "estilo": "PI2018",
+        "marca": "PIRMA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 699,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 0
+      },
+      "others": [
+        {
+          "id": "94e16a9b-5b18-4eea-b02a-f1a7e2203d9f",
+          "estilo": "PI2018",
+          "marca": "PIRMA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 699,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 0,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "PI2020|BLANCO",
+      "estilos": [
+        "PI2020"
+      ],
+      "color": "BLANCO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [
+        699
+      ],
+      "marcas": [
+        "PIRMA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "sources": [
+        "saz_excel",
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "c2a7b241-8ff2-49a9-8299-b5a7041277f1",
+        "estilo": "PI2020",
+        "marca": "PIRMA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 699,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 3
+      },
+      "others": [
+        {
+          "id": "d8f73dec-4916-4691-a863-2234604e7177",
+          "estilo": "PI2020",
+          "marca": "PIRMA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 3,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "PI3058|ROJO",
+      "estilos": [
+        "PI3058"
+      ],
+      "color": "ROJO",
+      "count": 2,
+      "active": 1,
+      "conflict": true,
+      "prices": [
+        999,
+        739
+      ],
+      "marcas": [
+        "PIRMA"
+      ],
+      "lineas": [
+        "NINOS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "3402d3cd-d7c6-4361-8c1f-030a49d8c021",
+        "estilo": "PI3058",
+        "marca": "PIRMA",
+        "linea": "NIÑOS",
+        "acabado": "SINTETICO",
+        "precio": 739,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": true,
+        "pairs": 0
+      },
+      "others": [
+        {
+          "id": "39a887c3-8193-44bd-9361-18945b8a2dc0",
+          "estilo": "PI3058",
+          "marca": "PIRMA",
+          "linea": "NIÑOS",
+          "acabado": "SINTETICO",
+          "precio": 999,
+          "imagen": false,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 0,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    },
+    {
+      "key": "UN3096|NEGRO",
+      "estilos": [
+        "UN3096"
+      ],
+      "color": "NEGRO",
+      "count": 2,
+      "active": 1,
+      "conflict": false,
+      "prices": [],
+      "marcas": [
+        "UNION",
+        "NAN"
+      ],
+      "lineas": [
+        "DAMA"
+      ],
+      "acabados": [
+        "SINTETICO",
+        "PIEL"
+      ],
+      "sources": [
+        "saz_excel"
+      ],
+      "canonical": {
+        "id": "72aa752a-07a8-49ab-923e-db3c50e1d408",
+        "estilo": "UN3096",
+        "marca": "UNION",
+        "linea": "DAMA",
+        "acabado": "SINTETICO",
+        "precio": 0,
+        "imagen": false,
+        "source_system": "saz_excel",
+        "activo": true,
+        "pairs": 2
+      },
+      "others": [
+        {
+          "id": "36fe1712-d9fc-4486-afca-0a0c74d57a2c",
+          "estilo": "UN3096",
+          "marca": "NAN",
+          "linea": "DAMA",
+          "acabado": "PIEL",
+          "precio": 0,
+          "imagen": false,
+          "source_system": "saz_excel",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 2,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": true,
+        "linea": false,
+        "acabado": true,
+        "estilo": false
+      }
+    },
+    {
+      "key": "WIL108|TAN",
+      "estilos": [
+        "WIL108"
+      ],
+      "color": "TAN",
+      "count": 2,
+      "active": 0,
+      "conflict": false,
+      "prices": [
+        689
+      ],
+      "marcas": [
+        "WILDCAT"
+      ],
+      "lineas": [
+        "NINAS"
+      ],
+      "acabados": [
+        "SINTETICO"
+      ],
+      "sources": [
+        "sqlite"
+      ],
+      "canonical": {
+        "id": "0c6c477e-2f48-4fb9-946e-122312cd7d45",
+        "estilo": "WIL108",
+        "marca": "WILDCAT",
+        "linea": "NIÑAS",
+        "acabado": "Sintético",
+        "precio": 689,
+        "imagen": true,
+        "source_system": "sqlite",
+        "activo": false,
+        "pairs": 0
+      },
+      "others": [
+        {
+          "id": "41e4f4cd-2306-48c1-a3a1-4d447ba43923",
+          "estilo": "WIL108",
+          "marca": "WILDCAT",
+          "linea": "NIÑAS",
+          "acabado": "Sintético",
+          "precio": 689,
+          "imagen": true,
+          "source_system": "sqlite",
+          "activo": false,
+          "pairs": 0,
+          "sizes": {}
+        }
+      ],
+      "merged_pairs": 0,
+      "overlapping_sizes": [],
+      "attr_diff": {
+        "marca": false,
+        "linea": false,
+        "acabado": false,
+        "estilo": false
+      }
+    }
+  ]
+}

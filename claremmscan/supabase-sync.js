@@ -56,7 +56,12 @@
     if (tokens === 'N B' || tokens === 'NB') return 'NEGRO BLANCO';
     return tokens.split(' ').filter(Boolean).sort().join(' ');
   };
-  const colorsMatch = (left, right) => Boolean(foldedColor(left) && foldedColor(left) === foldedColor(right));
+  const sazCatalog = () => window.ClaremmSazCatalog;
+  const sazResolve = (field, value) => sazCatalog()?.resolve?.(field, value) || catalogText(value);
+  const colorsMatch = (left, right) => {
+    if (sazCatalog()?.matches) return sazCatalog().matches('color', left, right);
+    return Boolean(foldedColor(left) && foldedColor(left) === foldedColor(right));
+  };
   const isNuevoFicha = (product, totalQuantity = 0) => Boolean(product)
     && !String(product.imagen || '').trim()
     && !(Number(product.precio) > 0)
@@ -69,7 +74,7 @@
   const compactLookupKey = value => `${compactEstilo(value?.estilo)}|${catalogText(value?.color)}`;
   const productLookupKeys = value => {
     const estilos = [...new Set([catalogText(value?.estilo), compactEstilo(value?.estilo)].filter(Boolean))];
-    const colors = [...new Set([catalogText(value?.color), colorTokens(value?.color), foldedColor(value?.color)].filter(Boolean))];
+    const colors = [...new Set([catalogText(value?.color), colorTokens(value?.color), foldedColor(value?.color), catalogText(sazResolve('color', value?.color))].filter(Boolean))];
     const keys = [];
     for (const estilo of estilos) for (const color of colors) keys.push(`${estilo}|${color}`);
     return keys;
@@ -211,7 +216,8 @@
     return rows;
   }
   async function queryProductsFallback(context, term, limit = 80) {
-    const value = catalogText(term);
+    const resolvedColor = sazResolve('color', term);
+    const value = catalogText(resolvedColor && catalogText(resolvedColor) !== catalogText(term) ? resolvedColor : term);
     if (!value || looksLikeEstilo(value) || value.length < 3) return [];
     const { data, error } = await client.from('products').select(PRODUCT_CATALOG_SELECT)
       .eq('organization_id', context.organization.id)
@@ -256,6 +262,7 @@
     return totals;
   }
   async function findCatalogProducts(context, query, scope = 'all', limit = 80) {
+    await sazCatalog()?.ready;
     const terms = catalogText(query).split(' ').filter(Boolean);
     if (!terms.length) return [];
     let products = await queryProductsByEstilo(context, terms[0], 200);
@@ -264,7 +271,11 @@
       const haystack = scope === 'style'
         ? catalogText(`${product.estilo} ${compactEstilo(product.estilo)}`)
         : catalogText([product.estilo, compactEstilo(product.estilo), product.color, product.marca, product.proveedor, product.temporada, product.sublinea, product.departamento, product.clasificacion, product.linea, product.corrida, product.acabado].join(' '));
-      return terms.every(term => haystack.includes(term) || haystack.includes(compactEstilo(term)));
+      return terms.every(term => {
+        if (haystack.includes(term) || haystack.includes(compactEstilo(term))) return true;
+        if (scope === 'style') return false;
+        return colorsMatch(product.color, term) || (sazCatalog()?.matches?.('marca', product.marca, term));
+      });
     }).slice(0, limit);
   }
   async function ensureProductById(context, productId) {
@@ -653,7 +664,7 @@
     const product = await ensureProductById(context, productId);
     if (!product) throw new Error('No se encontró el producto en el catálogo relacional.');
     if (field === 'precio') return updateRelationalStylePrice(product.estilo, value, product.corrida);
-    const next = String(value ?? '').trim();
+    const next = sazCatalog()?.resolve?.(field, value) || String(value ?? '').trim();
     const { error } = await client.from('products').update({ [field]: next }).eq('id', productId).eq('organization_id', context.organization.id);
     if (error) throw error;
     product[field] = next;
@@ -665,7 +676,7 @@
     const context = await loadBranchStockContext();
     const source = await ensureProductById(context, productId);
     if (!source) throw new Error('No se encontró la ficha original.');
-    const nextColor = catalogText(color);
+    const nextColor = sazResolve('color', color);
     const nextCorrida = String(corrida ?? '').trim();
     const nextSize = String(size ?? '').trim().replace(',', '.');
     const qty = Math.trunc(Number(quantity));
@@ -750,13 +761,13 @@
 
   async function syncCaptureToCatalog(item) {
     if (!client || !user) return null;
-    const estilo = catalogText(item?.estilo), color = catalogText(item?.color);
+    const estilo = catalogText(item?.estilo), color = sazResolve('color', item?.color);
     if (!estilo || !color) return null;
     const qty = Math.trunc(Number(item.cantidad));
     const size = String(item.talla || '').trim().replace(',', '.');
     let context = await loadBranchStockContext();
     if (estilo) await findCatalogProducts(context, `${estilo} ${color}`.trim(), 'all', 40);
-    let product = resolveCatalogProduct(context, item).product;
+    let product = resolveCatalogProduct(context, { ...item, color }).product;
     if (!product) {
       const payload = {
         organization_id: context.organization.id,
@@ -766,10 +777,12 @@
         estilo,
         color,
         precio: Math.max(0, catalogPrice(item.precio) || 0),
-        marca: catalogText(item.marca),
-        linea: catalogText(item.linea),
-        corrida: String(item.corrida || '').trim(),
-        acabado: catalogText(item.material || item.acabado),
+        marca: sazResolve('marca', item.marca),
+        linea: sazResolve('linea', item.linea) || catalogText(item.linea),
+        corrida: sazCatalog()?.resolve?.('corrida', item.corrida) || String(item.corrida || '').trim(),
+        acabado: sazResolve('acabado', item.material || item.acabado),
+        temporada: catalogText(item.temporada) || sazCatalog()?.DEFAULT_TEMPORADA || '',
+        departamento: sazResolve('departamento', item.departamento) || 'CALZADO',
         observaciones: String(item.notas || ''),
         activo: true,
         imagen: '',
@@ -781,9 +794,9 @@
     } else {
       const patch = {};
       if (!(Number(product.precio) > 0) && catalogPrice(item.precio) > 0) patch.precio = catalogPrice(item.precio);
-      if (!catalogText(product.marca) && catalogText(item.marca)) patch.marca = catalogText(item.marca);
-      if (!catalogText(product.linea) && catalogText(item.linea)) patch.linea = catalogText(item.linea);
-      if (!catalogText(product.acabado) && catalogText(item.material || item.acabado)) patch.acabado = catalogText(item.material || item.acabado);
+      if (!catalogText(product.marca) && catalogText(item.marca)) patch.marca = sazResolve('marca', item.marca);
+      if (!catalogText(product.linea) && catalogText(item.linea)) patch.linea = sazResolve('linea', item.linea) || catalogText(item.linea);
+      if (!catalogText(product.acabado) && catalogText(item.material || item.acabado)) patch.acabado = sazResolve('acabado', item.material || item.acabado);
       if (!catalogCorrida(product.corrida) && String(item.corrida || '').trim()) patch.corrida = String(item.corrida).trim();
       if (Object.keys(patch).length) {
         const { error } = await client.from('products').update(patch).eq('id', product.id).eq('organization_id', context.organization.id);
@@ -901,17 +914,17 @@
         source_id: key,
         match_key: [row.estilo, row.color, row.marca || template.marca].map(catalogText).join('|'),
         estilo: catalogText(row.estilo || template.estilo),
-        color: catalogText(row.color),
+        color: sazResolve('color', row.color),
         precio: Number.isFinite(precio) && precio > 0 ? precio : Math.max(0, Number(template.precio) || 0),
-        marca: catalogText(row.marca) || catalogText(template.marca),
-        proveedor: catalogText(template.proveedor),
-        temporada: catalogText(template.temporada),
-        sublinea: catalogText(template.sublinea),
-        departamento: catalogText(template.departamento),
-        clasificacion: catalogText(template.clasificacion),
-        linea: catalogText(row.linea) || catalogText(template.linea),
-        corrida: String(template.corrida || '').trim(),
-        acabado: catalogText(row.material) || catalogText(template.acabado),
+        marca: sazResolve('marca', row.marca) || catalogText(template.marca),
+        proveedor: sazResolve('proveedor', template.proveedor),
+        temporada: catalogText(template.temporada) || sazCatalog()?.DEFAULT_TEMPORADA || '',
+        sublinea: sazResolve('sublinea', template.sublinea),
+        departamento: catalogText(template.departamento) || 'CALZADO',
+        clasificacion: sazResolve('clasificacion', template.clasificacion),
+        linea: sazResolve('linea', row.linea) || catalogText(template.linea),
+        corrida: sazCatalog()?.resolve?.('corrida', template.corrida) || String(template.corrida || '').trim(),
+        acabado: sazResolve('acabado', row.material) || catalogText(template.acabado),
         observaciones: String(row.notas || ''),
         activo: true,
       };
@@ -1313,7 +1326,105 @@
     }
   }
 
-  window.claremmCloud = { recordMutation, recordImageMutation, recordCatalogMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, hydrateRelationalImages, uploadRelationalProductImage, updateRelationalStylePrice, updateRelationalProductField, duplicateRelationalProduct, syncCaptureToCatalog, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock, listRecentBranchStock };
+  const REVIEW_PREFIX = 'CLAREMM_REVIEW:';
+  function parseReviewMeta(descripcion) {
+    const raw = String(descripcion || '');
+    const index = raw.indexOf(REVIEW_PREFIX);
+    if (index < 0) return null;
+    try { return JSON.parse(raw.slice(index + REVIEW_PREFIX.length)); }
+    catch { return null; }
+  }
+  function writeReviewMeta(descripcion, review) {
+    const raw = String(descripcion || '');
+    const index = raw.indexOf(REVIEW_PREFIX);
+    const notes = index < 0 ? raw.trim() : raw.slice(0, index).trim();
+    const body = REVIEW_PREFIX + JSON.stringify(review);
+    return notes ? `${notes}\n${body}` : body;
+  }
+
+  async function listCatalogReview({ branch = '', estado = 'pendiente' } = {}) {
+    if (!client || !user) throw new Error('Inicia sesión para ver la revisión pendiente.');
+    const context = await loadBranchStockContext();
+    const { data, error } = await client.from('products')
+      .select('id,estilo,color,marca,linea,acabado,precio,estado,descripcion,created_at,source_system,imagen')
+      .eq('organization_id', context.organization.id)
+      .like('descripcion', '%CLAREMM_REVIEW:%')
+      .limit(1000);
+    if (error) throw error;
+    const wantedStatus = catalogText(estado);
+    const wantedBranch = catalogText(branch).replace(/ /g, '_');
+    const products = (data || []).map(product => ({ product, review: parseReviewMeta(product.descripcion) })).filter(row => {
+      if (!row.review) return false;
+      if (wantedStatus && wantedStatus !== 'TODOS' && catalogText(row.review.status) !== wantedStatus) return false;
+      if (wantedBranch && catalogText(row.review.branch_code).replace(/ /g, '_') !== wantedBranch) return false;
+      return true;
+    });
+    await loadVariantsFor(context, products.map(row => row.product.id));
+    const branchId = wantedBranch ? (context.branches.find(item => catalogText(item.code).replace(/ /g, '_') === wantedBranch)?.id || '') : '';
+    const variantIds = products.flatMap(row => (context.variantsByProduct.get(row.product.id) || []).map(variant => variant.id));
+    const levels = [];
+    for (const group of chunks(variantIds, 200)) {
+      if (!group.length) continue;
+      let query = client.from('inventory_levels').select('branch_id,variant_id,quantity').in('variant_id', group).gt('quantity', 0);
+      if (branchId) query = query.eq('branch_id', branchId);
+      const { data: rows, error: levelError } = await query;
+      if (levelError) throw levelError;
+      levels.push(...(rows || []));
+    }
+    const quantityByProduct = new Map();
+    const sizesByProduct = new Map();
+    const variantToProduct = new Map();
+    for (const row of products) {
+      for (const variant of context.variantsByProduct.get(row.product.id) || []) variantToProduct.set(variant.id, { productId: row.product.id, size: String(variant.size) });
+    }
+    for (const level of levels) {
+      const info = variantToProduct.get(level.variant_id);
+      if (!info) continue;
+      quantityByProduct.set(info.productId, (quantityByProduct.get(info.productId) || 0) + Number(level.quantity || 0));
+      if (!sizesByProduct.has(info.productId)) sizesByProduct.set(info.productId, []);
+      sizesByProduct.get(info.productId).push({ size: info.size, quantity: Number(level.quantity || 0) });
+    }
+    return products.map(row => ({
+      ficha_id: row.product.id,
+      estilo: row.product.estilo,
+      color: row.product.color,
+      marca: row.product.marca || '',
+      tipo: row.product.linea || '',
+      tipo_inferido: Boolean(row.review.tipo_inferido),
+      material: row.product.acabado || '',
+      label_material: row.review.label_material || '',
+      precio: Number(row.product.precio || 0),
+      precio_origen: row.review.precio_origen || '',
+      estado_revision: row.review.status || 'pendiente',
+      kind: row.review.kind || 'created',
+      batch_id: row.review.batch_id || '',
+      created_at: row.product.created_at,
+      estado_saz: /CARGADO EN SAZ|PRECARGADO EN SAZ/i.test(String(row.product.estado || '')) ? 'En SAZ' : 'Pendiente de SAZ',
+      tallas: (sizesByProduct.get(row.product.id) || []).map(item => item.size),
+      pares: quantityByProduct.get(row.product.id) || 0,
+      imagen: row.product.imagen || '',
+    }));
+  }
+
+  async function reviewCatalogProduct(productId, { precio, tipo, material, motivo, marcarRevisado = true } = {}) {
+    if (!client || !user) throw new Error('Inicia sesión para corregir la ficha.');
+    const context = await loadBranchStockContext();
+    const current = context.productsById.get(productId) || (await client.from('products').select('id,descripcion,precio,linea,acabado,estilo,color,marca,imagen').eq('id', productId).single()).data;
+    if (!current) throw new Error('No existe esa ficha.');
+    const patch = {};
+    if (precio != null && precio !== '') patch.precio = catalogPrice(precio);
+    if (tipo != null) patch.linea = catalogText(tipo) ? sazResolve('linea', tipo) || String(tipo).trim() : current.linea;
+    if (material != null) patch.acabado = catalogText(material) ? sazResolve('acabado', material) || String(material).trim() : current.acabado;
+    const review = { ...(parseReviewMeta(current.descripcion) || {}), motivo: String(motivo || '').trim(), reviewed_at: new Date().toISOString() };
+    if (marcarRevisado) review.status = 'revisado';
+    patch.descripcion = writeReviewMeta(current.descripcion, review);
+    const { data, error } = await client.from('products').update(patch).eq('id', productId).select('id,estilo,color,marca,linea,acabado,precio,estado,descripcion,created_at,imagen').single();
+    if (error) throw error;
+    rememberProducts(context, [data]);
+    return data;
+  }
+
+  window.claremmCloud = { recordMutation, recordImageMutation, recordCatalogMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, hydrateRelationalImages, uploadRelationalProductImage, updateRelationalStylePrice, updateRelationalProductField, duplicateRelationalProduct, syncCaptureToCatalog, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock, listRecentBranchStock, listCatalogReview, reviewCatalogProduct };
 
   byId('cloudLogin').onclick = async () => {
     if (!client) return alert('Supabase aún no está configurado.');
