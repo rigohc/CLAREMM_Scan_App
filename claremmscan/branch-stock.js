@@ -826,15 +826,16 @@
 
   async function searchRelationalInventory(options = {}) {
     const input = byId('inventorySearch'), panel = byId('relationalSearchPanel'), query = input.value.trim();
-    if (!query) {
-      panel.hidden = true;
-      setRelationalPreview(false);
+    if (!query || /^0+$/.test(query)) {
+      panel.hidden = !query;
+      setRelationalPreview(Boolean(query));
       relationalEdit = null;
       stylePriceReview = null;
       productDuplicate = null;
       renderStylePriceReview();
       renderProductDuplicate();
       byId('relationalSearchResults').innerHTML = '';
+      byId('relationalSearchInfo').textContent = query ? 'Sigue escribiendo el estilo…' : '';
       return;
     }
     const sequence = options.sequence || ++inventorySearchSequence;
@@ -870,7 +871,7 @@
 
   function queueRelationalInventorySearch() {
     clearTimeout(inventorySearchTimer);
-    inventorySearchTimer = setTimeout(searchRelationalInventory, 300);
+    inventorySearchTimer = setTimeout(searchRelationalInventory, 450);
   }
 
   async function searchInventoryByPhoto(file) {

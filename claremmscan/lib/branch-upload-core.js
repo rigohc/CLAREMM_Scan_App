@@ -41,8 +41,13 @@ function estiloKeys(value) {
   const raw = normalize(estiloText(value));
   const compact = compactEstilo(raw);
   const hyphenless = compact.replace(/-/g, '');
-  const padded = /^\d+$/.test(hyphenless) ? hyphenless.padStart(Math.max(6, hyphenless.length), '0') : '';
-  return [...new Set([raw, compact, hyphenless, padded].filter(Boolean))];
+  const keys = [raw, compact, hyphenless];
+  if (/^\d+$/.test(hyphenless)) {
+    for (let length = hyphenless.length; length <= Math.max(6, hyphenless.length); length += 1) {
+      keys.push(hyphenless.padStart(length, '0'));
+    }
+  }
+  return [...new Set(keys.filter(Boolean))];
 }
 
 function colorKey(value) {

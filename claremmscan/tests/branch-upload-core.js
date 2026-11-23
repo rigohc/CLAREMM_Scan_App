@@ -70,6 +70,9 @@ assert(fresh.material === 'SINTETICO', 'material por defecto SINTETICO');
 const piel = core.resolveMaterial({ labelMaterial: 'PIEL', existingAcabado: '' });
 assert(piel.material === 'PIEL', 'PIEL solo si la etiqueta lo dice');
 
+assert(core.estiloKeys('000034').includes('034'), '000034 también busca 034');
+assert(core.estiloKeys('000034').includes('34'), '000034 también busca 34');
+assert(core.sameEstilo('000034', '034'), 'ceros a la izquierda son el mismo estilo');
 assert(core.blockedBranch('JUAREZ'), 'JUAREZ bloqueada para carga');
 assert(!core.blockedBranch('NUEVO_LEON'), 'NUEVO_LEON permitida');
 assert(core.colorKey('N/B') === 'NEGRO BLANCO', 'alias N/B');

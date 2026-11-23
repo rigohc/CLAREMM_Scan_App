@@ -130,8 +130,17 @@
   const estiloSearchValues = value => {
     const raw = catalogText(value);
     const compact = compactEstilo(raw);
-    const padded = /^\d+$/.test(compact) ? compact.padStart(Math.max(6, compact.length), '0') : '';
-    return [...new Set([raw, compact, padded].filter(Boolean))];
+    const keys = [raw, compact];
+    if (/^\d+$/.test(compact)) {
+      for (let length = compact.length; length <= Math.max(6, compact.length); length += 1) {
+        keys.push(compact.padStart(length, '0'));
+      }
+    }
+    return [...new Set(keys.filter(Boolean))];
+  };
+  const isIncompleteNumericQuery = value => {
+    const raw = catalogText(value);
+    return !raw || /^0+$/.test(raw);
   };
   const looksLikeEstilo = value => /\d/.test(catalogText(value));
   const rememberProducts = (context, products) => {
@@ -186,18 +195,19 @@
       .limit(limit);
     if (exact.error) throw exact.error;
     let rows = exact.data || [];
-    if (!rows.length && /^\d{4,}$/.test(compact)) {
+    if (!rows.length && /^\d+$/.test(compact) && compact.length >= 2) {
+      const padded = compact.padStart(Math.max(6, compact.length), '0');
       const prefixed = await client.from('products').select(PRODUCT_CATALOG_SELECT)
         .eq('organization_id', context.organization.id)
         .eq('activo', true)
-        .or(`estilo.eq.PI${compact},estilo.eq.${compact.padStart(6, '0')}`)
+        .or(`estilo.eq.PI${compact},estilo.eq."${padded}"`)
         .limit(limit);
       if (prefixed.error) throw prefixed.error;
       rows = prefixed.data || [];
     }
     if (!rows.length) {
       const prefix = catalogText(estilo);
-      if (prefix.length >= 3 && values.every(value => value.length < 6)) {
+      if (!/^\d+$/.test(compact) && prefix.length >= 3 && values.every(value => value.length < 6)) {
         const loose = await client.from('products').select(PRODUCT_CATALOG_SELECT)
           .eq('organization_id', context.organization.id)
           .eq('activo', true)
@@ -222,7 +232,7 @@
     const { data, error } = await client.from('products').select(PRODUCT_CATALOG_SELECT)
       .eq('organization_id', context.organization.id)
       .eq('activo', true)
-      .or(`color.ilike.${value}%,marca.ilike.${value}%,linea.ilike.${value}%`)
+      .or(`color.ilike."${value}%",marca.ilike."${value}%",linea.ilike."${value}%"`)
       .limit(limit);
     if (error) throw error;
     rememberProducts(context, data || []);
@@ -264,15 +274,19 @@
   async function findCatalogProducts(context, query, scope = 'all', limit = 80) {
     await sazCatalog()?.ready;
     const terms = catalogText(query).split(' ').filter(Boolean);
-    if (!terms.length) return [];
+    if (!terms.length || isIncompleteNumericQuery(terms[0])) return [];
     let products = await queryProductsByEstilo(context, terms[0], 200);
     if (!products.length && scope !== 'style' && !looksLikeEstilo(terms[0])) products = await queryProductsFallback(context, terms[0], 200);
     return products.filter(product => {
+      const compactProduct = compactEstilo(product.estilo);
       const haystack = scope === 'style'
-        ? catalogText(`${product.estilo} ${compactEstilo(product.estilo)}`)
-        : catalogText([product.estilo, compactEstilo(product.estilo), product.color, product.marca, product.proveedor, product.temporada, product.sublinea, product.departamento, product.clasificacion, product.linea, product.corrida, product.acabado].join(' '));
+        ? catalogText(`${product.estilo} ${compactProduct}`)
+        : catalogText([product.estilo, compactProduct, product.color, product.marca, product.proveedor, product.temporada, product.sublinea, product.departamento, product.clasificacion, product.linea, product.corrida, product.acabado].join(' '));
       return terms.every(term => {
-        if (haystack.includes(term) || haystack.includes(compactEstilo(term))) return true;
+        const compactTerm = compactEstilo(term);
+        if (compactTerm && compactProduct === compactTerm) return true;
+        if (/^\d+$/.test(compactTerm)) return false;
+        if (haystack.includes(term) || (compactTerm && haystack.includes(compactTerm))) return true;
         if (scope === 'style') return false;
         return colorsMatch(product.color, term) || (sazCatalog()?.matches?.('marca', product.marca, term));
       });
@@ -466,9 +480,9 @@
   }
 
   async function searchRelationalInventory(query, scope = 'all', sazFilter = 'all', options = {}) {
-    const context = await loadBranchStockContext();
     const terms = catalogText(query).split(' ').filter(Boolean);
-    if (!terms.length) return [];
+    if (!terms.length || isIncompleteNumericQuery(terms[0])) return [];
+    const context = await loadBranchStockContext();
     const includeEmpty = options.includeEmpty !== false;
     const found = await findCatalogProducts(context, query, scope, 80);
     const products = found.filter(product => {
