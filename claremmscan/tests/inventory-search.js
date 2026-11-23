@@ -23,6 +23,15 @@ const prefix = search.plan('PI40');
 assert(prefix.ready && prefix.allowPrefix, 'PI40 sí puede prefijo alfanumérico');
 assert(search.plan('PI').wait, 'PI incompleto espera');
 
+const scientific = search.plan('4e0');
+assert(scientific.ready && scientific.mode === 'exact-estilo', '4e0 es lookup exacto, no prefijo');
+assert(scientific.allowPrefix === false, '4e0 nunca hace ilike');
+assert(scientific.keys.includes('4E0'), '4e0 busca el literal 4E0');
+assert(!scientific.keys.includes('4'), '4e0 no se convierte a 4 por notación científica');
+assert(search.plan('1e3').allowPrefix === false, '1e3 tampoco es prefijo');
+assert(search.isScientificToken('4E0'), '4E0 es token científico');
+assert(!search.looksLikeEstiloToken('4e0'), '4e0 no es prefijo PI/COM');
+
 const color = search.plan('NEGRO');
 assert(color.ready && color.allowPrefix === false && color.mode === 'text', 'color no barre estilos por prefijo');
 
@@ -40,8 +49,12 @@ const elapsed = Date.now() - t0;
 assert(hits.length === 1 && hits[0].item.estilo === '034', 'índice local encuentra 034 entre 50k');
 assert(elapsed < 200, `rebuild+lookup 50k debe ser <200ms, fue ${elapsed}ms`);
 assert(index.lookup('00').length === 0, '00 no recorre el índice');
+million.push({ estilo: '4E0', color: 'NEGRO', saz_cargado: false });
+index.rebuild(million);
+const sciHits = index.lookup('4e0');
+assert(sciHits.length === 1 && sciHits[0].item.estilo === '4E0', 'índice encuentra 4E0 sin barrer');
 
-const forbidden = ['00', '0', '000', '000034', '34', '034'];
+const forbidden = ['00', '0', '000', '000034', '34', '034', '4e0', '4E0', '1e3'];
 for (const query of forbidden) {
   assert(search.plan(query).allowPrefix === false, `${query} no puede disparar prefijo numérico`);
 }

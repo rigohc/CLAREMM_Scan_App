@@ -204,7 +204,7 @@
       if (prefixed.error) throw prefixed.error;
       rows = prefixed.data || [];
     }
-    if (!rows.length && planned?.allowPrefix) {
+    if (!rows.length && planned?.allowPrefix && !/^\d+[eE]\d+$/.test(catalogText(estilo))) {
       const prefix = catalogText(estilo);
       const loose = await withSignal(client.from('products').select(PRODUCT_CATALOG_SELECT)
         .eq('organization_id', context.organization.id)

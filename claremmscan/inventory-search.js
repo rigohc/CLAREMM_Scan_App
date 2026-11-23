@@ -30,6 +30,10 @@
     return /^\d+$/.test(normalize(value));
   }
 
+  function isScientificToken(value) {
+    return /^\d+[eE]\d+$/.test(normalize(value));
+  }
+
   function estiloKeys(value) {
     const raw = normalize(value);
     const compact = compactEstilo(raw);
@@ -47,7 +51,8 @@
     const raw = normalize(value);
     if (!raw) return false;
     if (/^\d+$/.test(raw)) return true;
-    return /[A-Z]/.test(raw) && /\d/.test(raw);
+    if (isScientificToken(raw)) return false;
+    return /^[A-Z]{1,8}\d/.test(raw);
   }
 
   function sameEstilo(left, right) {
@@ -64,7 +69,7 @@
     if (/^0+$/.test(first)) {
       return { ...idle, wait: true, mode: 'wait', limit: 0, cardLimit: 0, message: 'Sigue escribiendo el estilo…' };
     }
-    if (isNumericToken(first)) {
+    if (isNumericToken(first) || isScientificToken(first)) {
       return {
         ready: true,
         wait: false,
@@ -144,10 +149,33 @@
         return true;
       };
       if (planned.mode === 'exact-estilo') {
-        const key = compactEstilo(planned.terms[0]);
-        return (byCompact.get(key) || [])
-          .map(index => ({ item: snapshot[index], index }))
-          .filter(row => row.item && passesSaz(row.item));
+        const seen = new Set();
+        const hits = [];
+        for (const key of planned.keys.length ? planned.keys : [compactEstilo(planned.terms[0])]) {
+          for (const index of byCompact.get(compactEstilo(key)) || []) {
+            if (seen.has(index)) continue;
+            const item = snapshot[index];
+            if (!item || !passesSaz(item)) continue;
+            seen.add(index);
+            hits.push({ item, index });
+          }
+        }
+        return hits;
+      }
+      if (planned.mode === 'prefix-estilo') {
+        const prefix = compactEstilo(planned.terms[0]);
+        if (!prefix) return [];
+        const hits = [];
+        for (const [key, indexes] of byCompact) {
+          if (!key.startsWith(prefix)) continue;
+          for (const index of indexes) {
+            const item = snapshot[index];
+            if (!item || !passesSaz(item)) continue;
+            hits.push({ item, index });
+            if (hits.length >= planned.cardLimit) return hits;
+          }
+        }
+        return hits;
       }
       return null;
     }
@@ -161,6 +189,7 @@
     normalize,
     compactEstilo,
     estiloKeys,
+    isScientificToken,
     looksLikeEstiloToken,
     sameEstilo,
     plan,

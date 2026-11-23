@@ -19,6 +19,7 @@ if (!planned.ready) return []; // wait: ceros incompletos
 ```
 
 - Numérico → `mode: exact-estilo`, `allowPrefix: false`.
+- `4e0` / `1e3` (dígitos + E + dígitos) → lookup exacto del literal. Nunca `Number()` ni `ilike`. Prefijo alfanumérico solo si empieza por letras (`PI40`, `COM011`).
 - `PI40` / `COM011` → prefijo alfanumérico con tope 40.
 - Color/marca (`NEGRO`) → `mode: text`, no ilike de estilo.
 - Índice local `createLocalIndex()` para inventario offline. Rebuild al persistir.
