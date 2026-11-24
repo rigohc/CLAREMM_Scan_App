@@ -300,6 +300,46 @@
     return needle.split(/\s+/).filter(Boolean).every(term => haystack.includes(term));
   }
 
+  function toRelationalResult(ficha, branch) {
+    const sizes = Object.entries(ficha?.qtyBySize || {})
+      .map(([size, quantity]) => ({ size, quantity: Math.trunc(Number(quantity) || 0) }))
+      .filter(item => item.quantity > 0)
+      .sort((left, right) => Number(left.size) - Number(right.size));
+    const pares = Number(ficha?.pares) || pairsFromSizes(ficha?.qtyBySize);
+    const juarez = branch && (branch.id || branch.code || branch.name)
+      ? branch
+      : { id: '', code: 'JUAREZ', name: 'CLAREMM ZAPATERIA JUAREZ' };
+    const catalogId = text(ficha?.ficha_id);
+    return {
+      product: {
+        id: catalogId || `local:${fichaKey(ficha?.estilo, ficha?.color)}`,
+        estilo: ficha?.estilo || '',
+        color: ficha?.color || '',
+        marca: ficha?.marca || '',
+        proveedor: ficha?.proveedor || '',
+        temporada: ficha?.temporada || '',
+        sublinea: ficha?.sublinea || '',
+        departamento: ficha?.departamento || '',
+        clasificacion: ficha?.clasificacion || '',
+        linea: ficha?.linea || '',
+        corrida: ficha?.corrida || '',
+        acabado: ficha?.acabado || '',
+        precio: Number(ficha?.precio || 0),
+        imagen: typeof ficha?.imagen === 'string' ? ficha.imagen : '',
+      },
+      branch: juarez,
+      branchStocks: [{ branch: juarez, sizes, totalQuantity: pares }],
+      sizes,
+      totalQuantity: pares,
+      sazRegistered: false,
+      sazPreloaded: false,
+      imageUrl: '',
+      notice: catalogId
+        ? 'Toca un dato para corregirlo. Igual que al buscar por estilo.'
+        : 'Ficha solo local. Inicia sesión para editarla en el catálogo.',
+    };
+  }
+
   function applyFichaPatch(rows, patch) {
     if (!patch) return rows || [];
     const key = fichaKey(patch.estilo, patch.color);
@@ -312,10 +352,12 @@
       }
       if (patch.sin_precio === false) next.sin_precio = false;
       if (patch.sin_imagen === false || patch.imagen) next.sin_imagen = false;
-      if (text(patch.corrida)) next.corrida = text(patch.corrida);
-      if (text(patch.marca)) next.marca = text(patch.marca);
-      if (text(patch.linea)) next.linea = text(patch.linea);
+      for (const field of TEXT_FILL) {
+        if (text(patch[field])) next[field] = text(patch[field]);
+      }
       if (text(patch.acabado || patch.material)) next.acabado = text(patch.acabado || patch.material);
+      if (text(patch.ficha_id)) next.ficha_id = text(patch.ficha_id);
+      if (typeof patch.imagen === 'string' && text(patch.imagen) && patch.imagen !== 'true') next.imagen = text(patch.imagen);
       if (patch.qtyBySize) next.qtyBySize = mergeQtyBySize(next.qtyBySize, patch.qtyBySize);
       if (patch.talla) addSizeQty(next.qtyBySize, patch.talla, patch.cantidad || 1);
       next.pares = pairsFromSizes(next.qtyBySize);
@@ -350,6 +392,7 @@
     gapLabel,
     groupLocalGaps,
     fichaMatchesQuery,
+    toRelationalResult,
     applyFichaPatch,
   };
 }));

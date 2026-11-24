@@ -102,6 +102,36 @@ assert(patched.length === 1 && patched[0].precio === 770 && patched[0].sin_preci
 assert(patched[0].qtyBySize['24.0'] === 1 && patched[0].sin_imagen, 'suma talla y sigue en la lista si falta imagen');
 assert(!excel.applyFichaPatch(patched, { estilo: '34', color: 'NEGRO', sin_imagen: false }).length, 'sale de faltantes cuando ya tiene precio e imagen');
 
+const card = excel.toRelationalResult({
+  ficha_id: '61d4f1c7-db48-426d-a64e-64dfb3e3d1df',
+  estilo: '000034',
+  color: 'NEGRO BLANCO',
+  marca: 'MIRLO',
+  proveedor: 'MIRLO',
+  corrida: '22-26',
+  precio: 0,
+  imagen: 'org/products/000034-NEGRO-BLANCO.png',
+  qtyBySize: { '23.0': 2 },
+  pares: 2,
+  sin_precio: true,
+  sin_imagen: false,
+}, { id: 'juarez', code: 'JUAREZ', name: 'CLAREMM ZAPATERIA JUAREZ' });
+assert(card.product.id === '61d4f1c7-db48-426d-a64e-64dfb3e3d1df', 'ficha de catálogo conserva UUID');
+assert(card.product.estilo === '000034' && card.product.color === 'NEGRO BLANCO', 'identidad estilo+color en la tarjeta');
+assert(card.product.marca === 'MIRLO' && card.product.corrida === '22-26', 'campos editables llegan a la tarjeta');
+assert(card.sizes[0].size === '23.0' && card.totalQuantity === 2, 'pares y tallas en la misma tarjeta que la búsqueda');
+assert(/Toca un dato/.test(card.notice), 'misma indicación de edición que al buscar por estilo');
+['precio', 'marca', 'proveedor', 'temporada', 'sublinea', 'departamento', 'clasificacion', 'linea', 'corrida', 'acabado'].forEach(field => {
+  assert(Object.prototype.hasOwnProperty.call(card.product, field), `tarjeta incluye ${field} editable`);
+});
+const localCard = excel.toRelationalResult({ estilo: 'PI40', color: 'NEGRO', precio: 0, qtyBySize: { '24.0': 1 } });
+assert(String(localCard.product.id).startsWith('local:'), 'ficha solo local no inventa UUID');
+const patchedFields = excel.applyFichaPatch(
+  [{ estilo: 'MI4425', color: 'NEGRO', precio: 0, sin_precio: true, sin_imagen: true, qtyBySize: { '23.0': 1 } }],
+  { estilo: 'MI4425', color: 'NEGRO', proveedor: 'MIRLO', temporada: 'CLAREMM 26' },
+);
+assert(patchedFields[0].proveedor === 'MIRLO' && patchedFields[0].temporada === 'CLAREMM 26', 'editar proveedor o temporada actualiza la ficha');
+
 const referencePath = '/Users/laclavees12345/Downloads/MIRLO Y WILDCAT 16_11_26 CORREGIDO POR SUBIR A SAZ.xlsx';
 const xlsxPath = path.join(__dirname, '../../CLAREMM Zapateria/backend/node_modules/xlsx');
 if (fs.existsSync(referencePath) && fs.existsSync(xlsxPath)) {

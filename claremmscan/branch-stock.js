@@ -42,6 +42,7 @@
   let searchSequence = 0;
   let inventorySearchTimer = null;
   let inventorySearchSequence = 0;
+  let prepHydrateSequence = 0;
   let relationalInventoryResults = [];
   let relationalInventoryQuery = '';
   let relationalImageTarget = null;
@@ -70,6 +71,23 @@
 
   function setRelationalPreview(active) {
     byId('inventoryCard')?.classList.toggle('isRelationalPreview', Boolean(active));
+  }
+
+  function juarezBranch() {
+    return (context?.branches || []).find(branch => normalized(branch.code) === BASE_BRANCH_CODE || normalized(branch.name) === normalized(BASE_BRANCH_NAME))
+      || { id: '61d4f1c7-db48-426d-a64e-64dfb3e3d1df', code: BASE_BRANCH_CODE, name: BASE_BRANCH_NAME };
+  }
+
+  function isPrepFilter() {
+    return byId('inventorySazFilter')?.value === 'prep';
+  }
+
+  function isLocalFichaId(id) {
+    return text(id).startsWith('local:');
+  }
+
+  function keepCardPagination() {
+    return Boolean(byId('inventoryCard')?.classList.contains('isPrepCards'));
   }
 
   function proposedPriceFor(product) {
@@ -697,7 +715,7 @@
       }
       productDuplicate = null;
       renderProductDuplicate();
-      renderRelationalInventory(relationalInventoryResults, relationalInventoryQuery);
+      renderRelationalInventory(relationalInventoryResults, relationalInventoryQuery, { keepPagination: keepCardPagination() });
     } catch (error) {
       if (info) info.textContent = error.message;
     } finally {
@@ -721,22 +739,90 @@
 
   function renderRelationalInventory(results, query, options = {}) {
     const panel = byId('relationalSearchPanel'), container = byId('relationalSearchResults'), info = byId('relationalSearchInfo');
+    const title = byId('relationalSearchTitle');
     relationalInventoryResults = results;
     relationalInventoryQuery = query;
     panel.hidden = false;
-    setRelationalPreview(true);
+    if (options.keepPagination) {
+      setRelationalPreview(false);
+      byId('inventoryCard')?.classList.add('isPrepCards');
+      if (title) title.textContent = options.title || 'Faltantes SAZ';
+    } else {
+      byId('inventoryCard')?.classList.remove('isPrepCards');
+      setRelationalPreview(true);
+      if (title) title.textContent = options.title || 'Inventario relacional';
+    }
     renderStylePriceReview();
     if (!results.length) {
-      info.textContent = `Sin fichas relacionales para “${query}”.`;
-      container.innerHTML = '<p class="muted">No hay ficha para esa búsqueda en el catálogo relacional. Si la foto leyó mal el estilo, corrígelo en el buscador.</p>';
+      info.textContent = options.emptyInfo || `Sin fichas relacionales para “${query}”.`;
+      container.innerHTML = options.emptyHtml || '<p class="muted">No hay ficha para esa búsqueda en el catálogo relacional. Si la foto leyó mal el estilo, corrígelo en el buscador.</p>';
       return;
     }
     const pairs = results.reduce((sum, result) => sum + Number(result.totalQuantity || 0), 0);
-    info.textContent = `${results.length} ficha(s) · ${pairs} par(es) encontrados.`;
+    info.textContent = options.info || `${results.length} ficha(s) · ${pairs} par(es) encontrados. Toca un dato para corregirlo.`;
     const active = document.activeElement;
     const keepFocus = options.keepFocus && active?.hasAttribute?.('data-edit-input') ? { field: active.getAttribute('data-edit-input'), productId: active.closest('[data-relational-product-id]')?.dataset.relationalProductId } : null;
     container.innerHTML = results.map(cardMarkup).join('');
     if (keepFocus) focusRelationalField(keepFocus.productId, keepFocus.field);
+  }
+
+  function applyHydratedImages(results, hydrated) {
+    for (const next of hydrated || []) {
+      const current = (results || []).find(item => item.product.id === next.product.id && item.branch.id === next.branch.id);
+      if (!current || !next.imageUrl || current.imageUrl === next.imageUrl) continue;
+      current.imageUrl = next.imageUrl;
+      current.imageMessage = current.imageMessage || 'Imagen compartida entre ambos inventarios.';
+      const preview = document.querySelector(`[data-relational-product-id="${CSS.escape(current.product.id)}"][data-relational-branch-id="${CSS.escape(current.branch.id)}"] .relationalImagePreview`);
+      if (preview) preview.innerHTML = `<img src="${esc(next.imageUrl)}" alt="Producto ${esc(current.product.estilo)} ${esc(current.product.color)}">`;
+    }
+  }
+
+  async function showFichas(fichas, options = {}) {
+    const excel = window.ClaremmSazPrepExcel;
+    const branch = juarezBranch();
+    const results = (fichas || []).map(ficha => excel?.toRelationalResult?.(ficha, branch) || {
+      product: {
+        id: ficha.ficha_id || `local:${ficha.estilo}|${ficha.color}`,
+        estilo: ficha.estilo,
+        color: ficha.color,
+        marca: ficha.marca || '',
+        linea: ficha.linea || '',
+        corrida: ficha.corrida || '',
+        acabado: ficha.acabado || '',
+        precio: Number(ficha.precio || 0),
+        imagen: typeof ficha.imagen === 'string' ? ficha.imagen : '',
+      },
+      branch,
+      sizes: [],
+      totalQuantity: Number(ficha.pares || 0),
+      sazRegistered: false,
+      imageUrl: '',
+      notice: 'Toca un dato para corregirlo. Igual que al buscar por estilo.',
+    });
+    renderRelationalInventory(results, options.query || 'faltantes SAZ', {
+      keepPagination: options.keepPagination !== false,
+      title: options.title || 'Faltantes SAZ',
+      info: options.info,
+      emptyInfo: options.emptyInfo,
+      emptyHtml: options.emptyHtml || '<p class="muted">No hay fichas pendientes de SAZ para mostrar. Cuando aparezcan, toca un dato para corregirlo al instante.</p>',
+    });
+    const sequence = ++prepHydrateSequence;
+    if (!cloud()?.hydrateRelationalImages) return;
+    try {
+      const hydrated = await cloud().hydrateRelationalImages(results);
+      if (sequence !== prepHydrateSequence) return;
+      applyHydratedImages(relationalInventoryResults, hydrated);
+    } catch {}
+  }
+
+  function clearPrepCards() {
+    byId('inventoryCard')?.classList.remove('isPrepCards');
+    const title = byId('relationalSearchTitle');
+    if (title) title.textContent = 'Inventario relacional';
+    if (byId('inventorySearch')?.value.trim()) return;
+    const panel = byId('relationalSearchPanel');
+    if (panel) panel.hidden = true;
+    setRelationalPreview(false);
   }
 
   function replaceRelationalCard(result) {
@@ -779,11 +865,17 @@
       window.ClaremmStore?.patchSazPrepFicha?.({
         estilo: result.product.estilo,
         color: result.product.color,
+        ficha_id: isLocalFichaId(result.product.id) ? '' : result.product.id,
         precio: field === 'precio' ? saved.precio : result.product.precio,
-        corrida: field === 'corrida' ? saved.value : result.product.corrida,
-        marca: field === 'marca' ? saved.value : result.product.marca,
-        linea: field === 'linea' ? saved.value : result.product.linea,
-        acabado: field === 'acabado' ? saved.value : result.product.acabado,
+        corrida: result.product.corrida,
+        marca: result.product.marca,
+        linea: result.product.linea,
+        acabado: result.product.acabado,
+        proveedor: result.product.proveedor,
+        temporada: result.product.temporada,
+        sublinea: result.product.sublinea,
+        departamento: result.product.departamento,
+        clasificacion: result.product.clasificacion,
       });
       if (field === 'precio') {
         for (const item of relationalInventoryResults.filter(item => matchesStyleCorrida(item.product, result.product.estilo, result.product.corrida))) replaceRelationalCard(item);
@@ -798,6 +890,11 @@
   function startRelationalEdit(productId, field) {
     const result = findRelationalResult(productId);
     if (!result) return;
+    if (isLocalFichaId(productId)) {
+      result.notice = 'Esta ficha aún no está en el catálogo. Inicia sesión para corregirla igual que al buscar por estilo.';
+      replaceRelationalCard(result);
+      return;
+    }
     relationalEdit = { productId, field };
     replaceRelationalCard(result);
     focusRelationalField(productId, field);
@@ -824,7 +921,7 @@
         result.imageUrl = saved.imageUrl;
         result.imageMessage = `Imagen compartida en ambos inventarios · ${(saved.size / 1024).toFixed(1)} KB`;
       }
-      renderRelationalInventory(relationalInventoryResults, relationalInventoryQuery);
+      renderRelationalInventory(relationalInventoryResults, relationalInventoryQuery, { keepPagination: keepCardPagination() });
       window.ClaremmStore?.patchSazPrepFicha?.({
         estilo: target.product.estilo,
         color: target.product.color,
@@ -845,6 +942,12 @@
     const input = byId('inventorySearch'), panel = byId('relationalSearchPanel'), query = input.value.trim();
     const planned = window.ClaremmInventorySearch?.plan?.(query);
     if (!query || planned?.wait || planned?.mode === 'idle') {
+      if (isPrepFilter()) {
+        setRelationalPreview(false);
+        window.ClaremmStore?.renderPrepFichaCards?.();
+        return;
+      }
+      clearPrepCards();
       panel.hidden = !query;
       setRelationalPreview(Boolean(query));
       relationalEdit = null;
@@ -867,20 +970,22 @@
       if (sequence !== inventorySearchSequence) return;
       relationalEdit = null;
       if (stylePriceReview) stylePriceReview.corrida = resolveReviewCorrida(stylePriceReview, results);
+      if (sazFilter === 'prep' && !results.length) {
+        window.ClaremmStore?.renderPrepFichaCards?.(undefined, { force: true });
+        return;
+      }
       renderRelationalInventory(results, query);
       if (!cloud()?.hydrateRelationalImages) return;
       const hydrated = await cloud().hydrateRelationalImages(results);
       if (sequence !== inventorySearchSequence) return;
-      for (const next of hydrated) {
-        const current = relationalInventoryResults.find(item => item.product.id === next.product.id && item.branch.id === next.branch.id);
-        if (!current || !next.imageUrl || current.imageUrl === next.imageUrl) continue;
-        current.imageUrl = next.imageUrl;
-        current.imageMessage = current.imageMessage || 'Imagen compartida entre ambos inventarios.';
-        const preview = document.querySelector(`[data-relational-product-id="${CSS.escape(current.product.id)}"][data-relational-branch-id="${CSS.escape(current.branch.id)}"] .relationalImagePreview`);
-        if (preview) preview.innerHTML = `<img src="${esc(next.imageUrl)}" alt="Producto ${esc(current.product.estilo)} ${esc(current.product.color)}">`;
-      }
+      applyHydratedImages(relationalInventoryResults, hydrated);
     } catch (error) {
       if (sequence !== inventorySearchSequence) return;
+      if (isPrepFilter()) {
+        window.ClaremmStore?.renderPrepFichaCards?.(undefined, { force: true });
+        byId('relationalSearchInfo').textContent = error.message;
+        return;
+      }
       setRelationalPreview(false);
       byId('relationalSearchInfo').textContent = error.message;
       byId('relationalSearchResults').innerHTML = '<p class="muted">Inicia sesión y pulsa Sincronizar ahora para consultar Supabase.</p>';
@@ -946,7 +1051,7 @@
       }
       stylePriceReview = null;
       renderStylePriceReview();
-      renderRelationalInventory(relationalInventoryResults, relationalInventoryQuery);
+      renderRelationalInventory(relationalInventoryResults, relationalInventoryQuery, { keepPagination: keepCardPagination() });
     } catch (error) {
       if (info) info.textContent = error.message;
     } finally {
@@ -958,7 +1063,7 @@
   function cancelStylePrice() {
     stylePriceReview = null;
     renderStylePriceReview();
-    if (relationalInventoryResults.length) renderRelationalInventory(relationalInventoryResults, relationalInventoryQuery);
+    if (relationalInventoryResults.length) renderRelationalInventory(relationalInventoryResults, relationalInventoryQuery, { keepPagination: keepCardPagination() });
   }
 
   byId('branchStockOpen').addEventListener('click', openDialog);
@@ -1002,6 +1107,7 @@
   byId('branchRecentImageCamera').addEventListener('change', event => saveRecentProductImage(event.target.files?.[0]));
   byId('branchRecentImageGallery').addEventListener('change', event => saveRecentProductImage(event.target.files?.[0]));
   byId('inventorySearch').addEventListener('input', queueRelationalInventorySearch);
+  byId('inventorySearch').addEventListener('search', queueRelationalInventorySearch);
   byId('inventorySearchScope').addEventListener('change', queueRelationalInventorySearch);
   byId('inventorySazFilter').addEventListener('change', queueRelationalInventorySearch);
   byId('inventorySearchCamera').addEventListener('click', () => byId('inventorySearchCameraFile').click());
@@ -1053,6 +1159,7 @@
   byId('relationalSearchResults').addEventListener('click', async event => {
     const duplicateButton = event.target.closest('[data-relational-duplicate]');
     if (duplicateButton) {
+      if (isLocalFichaId(duplicateButton.dataset.relationalDuplicate)) return;
       openProductDuplicate(duplicateButton.dataset.relationalDuplicate);
       return;
     }
@@ -1085,7 +1192,7 @@
       saveRelationalField(card.dataset.relationalProductId, input.dataset.editInput, input.value);
     } else if (event.key === 'Escape') {
       relationalEdit = null;
-      renderRelationalInventory(relationalInventoryResults, relationalInventoryQuery);
+      renderRelationalInventory(relationalInventoryResults, relationalInventoryQuery, { keepPagination: keepCardPagination() });
     }
   });
   byId('relationalSearchResults').addEventListener('focusout', event => {
@@ -1105,7 +1212,10 @@
     if (event.detail?.signedIn) {
       cloud()?.loadBranchStockContext?.().catch(() => {});
       if (byId('inventorySearch').value.trim()) queueRelationalInventorySearch();
+      else if (isPrepFilter()) window.ClaremmStore?.renderPrepFichaCards?.();
     }
   });
+  window.ClaremmFichaCards = { showFichas, clearPrep: clearPrepCards };
+  if (isPrepFilter()) window.ClaremmStore?.renderPrepFichaCards?.();
   renderBulkState();
 })();

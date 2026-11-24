@@ -1540,6 +1540,7 @@
         observaciones: product.observaciones || '',
         costo: Number(product.costo || 0),
         precio: Number(product.precio || 0),
+        imagen: product.imagen || '',
         qtyBySize,
         pares,
         sin_imagen: sinImagen,
