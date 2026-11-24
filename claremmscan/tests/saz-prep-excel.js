@@ -67,6 +67,17 @@ const merged = excel.mergeGapRows(
 assert(merged.length === 1 && merged[0].corrida === '22-26', 'identidad compacta conserva corrida');
 assert(merged[0].qtyBySize['23.0'] === 1 && merged[0].qtyBySize['24.0'] === 2, 'tallas se unen sin duplicar');
 
+const ordered = excel.sortPrepRows([
+  { estilo: 'ZZIMG', color: 'NEGRO', sin_precio: false, sin_imagen: true },
+  { estilo: 'AAAMBOS', color: 'NEGRO', sin_precio: true, sin_imagen: true },
+  { estilo: 'MMPRECIO', color: 'NEGRO', sin_precio: true, sin_imagen: false },
+  { estilo: 'BBPRECIO', color: 'NEGRO', sin_precio: true, sin_imagen: false },
+]);
+assert(ordered.map(row => row.estilo).join(',') === 'BBPRECIO,MMPRECIO,AAAMBOS,ZZIMG', 'faltantes: precio, luego precio+foto, luego imagen');
+assert(excel.prepRank({ sin_precio: true, sin_imagen: false }) === 0, 'solo precio primero');
+assert(excel.prepRank({ sin_precio: true, sin_imagen: true }) === 1, 'precio e imagen en medio');
+assert(excel.prepRank({ sin_precio: false, sin_imagen: true }) === 2, 'solo imagen al final');
+
 const resumen = excel.toResumenRows([row]);
 assert(resumen[0].Marca === 'MIRLO' && resumen[0]['Modelos / Estilos'] === 1 && resumen[0]['Total Pares en Existencia'] === 12, 'resumen por marca/línea/sublínea');
 

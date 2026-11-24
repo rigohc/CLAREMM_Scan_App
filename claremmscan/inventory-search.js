@@ -140,9 +140,11 @@
       return snapshot.length;
     }
 
-    function lookup(query, sazFilter = 'all') {
+    function lookup(query, sazFilter = 'all', options = {}) {
       const planned = plan(query);
       if (!planned.ready) return [];
+      const scope = options.scope || 'all';
+      const cap = planned.cardLimit || LIMITS.MAX_CARDS;
       const passesSaz = item => {
         if ((sazFilter === 'pending' || sazFilter === 'prep') && item.saz_cargado) return false;
         if (sazFilter === 'loaded' && !item.saz_cargado) return false;
@@ -158,6 +160,7 @@
             if (!item || !passesSaz(item)) continue;
             seen.add(index);
             hits.push({ item, index });
+            if (hits.length >= cap) return hits;
           }
         }
         return hits;
@@ -172,12 +175,25 @@
             const item = snapshot[index];
             if (!item || !passesSaz(item)) continue;
             hits.push({ item, index });
-            if (hits.length >= planned.cardLimit) return hits;
+            if (hits.length >= cap) return hits;
           }
         }
         return hits;
       }
-      return null;
+      const needles = (planned.terms || []).map(normalize).filter(Boolean);
+      if (!needles.length) return [];
+      const hits = [];
+      for (let index = 0; index < snapshot.length; index++) {
+        const item = snapshot[index];
+        if (!item || !passesSaz(item)) continue;
+        const haystack = scope === 'style'
+          ? normalize(item.estilo)
+          : normalize([item.estilo, item.color, item.marca, item.linea, item.sucursal].join(' '));
+        if (!needles.every(needle => haystack.includes(needle))) continue;
+        hits.push({ item, index });
+        if (hits.length >= cap) return hits;
+      }
+      return hits;
     }
 
     return { rebuild, lookup, size: () => snapshot.length };

@@ -201,7 +201,24 @@
       if (!current.acabado && row.material) current.acabado = row.material;
       if (!current.sin_imagen && !current.sin_precio) byKey.delete(key);
     }
-    return [...byKey.values()].sort((left, right) => normalize(`${left.estilo} ${left.color}`).localeCompare(normalize(`${right.estilo} ${right.color}`), 'es'));
+    return sortPrepRows([...byKey.values()]);
+  }
+
+  function prepRank(row) {
+    const sinPrecio = Boolean(row?.sin_precio);
+    const sinImagen = Boolean(row?.sin_imagen);
+    if (sinPrecio && !sinImagen) return 0;
+    if (sinPrecio && sinImagen) return 1;
+    if (sinImagen) return 2;
+    return 3;
+  }
+
+  function sortPrepRows(rows) {
+    return [...(rows || [])].sort((left, right) => {
+      const rank = prepRank(left) - prepRank(right);
+      if (rank) return rank;
+      return normalize(`${left.estilo} ${left.color}`).localeCompare(normalize(`${right.estilo} ${right.color}`), 'es');
+    });
   }
 
   const TABLE_HEADERS = Object.freeze(['Estilo', 'Color', 'Marca', 'Corrida', 'Precio', 'Pares', 'Imagen', 'Falta', 'Estado SAZ', 'Acciones']);
@@ -286,7 +303,7 @@
   function applyFichaPatch(rows, patch) {
     if (!patch) return rows || [];
     const key = fichaKey(patch.estilo, patch.color);
-    return (rows || []).map(row => {
+    return sortPrepRows((rows || []).map(row => {
       if (fichaKey(row.estilo, row.color) !== key) return row;
       const next = { ...row, qtyBySize: { ...(row.qtyBySize || {}) } };
       if (patch.precio != null && Number(patch.precio) > 0) {
@@ -303,7 +320,7 @@
       if (patch.talla) addSizeQty(next.qtyBySize, patch.talla, patch.cantidad || 1);
       next.pares = pairsFromSizes(next.qtyBySize);
       return next;
-    }).filter(isPrepGap);
+    }).filter(isPrepGap));
   }
 
   return {
@@ -327,6 +344,8 @@
     toInventoryRows,
     toResumenRows,
     mergeGapRows,
+    prepRank,
+    sortPrepRows,
     isPrepGap,
     gapLabel,
     groupLocalGaps,

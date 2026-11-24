@@ -59,10 +59,32 @@ for (const query of forbidden) {
   assert(search.plan(query).allowPrefix === false, `${query} no puede disparar prefijo numérico`);
 }
 
+assert(search.plan('RIK').mode === 'text' && search.plan('RIK').allowPrefix === false, 'RIK es texto de marca, no prefijo de estilo');
+const brands = Array.from({ length: 50000 }, (_, i) => ({
+  estilo: String(i + 200000),
+  color: 'NEGRO',
+  marca: i < 80 ? 'RIKO' : 'OTRA',
+  linea: 'ZAPATO',
+  sucursal: 'CLAREMM ZAPATERIA JUAREZ',
+  saz_cargado: false,
+}));
+const brandIndex = search.createLocalIndex();
+brandIndex.rebuild(brands);
+const rikStart = Date.now();
+const rikHits = brandIndex.lookup('RIK', 'all');
+const rikElapsed = Date.now() - rikStart;
+assert(rikHits.length === 40, `RIK respeta tope 40, fueron ${rikHits.length}`);
+assert(rikHits.every(hit => hit.item.marca === 'RIKO'), 'RIK no barre el inventario completo');
+assert(rikElapsed < 200, `lookup RIK en 50k debe ser <200ms, fue ${rikElapsed}ms`);
+assert(brandIndex.lookup('RIK', 'all', { scope: 'style' }).length === 0, 'RIK en solo estilo no recorre marcas');
+
 console.log(JSON.stringify({
   ok: true,
   elapsed_50k_ms: elapsed,
   keys_000034: full.keys,
   mode_00: zeros.mode,
   mode_pi40: prefix.mode,
+  mode_rik: search.plan('RIK').mode,
+  rik_hits: rikHits.length,
+  rik_ms: rikElapsed,
 }, null, 2));
