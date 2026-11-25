@@ -1,0 +1,131 @@
+{
+  "generated_at": "2026-11-25T20:17:56.573Z",
+  "mode": "APPLY",
+  "source_file": "EXISTENCIA SAZ.xlsx",
+  "organization": "CLAREMM",
+  "branch": "CLAREMM ZAPATERIA JUAREZ",
+  "active_priced_products_checked": 1038,
+  "products_present_in_saz_with_missing_stock": 6,
+  "products_to_set_pending": 0,
+  "products_already_pending": 6,
+  "preloaded_products_status_preserved": 0,
+  "missing_variants": 24,
+  "missing_pairs": 30,
+  "local_rows_to_reopen": 0,
+  "local_pairs_to_reopen": 0,
+  "registry_products_retained_as_partial_saz": 6,
+  "skipped_without_numeric_corrida": [],
+  "skipped_unsupported_sizes": [],
+  "gaps": [
+    {
+      "product_id": "593b11af-f8ed-4675-ad9c-140c140cf0c1",
+      "estilo": "PI7008",
+      "color": "BLANCO",
+      "corrida": "18.00-21.50",
+      "supabase_pairs_in_run": 4,
+      "saz_pairs_in_run": 3,
+      "missing_pairs": 1,
+      "missing_by_size": {
+        "21.0": 1
+      }
+    },
+    {
+      "product_id": "e3eb0875-0699-4f69-9aaa-8390b081f071",
+      "estilo": "048304",
+      "color": "BLANCO",
+      "corrida": "21.50-27.00",
+      "supabase_pairs_in_run": 12,
+      "saz_pairs_in_run": 1,
+      "missing_pairs": 10,
+      "missing_by_size": {
+        "22.0": 2,
+        "22.5": 3,
+        "24.5": 2,
+        "25.0": 1,
+        "27.0": 2
+      }
+    },
+    {
+      "product_id": "1cf1cc25-4a55-4752-938c-d7bdec274f08",
+      "estilo": "105125",
+      "color": "BURGUNDY",
+      "corrida": "21.50-27.00",
+      "supabase_pairs_in_run": 7,
+      "saz_pairs_in_run": 4,
+      "missing_pairs": 3,
+      "missing_by_size": {
+        "24.5": 1,
+        "23.0": 1,
+        "25.0": 1
+      }
+    },
+    {
+      "product_id": "39748490-37c7-44cb-a1ba-5615cace5e2d",
+      "estilo": "105125",
+      "color": "NEGRO",
+      "corrida": "21.50-27.00",
+      "supabase_pairs_in_run": 10,
+      "saz_pairs_in_run": 1,
+      "missing_pairs": 9,
+      "missing_by_size": {
+        "22.0": 1,
+        "22.5": 1,
+        "23.0": 1,
+        "23.5": 2,
+        "24.5": 1,
+        "25.0": 1,
+        "25.5": 1,
+        "26.0": 1
+      }
+    },
+    {
+      "product_id": "21f1460e-ecf5-43f7-991a-8b67c08825ba",
+      "estilo": "ROD410",
+      "color": "NEGRO",
+      "corrida": "21.50-27.00",
+      "supabase_pairs_in_run": 3,
+      "saz_pairs_in_run": 1,
+      "missing_pairs": 2,
+      "missing_by_size": {
+        "23.5": 1,
+        "25.0": 1
+      }
+    },
+    {
+      "product_id": "72c652a8-b9a2-40bb-90ce-c7d5814dddd0",
+      "estilo": "UN3096",
+      "color": "NEGRO OXFORD",
+      "corrida": "21.50-27.00",
+      "supabase_pairs_in_run": 7,
+      "saz_pairs_in_run": 2,
+      "missing_pairs": 5,
+      "missing_by_size": {
+        "24.0": 1,
+        "24.5": 1,
+        "25.0": 1,
+        "25.5": 1,
+        "26.0": 1
+      }
+    }
+  ],
+  "output_xlsx": "/Users/laclavees12345/Downloads/CLAREMM_Scan_App/entregables/CLAREMM_Pendientes_SAZ_Existencia_2026-11-25.xlsx",
+  "safeguards": [
+    "Solo producto activo, precio > 0 y presente en el Excel de SAZ.",
+    "Solo talla con Supabase > 0 y SAZ = 0 dentro de la corrida.",
+    "No se modifica existencia, precio ni imagen.",
+    "El registro y la proyección parcial de SAZ se conservan para no perder pares ya confirmados.",
+    "YA PRECARGADO EN SAZ conserva su estatus aunque se incluya su existencia faltante.",
+    "El Excel de salida contiene únicamente las tallas faltantes para evitar duplicar pares existentes."
+  ],
+  "applied": {
+    "completed": true,
+    "products_reopened": 6,
+    "products_set_pending": 6,
+    "preloaded_status_preserved": 0,
+    "variants_exported": 24,
+    "pairs_exported": 30,
+    "local_rows_reopened": 0,
+    "local_pairs_reopened": 0,
+    "output_xlsx": "/Users/laclavees12345/Downloads/CLAREMM_Scan_App/entregables/CLAREMM_Pendientes_SAZ_Existencia_2026-11-25.xlsx"
+  }
+}

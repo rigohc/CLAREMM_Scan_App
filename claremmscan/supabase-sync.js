@@ -77,8 +77,9 @@
     && !(Number(product.precio) > 0)
     && !(Number(totalQuantity) > 0);
   const catalogSazFlags = (context, product, totalQuantity = 0) => {
-    const sazRegistered = context.registryByKey.get(productLookupKey(product)) === product.id;
-    const sazPreloaded = product.source_system === 'saz_precargado' || /PRECARGADO EN SAZ/i.test(String(product.estado || ''));
+    const explicitPending = /PENDIENTE DE SAZ/i.test(String(product.estado || ''));
+    const sazRegistered = !explicitPending && context.registryByKey.get(productLookupKey(product)) === product.id;
+    const sazPreloaded = !explicitPending && (product.source_system === 'saz_precargado' || /PRECARGADO EN SAZ/i.test(String(product.estado || '')));
     return { sazRegistered, sazPreloaded, isNew: isNuevoFicha(product, totalQuantity) };
   };
   const compactLookupKey = value => `${compactEstilo(value?.estilo)}|${catalogText(value?.color)}`;
@@ -547,8 +548,9 @@
     const includeEmpty = options.includeEmpty !== false;
     const found = await findCatalogProducts(context, query, scope, planned?.limit || 40, signal);
     const products = found.filter(product => {
-      const registered = context.registryByKey.get(productLookupKey(product)) === product.id;
-      const preloaded = product.source_system === 'saz_precargado' || /PRECARGADO EN SAZ/i.test(String(product.estado || ''));
+      const explicitPending = /PENDIENTE DE SAZ/i.test(String(product.estado || ''));
+      const registered = !explicitPending && context.registryByKey.get(productLookupKey(product)) === product.id;
+      const preloaded = !explicitPending && (product.source_system === 'saz_precargado' || /PRECARGADO EN SAZ/i.test(String(product.estado || '')));
       const sinImagen = !String(product.imagen || '').trim();
       const sinPrecio = !(Number(product.precio) > 0);
       if (sazFilter === 'loaded') return registered;
@@ -1588,7 +1590,8 @@
     const skipKeys = [];
     for (const [key, group] of groups) {
       const canonical = pickCanonicalProduct(group.products);
-      const inSaz = group.products.some(product => registeredIds.has(product.id) || product.source_system === 'saz_precargado' || /CARGADO EN SAZ|PRECARGADO EN SAZ/i.test(String(product.estado || '')));
+      const inSaz = group.products.some(product => !/PENDIENTE DE SAZ/i.test(String(product.estado || ''))
+        && (registeredIds.has(product.id) || product.source_system === 'saz_precargado' || /CARGADO EN SAZ|REGISTRADO EN SAZ|PRECARGADO EN SAZ/i.test(String(product.estado || ''))));
       const sinImagen = !String(canonical?.imagen || '').trim();
       const sinPrecio = !(Number(canonical?.precio) > 0);
       const pares = Object.values(group.qtyBySize).reduce((sum, quantity) => sum + Math.trunc(Number(quantity) || 0), 0);

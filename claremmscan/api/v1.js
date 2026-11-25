@@ -229,7 +229,8 @@ function findBranch(branches, code) {
 }
 
 function sazEstado(product, registryIds) {
-  if (registryIds.has(product.id) || /CARGADO EN SAZ/i.test(String(product.estado || ''))) return 'En SAZ';
+  if (/PENDIENTE DE SAZ/i.test(String(product.estado || ''))) return 'Pendiente de SAZ';
+  if (registryIds.has(product.id) || /CARGADO EN SAZ|REGISTRADO EN SAZ/i.test(String(product.estado || ''))) return 'En SAZ';
   if (/PRECARGADO EN SAZ/i.test(String(product.estado || '')) || product.source_system === 'saz_precargado') return 'En SAZ';
   return 'Pendiente de SAZ';
 }
