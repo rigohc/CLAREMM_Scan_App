@@ -52,7 +52,7 @@
   }
 
   function compactEstilo(value) {
-    return normalize(value).replace(/^0+(?=\d)/, '');
+    return normalize(value).replace(/\s+/g, '').replace(/^0+(?=\d)/, '');
   }
 
   function fichaKey(estilo, color) {
@@ -103,6 +103,64 @@
     return out;
   }
 
+  function sumQtyBySize(primary, secondary) {
+    const out = { ...(primary || {}) };
+    for (const [size, quantity] of Object.entries(secondary || {})) {
+      const key = sizeKey(size);
+      const qty = Math.trunc(Number(quantity) || 0);
+      if (!key || qty <= 0) continue;
+      out[key] = (Number(out[key] || 0) || 0) + qty;
+    }
+    return out;
+  }
+
+  function fichaRank(row) {
+    return (Number(row?.precio) > 0 ? 1000 : 0)
+      + (typeof row?.imagen === 'string' && text(row.imagen) ? 400 : 0)
+      + (Number(row?.pares) || pairsFromSizes(row?.qtyBySize) || 0)
+      + (text(row?.ficha_id) ? 10 : 0);
+  }
+
+  function absorbFichaRow(target, source, qtyMode = 'sum') {
+    const next = target || { ...source, qtyBySize: { ...(source?.qtyBySize || {}) } };
+    if (!target) {
+      next.pares = pairsFromSizes(next.qtyBySize);
+      return next;
+    }
+    next.qtyBySize = qtyMode === 'max'
+      ? mergeQtyBySize(next.qtyBySize, source?.qtyBySize)
+      : sumQtyBySize(next.qtyBySize, source?.qtyBySize);
+    next.pares = pairsFromSizes(next.qtyBySize);
+    if (!(Number(next.precio) > 0) && Number(source?.precio) > 0) next.precio = source.precio;
+    if (!(typeof next.imagen === 'string' && text(next.imagen)) && typeof source?.imagen === 'string' && text(source.imagen)) next.imagen = source.imagen;
+    if (!text(next.ficha_id) && text(source?.ficha_id)) next.ficha_id = source.ficha_id;
+    else if (fichaRank(source) > fichaRank(next) && text(source?.ficha_id)) next.ficha_id = source.ficha_id;
+    for (const field of TEXT_FILL) if (!text(next[field]) && text(source?.[field])) next[field] = text(source[field]);
+    if (!text(next.linea) && text(source?.tipo)) next.linea = text(source.tipo);
+    if (!text(next.acabado) && text(source?.material)) next.acabado = text(source.material);
+    next.sin_imagen = Boolean(next.sin_imagen) && Boolean(source?.sin_imagen);
+    next.sin_precio = Boolean(next.sin_precio) && Boolean(source?.sin_precio);
+    if (Number(next.precio) > 0) next.sin_precio = false;
+    if ((typeof next.imagen === 'string' && text(next.imagen)) || next.sin_imagen === false) {
+      if (typeof next.imagen === 'string' && text(next.imagen)) next.sin_imagen = false;
+    }
+    return next;
+  }
+
+  function collapseFichaRows(rows, qtyMode = 'sum') {
+    const byKey = new Map();
+    for (const row of rows || []) {
+      const key = fichaKey(row.estilo, row.color);
+      byKey.set(key, absorbFichaRow(byKey.get(key), row, qtyMode));
+    }
+    return [...byKey.values()].map(row => ({
+      ...row,
+      pares: pairsFromSizes(row.qtyBySize),
+      sin_precio: Boolean(row.sin_precio) && !(Number(row.precio) > 0),
+      sin_imagen: Boolean(row.sin_imagen) && !(typeof row.imagen === 'string' && text(row.imagen)),
+    }));
+  }
+
   function pairsFromSizes(qtyBySize) {
     return Object.values(qtyBySize || {}).reduce((sum, quantity) => sum + Math.trunc(Number(quantity) || 0), 0);
   }
@@ -144,7 +202,7 @@
 
   function toInventoryRows(rows, date) {
     const note = todayNote(date);
-    return (rows || []).map(row => toInventoryRow(row, note));
+    return collapseFichaRows(rows, 'sum').map(row => toInventoryRow(row, note));
   }
 
   function toResumenRows(inventoryRows) {
@@ -178,11 +236,11 @@
   function mergeGapRows(catalogRows, localRows, skipKeys) {
     const skip = new Set(skipKeys || []);
     const byKey = new Map();
-    for (const row of catalogRows || []) {
+    for (const row of collapseFichaRows(catalogRows, 'sum')) {
       const key = fichaKey(row.estilo, row.color);
       byKey.set(key, { ...row, qtyBySize: { ...(row.qtyBySize || {}) }, origen: row.origen || 'catalogo' });
     }
-    for (const row of localRows || []) {
+    for (const row of collapseFichaRows(localRows, 'sum')) {
       const key = fichaKey(row.estilo, row.color);
       if (skip.has(key)) continue;
       const current = byKey.get(key);
@@ -191,14 +249,8 @@
         continue;
       }
       current.origen = 'ambos';
-      current.qtyBySize = mergeQtyBySize(current.qtyBySize, row.qtyBySize);
+      absorbFichaRow(current, row, 'max');
       current.pares = pairsFromSizes(current.qtyBySize);
-      current.sin_imagen = Boolean(current.sin_imagen) && Boolean(row.sin_imagen);
-      current.sin_precio = Boolean(current.sin_precio) && Boolean(row.sin_precio);
-      if (!(Number(current.precio) > 0) && Number(row.precio) > 0) current.precio = row.precio;
-      for (const field of TEXT_FILL) if (!current[field] && row[field]) current[field] = row[field];
-      if (!current.linea && row.tipo) current.linea = row.tipo;
-      if (!current.acabado && row.material) current.acabado = row.material;
       if (!current.sin_imagen && !current.sin_precio) byKey.delete(key);
     }
     return sortPrepRows([...byKey.values()]);
@@ -380,6 +432,8 @@
     sizeKey,
     addSizeQty,
     mergeQtyBySize,
+    sumQtyBySize,
+    collapseFichaRows,
     pairsFromSizes,
     todayNote,
     toInventoryRow,

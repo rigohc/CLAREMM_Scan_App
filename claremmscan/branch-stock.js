@@ -8,7 +8,7 @@
   const byId = id => document.getElementById(id);
   const text = value => String(value ?? '').trim();
   const normalized = value => text(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().replace(/\s+/g, ' ');
-  const compactEstilo = value => normalized(value).replace(/^0+(?=\d)/, '');
+  const compactEstilo = value => normalized(value).replace(/\s+/g, '').replace(/^0+(?=\d)/, '');
   const catalogCorrida = value => normalized(value).replace(/[–—]/g, '-').replace(/\s+/g, '').replace(/(\d+)\.0(?!\d)/g, '$1');
   const matchesStyleCorrida = (product, estilo, corrida) => compactEstilo(product.estilo) === compactEstilo(estilo) && catalogCorrida(product.corrida) === catalogCorrida(corrida);
   const corridaContainsSize = (corrida, size) => {

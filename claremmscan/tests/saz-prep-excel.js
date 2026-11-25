@@ -67,6 +67,28 @@ const merged = excel.mergeGapRows(
 assert(merged.length === 1 && merged[0].corrida === '22-26', 'identidad compacta conserva corrida');
 assert(merged[0].qtyBySize['23.0'] === 1 && merged[0].qtyBySize['24.0'] === 2, 'tallas se unen sin duplicar');
 
+const catalogDupes = excel.mergeGapRows([
+  { estilo: 'NI2001', color: 'LATE', precio: 0, corrida: '21.50-27.00', qtyBySize: { '23.5': 1, '24.5': 1, '25.0': 1, '25.5': 1, '26.0': 1 }, sin_precio: true, sin_imagen: true },
+  { estilo: 'NI2001', color: 'LATE', precio: 0, corrida: '21.50-27.00', qtyBySize: { '24.0': 1 }, sin_precio: true, sin_imagen: true },
+], []);
+assert(catalogDupes.length === 1, 'dos productos iguales se unen en una ficha');
+assert(catalogDupes[0].qtyBySize['24.0'] === 1, 'talla 24.0 se agrega al unir');
+assert(catalogDupes[0].pares === 6, 'pares de ambas fichas se conservan');
+
+const sameSizeDupes = excel.collapseFichaRows([
+  { estilo: 'NI2001', color: 'LATE', qtyBySize: { '24.0': 1 }, sin_precio: true, sin_imagen: true },
+  { estilo: 'NI2001', color: 'LATE', qtyBySize: { '24.0': 1 }, sin_precio: true, sin_imagen: true },
+]);
+assert(sameSizeDupes.length === 1 && sameSizeDupes[0].qtyBySize['24.0'] === 2, 'si las dos fichas tienen la misma talla, se suma');
+
+const excelRows = excel.toInventoryRows([
+  { estilo: 'NI2001', color: 'LATE', precio: 1199, corrida: '21.50-27.00', qtyBySize: { '23.5': 1, '24.5': 1, '25.0': 1, '25.5': 1, '26.0': 1 } },
+  { estilo: 'NI2001', color: 'LATE', precio: 1199, corrida: '21.50-27.00', qtyBySize: { '24.0': 1 } },
+]);
+assert(excelRows.length === 1, 'Excel SAZ no duplica la ficha');
+assert(excelRows[0]['24.0'] === 1 && excelRows[0]['23.5'] === 1, 'Excel incluye 24.0 y el resto de la corrida');
+assert(excelRows[0]['Total Existencia'] === 6, 'Total Existencia es la suma real, no dos filas');
+
 const ordered = excel.sortPrepRows([
   { estilo: 'ZZIMG', color: 'NEGRO', sin_precio: false, sin_imagen: true },
   { estilo: 'AAAMBOS', color: 'NEGRO', sin_precio: true, sin_imagen: true },

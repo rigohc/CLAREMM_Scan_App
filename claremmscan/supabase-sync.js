@@ -56,7 +56,7 @@
   const catalogText = value => String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toUpperCase().replace(/\s+/g, ' ');
   const catalogPrice = value => { const raw = String(value ?? '').trim().replace(/[^0-9,.-]/g, ''); if (!raw) return NaN; const comma = raw.lastIndexOf(','), dot = raw.lastIndexOf('.'); const normalized = comma > dot ? raw.replace(/\./g, '').replace(',', '.') : raw.replace(/,/g, ''); return Number(normalized); };
   const productLookupKey = value => `${catalogText(value?.estilo)}|${catalogText(value?.color)}`;
-  const compactEstilo = value => catalogText(value).replace(/^0+(?=\d)/, '');
+  const compactEstilo = value => catalogText(value).replace(/\s+/g, '').replace(/^0+(?=\d)/, '');
   const catalogCorrida = value => catalogText(value).replace(/[–—]/g, '-').replace(/\s+/g, '').replace(/(\d+)\.0(?!\d)/g, '$1');
   const matchesStyleCorrida = (product, estilo, corrida) => compactEstilo(product.estilo) === compactEstilo(estilo) && catalogCorrida(product.corrida) === catalogCorrida(corrida);
   const colorTokens = value => catalogText(value).replace(/[\/\-_,+|.]/g, ' ').replace(/\s+/g, ' ').trim();
@@ -476,6 +476,68 @@
     return url;
   }
 
+  const sizeKeyOf = value => {
+    const number = Number(String(value ?? '').trim().replace(',', '.'));
+    return Number.isFinite(number) ? number.toFixed(1) : '';
+  };
+
+  function mergeBranchStocks(left, right) {
+    const byId = new Map();
+    for (const stock of [...(left || []), ...(right || [])]) {
+      const id = stock?.branch?.id || stock?.branch?.code || stock?.branch?.name;
+      if (!id) continue;
+      const current = byId.get(id);
+      if (!current) {
+        byId.set(id, {
+          branch: stock.branch,
+          sizes: [...(stock.sizes || [])].map(item => ({ size: sizeKeyOf(item.size) || String(item.size || ''), quantity: Math.trunc(Number(item.quantity) || 0) })).filter(item => item.size && item.quantity > 0),
+          totalQuantity: Number(stock.totalQuantity || 0),
+        });
+        continue;
+      }
+      const qty = new Map(current.sizes.map(item => [item.size, item.quantity]));
+      for (const item of stock.sizes || []) {
+        const size = sizeKeyOf(item.size) || String(item.size || '');
+        const quantity = Math.trunc(Number(item.quantity) || 0);
+        if (!size || quantity <= 0) continue;
+        qty.set(size, (qty.get(size) || 0) + quantity);
+      }
+      current.sizes = [...qty.entries()].map(([size, quantity]) => ({ size, quantity })).sort((a, b) => Number(a.size) - Number(b.size));
+      current.totalQuantity = current.sizes.reduce((sum, item) => sum + item.quantity, 0);
+    }
+    return [...byId.values()];
+  }
+
+  function mergeDuplicateSearchResults(results) {
+    const byKey = new Map();
+    for (const result of results || []) {
+      const key = compactLookupKey(result.product);
+      const current = byKey.get(key);
+      if (!current) {
+        byKey.set(key, {
+          ...result,
+          branchStocks: mergeBranchStocks(result.branchStocks, []),
+          sizes: [...(result.sizes || [])],
+        });
+        continue;
+      }
+      current.product = pickCanonicalProduct([current.product, result.product]);
+      current.branchStocks = mergeBranchStocks(current.branchStocks, result.branchStocks);
+      current.sizes = current.branchStocks.flatMap(stock => (stock.sizes || []).map(item => ({
+        ...item,
+        branch: stock.branch?.name,
+        branchCode: stock.branch?.code,
+      })));
+      current.totalQuantity = current.branchStocks.reduce((sum, stock) => sum + Number(stock.totalQuantity || 0), 0);
+      current.branch = current.branchStocks.find(stock => stock.totalQuantity > 0)?.branch || current.branch;
+      current.imageUrl = current.imageUrl || result.imageUrl;
+      current.sazRegistered = Boolean(current.sazRegistered || result.sazRegistered);
+      current.sazPreloaded = Boolean(current.sazPreloaded || result.sazPreloaded);
+      current.notice = 'Misma ficha unida: estilo + color. Las tallas se suman; si no existía, se agrega.';
+    }
+    return [...byKey.values()];
+  }
+
   async function searchRelationalInventory(query, scope = 'all', sazFilter = 'all', options = {}) {
     const planned = plannedSearch(query);
     if (planned && !planned.ready) return [];
@@ -522,7 +584,7 @@
       result.totalQuantity += quantity;
     }
     const juarez = context.branches.find(branch => catalogText(branch.code) === 'JUAREZ') || context.branches[0];
-    return [...grouped.values()]
+    const mapped = [...grouped.values()]
       .filter(result => includeEmpty || result.totalQuantity > 0)
       .map(result => {
         const branchStocks = context.branches.map(branch => {
@@ -549,7 +611,8 @@
           ...catalogSazFlags(context, result.product, result.totalQuantity),
           imageUrl: result.product.imagen ? relationalImageUrls.get(result.product.imagen) || '' : '',
         };
-      })
+      });
+    return mergeDuplicateSearchResults(mapped)
       .sort((a, b) => catalogText(`${a.product.estilo}|${a.product.color}`).localeCompare(catalogText(`${b.product.estilo}|${b.product.color}`)));
     } catch (error) {
       if (isAbortError(error)) {
@@ -1506,21 +1569,35 @@
       const bag = qtyByProductSize.get(variant.product_id);
       bag[size] = (bag[size] || 0) + quantity;
     }
-    const rows = [];
-    const skipKeys = [];
+    const groups = new Map();
     for (const product of products) {
       if (product.activo === false) continue;
       const key = fichaKey(product.estilo, product.color);
-      const inSaz = registeredIds.has(product.id) || product.source_system === 'saz_precargado' || /CARGADO EN SAZ|PRECARGADO EN SAZ/i.test(String(product.estado || ''));
-      const sinImagen = !String(product.imagen || '').trim();
-      const sinPrecio = !(Number(product.precio) > 0);
+      const current = groups.get(key) || { products: [], qtyBySize: {} };
+      current.products.push(product);
       const qtyBySize = qtyByProductSize.get(product.id) || {};
-      const pares = Object.values(qtyBySize).reduce((sum, quantity) => sum + Math.trunc(Number(quantity) || 0), 0);
+      for (const [size, quantity] of Object.entries(qtyBySize)) {
+        const sized = sizeKey(size);
+        const qty = Math.trunc(Number(quantity) || 0);
+        if (!sized || qty <= 0) continue;
+        current.qtyBySize[sized] = (current.qtyBySize[sized] || 0) + qty;
+      }
+      groups.set(key, current);
+    }
+    const rows = [];
+    const skipKeys = [];
+    for (const [key, group] of groups) {
+      const canonical = pickCanonicalProduct(group.products);
+      const inSaz = group.products.some(product => registeredIds.has(product.id) || product.source_system === 'saz_precargado' || /CARGADO EN SAZ|PRECARGADO EN SAZ/i.test(String(product.estado || '')));
+      const sinImagen = !String(canonical?.imagen || '').trim();
+      const sinPrecio = !(Number(canonical?.precio) > 0);
+      const pares = Object.values(group.qtyBySize).reduce((sum, quantity) => sum + Math.trunc(Number(quantity) || 0), 0);
       if (inSaz || (!sinImagen && !sinPrecio)) {
         skipKeys.push(key);
         continue;
       }
       if (pares <= 0) continue;
+      const product = canonical;
       rows.push({
         ficha_id: product.id,
         estilo: product.estilo,
@@ -1544,7 +1621,7 @@
         costo: Number(product.costo || 0),
         precio: Number(product.precio || 0),
         imagen: product.imagen || '',
-        qtyBySize,
+        qtyBySize: group.qtyBySize,
         pares,
         sin_imagen: sinImagen,
         sin_precio: sinPrecio,

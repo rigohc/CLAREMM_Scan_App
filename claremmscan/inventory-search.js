@@ -23,7 +23,7 @@
   }
 
   function compactEstilo(value) {
-    return normalize(value).replace(/^0+(?=\d)/, '');
+    return normalize(value).replace(/\s+/g, '').replace(/^0+(?=\d)/, '');
   }
 
   function isNumericToken(value) {

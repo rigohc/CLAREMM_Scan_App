@@ -1,0 +1,73 @@
+{
+  "generated_at": "2026-11-25T14:55:46.508Z",
+  "mode": "DRY_RUN",
+  "excel": {
+    "file": "EXISTENCIA SAZ.xlsx",
+    "sha256": "bb2507d918f1b74dd9355de264a73c180ad791fa89b8b5d96a9cf78b67c1b0b0",
+    "sheet": "EXISTENCIA SAZ",
+    "source_rows": 888,
+    "unique_products": 797,
+    "duplicate_product_groups": 64,
+    "variants": 3274,
+    "pairs": 4800,
+    "size_columns": 74,
+    "skipped_summary_rows": [
+      890
+    ]
+  },
+  "organization": "CLAREMM",
+  "branch": {
+    "code": "JUAREZ",
+    "name": "CLAREMM ZAPATERIA JUAREZ"
+  },
+  "current": {
+    "registry_products": 816,
+    "registered_stock_rows": 2786,
+    "registered_pairs": 3555,
+    "scanner_rows_loaded": 3236,
+    "scanner_pairs_loaded": 3768,
+    "scanner_rows_pending": 1678,
+    "scanner_pairs_pending": 1940
+  },
+  "match": {
+    "matched_products": 797,
+    "missing_products": 0,
+    "scanner_products_to_register": 580,
+    "scanner_pairs_from_excel": 2649,
+    "preloaded_products_keep_status": 217,
+    "preloaded_products_with_zero_total_stock": 0,
+    "historical_preloaded_untouched_status": 171,
+    "prior_creates_reclassified_as_preloaded": 46,
+    "missing_with_scanner_evidence": 0,
+    "missing_without_scanner_evidence": 0,
+    "duplicate_catalog_matches": 0,
+    "missing_sample": []
+  },
+  "plan": {
+    "products_to_create_from_current_saz": 0,
+    "scanner_status_rows_to_set_registrado_en_saz": 0,
+    "prior_creates_to_set_ya_precargado": 0,
+    "registry_rows_to_upsert": 0,
+    "registry_rows_to_remove_from_reclassified_manual": 0,
+    "variants_to_create": 0,
+    "saz_projection_rows_to_upsert": 0,
+    "stale_saz_projection_rows_to_zero": 0,
+    "juarez_stock_rows_to_raise": 0,
+    "juarez_pairs_to_add_without_decreases": 0,
+    "juarez_stock_raise_sample": [],
+    "preloaded_stock_rows_to_fill_only_if_zero": 0,
+    "preloaded_pairs_to_fill_only_if_zero": 0,
+    "legacy_rows_to_mark_loaded": 0,
+    "legacy_pairs_to_mark_loaded": 0,
+    "prices_to_change": 0,
+    "images_to_change": 0
+  },
+  "safeguards": [
+    "StockSet solo al alza en JUAREZ; nunca se reduce inventory_levels.",
+    "YA PRECARGADO EN SAZ conserva su estatus; solo se llena si su existencia total actual es cero.",
+    "REGISTRADO EN SAZ se reserva para fichas con origen en el escáner.",
+    "La proyección saz_registered_stock incluye solo fichas REGISTRADO EN SAZ.",
+    "Precios e imágenes no se modifican.",
+    "inventory_items no se borra ni se usa como destino."
+  ]
+}
