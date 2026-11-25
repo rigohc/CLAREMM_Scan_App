@@ -985,6 +985,11 @@
       return;
     }
     const sequence = options.sequence || ++inventorySearchSequence;
+    if (isPrepFilter()) {
+      setRelationalPreview(false);
+      window.ClaremmStore?.renderPrepFichaCards?.(undefined, { force: true });
+      return;
+    }
     const scope = byId('inventorySearchScope').value, sazFilter = byId('inventorySazFilter').value;
     const catalogFilter = sazFilter === 'prep' ? 'all' : sazFilter;
     panel.hidden = false;
@@ -1020,7 +1025,8 @@
 
   function queueRelationalInventorySearch() {
     clearTimeout(inventorySearchTimer);
-    inventorySearchTimer = setTimeout(searchRelationalInventory, window.ClaremmInventorySearch?.LIMITS?.DEBOUNCE_MS || 280);
+    const sequence = ++inventorySearchSequence;
+    inventorySearchTimer = setTimeout(() => searchRelationalInventory({ sequence }), window.ClaremmInventorySearch?.LIMITS?.DEBOUNCE_MS || 280);
   }
 
   async function searchInventoryByPhoto(file) {

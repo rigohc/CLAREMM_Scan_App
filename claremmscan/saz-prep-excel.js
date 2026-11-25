@@ -352,6 +352,13 @@
     return needle.split(/\s+/).filter(Boolean).every(term => haystack.includes(term));
   }
 
+  function filterFichas(rows, query, scope, planned) {
+    const source = Array.isArray(rows) ? rows : [];
+    if (!normalize(query)) return source;
+    if (!planned || planned.wait || planned.mode === 'idle' || !planned.ready) return [];
+    return source.filter(ficha => fichaMatchesQuery(ficha, query, scope, planned));
+  }
+
   function toRelationalResult(ficha, branch) {
     const sizes = Object.entries(ficha?.qtyBySize || {})
       .map(([size, quantity]) => ({ size, quantity: Math.trunc(Number(quantity) || 0) }))
@@ -446,6 +453,7 @@
     gapLabel,
     groupLocalGaps,
     fichaMatchesQuery,
+    filterFichas,
     toRelationalResult,
     applyFichaPatch,
   };

@@ -115,6 +115,13 @@ assert(localGrouped[0].sin_precio && localGrouped[0].sin_imagen && localGrouped[
 
 assert(excel.fichaMatchesQuery({ estilo: '000034', color: 'NEGRO' }, '34', 'style', { mode: 'exact-estilo', keys: ['000034', '034', '34'] }), 'búsqueda 34 actualiza 000034');
 assert(!excel.fichaMatchesQuery({ estilo: 'PI4031', color: 'NEGRO' }, '34', 'style', { mode: 'exact-estilo', keys: ['34'] }), 'no mezcla otros estilos');
+const brandRows = [
+  { estilo: 'RIK100', color: 'NEGRO', marca: 'RIK-LAND' },
+  { estilo: 'OTR200', color: 'NEGRO', marca: 'OTRA MARCA' },
+];
+assert(excel.filterFichas(brandRows, 'RIK-LAND', 'all', { ready: true, wait: false, mode: 'text', terms: ['RIK-LAND'] }).length === 1, 'faltantes filtra por marca exacta escrita');
+assert(excel.filterFichas(brandRows, 'RI', 'all', { ready: false, wait: true, mode: 'wait', terms: ['RI'] }).length === 0, 'consulta incompleta nunca muestra todas las fichas');
+assert(excel.filterFichas(brandRows, '', 'all', { ready: false, wait: false, mode: 'idle', terms: [] }).length === 2, 'sin consulta conserva todos los faltantes');
 
 const patched = excel.applyFichaPatch(
   [{ estilo: '000034', color: 'NEGRO', precio: 0, sin_precio: true, sin_imagen: true, qtyBySize: { '23.0': 1 } }],
