@@ -552,7 +552,10 @@
       })
       .sort((a, b) => catalogText(`${a.product.estilo}|${a.product.color}`).localeCompare(catalogText(`${b.product.estilo}|${b.product.color}`)));
     } catch (error) {
-      if (isAbortError(error)) return [];
+      if (isAbortError(error)) {
+        error.aborted = true;
+        throw error;
+      }
       throw error;
     }
   }

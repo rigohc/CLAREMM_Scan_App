@@ -54,6 +54,7 @@
   let productDuplicateSaving = false;
   let recentStockRows = [];
   let recentImageTarget = null;
+  const localImagePreview = new Map();
   const FICHA_FIELDS = [
     { key: 'precio', label: 'Precio de venta' },
     { key: 'marca', label: 'Marca' },
@@ -88,6 +89,16 @@
 
   function keepCardPagination() {
     return Boolean(byId('inventoryCard')?.classList.contains('isPrepCards'));
+  }
+
+  function withLocalPreview(result) {
+    if (!result?.product) return result;
+    const preview = localImagePreview.get(result.product.id);
+    if (preview?.url) {
+      result.imageUrl = result.imageUrl || preview.url;
+      if (preview.path && !text(result.product.imagen)) result.product.imagen = preview.path;
+    }
+    return result;
   }
 
   function proposedPriceFor(product) {
@@ -152,7 +163,7 @@
       <small class="relationalEditHint" data-relational-notice="${esc(productId)}">${esc(preloadedNotice)}</small>
       <div class="relationalProductActions"><button type="button" class="secondary" data-relational-duplicate="${esc(productId)}">Duplicar ficha</button></div>
       <div class="relationalSizes">${sizeChips}</div>
-      <div class="relationalImage"><div class="relationalImagePreview">${result.imageUrl ? `<img src="${esc(result.imageUrl)}" alt="Producto ${esc(product.estilo)} ${esc(product.color)}">` : '<span>Sin imagen</span>'}</div><div class="relationalImageControls"><button type="button" data-relational-image="camera" data-product-id="${esc(productId)}">Tomar foto</button><button type="button" class="secondary" data-relational-image="gallery" data-product-id="${esc(productId)}">Elegir imagen</button><small data-relational-image-status="${esc(productId)}">${esc(result.imageMessage || (result.imageUrl ? 'Imagen compartida entre ambos inventarios.' : 'PNG máximo 100 KB · aplica por estilo y color.'))}</small></div></div>
+      <div class="relationalImage"><div class="relationalImagePreview">${result.imageUrl ? `<button type="button" class="imageThumb" data-image-preview="${esc(result.imageUrl)}" aria-label="Ver foto grande de ${esc(product.estilo)} ${esc(product.color)}"><img src="${esc(result.imageUrl)}" alt="Producto ${esc(product.estilo)} ${esc(product.color)}"></button>` : '<span>Sin imagen</span>'}</div><div class="relationalImageControls"><button type="button" data-relational-image="camera" data-product-id="${esc(productId)}">Tomar foto</button><button type="button" class="secondary" data-relational-image="gallery" data-product-id="${esc(productId)}">Elegir imagen</button><small data-relational-image-status="${esc(productId)}">${esc(result.imageMessage || (result.imageUrl ? 'Imagen compartida entre ambos inventarios.' : 'PNG máximo 100 KB · aplica por estilo y color.'))}</small></div></div>
     </article>`;
   }
 
@@ -196,25 +207,27 @@
   }
 
   async function saveRecentProductImage(file) {
+    if (!file) return;
     const target = recentImageTarget;
-    if (!target || !file) return;
+    if (!target) return;
     const row = recentRowById(target);
     const item = document.querySelector(`[data-recent-id="${CSS.escape(target)}"]`);
     const statusElement = item?.querySelector('[data-recent-image-status]');
     const buttons = [...(item?.querySelectorAll('[data-recent-image]') || [])];
     try {
       if (!row?.id) throw new Error('No se identificó la ficha para guardar la foto.');
-      if (!file.type.startsWith('image/')) throw new Error('Selecciona un archivo de imagen.');
+      const snapshot = window.ClaremmStore?.snapshotImageFile ? await window.ClaremmStore.snapshotImageFile(file) : file;
+      if (window.ClaremmStore?.isImageFile && !window.ClaremmStore.isImageFile(snapshot)) throw new Error('Selecciona un archivo de imagen.');
       if (!window.ClaremmStore?.compressProductImage) throw new Error('Actualiza la página para activar el compresor de imágenes.');
       if (!cloud()?.uploadRelationalProductImage) throw new Error('Actualiza la página para subir la foto desde el historial.');
       buttons.forEach(button => { button.disabled = true; });
       if (statusElement) statusElement.textContent = 'Comprimiendo imagen…';
-      const blob = await window.ClaremmStore.compressProductImage(file);
+      const blob = await window.ClaremmStore.compressProductImage(snapshot);
       if (statusElement) statusElement.textContent = 'Guardando en Supabase…';
       const saved = await cloud().uploadRelationalProductImage({ productId: row.id, blob });
       await window.ClaremmStore.putImageFromCloud(saved.fileName, blob).catch(() => {});
       cloud().recordImageMutation?.({ type: 'upsert', name: saved.fileName });
-      await window.ClaremmStore.refreshImageIndicators?.();
+      await window.ClaremmStore.refreshImageIndicators?.({ silent: true });
       row.imagen = saved.path || saved.fileName || '1';
       renderRecentStock(recentStockRows);
       status(`Foto guardada en ${row.estilo} · ${row.color}.`, 'ok');
@@ -740,7 +753,7 @@
   function renderRelationalInventory(results, query, options = {}) {
     const panel = byId('relationalSearchPanel'), container = byId('relationalSearchResults'), info = byId('relationalSearchInfo');
     const title = byId('relationalSearchTitle');
-    relationalInventoryResults = results;
+    relationalInventoryResults = (results || []).map(withLocalPreview);
     relationalInventoryQuery = query;
     panel.hidden = false;
     if (options.keepPagination) {
@@ -901,33 +914,45 @@
   }
 
   async function saveRelationalProductImage(file) {
+    if (!file) return;
     const target = relationalImageTarget;
-    if (!target || !file) return;
-    const card = document.querySelector(`[data-relational-product-id="${CSS.escape(target.product.id)}"]`), statusElement = card?.querySelector('[data-relational-image-status]');
+    if (!target) return;
+    const card = document.querySelector(`[data-relational-product-id="${CSS.escape(target.product.id)}"]`);
+    const statusElement = card?.querySelector('[data-relational-image-status]');
     const buttons = [...(card?.querySelectorAll('[data-relational-image]') || [])];
     buttons.forEach(button => { button.disabled = true; });
     if (statusElement) statusElement.textContent = 'Comprimiendo imagen…';
     try {
-      if (!file.type.startsWith('image/')) throw new Error('Selecciona un archivo de imagen.');
+      const snapshot = window.ClaremmStore?.snapshotImageFile ? await window.ClaremmStore.snapshotImageFile(file) : file;
+      if (window.ClaremmStore?.isImageFile && !window.ClaremmStore.isImageFile(snapshot)) throw new Error('Selecciona un archivo de imagen.');
       if (!window.ClaremmStore?.compressProductImage) throw new Error('Actualiza la página para activar el compresor de imágenes.');
-      const blob = await window.ClaremmStore.compressProductImage(file);
+      const blob = await window.ClaremmStore.compressProductImage(snapshot);
+      const localUrl = URL.createObjectURL(blob);
+      localImagePreview.set(target.product.id, { url: localUrl, path: '' });
+      for (const result of relationalInventoryResults.filter(item => item.product.id === target.product.id)) {
+        result.product.imagen = result.product.imagen || '1';
+        result.imageUrl = localUrl;
+        result.imageMessage = 'Foto lista. Guardando…';
+        replaceRelationalCard(result);
+      }
       if (statusElement) statusElement.textContent = 'Guardando en Supabase…';
       const saved = await cloud().uploadRelationalProductImage({ productId: target.product.id, blob });
       await window.ClaremmStore.putImageFromCloud(saved.fileName, blob).catch(() => {});
       cloud().recordImageMutation?.({ type: 'upsert', name: saved.fileName });
-      await window.ClaremmStore.refreshImageIndicators?.();
+      await window.ClaremmStore.refreshImageIndicators?.({ silent: true });
+      localImagePreview.set(target.product.id, { url: saved.imageUrl || localUrl, path: saved.path || '' });
       for (const result of relationalInventoryResults.filter(item => item.product.id === target.product.id)) {
         result.product.imagen = saved.path;
-        result.imageUrl = saved.imageUrl;
+        result.imageUrl = saved.imageUrl || localUrl;
         result.imageMessage = `Imagen compartida en ambos inventarios · ${(saved.size / 1024).toFixed(1)} KB`;
+        replaceRelationalCard(result);
       }
-      renderRelationalInventory(relationalInventoryResults, relationalInventoryQuery, { keepPagination: keepCardPagination() });
       window.ClaremmStore?.patchSazPrepFicha?.({
         estilo: target.product.estilo,
         color: target.product.color,
         sin_imagen: false,
-        imagen: true,
-      });
+        imagen: saved.path || true,
+      }, { silent: true });
     } catch (error) {
       if (statusElement) statusElement.textContent = error.message;
       buttons.forEach(button => { button.disabled = false; });
@@ -961,12 +986,13 @@
     }
     const sequence = options.sequence || ++inventorySearchSequence;
     const scope = byId('inventorySearchScope').value, sazFilter = byId('inventorySazFilter').value;
+    const catalogFilter = sazFilter === 'prep' ? 'all' : sazFilter;
     panel.hidden = false;
     setRelationalPreview(true);
     byId('relationalSearchInfo').textContent = 'Buscando en catálogo y existencias por sucursal…';
     try {
       if (!cloud()?.searchRelationalInventory) throw new Error('Actualiza la página para activar la búsqueda relacional.');
-      const results = await cloud().searchRelationalInventory(query, scope, sazFilter, { includeEmpty: true });
+      const results = await cloud().searchRelationalInventory(query, scope, catalogFilter, { includeEmpty: true });
       if (sequence !== inventorySearchSequence) return;
       relationalEdit = null;
       if (stylePriceReview) stylePriceReview.corrida = resolveReviewCorrida(stylePriceReview, results);
@@ -980,7 +1006,7 @@
       if (sequence !== inventorySearchSequence) return;
       applyHydratedImages(relationalInventoryResults, hydrated);
     } catch (error) {
-      if (sequence !== inventorySearchSequence) return;
+      if (sequence !== inventorySearchSequence || error?.name === 'AbortError' || error?.aborted) return;
       if (isPrepFilter()) {
         window.ClaremmStore?.renderPrepFichaCards?.(undefined, { force: true });
         byId('relationalSearchInfo').textContent = error.message;
@@ -1007,8 +1033,9 @@
     byId('relationalSearchInfo').textContent = 'Leyendo estilo y precio de la foto…';
     setInventoryPhotoBusy(true);
     try {
+      const snapshot = window.ClaremmStore?.snapshotImageFile ? await window.ClaremmStore.snapshotImageFile(file) : file;
       if (!window.ClaremmStore?.readWithVision) throw new Error('Actualiza la página para leer la etiqueta con la cámara.');
-      const vision = await window.ClaremmStore.readWithVision(file);
+      const vision = await window.ClaremmStore.readWithVision(snapshot);
       if (sequence !== inventorySearchSequence) return;
       const row = (vision.rows || []).find(item => item.estilo) || vision.rows?.[0] || {};
       const estilo = text(row.estilo);
@@ -1157,6 +1184,11 @@
   byId('relationalProductImageCamera').addEventListener('change', event => saveRelationalProductImage(event.target.files?.[0]));
   byId('relationalProductImageGallery').addEventListener('change', event => saveRelationalProductImage(event.target.files?.[0]));
   byId('relationalSearchResults').addEventListener('click', async event => {
+    const previewButton = event.target.closest('[data-image-preview]');
+    if (previewButton) {
+      window.ClaremmStore?.openImagePreview?.(previewButton.dataset.imagePreview, previewButton.getAttribute('aria-label') || 'Foto del producto');
+      return;
+    }
     const duplicateButton = event.target.closest('[data-relational-duplicate]');
     if (duplicateButton) {
       if (isLocalFichaId(duplicateButton.dataset.relationalDuplicate)) return;

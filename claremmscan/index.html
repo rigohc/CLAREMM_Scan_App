@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="tokens.css?v=42-fichas-editables">
+  <link rel="stylesheet" href="tokens.css?v=43-foto-filtro">
   <style>
     /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 · genre: atmospheric · macrostructure: Workbench · theme: Midnight · enrichment: none · nav: N9 · footer: Ft2 · contrast: pass (40–41) · slop: pass (42–49) · mobile: pass (34,49–57) */
     *,*::before,*::after{box-sizing:border-box}
@@ -242,7 +242,14 @@
     .relationalSize{display:inline-flex;align-items:center;gap:var(--space-2xs);min-height:2rem;padding:.25rem .65rem;border-radius:var(--radius-pill);background:var(--color-paper-3);color:var(--color-ink);font-size:var(--text-xs);font-weight:700;white-space:nowrap}
     .relationalImage{display:grid;grid-template-columns:5rem minmax(0,1fr);gap:var(--space-sm);align-items:center;margin-block-start:var(--space-md);padding-block-start:var(--space-sm);border-block-start:var(--rule-thin) solid var(--color-rule)}
     .relationalImagePreview{display:grid;place-items:center;width:5rem;aspect-ratio:1;overflow:hidden;border:var(--rule-thin) dashed var(--color-rule-strong);border-radius:var(--radius-input);background:var(--color-paper-3);color:var(--color-muted);font-size:var(--text-xs);text-align:center}
-    .relationalImagePreview img{width:100%;height:100%;object-fit:cover}
+    .relationalImagePreview img,.imageThumb img{width:100%;height:100%;object-fit:cover}
+    .imageThumb{display:block;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:zoom-in}
+    #preview,#productImagePreview{cursor:zoom-in}
+    .fileCapture{position:fixed;inset:0 auto auto -100vw;width:1px;height:1px;opacity:0;overflow:hidden}
+    .imagePreviewDialog{z-index:80;max-width:min(96vw,42rem);padding:var(--space-md);border:var(--rule-thin) solid var(--color-rule);border-radius:var(--radius-input);background:var(--color-paper)}
+    .imagePreviewDialog::backdrop{background:rgb(0 0 0 / .72)}
+    .imagePreviewDialog img{display:block;width:100%;max-height:80vh;object-fit:contain;background:var(--color-paper-3);border-radius:var(--radius-input)}
+    .imagePreviewDialog button{margin-block-end:var(--space-sm)}
     .relationalImageControls{display:flex;min-width:0;flex-wrap:wrap;gap:var(--space-xs);align-items:center}
     .relationalImageControls button{width:auto;min-height:2.5rem;padding-inline:var(--space-sm);font-size:var(--text-xs)}
     .relationalImageControls small{flex:1 1 100%;overflow-wrap:anywhere}
@@ -312,7 +319,7 @@
         </div>
         <canvas id="captureCanvas"></canvas>
         <div class="toolbar"><button id="openCamera">Abrir cámara</button><button id="choose" class="secondary">Cargar fotos</button><button id="take" disabled>Capturar foto</button><button id="closeCamera" class="secondary" disabled>Cerrar cámara</button></div>
-        <input id="photo" type="file" accept="image/*" multiple hidden>
+        <input id="photo" type="file" accept="image/*" multiple class="fileCapture">
         <p id="fileInfo" class="muted"></p>
         <button id="scan" class="aiAction">Leer etiquetas con IA</button>
         <p id="status" role="status">Listo para capturar.</p>
@@ -350,7 +357,7 @@
           <label for="cantidad">Cantidad<input id="cantidad" type="number" min="1" value="1" aria-required="true"></label>
           <label for="precio">Precio<input id="precio" inputmode="decimal" placeholder="770"><small>Al editarlo, se aplicará a los colores del mismo estilo y la misma corrida.</small></label>
           <label for="notas">Notas<input id="notas" placeholder="Opcional"></label>
-          <div class="imageField"><label>Imagen del producto (opcional)</label><div class="imageActions"><button id="captureProductImage" type="button">Tomar foto</button><button id="chooseProductImage" type="button" class="secondary">Elegir de galería</button><button id="removeProductImage" type="button" class="secondary" disabled>Quitar imagen</button></div><input id="productImageCamera" type="file" accept="image/*" capture="environment" hidden><input id="productImage" type="file" accept="image/*" hidden><img id="productImagePreview" alt="Vista previa del producto" hidden><small id="productImageInfo">Sin imagen seleccionada.</small></div>
+          <div class="imageField"><label>Imagen del producto (opcional)</label><div class="imageActions"><button id="captureProductImage" type="button">Tomar foto</button><button id="chooseProductImage" type="button" class="secondary">Elegir de galería</button><button id="removeProductImage" type="button" class="secondary" disabled>Quitar imagen</button></div><input id="productImageCamera" type="file" accept="image/*" capture="environment" class="fileCapture"><input id="productImage" type="file" accept="image/*" class="fileCapture"><img id="productImagePreview" alt="Vista previa del producto" hidden><small id="productImageInfo">Sin imagen seleccionada.</small></div>
         </div>
         <div class="formActions"><button id="save">Guardar registro</button><button id="reset" class="secondary">Limpiar formulario</button></div>
       </section>
@@ -364,14 +371,14 @@
               <button type="button" id="inventorySearchCamera">Buscar por cámara</button>
               <button type="button" class="secondary" id="inventorySearchGallery">Buscar por foto</button>
             </div>
-            <input id="inventorySearchCameraFile" type="file" accept="image/*" capture="environment" hidden>
-            <input id="inventorySearchGalleryFile" type="file" accept="image/*" hidden>
+            <input id="inventorySearchCameraFile" type="file" accept="image/*" capture="environment" class="fileCapture">
+            <input id="inventorySearchGalleryFile" type="file" accept="image/*" class="fileCapture">
           </div>
           <label for="inventorySearchScope">Buscar en<select id="inventorySearchScope"><option value="all">Todos los campos</option><option value="style">Solo estilo</option></select></label>
           <label for="inventorySazFilter">Estado SAZ<select id="inventorySazFilter"><option value="prep" selected>Faltantes SAZ</option><option value="all">Todos</option><option value="pending">Pendientes</option><option value="loaded">Cargados</option></select></label>
         </div>
         <p id="inventoryResultInfo" class="inventoryResultInfo" aria-live="polite">Mostrando todos los registros.</p>
-        <section id="relationalSearchPanel" class="relationalResults" hidden aria-labelledby="relationalSearchTitle"><div class="relationalResultsHead"><div><h3 id="relationalSearchTitle">Inventario relacional</h3><p id="relationalSearchInfo">Buscando en catálogo y existencias por sucursal…</p></div><small>Supabase</small></div><div id="stylePriceReview" class="stylePriceReview" hidden><strong>Precio leído de la foto</strong><p id="stylePriceReviewInfo">Revisa el precio antes de aplicarlo a los colores del mismo estilo y la misma corrida.</p><label for="stylePriceProposal">Precio para estilo y corrida<input id="stylePriceProposal" inputmode="decimal" autocomplete="off"></label><div class="stylePriceReviewActions"><button type="button" id="stylePriceConfirm">Confirmar y aplicar</button><button type="button" class="secondary" id="stylePriceCancel">Descartar</button></div></div><div id="productDuplicate" class="productDuplicate" hidden><strong>Duplicar ficha</strong><p id="productDuplicateInfo">Mismo estilo, otro color. Ajusta corrida, precio, talla y foto.</p><div class="productDuplicateForm"><label for="productDuplicateEstilo">Estilo<input id="productDuplicateEstilo" readonly></label><label for="productDuplicateColor">Color nuevo<input id="productDuplicateColor" list="sazColorOptions" autocomplete="off"></label><label for="productDuplicateCorrida">Corrida<input id="productDuplicateCorrida" list="sazCorridaOptions" autocomplete="off"></label><label for="productDuplicatePrecio">Precio<input id="productDuplicatePrecio" inputmode="decimal" autocomplete="off"></label><label for="productDuplicateTalla">Talla<input id="productDuplicateTalla" inputmode="decimal" autocomplete="off"></label><label for="productDuplicateCantidad">Cantidad<input id="productDuplicateCantidad" inputmode="numeric" value="1" autocomplete="off"></label><div class="productDuplicatePhoto"><button type="button" id="productDuplicateCamera">Tomar foto</button><button type="button" class="secondary" id="productDuplicateGallery">Elegir imagen</button><small id="productDuplicatePhotoInfo">Sin foto. La imagen es de este color, no se copia.</small><input id="productDuplicateCameraFile" type="file" accept="image/*" capture="environment" hidden><input id="productDuplicateGalleryFile" type="file" accept="image/*" hidden></div><div class="productDuplicateActions"><button type="button" id="productDuplicateSave">Guardar ficha</button><button type="button" class="secondary" id="productDuplicateCancel">Cancelar</button></div></div></div><div id="relationalSearchResults" class="relationalResultGrid"></div><input id="relationalProductImageCamera" type="file" accept="image/*" capture="environment" hidden><input id="relationalProductImageGallery" type="file" accept="image/*" hidden></section>
+        <section id="relationalSearchPanel" class="relationalResults" hidden aria-labelledby="relationalSearchTitle"><div class="relationalResultsHead"><div><h3 id="relationalSearchTitle">Inventario relacional</h3><p id="relationalSearchInfo">Buscando en catálogo y existencias por sucursal…</p></div><small>Supabase</small></div><div id="stylePriceReview" class="stylePriceReview" hidden><strong>Precio leído de la foto</strong><p id="stylePriceReviewInfo">Revisa el precio antes de aplicarlo a los colores del mismo estilo y la misma corrida.</p><label for="stylePriceProposal">Precio para estilo y corrida<input id="stylePriceProposal" inputmode="decimal" autocomplete="off"></label><div class="stylePriceReviewActions"><button type="button" id="stylePriceConfirm">Confirmar y aplicar</button><button type="button" class="secondary" id="stylePriceCancel">Descartar</button></div></div><div id="productDuplicate" class="productDuplicate" hidden><strong>Duplicar ficha</strong><p id="productDuplicateInfo">Mismo estilo, otro color. Ajusta corrida, precio, talla y foto.</p><div class="productDuplicateForm"><label for="productDuplicateEstilo">Estilo<input id="productDuplicateEstilo" readonly></label><label for="productDuplicateColor">Color nuevo<input id="productDuplicateColor" list="sazColorOptions" autocomplete="off"></label><label for="productDuplicateCorrida">Corrida<input id="productDuplicateCorrida" list="sazCorridaOptions" autocomplete="off"></label><label for="productDuplicatePrecio">Precio<input id="productDuplicatePrecio" inputmode="decimal" autocomplete="off"></label><label for="productDuplicateTalla">Talla<input id="productDuplicateTalla" inputmode="decimal" autocomplete="off"></label><label for="productDuplicateCantidad">Cantidad<input id="productDuplicateCantidad" inputmode="numeric" value="1" autocomplete="off"></label><div class="productDuplicatePhoto"><button type="button" id="productDuplicateCamera">Tomar foto</button><button type="button" class="secondary" id="productDuplicateGallery">Elegir imagen</button><small id="productDuplicatePhotoInfo">Sin foto. La imagen es de este color, no se copia.</small><input id="productDuplicateCameraFile" type="file" accept="image/*" capture="environment" class="fileCapture"><input id="productDuplicateGalleryFile" type="file" accept="image/*" hidden></div><div class="productDuplicateActions"><button type="button" id="productDuplicateSave">Guardar ficha</button><button type="button" class="secondary" id="productDuplicateCancel">Cancelar</button></div></div></div><div id="relationalSearchResults" class="relationalResultGrid"></div><input id="relationalProductImageCamera" type="file" accept="image/*" capture="environment" class="fileCapture"><input id="relationalProductImageGallery" type="file" accept="image/*" class="fileCapture"></section>
         <details class="exportMenu"><summary>Exportar datos y respaldo</summary><div class="exportActions"><button id="xlsx">Excel (.xlsx)</button><button id="xlsxSazGaps" type="button" class="secondary">Excel faltantes SAZ</button><button id="csv" class="secondary">CSV</button><button id="backup" class="secondary">Respaldo JSON</button><button id="clear" class="danger">Borrar todo</button></div></details>
         <div class="tablewrap"><table><thead id="inventoryTableHead"><tr><th>Estilo</th><th>Color</th><th>Marca</th><th>Corrida</th><th>Precio</th><th>Pares</th><th>Imagen</th><th>Falta</th><th>Estado SAZ</th><th>Acciones</th></tr></thead><tbody id="rows"></tbody></table></div>
         <nav id="inventoryPagination" class="inventoryPagination" aria-label="Páginas del inventario" hidden><button id="pagePrev" type="button" class="secondary">Anterior</button><div id="pageNumbers" class="pageNumbers"></div><button id="pageNext" type="button" class="secondary">Siguiente</button></nav>
@@ -411,7 +418,7 @@
           <h3 id="branchStockRecentTitle">Últimas existencias registradas</h3>
           <p>Los últimos 100 productos con existencia dada de alta en esta sucursal. Los que van sin foto salen primero, en rojo; desde aquí les tomas o eliges la imagen.</p>
           <ol id="branchStockRecentList" class="branchStockRecentList" aria-live="polite"></ol>
-          <input id="branchRecentImageCamera" type="file" accept="image/*" capture="environment" hidden>
+          <input id="branchRecentImageCamera" type="file" accept="image/*" capture="environment" class="fileCapture">
           <input id="branchRecentImageGallery" type="file" accept="image/*" hidden>
         </section>
         <section class="branchStockPanel" aria-labelledby="branchStockManualTitle">
@@ -471,17 +478,21 @@
       <p id="catalogReviewStatus" class="branchStockStatus" role="status" aria-live="polite">Inicia sesión para ver la cola.</p>
     </div>
   </dialog>
+  <dialog id="imagePreviewDialog" class="imagePreviewDialog" aria-label="Foto ampliada">
+    <button type="button" id="imagePreviewClose" class="secondary">Cerrar</button>
+    <img id="imagePreviewFull" alt="Foto ampliada">
+  </dialog>
   <footer class="footLine">CLAREMM Scan v20 · Inventario local con respaldo privado en Supabase.</footer>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <script src="saz-catalog.js?v=42-fichas-editables"></script>
-  <script src="inventory-search.js?v=42-fichas-editables"></script>
-  <script src="saz-prep-excel.js?v=42-fichas-editables"></script>
-  <script src="app.js?v=42-fichas-editables"></script>
-  <script src="supabase-sync.js?v=42-fichas-editables"></script>
-  <script src="branch-stock.js?v=42-fichas-editables"></script>
-  <script src="review-queue.js?v=42-fichas-editables"></script>
+  <script src="saz-catalog.js?v=43-foto-filtro"></script>
+  <script src="inventory-search.js?v=43-foto-filtro"></script>
+  <script src="saz-prep-excel.js?v=43-foto-filtro"></script>
+  <script src="app.js?v=43-foto-filtro"></script>
+  <script src="supabase-sync.js?v=43-foto-filtro"></script>
+  <script src="branch-stock.js?v=43-foto-filtro"></script>
+  <script src="review-queue.js?v=43-foto-filtro"></script>
 </body>
 </html>

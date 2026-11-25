@@ -22,6 +22,7 @@ assert(search.compactEstilo('000034') === '34', 'identidad compacta');
 const prefix = search.plan('PI40');
 assert(prefix.ready && prefix.allowPrefix, 'PI40 sí puede prefijo alfanumérico');
 assert(search.plan('PI').wait, 'PI incompleto espera');
+assert(search.plan('R').wait && search.plan('RI').wait, '1-2 letras no vacían el catálogo: hay que seguir escribiendo');
 
 const scientific = search.plan('4e0');
 assert(scientific.ready && scientific.mode === 'exact-estilo', '4e0 es lookup exacto, no prefijo');
