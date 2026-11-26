@@ -97,6 +97,29 @@ assert(core.estiloKeys('000034').includes('34'), '000034 también busca 34');
 assert(core.sameEstilo('000034', '034'), 'ceros a la izquierda son el mismo estilo');
 assert(core.blockedBranch('JUAREZ'), 'JUAREZ bloqueada para carga');
 assert(!core.blockedBranch('NUEVO_LEON'), 'NUEVO_LEON permitida');
+assert(core.juarezAllowsQuantity(1, 1) && core.juarezAllowsQuantity(1, 2) && !core.juarezAllowsQuantity(2, 1), 'JUÁREZ solo suma o deja');
+assert(core.nextEstiloValue('000034') === '000034', 'estilo numérico se paddea');
+assert(core.nextEstiloValue('NI 2001') === 'NI2001', 'estilo compacta espacios');
+const planned = core.catalogPatchFromBody(
+  { estilo: 'NI2001', color: 'LATE', precio: 1199 },
+  { estilo: 'NI2001B', corrida: '21.50-27.00', motivo: 'corrección' },
+);
+assert(planned.patch.estilo === 'NI2001B' && planned.identityChanged, 'cambia el estilo de la ficha');
+assert(planned.priceProtected === false, 'sin precio nuevo no pide confirmación');
+const protectedPrice = core.catalogPatchFromBody(
+  { estilo: 'NI2001', color: 'LATE', precio: 1199 },
+  { precio: 999 },
+);
+assert(protectedPrice.priceProtected, 'precio > 0 queda protegido');
+assert(!core.catalogPatchFromBody({ precio: 1199 }, { precio: 999, confirmar_precio: true }).priceProtected, 'confirmar_precio autoriza el cambio');
+const sizeGroup = core.groupSizeRows([
+  { estilo: 'NI2001', color: 'LATE', talla: '24.0', cantidad: 1 },
+  { estilo: 'NI2001', color: 'LATE', talla: '24', cantidad: 1 },
+  { ficha_id: '11111111-1111-4111-8111-111111111111', talla: '25.0', cantidad: 0 },
+  { estilo: 'X', color: 'Y', talla: 'veinte', cantidad: 1 },
+]);
+assert(sizeGroup.filas === 2 && sizeGroup.rows.find(row => row.talla === '24.0').cantidad === 2, 'agrupa tallas y permite 0');
+assert(sizeGroup.invalid.length === 1, 'talla inválida se reporta');
 assert(core.colorKey('N/B') === 'NEGRO BLANCO', 'alias N/B');
 assert(core.buildPreview(classified).filas === classified.filas, 'preview no inventa filas');
 assert(core.dedupeByLookup(eightClassified.creables).length === 1, 'dedupe exportado');

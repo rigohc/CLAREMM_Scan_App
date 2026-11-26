@@ -99,14 +99,19 @@ Pensada para un agente externo. Autenticación: header `X-API-Key` (variable `CL
 
 - `GET /api/v1/branches`
 - `GET /api/v1/catalog/products?estilo=&color=&marca=`
+- `GET /api/v1/catalog/products/{ficha_id}`
 - `GET /api/v1/branches/{JUAREZ|NUEVO_LEON}/inventory?estilo=&color=&talla=`
 - `POST /api/v1/branches/{branch}/upload/preview` — nunca escribe
 - `POST /api/v1/branches/{branch}/upload/apply` — `mode` obligatorio (`set` o `sum`), `batch_id` único, `create_unknowns` para altas
-- `PATCH /api/v1/catalog/products/{ficha_id}` — precio, tipo y material, con `motivo`
+- `POST /api/v1/branches/{JUAREZ\|NUEVO_LEON}/sizes` — agrega o actualiza tallas (`mode`: `set` o `sum`, `motivo` obligatorio). En JUÁREZ solo suma o deja; nunca baja.
+- `PATCH /api/v1/catalog/products/{ficha_id}` — corrige estilo, color, corrida, marca, tipo, material, precio (`confirmar_precio` si el precio actual es &gt; 0). `motivo` obligatorio
+- `DELETE /api/v1/catalog/products/{ficha_id}` — baja lógica (`activo=false`); no borra existencias de JUÁREZ
 - `GET /api/v1/branches/{branch}/history?batch_id=`
 - `GET /api/v1/review/pending?branch=&estado=`
 
-Reglas: color exacto (N/B sí es alias de NEGRO BLANCO; NEGRO BLANCO no es BLANCO NEGRO); ceros a la izquierda se igualan; no se pisa imagen ni material/precio/tipo de fichas ya existentes; `set`/`sum` solo en la sucursal indicada; **JUÁREZ está bloqueada** para preview/apply. Reaplicar el mismo `batch_id` no duplica pares.
+Reglas: color exacto (N/B sí es alias de NEGRO BLANCO; NEGRO BLANCO no es BLANCO NEGRO); ceros a la izquierda se igualan; no se pisa imagen ni precio &gt; 0 sin `confirmar_precio`; `set`/`sum` solo en la sucursal indicada; **carga masiva `upload` no toca JUÁREZ**; **tallas en JUÁREZ sí**, sin bajar pares. Reaplicar el mismo `batch_id` no duplica pares. La baja de ficha es `CatalogProductDeactivated`, no un `DELETE` físico.
+
+Nombre canónico de la sucursal base: código `JUAREZ`, nombre visible `CLAREMM ZAPATERIA JUAREZ`.
 
 En la app, **Revisión pendiente** muestra fichas nuevas, precios heredados o en $0, desajustes PIEL vs SINTETICO, y permite corregir y exportar Excel.
 

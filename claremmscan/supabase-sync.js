@@ -14,7 +14,7 @@
   let branchStockContextPromise = null;
   const relationalImageUrls = new Map();
   const PRODUCT_EDIT_FIELDS = ['precio', 'marca', 'proveedor', 'temporada', 'sublinea', 'departamento', 'clasificacion', 'linea', 'corrida', 'acabado'];
-  const PRODUCT_CATALOG_SELECT = 'id,estilo,color,marca,proveedor,temporada,sublinea,departamento,clasificacion,linea,corrida,acabado,precio,source_system,estado,imagen';
+  const PRODUCT_CATALOG_SELECT = 'id,estilo,color,marca,proveedor,temporada,sublinea,departamento,clasificacion,linea,corrida,acabado,precio,source_system,estado,imagen,activo,observaciones,forro,catalogo,status,costo';
   const inventorySearch = () => window.ClaremmInventorySearch;
   let catalogSearchAbort = null;
   const beginCatalogSearch = () => {
@@ -1037,7 +1037,7 @@
     let context = await loadBranchStockContext();
     const branch = context.branches.find(item => item.id === branchId);
     if (!branch) throw new Error('La sucursal seleccionada no existe o está inactiva.');
-    if (catalogText(branch.code) === 'JUAREZ' || catalogText(branch.name) === catalogText(DEFAULT_BRANCH)) throw new Error('La carga por catálogo solo se permite en sucursales distintas de la tienda base JUÁREZ.');
+    const isJuarez = catalogText(branch.code) === 'JUAREZ' || catalogText(branch.name) === catalogText(DEFAULT_BRANCH);
     let validation = await validateBranchStockRows(rows);
     const creatable = validation.unknown.filter(row => row.willCreate);
     let createdProducts = 0;
@@ -1075,11 +1075,22 @@
       if (error) throw error;
       for (const row of data || []) current.set(row.variant_id, Number(row.quantity || 0));
     }
-    const levels = [], movements = [];
+    const levels = [], movements = [], protectedRows = [], unchangedRows = [];
     for (const row of stockRows) {
       const previous = current.get(row.variantId) || 0, next = mode === 'add' ? previous + row.cantidad : row.cantidad;
+      if (isJuarez && next < previous) {
+        protectedRows.push({ ...row, previous, next, reason: `JUÁREZ no baja: la talla ${row.size} tiene ${previous} y no se deja en ${next}.` });
+        continue;
+      }
+      if (next === previous) {
+        unchangedRows.push({ ...row, previous, next, reason: `La talla ${row.size} ya tiene ${previous}.` });
+        continue;
+      }
+      const operation = isJuarez || mode === 'add' ? 'add' : 'set';
+      const movementQuantity = operation === 'add' ? next - previous : row.cantidad;
+      const event = operation === 'add' ? 'StockIncreased' : 'StockSet';
       levels.push({ branch_id: branch.id, variant_id: row.variantId, quantity: next, updated_by: user.id });
-      movements.push({ organization_id: context.organization.id, branch_id: branch.id, variant_id: row.variantId, operation: mode === 'add' ? 'add' : 'set', previous_quantity: previous, quantity: row.cantidad, new_quantity: next, reason: `Carga por sucursal · ${sourceName}`, import_key: `branch-stock:${crypto.randomUUID()}`, created_by: user.id });
+      movements.push({ organization_id: context.organization.id, branch_id: branch.id, variant_id: row.variantId, operation, previous_quantity: previous, quantity: movementQuantity, new_quantity: next, reason: `${event} · Carga por sucursal · ${sourceName}`, import_key: `branch-stock:${crypto.randomUUID()}`, created_by: user.id });
     }
     for (const group of chunks(levels, 200)) {
       const { error } = await client.from('inventory_levels').upsert(group, { onConflict: 'branch_id,variant_id' });
@@ -1090,7 +1101,16 @@
       if (error) throw error;
     }
     const remainingUnknown = (await validateBranchStockRows(rows)).unknown;
-    return { branch, appliedRows: stockRows.length, appliedPairs: stockRows.reduce((sum, row) => sum + row.cantidad, 0), createdProducts, unknown: remainingUnknown };
+    return {
+      branch,
+      event: isJuarez || mode === 'add' ? 'StockIncreased' : 'StockSet',
+      appliedRows: levels.length,
+      appliedPairs: movements.reduce((sum, movement) => sum + Math.abs(Number(movement.new_quantity || 0) - Number(movement.previous_quantity || 0)), 0),
+      createdProducts,
+      protectedRows,
+      unchangedRows,
+      unknown: remainingUnknown,
+    };
   }
 
   async function listRecentBranchStock(branchId, limit = 100) {
@@ -1635,7 +1655,201 @@
     return { rows, skipKeys };
   }
 
-  window.claremmCloud = { recordMutation, recordImageMutation, recordCatalogMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, hydrateRelationalImages, uploadRelationalProductImage, updateRelationalStylePrice, updateRelationalProductField, duplicateRelationalProduct, syncCaptureToCatalog, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock, listRecentBranchStock, listCatalogReview, reviewCatalogProduct, listSazPrepGaps };
+  async function warmSazReconcileCatalog(context, parsed, onProgress) {
+    const values = [...new Set((parsed.products || []).flatMap(row => estiloSearchValues(row.estilo)).filter(Boolean))];
+    for (let index = 0; index < values.length; index += 50) {
+      onProgress?.(`Buscando catálogo ${Math.min(index + 50, values.length)}/${values.length}…`);
+      const { data, error } = await client.from('products').select(PRODUCT_CATALOG_SELECT).eq('organization_id', context.organization.id).in('estilo', values.slice(index, index + 50));
+      if (error) throw error;
+      rememberProducts(context, data || []);
+    }
+  }
+
+  function classifySazReconcile(context, parsed) {
+    const missing = [], scanner = [], preloaded = [];
+    for (const item of parsed.products || []) {
+      const candidates = candidatesFor(context, item);
+      const registeredId = productLookupKeys(item).map(key => context.registryByKey.get(key)).find(Boolean);
+      const canonical = candidates.find(product => product.id === registeredId) || pickCanonicalProduct(candidates);
+      if (!canonical) { missing.push(item); continue; }
+      const row = { item, candidates, canonical };
+      if (canonical.source_system === 'saz_precargado' || /PRECARGADO EN SAZ/i.test(String(canonical.estado || ''))) preloaded.push(row);
+      else scanner.push(row);
+    }
+    return { missing, scanner, preloaded };
+  }
+
+  async function stockSnapshotForProducts(branchId, productIds) {
+    const variants = [];
+    for (const group of chunks([...new Set(productIds)], 100)) {
+      if (!group.length) continue;
+      const { data, error } = await client.from('product_variants').select('id,product_id,size').in('product_id', group);
+      if (error) throw error;
+      variants.push(...(data || []));
+    }
+    const levels = [];
+    for (const group of chunks(variants.map(row => row.id), 100)) {
+      if (!group.length) continue;
+      const { data, error } = await client.from('inventory_levels').select('variant_id,quantity').eq('branch_id', branchId).in('variant_id', group);
+      if (error) throw error;
+      levels.push(...(data || []));
+    }
+    const levelByVariant = new Map(levels.map(row => [row.variant_id, Number(row.quantity || 0)]));
+    const variantByKey = new Map(), totalByProduct = new Map();
+    for (const variant of variants) {
+      const key = `${variant.product_id}|${window.ClaremmSazReconcile.sizeKey(variant.size)}`;
+      const current = variantByKey.get(key);
+      if (!current || (levelByVariant.get(variant.id) || 0) > (levelByVariant.get(current.id) || 0)) variantByKey.set(key, variant);
+      totalByProduct.set(variant.product_id, (totalByProduct.get(variant.product_id) || 0) + (levelByVariant.get(variant.id) || 0));
+    }
+    return { variants, levelByVariant, variantByKey, totalByProduct };
+  }
+
+  function flattenedSazRows(rows) {
+    return rows.flatMap(row => Object.entries(row.item.quantities || {}).map(([talla, cantidad]) => ({
+      productId: row.canonical.id, estilo: row.canonical.estilo, color: row.canonical.color,
+      talla, cantidad: Number(cantidad), marca: row.canonical.marca || row.item.marca || '',
+      linea: row.canonical.linea || row.item.linea || '', material: row.canonical.acabado || row.item.acabado || '',
+    })));
+  }
+
+  async function prepareSazReconciliation(parsed, onProgress) {
+    if (!client || !user) throw new Error('Inicia sesión antes de conciliar existencias SAZ.');
+    if (!window.ClaremmSazReconcile) throw new Error('Actualiza la página para activar el conciliador SAZ.');
+    const context = await loadBranchStockContext(true);
+    const juarez = context.branches.find(branch => catalogText(branch.code) === 'JUAREZ');
+    if (!juarez) throw new Error('No está configurada la sucursal JUÁREZ.');
+    await warmSazReconcileCatalog(context, parsed, onProgress);
+    const classified = classifySazReconcile(context, parsed);
+    const matched = [...classified.scanner, ...classified.preloaded];
+    const stock = await stockSnapshotForProducts(juarez.id, matched.map(row => row.canonical.id));
+    const preloadedWithoutStock = classified.preloaded.filter(row => !(stock.totalByProduct.get(row.canonical.id) > 0));
+    let stockRowsToRaise = 0, pairsToAdd = 0;
+    for (const row of [...classified.scanner, ...preloadedWithoutStock]) {
+      for (const [size, raw] of Object.entries(row.item.quantities || {})) {
+        const variant = stock.variantByKey.get(`${row.canonical.id}|${size}`), previous = variant ? (stock.levelByVariant.get(variant.id) || 0) : 0, quantity = Number(raw || 0);
+        if (previous < quantity) { stockRowsToRaise += 1; pairsToAdd += quantity - previous; }
+      }
+    }
+    const statusRowsToUpdate = classified.scanner.flatMap(row => row.candidates).filter(product => product.activo !== false && product.estado !== 'REGISTRADO EN SAZ').length;
+    return {
+      context, juarez, classified, stock, preloadedWithoutStock,
+      summary: {
+        fileName: parsed.fileName, sourceRows: parsed.sourceRows, validProducts: parsed.products.length,
+        variants: parsed.variants, pairs: parsed.pairs, blockedRows: parsed.blockedRows || [],
+        matchedProducts: matched.length, missingProducts: classified.missing.length,
+        scannerProducts: classified.scanner.length, preloadedProducts: classified.preloaded.length + classified.missing.length,
+        statusRowsToUpdate, stockRowsToRaise, pairsToAdd,
+        preloadedProductsWithoutStock: preloadedWithoutStock.length + classified.missing.length,
+        pricesToChange: 0, imagesToChange: 0,
+        missingSample: classified.missing.slice(0, 20).map(row => ({ estilo: row.estilo, color: row.color, pairs: row.pairs })),
+      },
+    };
+  }
+
+  async function previewSazReconciliation(parsed, onProgress) {
+    return (await prepareSazReconciliation(parsed, onProgress)).summary;
+  }
+
+  async function createSazPreloadedProducts(context, rows, fileName) {
+    const payload = rows.map(row => ({
+      organization_id: context.organization.id, source_system: 'saz_precargado', source_id: row.key,
+      match_key: [row.estilo, row.color, row.marca].map(catalogText).join('|'), estilo: catalogText(row.estilo), color: row.color,
+      precio: 0, marca: row.marca || '', proveedor: '', temporada: row.temporada || '', sublinea: row.sublinea || '',
+      departamento: row.departamento || '', clasificacion: row.clasificacion || '', linea: row.linea || '', corrida: '',
+      acabado: row.acabado || '', forro: row.forro || '', catalogo: row.catalogo || '', status: 1,
+      observaciones: `Alta confirmada por ${fileName}; precio e imagen pendientes de revision`, costo: 0, descripcion: '',
+      estado: 'YA PRECARGADO EN SAZ', activo: true, imagen: '',
+    }));
+    for (const group of chunks(payload, 80)) {
+      const { error } = await client.from('products').upsert(group, { onConflict: 'organization_id,source_system,source_id' });
+      if (error) throw error;
+    }
+  }
+
+  async function applySazReconciliation(parsed, onProgress) {
+    let prepared = await prepareSazReconciliation(parsed, onProgress);
+    if (prepared.classified.missing.length) {
+      onProgress?.(`Creando ${prepared.classified.missing.length} ficha(s) YA PRECARGADO EN SAZ…`);
+      await createSazPreloadedProducts(prepared.context, prepared.classified.missing, parsed.fileName);
+      branchStockContext = null;
+      prepared = await prepareSazReconciliation(parsed, onProgress);
+      if (prepared.classified.missing.length) throw new Error(`No se pudieron crear ${prepared.classified.missing.length} ficha(s).`);
+    }
+    const now = new Date().toISOString(), { context, juarez, classified, preloadedWithoutStock } = prepared;
+    const statusIds = [...new Set(classified.scanner.flatMap(row => row.candidates.filter(product => product.activo !== false).map(product => product.id)))];
+    for (const group of chunks(statusIds, 80)) {
+      const { error } = await client.from('products').update({ estado: 'REGISTRADO EN SAZ' }).eq('organization_id', context.organization.id).in('id', group);
+      if (error) throw error;
+    }
+    onProgress?.('Actualizando registro SAZ…');
+    const registryAfter = new Map();
+    for (const row of classified.scanner) {
+      const lookupKey = productLookupKey(row.canonical);
+      const { data, error } = await client.from('saz_product_registry').upsert({
+        organization_id: context.organization.id, product_id: row.canonical.id, lookup_key: lookupKey,
+        estilo: catalogText(row.canonical.estilo), color: catalogText(row.canonical.color),
+        source_files: [parsed.fileName], last_registered_at: now,
+      }, { onConflict: 'organization_id,lookup_key' }).select('id,product_id,lookup_key').single();
+      if (error) throw error;
+      registryAfter.set(row.item.key, data);
+    }
+    const targetRows = [...classified.scanner, ...preloadedWithoutStock];
+    const stockResult = await applyBranchStock({ branchId: juarez.id, rows: flattenedSazRows(targetRows), mode: 'set', sourceName: parsed.fileName });
+    const productIds = classified.scanner.map(row => row.canonical.id);
+    const afterStock = await stockSnapshotForProducts(juarez.id, productIds);
+    const projectionRows = [], desiredSizes = new Set();
+    for (const row of classified.scanner) {
+      const registered = registryAfter.get(row.item.key);
+      for (const [size, quantity] of Object.entries(row.item.quantities || {})) {
+        const variant = afterStock.variantByKey.get(`${row.canonical.id}|${size}`);
+        if (!variant) continue;
+        desiredSizes.add(`${registered.id}|${size}`);
+        projectionRows.push({ organization_id: context.organization.id, branch_id: juarez.id, registry_id: registered.id, variant_id: variant.id, size, quantity: Number(quantity), source_files: [parsed.fileName], registered_at: now });
+      }
+    }
+    for (const group of chunks(projectionRows, 100)) {
+      const { error } = await client.from('saz_registered_stock').upsert(group, { onConflict: 'branch_id,registry_id,size' });
+      if (error) throw error;
+    }
+    const registryIds = [...registryAfter.values()].map(row => row.id);
+    if (registryIds.length) {
+      const existing = await pagedQuery(() => client.from('saz_registered_stock').select('id,registry_id,size,quantity').eq('branch_id', juarez.id).in('registry_id', registryIds));
+      const stale = existing.filter(row => Number(row.quantity) > 0 && !desiredSizes.has(`${row.registry_id}|${window.ClaremmSazReconcile.sizeKey(row.size)}`));
+      for (const group of chunks(stale.map(row => row.id), 80)) {
+        const { error } = await client.from('saz_registered_stock').update({ quantity: 0, updated_at: now }).in('id', group);
+        if (error) throw error;
+      }
+    }
+    const scannerFlat = flattenedSazRows(classified.scanner);
+    const wanted = new Set(scannerFlat.map(row => `${window.ClaremmSazReconcile.compactKey(row.estilo, row.color)}|${window.ClaremmSazReconcile.sizeKey(row.talla)}`));
+    const remoteFlat = await pagedQuery(() => client.from('inventory_items').select('user_id,item_key,sucursal,estilo,color,talla,saz_cargado').eq('user_id', user.id));
+    const pending = remoteFlat.filter(row => wanted.has(`${window.ClaremmSazReconcile.compactKey(row.estilo, row.color)}|${window.ClaremmSazReconcile.sizeKey(row.talla)}`) && !row.saz_cargado);
+    for (const group of chunks(pending, 16)) await Promise.all(group.map(async row => {
+      const { error } = await client.from('inventory_items').update({ saz_cargado: true, saz_cargado_at: now }).eq('user_id', row.user_id).eq('item_key', row.item_key);
+      if (error) throw error;
+    }));
+    store.markSazLoadedFromReconcile?.(scannerFlat, now);
+    const { error: batchError } = await client.from('saz_registration_batches').upsert({
+      organization_id: context.organization.id, branch_id: juarez.id, source_file: parsed.fileName, registered_on: now.slice(0, 10),
+      product_count: classified.scanner.length, variant_count: projectionRows.length,
+      pair_count: projectionRows.reduce((sum, row) => sum + Number(row.quantity || 0), 0),
+      validation_notes: { sha256: parsed.sha256, source_rows: parsed.sourceRows, blocked_rows: parsed.blockedRows?.length || 0, preloaded_stock_only_if_zero: true }, imported_by: user.id,
+    }, { onConflict: 'organization_id,branch_id,source_file' });
+    if (batchError) throw batchError;
+    const { error: runError } = await client.from('inventory_migration_runs').insert({
+      organization_id: context.organization.id, branch_id: juarez.id,
+      source_summary: { file: parsed.fileName, sha256: parsed.sha256, mode: 'existencia_saz_reconciliation', domain_event: ['StockIncreased'], juarez_decreases: 0, status: 'REGISTRADO EN SAZ', preloaded_status: 'YA PRECARGADO EN SAZ', blocked_rows: parsed.blockedRows || [] },
+      product_count: classified.scanner.length + classified.preloaded.length, variant_count: projectionRows.length,
+      pair_count: projectionRows.reduce((sum, row) => sum + Number(row.quantity || 0), 0), created_by: user.id,
+    });
+    if (runError) throw runError;
+    branchStockContext = null;
+    await fetchSazStats();
+    return { completed: true, productsCreated: prepared.summary.missingProducts, scannerProducts: classified.scanner.length, preloadedProducts: classified.preloaded.length, stockRowsRaised: stockResult.appliedRows, pairsAdded: stockResult.appliedPairs, protectedRows: stockResult.protectedRows, legacyRowsMarked: pending.length, blockedRows: parsed.blockedRows || [] };
+  }
+
+  window.claremmCloud = { recordMutation, recordImageMutation, recordCatalogMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, hydrateRelationalImages, uploadRelationalProductImage, updateRelationalStylePrice, updateRelationalProductField, duplicateRelationalProduct, syncCaptureToCatalog, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock, listRecentBranchStock, listCatalogReview, reviewCatalogProduct, listSazPrepGaps, previewSazReconciliation, applySazReconciliation };
 
   byId('cloudLogin').onclick = async () => {
     if (!client) return alert('Supabase aún no está configurado.');

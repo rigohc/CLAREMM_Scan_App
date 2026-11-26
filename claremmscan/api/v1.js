@@ -33,7 +33,7 @@ function send(res, status, body) {
 function cors(res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-API-Key');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE,OPTIONS');
 }
 
 function splitRoute(value) {
@@ -80,14 +80,19 @@ function queryOf(req) {
 const API_ROUTES = [
   'GET /api/v1/branches',
   'GET /api/v1/catalog/products?estilo=&color=&marca=',
+  'GET /api/v1/catalog/products/{ficha_id}',
   'GET /api/v1/branches/{JUAREZ|NUEVO_LEON}/inventory?estilo=&color=&talla=',
   'POST /api/v1/branches/{branch}/upload/preview',
   'POST /api/v1/branches/{branch}/upload/apply',
+  'POST /api/v1/branches/{JUAREZ|NUEVO_LEON}/sizes',
   'PATCH /api/v1/catalog/products/{ficha_id}',
+  'PATCH /api/v1/catalog/products',
+  'DELETE /api/v1/catalog/products/{ficha_id}',
   'GET /api/v1/branches/{branch}/history?batch_id=',
   'GET /api/v1/branches/{branch}/summary',
   'GET /api/v1/review/pending?branch=&estado=',
 ];
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 const WRITE_CHUNK = 200;
 const READ_CHUNK = 80;
@@ -235,13 +240,14 @@ function sazEstado(product, registryIds) {
   return 'Pendiente de SAZ';
 }
 
-async function productsForEstilos(db, organizationId, estilos) {
+async function productsForEstilos(db, organizationId, estilos, { includeInactive = false } = {}) {
   const values = [...new Set((estilos || []).flatMap(core.estiloKeys))];
   const products = [];
+  const activeFilter = includeInactive ? '' : '&activo=eq.true';
   const groups = chunks(values, READ_CHUNK).filter(group => group.length);
   for (let index = 0; index < groups.length; index += 3) {
     const batch = await Promise.all(groups.slice(index, index + 3).map(group => (
-      db.allRows(`products?select=${PRODUCT_SELECT}&organization_id=eq.${organizationId}&activo=eq.true&estilo=in.(${group.map(encodeURIComponent).join(',')})`)
+      db.allRows(`products?select=${PRODUCT_SELECT}&organization_id=eq.${organizationId}${activeFilter}&estilo=in.(${group.map(encodeURIComponent).join(',')})`)
     )));
     for (const rows of batch) products.push(...rows);
   }
@@ -284,7 +290,7 @@ async function findBatch(db, organizationId, branchId, batchId) {
   }
 }
 
-function catalogDto(product, registryIds) {
+function catalogDto(product, registryIds, extra = {}) {
   return {
     ficha_id: product.id,
     estilo: product.estilo,
@@ -296,9 +302,100 @@ function catalogDto(product, registryIds) {
     corrida: product.corrida || '',
     proveedor: product.proveedor || '',
     temporada: product.temporada || '',
+    sublinea: product.sublinea || '',
+    departamento: product.departamento || '',
+    clasificacion: product.clasificacion || '',
+    activo: product.activo !== false,
     estado_saz: sazEstado(product, registryIds),
     created_at: product.created_at,
+    ...extra,
   };
+}
+
+function requireMotivo(body, query) {
+  const motivo = core.text(body?.motivo || query?.motivo);
+  if (!motivo) throw fail(400, 'motivo_required', 'Indica el motivo de la corrección.');
+  return motivo;
+}
+
+function parseFichaId(value) {
+  const id = core.text(value);
+  if (!id) return '';
+  if (!UUID_RE.test(id)) throw fail(400, 'ficha_invalid', 'ficha_id debe ser el UUID de la ficha.');
+  return id;
+}
+
+async function loadProductById(db, org, fichaId) {
+  const id = parseFichaId(fichaId);
+  const products = await db.rest(`products?select=${PRODUCT_SELECT}&id=eq.${id}&organization_id=eq.${org.organization.id}`);
+  const product = products?.[0];
+  if (!product) throw fail(404, 'ficha_not_found', 'No existe esa ficha.', { ficha_id: id });
+  return product;
+}
+
+async function loadProductByIdentity(db, org, estilo, color, { includeInactive = false } = {}) {
+  if (!core.text(estilo) || !core.text(color)) {
+    throw fail(400, 'identity_required', 'Indica ficha_id o estilo + color.');
+  }
+  const wanted = core.colorKey(color);
+  const products = (await productsForEstilos(db, org.organization.id, [estilo], { includeInactive }))
+    .filter(product => core.sameEstilo(product.estilo, estilo) && core.colorKey(product.color) === wanted);
+  if (!products.length) throw fail(404, 'ficha_not_found', `No existe ${core.padEstilo(estilo)} · ${wanted}.`);
+  if (products.length > 1) {
+    throw fail(409, 'ambiguous_ficha', 'Hay más de una ficha con ese estilo y color. Usa ficha_id.', {
+      fichas: products.map(product => ({ ficha_id: product.id, estilo: product.estilo, color: product.color, corrida: product.corrida || '' })),
+    });
+  }
+  return products[0];
+}
+
+async function resolveCatalogProduct(db, org, { fichaId, body = {}, query = {}, includeInactive = false } = {}) {
+  const id = core.text(fichaId || body.ficha_id || query.ficha_id);
+  if (id) return loadProductById(db, org, id);
+  const estilo = body.estilo_actual || query.estilo || body.estilo;
+  const color = body.color_actual || query.color || body.color;
+  return loadProductByIdentity(db, org, estilo, color, { includeInactive });
+}
+
+async function productStockSnapshot(db, org, productId) {
+  const variants = await db.allRows(`product_variants?select=id,size&product_id=eq.${productId}`);
+  const ids = variants.map(row => row.id).filter(Boolean);
+  const byVariant = new Map(variants.map(row => [row.id, core.sizeKey(row.size) || String(row.size || '')]));
+  const existencias = {};
+  for (const branch of org.branches) {
+    const code = core.normalize(branch.code).replace(/ /g, '_');
+    const tallas = {};
+    let pares = 0;
+    if (ids.length) {
+      const levels = await db.rest(`inventory_levels?select=variant_id,quantity&branch_id=eq.${branch.id}&variant_id=in.(${ids.join(',')})`);
+      for (const level of levels || []) {
+        const qty = Math.trunc(Number(level.quantity || 0));
+        if (qty <= 0) continue;
+        const size = byVariant.get(level.variant_id);
+        if (!size) continue;
+        tallas[size] = (tallas[size] || 0) + qty;
+        pares += qty;
+      }
+    }
+    existencias[code] = { pares, tallas };
+  }
+  return existencias;
+}
+
+async function auditRun(db, session, org, summary, counts = {}) {
+  await db.rest('inventory_migration_runs', {
+    method: 'POST',
+    body: {
+      organization_id: org.organization.id,
+      branch_id: summary.branch_id || org.branches[0]?.id,
+      source_summary: { api: 'v1', actor: 'agent', ...summary },
+      product_count: counts.product_count || 0,
+      variant_count: counts.variant_count || 0,
+      pair_count: counts.pair_count || 0,
+      created_by: session.userId,
+    },
+    prefer: 'return=minimal',
+  });
 }
 
 async function handleBranches(db, org) {
@@ -635,36 +732,256 @@ async function handleApply(db, session, org, branchCode, body) {
   return result;
 }
 
-async function handlePatchProduct(db, session, org, fichaId, body) {
-  const products = await db.rest(`products?select=${PRODUCT_SELECT}&id=eq.${fichaId}&organization_id=eq.${org.organization.id}`);
-  const product = products?.[0];
-  if (!product) throw fail(404, 'ficha_not_found', 'No existe esa ficha.', { ficha_id: fichaId });
-  const motivo = core.text(body?.motivo);
-  if (!motivo) throw fail(400, 'motivo_required', 'Indica el motivo de la corrección.');
-  const patch = {};
-  if (body.precio != null) patch.precio = core.parsePrice(body.precio);
-  if (body.tipo != null) patch.linea = core.text(body.tipo);
-  if (body.material != null) patch.acabado = core.text(body.material);
-  if (!Object.keys(patch).length) throw fail(400, 'empty_patch', 'No hay campos para corregir.');
+async function handleGetProduct(db, org, fichaId) {
+  const product = await loadProductById(db, org, fichaId);
+  const registry = await registryIdsFor(db, org.organization.id, [product.id]);
+  const existencias = await productStockSnapshot(db, org, product.id);
+  return catalogDto(product, registry, { existencias });
+}
+
+async function handlePatchProduct(db, session, org, fichaId, body, query = {}) {
+  const product = await resolveCatalogProduct(db, org, { fichaId, body, query, includeInactive: true });
+  const motivo = requireMotivo(body, query);
+  const planned = core.catalogPatchFromBody(product, body);
+  if (planned.empty) throw fail(400, 'empty_patch', 'No hay campos para corregir.');
+  if (planned.priceProtected) {
+    throw fail(409, 'price_protected', 'El precio mayor a 0 no se pisa sin confirmar_precio: true.', {
+      precio_actual: Number(product.precio || 0),
+      precio_nuevo: planned.patch.precio,
+    });
+  }
+  if (!core.text(planned.nextEstilo) || !core.text(planned.nextColor)) {
+    throw fail(400, 'identity_required', 'Estilo y color no pueden quedar vacíos.');
+  }
+  if (planned.identityChanged) {
+    const collisions = (await productsForEstilos(db, org.organization.id, [planned.nextEstilo]))
+      .filter(row => row.id !== product.id && core.lookupKey(row.estilo, row.color) === core.lookupKey(planned.nextEstilo, planned.nextColor));
+    if (collisions.length) {
+      throw fail(409, 'ficha_exists', `Ya existe ${planned.nextEstilo} · ${planned.nextColor}. Únela o usa esa ficha.`, {
+        ficha_id: collisions[0].id,
+      });
+    }
+  }
   const review = core.parseReview(product.descripcion).review || {};
-  patch.descripcion = core.writeReview(product.descripcion, { ...review, status: 'revisado', reviewed_at: new Date().toISOString(), motivo });
-  await db.rest(`products?id=eq.${product.id}&organization_id=eq.${org.organization.id}`, { method: 'PATCH', body: patch, prefer: 'return=minimal' });
+  const patch = {
+    ...planned.patch,
+    descripcion: core.writeReview(product.descripcion, {
+      ...review,
+      status: 'revisado',
+      reviewed_at: new Date().toISOString(),
+      motivo,
+      kind: planned.identityChanged ? 'estilo_actualizado' : 'catalog_patch',
+    }),
+  };
+  const saved = await db.rest(`products?id=eq.${product.id}&organization_id=eq.${org.organization.id}`, {
+    method: 'PATCH',
+    body: patch,
+    prefer: 'return=representation',
+  });
+  const updated = saved?.[0] || (await db.rest(`products?select=${PRODUCT_SELECT}&id=eq.${product.id}`))[0];
+  await auditRun(db, session, org, {
+    kind: 'catalog_patch',
+    evento: 'CatalogProductUpdated',
+    ficha_id: product.id,
+    patch: planned.patch,
+    motivo,
+  }, { product_count: 1 });
+  const registry = await registryIdsFor(db, org.organization.id, [updated.id]);
+  return catalogDto(updated, registry, {
+    evento: 'CatalogProductUpdated',
+    cambios: planned.patch,
+    motivo,
+  });
+}
+
+async function handleDeleteProduct(db, session, org, fichaId, body, query = {}) {
+  const product = await resolveCatalogProduct(db, org, { fichaId, body, query, includeInactive: true });
+  const motivo = requireMotivo(body, query);
+  const existencias = await productStockSnapshot(db, org, product.id);
+  if (product.activo === false) {
+    const registry = await registryIdsFor(db, org.organization.id, [product.id]);
+    return catalogDto(product, registry, {
+      evento: 'CatalogProductDeactivated',
+      already_inactive: true,
+      motivo,
+      existencias,
+    });
+  }
+  const review = core.parseReview(product.descripcion).review || {};
+  const patch = {
+    activo: false,
+    descripcion: core.writeReview(product.descripcion, {
+      ...review,
+      status: 'baja',
+      reviewed_at: new Date().toISOString(),
+      motivo,
+      kind: 'catalog_deactivate',
+    }),
+  };
+  const saved = await db.rest(`products?id=eq.${product.id}&organization_id=eq.${org.organization.id}`, {
+    method: 'PATCH',
+    body: patch,
+    prefer: 'return=representation',
+  });
+  const updated = saved?.[0] || { ...product, activo: false };
+  await auditRun(db, session, org, {
+    kind: 'catalog_delete',
+    evento: 'CatalogProductDeactivated',
+    ficha_id: product.id,
+    estilo: product.estilo,
+    color: product.color,
+    motivo,
+    existencias,
+  }, { product_count: 1 });
+  const registry = await registryIdsFor(db, org.organization.id, [updated.id]);
+  return catalogDto(updated, registry, {
+    evento: 'CatalogProductDeactivated',
+    motivo,
+    existencias,
+    aviso: 'Baja lógica: la ficha queda inactiva. Las existencias de JUÁREZ no se bajan.',
+  });
+}
+
+async function handleSizes(db, session, org, branchCode, body) {
+  const branch = findBranch(org.branches, branchCode);
+  const juarez = core.blockedBranch(branch.code);
+  const motivo = requireMotivo(body, {});
+  const mode = requireMode(body?.mode);
+  const batchId = core.text(body?.batch_id) || `sizes:${Date.now()}`;
+  if (!/^[A-Za-z0-9._:-]{3,80}$/.test(batchId)) throw fail(400, 'batch_invalid', 'batch_id solo admite letras, números, punto, guion y dos puntos.');
+  const grouped = core.groupSizeRows(body?.rows || []);
+  if (!grouped.rows.length && grouped.invalid.length) {
+    throw fail(400, 'rows_invalid', 'No hay tallas válidas para aplicar.', { omitidas: grouped.invalid });
+  }
+  const omitidas = [...grouped.invalid];
+  const resolved = [];
+  for (const row of grouped.rows) {
+    try {
+      const product = await resolveCatalogProduct(db, org, {
+        fichaId: row.ficha_id,
+        body: { estilo: row.estilo, color: row.color },
+      });
+      if (product.activo === false) {
+        omitidas.push({ ...row, motivo: 'La ficha está inactiva. Reactívala antes de tocar tallas.' });
+        continue;
+      }
+      if (mode === 'sum' && row.cantidad < 1) {
+        omitidas.push({ ...row, motivo: 'En modo sum la cantidad debe ser al menos 1.' });
+        continue;
+      }
+      resolved.push({ ...row, product, estilo: product.estilo, color: product.color });
+    } catch (error) {
+      omitidas.push({ ...row, motivo: error.public?.error?.message || error.message });
+    }
+  }
+  if (!resolved.length) {
+    throw fail(400, 'rows_invalid', 'Ninguna talla pudo aplicarse.', { omitidas });
+  }
+  const existing = await findBatch(db, org.organization.id, branch.id, batchId);
+  if (existing?.source_summary?.result && existing.source_summary?.kind === 'sizes') {
+    return { ...existing.source_summary.result, idempotent: true, batch_id: batchId, mode };
+  }
+  const variantIds = await upsertVariants(db, resolved);
+  const variantIdList = [...new Set([...variantIds.values()])];
+  const currentByVariant = new Map();
+  const appliedKeys = new Set();
+  await Promise.all([
+    (async () => {
+      for (const group of chunks(variantIdList, 200)) {
+        if (!group.length) continue;
+        const levels = await db.rest(`inventory_levels?select=variant_id,quantity&branch_id=eq.${branch.id}&variant_id=in.(${group.join(',')})`);
+        for (const row of levels || []) currentByVariant.set(row.variant_id, Number(row.quantity || 0));
+      }
+    })(),
+    (async () => {
+      const keys = await db.allRows(`inventory_movements_relational?select=import_key&import_key=like.${encodeURIComponent(`api-v1:${batchId}:`)}*`);
+      for (const row of keys) appliedKeys.add(row.import_key);
+    })(),
+  ]);
+  const levelsPayload = [];
+  const movementPayload = [];
+  const procesadas = [];
+  for (const row of resolved) {
+    const variantId = variantIds.get(`${row.product.id}|${row.talla}`);
+    if (!variantId) {
+      omitidas.push({ estilo: row.estilo, color: row.color, talla: row.talla, cantidad: row.cantidad, motivo: 'No se pudo preparar la talla.' });
+      continue;
+    }
+    const importKey = `api-v1:${batchId}:${row.product.id}:${row.talla}`;
+    const previous = currentByVariant.get(variantId) || 0;
+    if (appliedKeys.has(importKey)) {
+      procesadas.push({
+        estilo: row.estilo, color: row.color, talla: row.talla, cantidad: row.cantidad,
+        ficha_id: row.product.id, cantidad_antes: previous, cantidad_despues: previous, idempotent: true,
+      });
+      continue;
+    }
+    const next = mode === 'sum' ? previous + row.cantidad : row.cantidad;
+    if (juarez && !core.juarezAllowsQuantity(previous, next)) {
+      omitidas.push({
+        estilo: row.estilo, color: row.color, talla: row.talla, cantidad: row.cantidad, ficha_id: row.product.id,
+        cantidad_antes: previous, cantidad_despues: previous,
+        motivo: `JUÁREZ no baja: ${row.talla} tiene ${previous} y no se deja en ${next}.`,
+      });
+      continue;
+    }
+    if (next === previous) {
+      omitidas.push({
+        estilo: row.estilo, color: row.color, talla: row.talla, cantidad: row.cantidad, ficha_id: row.product.id,
+        cantidad_antes: previous, cantidad_despues: previous,
+        motivo: `La talla ${row.talla} ya tiene ${previous}; no hubo cambio.`,
+      });
+      continue;
+    }
+    const evento = mode === 'sum' || juarez ? 'StockIncreased' : 'StockSet';
+    const operation = evento === 'StockIncreased' ? 'add' : 'set';
+    const movementQuantity = operation === 'add' ? next - previous : row.cantidad;
+    levelsPayload.push({ branch_id: branch.id, variant_id: variantId, quantity: next, updated_by: session.userId });
+    movementPayload.push({
+      organization_id: org.organization.id,
+      branch_id: branch.id,
+      variant_id: variantId,
+      operation,
+      previous_quantity: previous,
+      quantity: movementQuantity,
+      new_quantity: next,
+      reason: `API tallas · ${batchId} · ${mode} · ${motivo}`,
+      import_key: importKey,
+      created_by: session.userId,
+    });
+    procesadas.push({
+      estilo: row.estilo, color: row.color, talla: row.talla, cantidad: row.cantidad,
+      ficha_id: row.product.id, cantidad_antes: previous, cantidad_despues: next, evento,
+    });
+  }
+  await postChunks(db, 'inventory_movements_relational?on_conflict=import_key', movementPayload, 'resolution=merge-duplicates,return=minimal');
+  await postChunks(db, 'inventory_levels?on_conflict=branch_id%2Cvariant_id', levelsPayload, 'resolution=merge-duplicates,return=minimal');
+  const pares = procesadas.reduce((sum, row) => sum + Math.abs(Number(row.cantidad_despues || 0) - Number(row.cantidad_antes || 0)), 0);
+  const result = {
+    batch_id: batchId,
+    mode,
+    motivo,
+    branch: { id: branch.id, code: branch.code, name: branch.name },
+    evento: juarez || mode === 'sum' ? 'StockIncreased' : 'StockSet',
+    tallas_procesadas: procesadas.length,
+    procesadas,
+    omitidas,
+    creadas: procesadas.filter(row => Number(row.cantidad_antes || 0) === 0 && Number(row.cantidad_despues || 0) > 0).map(row => row.talla),
+  };
   await db.rest('inventory_migration_runs', {
     method: 'POST',
     body: {
       organization_id: org.organization.id,
-      branch_id: org.branches[0]?.id,
-      source_summary: { api: 'v1', kind: 'catalog_patch', ficha_id: product.id, patch, motivo, actor: 'agent' },
-      product_count: 1,
-      variant_count: 0,
-      pair_count: 0,
+      branch_id: branch.id,
+      source_summary: { api: 'v1', kind: 'sizes', batch_id: batchId, mode, motivo, result },
+      product_count: [...new Set(procesadas.map(row => row.ficha_id))].length,
+      variant_count: procesadas.length,
+      pair_count: pares,
       created_by: session.userId,
     },
     prefer: 'return=minimal',
   });
-  const updated = (await db.rest(`products?select=${PRODUCT_SELECT}&id=eq.${product.id}`))[0];
-  const registry = await registryIdsFor(db, org.organization.id, [updated.id]);
-  return catalogDto(updated, registry);
+  return result;
 }
 
 async function handleHistory(db, org, branchCode, query) {
@@ -768,11 +1085,14 @@ async function handler(req, res) {
     const org = await loadOrg(db);
     let result;
     if (req.method === 'GET' && parts.length === 1 && parts[0] === 'branches') result = await handleBranches(db, org);
+    else if (req.method === 'GET' && parts[0] === 'catalog' && parts[1] === 'products' && parts[2]) result = await handleGetProduct(db, org, parts[2]);
     else if (req.method === 'GET' && parts[0] === 'catalog' && parts[1] === 'products' && !parts[2]) result = await handleCatalog(db, org, query);
     else if (req.method === 'GET' && parts[0] === 'branches' && parts[2] === 'inventory') result = await handleInventory(db, org, parts[1], query);
     else if (req.method === 'POST' && parts[0] === 'branches' && parts[2] === 'upload' && parts[3] === 'preview') result = await handlePreview(db, org, parts[1], body);
     else if (req.method === 'POST' && parts[0] === 'branches' && parts[2] === 'upload' && parts[3] === 'apply') result = await handleApply(db, session, org, parts[1], body);
-    else if (req.method === 'PATCH' && parts[0] === 'catalog' && parts[1] === 'products' && parts[2]) result = await handlePatchProduct(db, session, org, parts[2], body);
+    else if ((req.method === 'POST' || req.method === 'PATCH') && parts[0] === 'branches' && parts[2] === 'sizes') result = await handleSizes(db, session, org, parts[1], body);
+    else if (req.method === 'PATCH' && parts[0] === 'catalog' && parts[1] === 'products') result = await handlePatchProduct(db, session, org, parts[2], body, query);
+    else if (req.method === 'DELETE' && parts[0] === 'catalog' && parts[1] === 'products') result = await handleDeleteProduct(db, session, org, parts[2], body, query);
     else if (req.method === 'GET' && parts[0] === 'branches' && parts[2] === 'history') result = await handleHistory(db, org, parts[1], query);
     else if (req.method === 'GET' && parts[0] === 'branches' && parts[2] === 'summary') result = await handleSummary(db, org, parts[1]);
     else if (req.method === 'GET' && parts[0] === 'review' && parts[1] === 'pending') result = await handleReview(db, org, query);
@@ -786,4 +1106,8 @@ async function handler(req, res) {
 
 module.exports = handler;
 module.exports.handleApply = handleApply;
+module.exports.handlePatchProduct = handlePatchProduct;
+module.exports.handleDeleteProduct = handleDeleteProduct;
+module.exports.handleSizes = handleSizes;
+module.exports.handleGetProduct = handleGetProduct;
 module.exports.supabaseSession = supabaseSession;

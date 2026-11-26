@@ -28,7 +28,7 @@ function estiloText(value) {
 }
 
 function compactEstilo(value) {
-  return normalize(estiloText(value)).replace(/^0+(?=\d)/, '');
+  return normalize(estiloText(value)).replace(/\s+/g, '').replace(/^0+(?=\d)/, '');
 }
 
 function padEstilo(value) {
@@ -74,6 +74,93 @@ function isValidQuantity(value) {
   return Number.isInteger(quantity) && quantity >= 1;
 }
 
+function isValidQuantityAllowZero(value) {
+  const quantity = Number(value);
+  return Number.isInteger(quantity) && quantity >= 0;
+}
+
+function nextEstiloValue(value) {
+  const compact = compactEstilo(value);
+  if (!compact) return '';
+  return /^\d+$/.test(compact) ? padEstilo(value) : compact;
+}
+
+function catalogPatchFromBody(product, body = {}) {
+  const patch = {};
+  if (body.estilo != null && body.estilo !== '') {
+    const next = nextEstiloValue(body.estilo);
+    if (next) patch.estilo = next;
+  }
+  if (body.color != null && body.color !== '') {
+    const next = colorKey(body.color);
+    if (next) patch.color = next;
+  }
+  const textFields = ['marca', 'proveedor', 'temporada', 'sublinea', 'departamento', 'clasificacion', 'corrida'];
+  for (const field of textFields) {
+    if (body[field] != null) patch[field] = text(body[field]);
+  }
+  if (body.tipo != null || body.linea != null) patch.linea = text(body.tipo != null ? body.tipo : body.linea);
+  if (body.material != null || body.acabado != null) patch.acabado = text(body.material != null ? body.material : body.acabado);
+  if (body.precio != null && body.precio !== '') patch.precio = parsePrice(body.precio);
+  if (body.activo === true || body.reactivar === true) patch.activo = true;
+  if (body.activo === false) patch.activo = false;
+  const nextEstilo = patch.estilo != null ? patch.estilo : product?.estilo;
+  const nextColor = patch.color != null ? patch.color : product?.color;
+  const currentPrice = Number(product?.precio || 0);
+  const priceProtected = currentPrice > 0
+    && patch.precio != null
+    && patch.precio !== currentPrice
+    && body.confirmar_precio !== true
+    && !truthy(body.confirmar_precio);
+  return {
+    patch,
+    nextEstilo,
+    nextColor,
+    identityChanged: lookupKey(nextEstilo, nextColor) !== lookupKey(product?.estilo, product?.color),
+    priceProtected,
+    empty: !Object.keys(patch).length,
+  };
+}
+
+function groupSizeRows(rows) {
+  const grouped = new Map();
+  const invalid = [];
+  (rows || []).forEach((row, index) => {
+    const sourceRow = Number(row.row || row.source_row || index + 1);
+    const fichaId = text(row.ficha_id || row.id);
+    const estilo = estiloText(row.estilo);
+    const color = row.color != null && row.color !== '' ? colorKey(row.color) : '';
+    const talla = sizeKey(row.talla);
+    if (!fichaId && (!estilo || !color)) {
+      invalid.push({ row: sourceRow, ficha_id: fichaId, estilo, color, talla, cantidad: row.cantidad, motivo: 'Indica ficha_id o estilo + color.' });
+      return;
+    }
+    if (!isValidSize(row.talla)) {
+      invalid.push({ row: sourceRow, ficha_id: fichaId, estilo, color, talla: text(row.talla), cantidad: row.cantidad, motivo: 'La talla debe tener un decimal, por ejemplo 24.0.' });
+      return;
+    }
+    if (!isValidQuantityAllowZero(row.cantidad)) {
+      invalid.push({ row: sourceRow, ficha_id: fichaId, estilo, color, talla, cantidad: row.cantidad, motivo: 'La cantidad debe ser un entero mayor o igual a 0.' });
+      return;
+    }
+    const key = `${fichaId || lookupKey(estilo, color)}|${talla}`;
+    if (!grouped.has(key)) {
+      grouped.set(key, {
+        ficha_id: fichaId,
+        estilo,
+        color,
+        talla,
+        cantidad: 0,
+        source_rows: [],
+      });
+    }
+    const current = grouped.get(key);
+    current.cantidad += Number(row.cantidad);
+    current.source_rows.push(sourceRow);
+  });
+  return { rows: [...grouped.values()], invalid, filas: grouped.size };
+}
+
 function truthy(value) {
   return /^(1|true|si|sí|yes)$/i.test(text(value));
 }
@@ -103,6 +190,10 @@ function sameEstilo(left, right) {
 
 function blockedBranch(code) {
   return BLOCKED_BRANCHES.has(normalize(code).replace(/ /g, '_'));
+}
+
+function juarezAllowsQuantity(previous, next) {
+  return Number(next || 0) >= Number(previous || 0);
 }
 
 function groupRows(rows) {
@@ -391,9 +482,14 @@ module.exports = {
   sizeKey,
   isValidSize,
   isValidQuantity,
+  isValidQuantityAllowZero,
+  nextEstiloValue,
+  catalogPatchFromBody,
+  groupSizeRows,
   parsePrice,
   sameEstilo,
   blockedBranch,
+  juarezAllowsQuantity,
   groupRows,
   indexProducts,
   findProduct,

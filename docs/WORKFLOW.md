@@ -36,7 +36,7 @@ Pedido del usuario
 ## 4. Carga por sucursal
 
 1. Preview antes de apply.
-2. Si sucursal es JUÁREZ → 409, cero escrituras.
+2. Si es carga masiva `upload/preview` o `upload/apply` y la sucursal es JUÁREZ → 409, cero escrituras. Para corregir tallas de JUÁREZ usar `/branches/JUAREZ/sizes`; solo `StockIncreased`, nunca baja.
 3. Agrupar estilo+color+talla.
 4. Desconocidos: `create_unknowns` / `crear:true` o cola de revisión.
 5. Material/precio según R-ID-07 y R-PR-*.

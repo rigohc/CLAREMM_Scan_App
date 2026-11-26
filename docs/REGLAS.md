@@ -19,11 +19,12 @@ Cualquier agente, ingeniero o módulo POS debe cumplirlas. El código que las im
 | ID | Regla |
 |---|---|
 | R-ST-01 | JUÁREZ nunca baja. Ni SET, ni Excel, ni escáner, ni API. Solo suma o no toca. |
-| R-ST-02 | API `/api/v1` rechaza JUÁREZ (409). Destino permitido: Nuevo León y sucursales no bloqueadas. |
+| R-ST-02 | Carga masiva `upload/preview` y `upload/apply` rechaza JUÁREZ (409). Corrección de tallas `POST /api/v1/branches/JUAREZ/sizes` sí aplica, sin bajar existencias. |
 | R-ST-03 | Escáner y Excel en modo ADD no hacen SET hacia abajo en JUÁREZ. |
 | R-ST-04 | `inventory_items` (legado) no se borra ni se usa como destino de migraciones relacionales. |
 | R-ST-05 | Idempotencia de lote: `batch_id` + `import_key` `api-v1:{batchId}:{productId}:{size}`. |
 | R-ST-06 | Agrupar duplicados de la misma carga por estilo+color+talla antes de escribir. |
+| R-ST-07 | API de catálogo: actualizar ficha (`PATCH`) o baja lógica (`DELETE` → `activo=false`). Tallas `set`/`sum` en JUÁREZ y NUEVO_LEON; en JUÁREZ nunca `next < previous`. |
 
 ## Precio e imagen
 

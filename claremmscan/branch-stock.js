@@ -177,6 +177,20 @@
     return byId('branchStockBranch').value;
   }
 
+  function selectedBranch() {
+    return (context?.branches || []).find(branch => branch.id === selectedBranchId()) || null;
+  }
+
+  function renderBranchProtection() {
+    const note = byId('branchStockProtection');
+    if (!note) return;
+    const juarez = isBaseBranch(selectedBranch());
+    note.hidden = !juarez;
+    note.textContent = juarez
+      ? 'Protección JUÁREZ activa: puedes agregar tallas o ajustar cantidades hacia arriba. Cualquier intento de reducir existencias se omite y queda reportado.'
+      : '';
+  }
+
   function renderRecentStock(rows, message = '') {
     const list = byId('branchStockRecentList');
     if (!list) return;
@@ -369,6 +383,16 @@
     status('Guardando existencia en Supabase…');
     try {
       const result = await cloud().applyBranchStock({ branchId: selectedBranchId(), rows: [row], mode, sourceName: 'captura individual' });
+      if (!result.appliedRows && result.protectedRows?.length) {
+        status(result.protectedRows[0].reason || 'JUÁREZ no permite reducir existencias.', 'warn');
+        button.disabled = false;
+        return;
+      }
+      if (!result.appliedRows && result.unchangedRows?.length) {
+        status(result.unchangedRows[0].reason || 'La existencia ya tenía esa cantidad.', 'ok');
+        button.disabled = false;
+        return;
+      }
       status(`Guardado: ${row.estilo} · ${row.color} · talla ${row.talla} en ${result.branch.name}.`, 'ok');
       resetManual();
       refreshRecentStock();
@@ -548,7 +572,9 @@
       const result = await cloud().applyBranchStock({ branchId: selectedBranchId(), rows: bulkState.rows, mode, allowCreate, sourceName: bulkState.fileName });
       const leftover = (result.unknown || []).map(row => `${row.estilo} ${row.color}${row.reason ? ` (${row.reason})` : ''}`).slice(0, 6);
       const unknownMessage = result.unknown.length ? ` Quedaron ${result.unknown.length} fila(s) sin aplicar${leftover.length ? `: ${leftover.join('; ')}` : ''}.` : '';
-      status(`Listo: ${result.appliedRows} talla(s) y ${result.appliedPairs} par(es) procesados en ${result.branch.name}.${result.createdProducts ? ` Se crearon ${result.createdProducts} producto(s) autorizados.` : ''}${unknownMessage}`, result.unknown.length ? 'warn' : 'ok');
+      const protectedMessage = result.protectedRows?.length ? ` Protección JUÁREZ omitió ${result.protectedRows.length} reducción(es).` : '';
+      const unchangedMessage = result.unchangedRows?.length ? ` ${result.unchangedRows.length} talla(s) ya tenían esa cantidad.` : '';
+      status(`Listo: ${result.appliedRows} talla(s) y ${result.appliedPairs} par(es) ajustados en ${result.branch.name}.${result.createdProducts ? ` Se crearon ${result.createdProducts} producto(s) autorizados.` : ''}${protectedMessage}${unchangedMessage}${unknownMessage}`, result.unknown.length || result.protectedRows?.length ? 'warn' : 'ok');
       bulkState.validation = await cloud().validateBranchStockRows(bulkState.rows);
       renderBulkState();
       refreshRecentStock();
@@ -565,15 +591,16 @@
     status('Consultando catálogo maestro…');
     try {
       context = await cloud().loadBranchStockContext(force);
-      const eligible = context.branches.filter(branch => !isBaseBranch(branch));
+      const eligible = context.branches;
       byId('branchStockBranch').innerHTML = eligible.length
         ? `<option value="">Selecciona una sucursal</option>${eligible.map(branch => `<option value="${esc(branch.id)}">${esc(branch.name)} (${esc(branch.code)})</option>`).join('')}`
-        : '<option value="">No hay otra sucursal activa</option>';
+        : '<option value="">No hay sucursales activas</option>';
       const remembered = localStorage.getItem(BRANCH_MEMORY_KEY);
       if (eligible.some(branch => branch.id === remembered)) byId('branchStockBranch').value = remembered;
-      updateGate(eligible.length ? '' : 'La tienda base JUÁREZ no usa este buscador. Crea o activa otra sucursal en Supabase para habilitar la carga.', eligible.length);
+      updateGate(eligible.length ? '' : 'Crea o activa una sucursal en Supabase para habilitar la carga.', eligible.length);
+      renderBranchProtection();
       renderBulkState();
-      status(eligible.length ? `Sucursales listas. Busca por estilo para cargar existencias.` : 'No hay sucursales adicionales disponibles.', eligible.length ? 'ok' : 'warn');
+      status(eligible.length ? 'Sucursales listas. En JUÁREZ solo se permiten ajustes que conserven o aumenten existencias.' : 'No hay sucursales disponibles.', eligible.length ? 'ok' : 'warn');
       refreshRecentStock();
     } catch (error) {
       context = null;
@@ -1104,6 +1131,7 @@
   byId('branchStockDialog').addEventListener('cancel', event => { event.preventDefault(); closeDialog(); });
   byId('branchStockBranch').addEventListener('change', () => {
     if (selectedBranchId()) localStorage.setItem(BRANCH_MEMORY_KEY, selectedBranchId());
+    renderBranchProtection();
     renderBulkState();
     refreshRecentStock();
   });
@@ -1114,6 +1142,7 @@
   byId('branchStockTemplate').addEventListener('click', () => workbookDownload(templateRows(), 'CLAREMM_Plantilla_Existencias_Sucursal.xlsx', [
     'Una fila representa una talla de un estilo y color.', 'La sucursal se selecciona dentro de CLAREMM Scan y se aplica a todo el archivo.',
     'Establecer cantidades reemplaza solamente las variantes incluidas; Sumar entrada agrega la cantidad al stock actual.',
+    'En CLAREMM ZAPATERIA JUAREZ (JUAREZ), cualquier reducción se omite: solo se conserva o aumenta la existencia.',
     'Para crear un producto desconocido completa Marca, Tipo de línea y Material, escribe SI en Crear producto y autoriza la creación dentro de la app.',
   ]));
   byId('branchStockChooseFile').addEventListener('click', () => byId('branchStockFile').click());

@@ -74,6 +74,8 @@ function parseWorkbook(file) {
 
   const products = new Map();
   const mismatches = [];
+  const blockedRows = [];
+  const blockedKeys = new Set();
   const skippedSummaryRows = [];
   let sourceRows = 0;
   for (let index = 1; index < matrix.length; index++) {
@@ -91,15 +93,30 @@ function parseWorkbook(file) {
     sourceRows++;
     const quantities = new Map();
     let calculated = 0;
+    const negatives = [];
     for (const column of sizeColumns) {
       const quantity = integer(row[column.index]);
-      if (quantity < 0) throw new Error(`Fila ${index + 1}, ${column.header}: existencia negativa.`);
+      if (quantity < 0) {
+        negatives.push({ column: column.header, size: column.size, quantity });
+        calculated += quantity;
+        continue;
+      }
       if (!quantity) continue;
       quantities.set(column.size, (quantities.get(column.size) || 0) + quantity);
       calculated += quantity;
     }
     const declared = integer(declaredRaw);
-    if (declared !== calculated) mismatches.push({ row: index + 1, estilo, color, declared, calculated });
+    if (negatives.length) {
+      blockedRows.push({ row: index + 1, estilo, color, declared, calculated, reason: 'existencia_negativa', negatives });
+      blockedKeys.add(compactKey(estilo, color));
+      continue;
+    }
+    if (declared !== calculated) {
+      mismatches.push({ row: index + 1, estilo, color, declared, calculated });
+      blockedRows.push({ row: index + 1, estilo, color, declared, calculated, reason: 'total_no_cuadra' });
+      blockedKeys.add(compactKey(estilo, color));
+      continue;
+    }
     const key = compactKey(estilo, color);
     if (!products.has(key)) {
       products.set(key, {
@@ -126,8 +143,7 @@ function parseWorkbook(file) {
     product.sourceRows.push(index + 1);
     for (const [size, quantity] of quantities) product.quantities.set(size, (product.quantities.get(size) || 0) + quantity);
   }
-  if (mismatches.length) throw new Error(`Hay ${mismatches.length} fila(s) cuyo Total no cuadra: ${JSON.stringify(mismatches.slice(0, 5))}`);
-  const rows = [...products.values()];
+  const rows = [...products.values()].filter(row => !blockedKeys.has(row.key));
   return {
     sheetName,
     sourceRows,
@@ -137,6 +153,8 @@ function parseWorkbook(file) {
     variants: rows.reduce((sum, row) => sum + row.quantities.size, 0),
     pairs: rows.reduce((sum, row) => sum + row.pairs, 0),
     duplicateProducts: rows.filter(row => row.sourceRows.length > 1).length,
+    blockedRows,
+    mismatches,
   };
 }
 
@@ -178,6 +196,7 @@ const localSummary = {
   pairs: parsed.pairs,
   size_columns: parsed.sizeColumns,
   skipped_summary_rows: parsed.skippedSummaryRows,
+  blocked_rows: parsed.blockedRows,
 };
 if (analyzeOnly) {
   console.log(JSON.stringify(localSummary, null, 2));
@@ -441,7 +460,7 @@ const report = {
     images_to_change: 0,
   },
   safeguards: [
-    'StockSet solo al alza en JUAREZ; nunca se reduce inventory_levels.',
+    'StockIncreased solo al alza en JUAREZ; nunca se reduce inventory_levels.',
     'YA PRECARGADO EN SAZ conserva su estatus; solo se llena si su existencia total actual es cero.',
     'REGISTRADO EN SAZ se reserva para fichas con origen en el escáner.',
     'La proyección saz_registered_stock incluye solo fichas REGISTRADO EN SAZ.',
@@ -579,11 +598,11 @@ for (const row of scannerRows) {
       organization_id: organization.id,
       branch_id: juarez.id,
       variant_id: variant.id,
-      operation: previous ? 'set' : 'initial_import',
+      operation: 'add',
       previous_quantity: previous,
       quantity: quantity - previous,
       new_quantity: quantity,
-      reason: `StockSet al alza desde ${path.basename(excelPath)}; JUAREZ nunca baja`,
+      reason: `StockIncreased desde ${path.basename(excelPath)}; JUAREZ nunca baja`,
       import_key: `existencia-saz:${fileHash}:${juarez.id}:${variant.id}`,
       created_by: userId,
     });
@@ -600,7 +619,7 @@ for (const row of preloadedApplyRows) {
       organization_id: organization.id,
       branch_id: juarez.id,
       variant_id: variant.id,
-      operation: 'initial_import',
+      operation: 'add',
       previous_quantity: 0,
       quantity,
       new_quantity: quantity,
@@ -685,7 +704,7 @@ await rest('inventory_migration_runs', {
     branch_id: juarez.id,
     source_summary: {
       file: path.basename(excelPath), sha256: fileHash, mode: 'existencia_saz_reconciliation',
-      domain_event: ['StockSet', 'StockIncreased'], juarez_decreases: 0, status: 'REGISTRADO EN SAZ',
+      domain_event: ['StockIncreased'], juarez_decreases: 0, status: 'REGISTRADO EN SAZ',
       preloaded_status: 'YA PRECARGADO EN SAZ', preloaded_stock_only_if_zero: true,
     },
     product_count: scannerRows.length + preloadedRows.length,
