@@ -211,17 +211,23 @@ on conflict (organization_id, sistema, external_id) do update set
   motivo = excluded.motivo,
   payload = excluded.payload;
 
--- Primeras relaciones inferidas de los ejemplos y sus tallas actuales. La talla 21.5 puede estar en
--- ambos tramos; la relación es inclusiva y no duplica ni mueve existencias.
-with requested(estilo_key, linea, inicial, final, incremento, orden, notas) as (values
-  ('COS901','NIÑAS',15.0,17.5,0.5,1,'Tramo infantil bajo; cubre medios números.'),
-  ('COS901','NIÑAS',18.0,21.5,0.5,2,'Tramo infantil alto; incluye 21.5 como frontera.'),
-  ('COS901','JOVEN',21.5,27.0,0.5,3,'Extensión joven; incluye 21.5 para no dejar la media talla fuera.'),
-  ('435501','NIÑOS',18.0,21.5,0.5,1,'Corrida infantil observada en el catálogo histórico.'),
-  ('435501','JOVEN',21.5,27.0,0.5,2,'Corrida joven observada en el catálogo histórico; frontera inclusiva.')
+-- Tramo confirmado por el negocio para NIÑAS. Su id numérico de SAZ está pendiente.
+insert into public.corridas (organization_id, linea, nombre, talla_inicial, talla_final, incremento, fuente)
+select id, 'NIÑAS', '21.5 al 27.0 inc 0.5', 21.5, 27.0, 0.5, 'confirmado_negocio_2026-11-27'
+from public.organizations
+where upper(name) = 'CLAREMM'
+on conflict (organization_id, linea, talla_inicial, talla_final, incremento) do nothing;
+
+-- La media talla 21.5 pertenece a ambos tramos. La relación conserva una sola ficha por color.
+with requested(estilo_key, linea, inicial, final, incremento, orden, fuente, notas) as (values
+  ('COS901','NIÑAS',12.0,17.5,0.5,1,'confirmado_negocio_2026-11-27','Corridas y presencia de COS901 confirmadas en SAZ por CLAREMM el 27/11/2026. Colores: COÑAC, MELLE, NEGRO.'),
+  ('COS901','NIÑAS',18.0,21.5,0.5,2,'confirmado_negocio_2026-11-27','Corridas y presencia de COS901 confirmadas en SAZ por CLAREMM el 27/11/2026. Colores: COÑAC, MELLE, NEGRO.'),
+  ('COS901','NIÑAS',21.5,27.0,0.5,3,'confirmado_negocio_2026-11-27','Corridas y presencia de COS901 confirmadas en SAZ por CLAREMM el 27/11/2026. Colores: COÑAC, MELLE, NEGRO.'),
+  ('435501','NIÑOS',18.0,21.5,0.5,1,'inferencia_por_tallas_2026-11-27','Corrida infantil observada en el catálogo histórico.'),
+  ('435501','JOVEN',21.5,27.0,0.5,2,'inferencia_por_tallas_2026-11-27','Corrida joven observada en el catálogo histórico; frontera inclusiva.')
 )
 insert into public.estilo_corridas (organization_id, estilo_key, corrida_id, orden, fuente, notas)
-select o.id, r.estilo_key, c.id, r.orden, 'inferencia_por_tallas_2026-11-27', r.notas
+select o.id, r.estilo_key, c.id, r.orden, r.fuente, r.notas
 from public.organizations o join requested r on true
 join public.corridas c on c.organization_id = o.id and c.linea = r.linea
   and c.talla_inicial = r.inicial and c.talla_final = r.final and c.incremento = r.incremento
@@ -230,3 +236,13 @@ on conflict (organization_id, estilo_key, corrida_id) do update set
   orden = excluded.orden,
   fuente = excluded.fuente,
   notas = excluded.notas;
+
+-- Reemplaza únicamente los dos vínculos inferidos de la primera versión.
+delete from public.estilo_corridas as link
+using public.corridas as old_run, public.organizations as org
+where link.organization_id = org.id and upper(org.name) = 'CLAREMM'
+  and link.corrida_id = old_run.id and old_run.organization_id = org.id
+  and link.estilo_key = 'COS901' and link.fuente = 'inferencia_por_tallas_2026-11-27'
+  and old_run.incremento = 0.5
+  and ((old_run.linea = 'NIÑAS' and old_run.talla_inicial = 15.0 and old_run.talla_final = 17.5)
+    or (old_run.linea = 'JOVEN' and old_run.talla_inicial = 21.5 and old_run.talla_final = 27.0));

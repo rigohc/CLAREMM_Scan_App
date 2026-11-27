@@ -9,9 +9,13 @@ const root = fileURLToPath(new URL('../..', import.meta.url));
 const xlsx = require(path.join(root, 'CLAREMM Zapateria/backend/node_modules/xlsx'));
 const { parseMatrix, normalize, compactEstilo, sizeKey } = require('../saz-reconcile.js');
 const prep = require('../saz-prep-excel.js');
-const [input, output, planPath, apply] = process.argv.slice(2);
-if (!input || !output || !planPath || (apply && apply !== '--apply')) {
-  throw new Error('Uso: node audit-saz-stock.mjs origen.xls reporte.xlsx plan.json [--apply]');
+const { createWorklistPlanner, range } = require('../lib/saz-run-worklist.js');
+const { corridaContainsSize, normalizeLine, parseCorridaText } = require('../lib/corridas-core.js');
+const [input, output, planPath, ...flags] = process.argv.slice(2);
+const apply = flags.includes('--apply');
+const withRuns = flags.includes('--corridas');
+if (!input || !output || !planPath || flags.some(flag => !['--apply', '--corridas'].includes(flag))) {
+  throw new Error('Uso: node audit-saz-stock.mjs origen.xls reporte.xlsx plan.json [--corridas] [--apply]');
 }
 
 const colorAliases = new Map([
@@ -99,6 +103,18 @@ const [products, stocks] = await Promise.all([
   }),
   readAll('inventory_levels', { select: 'variant_id,quantity,product_variants!inner(product_id,size)', branch_id: `eq.${branchId}`, quantity: 'gt.0', order: 'variant_id' }),
 ]);
+let planRuns;
+const registryKeys = new Set();
+if (withRuns) {
+  const [master, relations, registry] = await Promise.all([
+    readAll('corridas', { select: 'id,linea,talla_inicial,talla_final,incremento,activa', organization_id: `eq.${org}`, activa: 'eq.true', order: 'id' }),
+    readAll('estilo_corridas', { select: 'estilo_key,corrida_id,orden', organization_id: `eq.${org}`, order: 'estilo_key,orden,corrida_id' }),
+    readAll('saz_product_registry', { select: 'estilo,color', organization_id: `eq.${org}`, order: 'id' }),
+  ]);
+  if (!master.length) throw new Error('CLAREMM todavía no tiene corridas activas.');
+  planRuns = createWorklistPlanner(master, relations);
+  for (const entry of registry) registryKeys.add(keyFor(entry));
+}
 if (!products.length || !stocks.length || new Set(products.map(row => row.id)).size !== products.length
   || new Set(stocks.map(row => row.variant_id)).size !== stocks.length) throw new Error('Lectura de inventario incompleta o duplicada.');
 console.log(`Leídas ${products.length} fichas activas y ${stocks.length} tallas con stock en JUÁREZ.`);
@@ -133,6 +149,9 @@ const changes = [];
 const lines = [];
 const details = [];
 const gaps = [];
+const worklist = [];
+const runIssues = [];
+const runChanges = [];
 let zeroInBoth = 0;
 let preloadedZeroAndAbsent = 0;
 
@@ -169,6 +188,7 @@ for (const key of new Set([...groups.keys(), ...sazByKey.keys(), ...blocked])) {
     });
   }
   const due = sum(Object.values(qtyToLoad));
+  const presence = official ? 'Figura en el corte' : registryKeys.has(key) ? 'Registrada en SAZ, ausente del corte' : 'Por confirmar';
   const result = !group ? 'SOLO EN SAZ' : !official ? 'FICHA AUSENTE EN EXCEL'
     : !official.pairs && due ? 'FICHA EN EXCEL SIN STOCK'
     : due ? 'FALTANTE PARCIAL' : surplus ? 'MAYOR EN SAZ' : 'COINCIDE';
@@ -181,10 +201,58 @@ for (const key of new Set([...groups.keys(), ...sazByKey.keys(), ...blocked])) {
       const loaded = /^(REGISTRADO EN SAZ|CARGADO EN SAZ|YA PRECARGADO EN SAZ)$/i.test(row.estado);
       const target = preloaded ? preloadedPending : pending;
       if (loaded || group.stockedProducts.has(row.id)) statuses.add(target);
-      if (!loaded || row.estado === target) continue;
+      const unclassified = withRuns && !String(row.estado || '').trim() && group.stockedProducts.has(row.id);
+      if ((!loaded && !unclassified) || row.estado === target) continue;
       changes.push({ id: row.id, key, before: row.estado, after: target, updatedAt: row.updated_at });
     }
-    gaps.push({ product, result, qtyToLoad, due, current: sum([...app.values()]), confirmed: official?.pairs || 0 });
+    gaps.push({ product, result, presence, qtyToLoad, due, current: sum([...app.values()]), confirmed: official?.pairs || 0 });
+  }
+  if (planRuns && app.size) {
+    const confirmed = Object.fromEntries(Object.entries(official?.quantities || {}).filter(([, qty]) => qty > 0));
+    const planned = planRuns({
+      product, application: Object.fromEntries(app), confirmed, due: qtyToLoad, stockRecordCount: candidates.length,
+    });
+    const base = {
+      Estilo: product.estilo, Color: product.color, Marca: product.marca, Proveedor: product.proveedor,
+      'Línea actual': product.linea, 'Corrida actual': product.corrida, Resultado: result, 'Presencia SAZ': presence,
+    };
+    if (planned.issue) {
+      runIssues.push({
+        ...base, Motivo: planned.issue, 'Propuesta por tallas': planned.suggested || '', Opciones: planned.options?.join(' / ') || '',
+        'Tallas observadas': [...new Set([...app.keys(), ...Object.keys(confirmed)])].sort(compareSize).join(', '),
+        'Total por cargar': due, Detalle: Object.entries(qtyToLoad).map(([size, qty]) => `${size}: ${qty}`).join(', '),
+      });
+    } else {
+      const label = run => `${run.linea} ${range(run)} (+${Number(run.incremento)})`;
+      const original = parseCorridaText(product.corrida, product.linea);
+      const matchesOriginal = run => normalizeLine(run.linea) === normalizeLine(product.linea)
+        && Number(run.talla_inicial) === original.inicial && Number(run.talla_final) === original.final;
+      if (planned.runs.length > 1 || planned.runs.some(run => !matchesOriginal(run))) {
+        runChanges.push({ ...base, 'Corridas de trabajo': planned.runs.map(label).join(' / '), 'Relación en Supabase': planned.assigned ? 'Sí' : 'Por validar', 'Total por cargar': due });
+      }
+      for (const { run, quantities } of planned.groups) {
+        const sourceIdentifiesRun = Object.keys(confirmed).some(size => corridaContainsSize(run, size)
+          && !planned.runs.some(other => other.id !== run.id && corridaContainsSize(other, size)));
+        const needsPrice = planned.runs.length > 1 && !matchesOriginal(run);
+        worklist.push({
+          ...base,
+          'Línea SAZ': run.linea, Corrida: range(run), Incremento: Number(run.incremento),
+          'Acción SAZ': !official ? (registryKeys.has(key) ? 'Verificar existencia actual del tramo en SAZ' : 'Buscar ficha y dar de alta si falta')
+            : planned.runs.length === 1 || sourceIdentifiesRun ? 'Confirmar destino y cargar diferencia'
+              : 'Confirmar si existe el tramo antes de cargar',
+          'Precio actual de ficha': Number(product.precio) || null,
+          'Precio de corrida': needsPrice ? 'Validar precio del tramo' : Number(product.precio) || 'Validar precio',
+          Acabado: product.acabado, Temporada: product.temporada, Sublínea: product.sublinea,
+          Clasificación: product.clasificacion, Departamento: product.departamento, Catálogo: product.catalogo,
+          'Total por cargar': sum(Object.values(quantities)), ...quantities,
+        });
+      }
+      if (Object.keys(planned.ambiguous).length) {
+        runIssues.push({ ...base, Motivo: 'El corte ya contiene stock en una talla compartida; confirmar el tramo de destino',
+          'Propuesta por tallas': '',
+          'Total por cargar': sum(Object.values(planned.ambiguous)), Detalle: Object.entries(planned.ambiguous).map(([size, qty]) => `${size}: ${qty}`).join(', ') });
+      }
+    }
   }
   lines.push({
     Estilo: product.estilo, Color: colorKey(product.color), Marca: product.marca || '',
@@ -227,12 +295,14 @@ if (!apply) {
     { Indicador: 'Incidencias', Valor: 'Se excluye la ficha completa si una fila del Excel es inválida.' },
   ]);
   const sizeCols = [...new Set([...prep.SIZE_HEADERS, ...gaps.flatMap(row => Object.keys(row.qtyToLoad))])].sort(compareSize);
-  const inventoryRows = gaps.map(({ product, result, qtyToLoad, due, current, confirmed }) => {
+  const inventoryRows = gaps.map(({ product, result, presence, qtyToLoad, due, current, confirmed }) => {
     const row = prep.toInventoryRows([{ ...product, color: colorKey(product.color), qtyBySize: qtyToLoad, pares: due }])[0];
     delete row['Total Existencia'];
-    return { ...row, ...qtyToLoad, 'Existencia JUÁREZ': current, 'Existencia SAZ al corte': confirmed, 'Total por cargar': due, Resultado: result };
+    return { ...row, ...qtyToLoad, 'Existencia JUÁREZ': current, 'Existencia SAZ al corte': confirmed, 'Total por cargar': due, Resultado: result,
+      ...(withRuns ? { 'Presencia SAZ': presence } : {}) };
   });
-  const loadHeaders = ['Estilo', 'Color', 'Existencia JUÁREZ', 'Existencia SAZ al corte', 'Total por cargar', 'Resultado', ...prep.FIXED_HEADERS.slice(2), ...sizeCols];
+  const loadHeaders = ['Estilo', 'Color', 'Existencia JUÁREZ', 'Existencia SAZ al corte', 'Total por cargar', 'Resultado',
+    ...(withRuns ? ['Presencia SAZ'] : []), ...prep.FIXED_HEADERS.slice(2), ...sizeCols];
   const loadSheet = xlsx.utils.json_to_sheet(inventoryRows, { header: loadHeaders });
   xlsx.utils.book_append_sheet(book, loadSheet, 'Por cargar');
   addSheet('Comparativo por ficha', lines);
@@ -246,6 +316,27 @@ if (!apply) {
     })),
     ...appIncidents.map(row => ({ origen: 'Aplicativo', ...row })),
   ]);
+  if (planRuns) {
+    const assignedPairs = sum(worklist.map(row => row['Total por cargar']));
+    const reviewPairs = sum(runIssues.map(row => row['Total por cargar']));
+    if (assignedPairs + reviewPairs !== summary.paresPorCargar) throw new Error('Los pares del reporte por corrida no cuadran con el saldo.');
+    addSheet('Resumen corridas', [
+      { Indicador: 'Pares distribuidos por corrida', Valor: assignedPairs },
+      { Indicador: 'Pares pendientes de validar corrida', Valor: reviewPairs },
+      { Indicador: 'Hojas operativas', Valor: 'Por corrida y Revisar corridas. Por cargar conserva el comparativo sin dividir.' },
+      { Indicador: 'Media talla compartida', Valor: 'Si el corte no tiene stock en la talla, su saldo se asigna al primer tramo. Con stock en SAZ, el tramo queda por confirmar.' },
+      { Indicador: 'Corte SAZ', Valor: saz.fileName },
+    ]);
+    const sorted = rows => rows.sort((a, b) => String(a.Estilo).localeCompare(String(b.Estilo), 'es', { numeric: true })
+      || String(a.Color).localeCompare(String(b.Color), 'es') || String(a.Corrida || '').localeCompare(String(b.Corrida || ''), 'es', { numeric: true }));
+    const runSizes = [...new Set(worklist.flatMap(row => Object.keys(row).filter(key => /^\d+\.\d+$/.test(key))))].sort(compareSize);
+    const firstRow = worklist[0] || {};
+    const header = [...Object.keys(firstRow).filter(key => !runSizes.includes(key)), ...runSizes];
+    xlsx.utils.book_append_sheet(book, xlsx.utils.json_to_sheet(sorted(worklist), { header }), 'Por corrida');
+    addSheet('Revisar corridas', sorted(runIssues));
+    addSheet('Cambios de corrida sugeridos', sorted(runChanges));
+    console.log(JSON.stringify({ paresPorCorrida: assignedPairs, paresPorRevisar: reviewPairs, filasPorCorrida: worklist.length, filasParaRevisar: runIssues.length }));
+  }
   xlsx.writeFile(book, output, { compression: true });
   fs.writeFileSync(planPath, JSON.stringify(plan, null, 2), { flag: 'wx' });
 } else {
