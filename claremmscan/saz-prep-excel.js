@@ -55,8 +55,13 @@
     return normalize(value).replace(/\s+/g, '').replace(/^0+(?=\d)/, '');
   }
 
+  function colorKey(value) {
+    const color = normalize(value);
+    return ({'NB':'NEGRO BLANCO','N/B':'NEGRO BLANCO','BN':'BLANCO NEGRO','B/N':'BLANCO NEGRO','FUCSIA':'FIUSHA','FUCHSIA':'FIUSHA'})[color] || color;
+  }
+
   function fichaKey(estilo, color) {
-    return `${compactEstilo(estilo)}|${normalize(color)}`;
+    return `${compactEstilo(estilo)}|${colorKey(color)}`;
   }
 
   function isJuarezBranch(name) {
@@ -67,8 +72,14 @@
   }
 
   function sizeKey(value) {
-    const number = Number(String(value ?? '').trim().replace(',', '.'));
-    return Number.isFinite(number) ? number.toFixed(1) : '';
+    const raw = normalize(value).replace(',', '.');
+    return /^\d+(?:\.\d+)?$/.test(raw) ? String(Number(raw)).replace(/^(\d+)$/, '$1.0') : raw;
+  }
+
+  function inventoryHeaders(rows) {
+    const sizes = new Set(SIZE_HEADERS);
+    for (const row of rows) for (const size of Object.keys(row.qtyBySize || {})) if (size) sizes.add(sizeKey(size));
+    return [...FIXED_HEADERS, ...[...sizes].sort((a, b) => a.localeCompare(b, 'es', { numeric: true })), 'Total Existencia'];
   }
 
   function moneyCell(value) {
@@ -165,8 +176,8 @@
     return Object.values(qtyBySize || {}).reduce((sum, quantity) => sum + Math.trunc(Number(quantity) || 0), 0);
   }
 
-  function toInventoryRow(row, note) {
-    const qtyBySize = row?.qtyBySize || {};
+  function toInventoryRow(row, note, sizes = inventoryHeaders([row || {}]).slice(FIXED_HEADERS.length, -1)) {
+    const qtyBySize = sumQtyBySize({}, row?.qtyBySize);
     const observaciones = text(row?.observaciones) || note || '';
     const sheetRow = {
       Estilo: text(row?.estilo),
@@ -191,7 +202,7 @@
       Costo: moneyCell(row?.costo),
     };
     let total = 0;
-    for (const size of SIZE_HEADERS) {
+    for (const size of sizes) {
       const qty = Math.trunc(Number(qtyBySize[size] || 0));
       sheetRow[size] = qty > 0 ? qty : '';
       total += qty;
@@ -202,7 +213,9 @@
 
   function toInventoryRows(rows, date) {
     const note = todayNote(date);
-    return collapseFichaRows(rows, 'sum').map(row => toInventoryRow(row, note));
+    const fichas = collapseFichaRows(rows, 'sum');
+    const sizes = inventoryHeaders(fichas).slice(FIXED_HEADERS.length, -1);
+    return fichas.map(row => toInventoryRow(row, note, sizes));
   }
 
   function toResumenRows(inventoryRows) {
@@ -467,6 +480,8 @@
   }
 
   return {
+    colorKey,
+    inventoryHeaders,
     DEFAULT_TEMPORADA,
     DEFAULT_DEPARTAMENTO,
     INVENTORY_SHEET,

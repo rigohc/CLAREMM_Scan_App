@@ -40,3 +40,7 @@ uploads/
 
 # Pruebas locales del escáner
 /claremmscan/tests/prueba/
+
+# Reportes operativos y archivos temporales de Office
+/entregables/
+~$*

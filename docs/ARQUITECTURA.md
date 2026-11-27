@@ -45,6 +45,7 @@ No recomendamos DDD ceremonial. Sí **bounded contexts** claros: Catálogo, Inve
 
 - `Product` (estilo compacto + color)
 - `Variant` (talla)
+- `SizeRun` / `Corrida` (línea + rango + incremento) y relación estilo→corridas
 - `InventoryLevel` (sucursal + variante + cantidad)
 - `Money` / `Price` (no pisar &gt; 0 sin confirmación)
 - Eventos: ver tabla abajo
@@ -68,6 +69,8 @@ No recomendamos DDD ceremonial. Sí **bounded contexts** claros: Catálogo, Inve
 | Evento | Cuándo | Efecto |
 |---|---|---|
 | `CatalogProductUpserted` | Alta o ficha creada en carga | Proyección de catálogo |
+| `SizeRunDefined` | Se registra una corrida válida | Catálogo maestro de corridas |
+| `StyleSizeRunAssigned` | Se relaciona una corrida con un estilo | Cobertura de tallas, sin mover stock |
 | `StockIncreased` | Entrada / captura / devolución | Suma en sucursal |
 | `StockSet` | Conteo autorizado | Solo sucursales no JUÁREZ |
 | `StockDecreased` | Venta POS | Sucursal de la caja |

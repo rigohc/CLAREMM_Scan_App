@@ -243,7 +243,6 @@
       if (statusElement) statusElement.textContent = 'Guardando en Supabase…';
       const saved = await cloud().uploadRelationalProductImage({ productId: row.id, blob });
       await window.ClaremmStore.putImageFromCloud(saved.fileName, blob).catch(() => {});
-      cloud().recordImageMutation?.({ type: 'upsert', name: saved.fileName });
       await window.ClaremmStore.refreshImageIndicators?.({ silent: true });
       row.imagen = saved.path || saved.fileName || '1';
       renderRecentStock(recentStockRows);
@@ -734,7 +733,6 @@
       const saved = await cloud().duplicateRelationalProduct(payload);
       if (blob && saved.fileName) {
         await window.ClaremmStore.putImageFromCloud?.(saved.fileName, blob).catch(() => {});
-        cloud().recordImageMutation?.({ type: 'upsert', name: saved.fileName });
       }
       if (blob) await window.ClaremmStore.refreshImageIndicators?.();
       const result = {
@@ -895,10 +893,9 @@
       const saved = await cloud().updateRelationalProductField({ productId, field, value: rawValue });
       if (field === 'precio') {
         const precio = saved.precio;
-        const legacyUpdated = window.ClaremmStore?.applyStylePriceFromCloud?.(result.product.estilo, precio, result.product.corrida) || 0;
         for (const item of relationalInventoryResults.filter(item => matchesStyleCorrida(item.product, result.product.estilo, result.product.corrida))) {
           item.product.precio = precio;
-          item.notice = `Precio actualizado en ${saved.updated} ficha(s) del mismo estilo y corrida, y ${legacyUpdated} registro(s) anteriores.`;
+          item.notice = `Precio actualizado en ${saved.updated} ficha(s) del mismo estilo y corrida.`;
         }
       } else {
         result.product[field] = saved.value;
@@ -968,7 +965,6 @@
       if (statusElement) statusElement.textContent = 'Guardando en Supabase…';
       const saved = await cloud().uploadRelationalProductImage({ productId: target.product.id, blob });
       await window.ClaremmStore.putImageFromCloud(saved.fileName, blob).catch(() => {});
-      cloud().recordImageMutation?.({ type: 'upsert', name: saved.fileName });
       await window.ClaremmStore.refreshImageIndicators?.({ silent: true });
       localImagePreview.set(target.product.id, { url: saved.imageUrl || localUrl, path: saved.path || '' });
       for (const result of relationalInventoryResults.filter(item => item.product.id === target.product.id)) {
@@ -1107,10 +1103,9 @@
     try {
       if (!cloud()?.updateRelationalStylePrice) throw new Error('Actualiza la página para guardar el precio del estilo y la corrida.');
       const saved = await cloud().updateRelationalStylePrice(estilo, precio, corrida);
-      const legacyUpdated = window.ClaremmStore?.applyStylePriceFromCloud?.(estilo, saved.precio, saved.corrida || corrida) || 0;
       for (const result of relationalInventoryResults.filter(item => matchesStyleCorrida(item.product, estilo, saved.corrida || corrida))) {
         result.product.precio = saved.precio;
-        result.notice = `Precio confirmado en ${saved.updated} ficha(s) del mismo estilo y corrida, y ${legacyUpdated} registro(s) anteriores.`;
+        result.notice = `Precio confirmado en ${saved.updated} ficha(s) del mismo estilo y corrida.`;
       }
       stylePriceReview = null;
       renderStylePriceReview();

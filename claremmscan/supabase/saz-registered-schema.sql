@@ -8,9 +8,6 @@ create extension if not exists pgcrypto;
 create index if not exists products_org_style_color_lookup_idx
   on public.products (organization_id, upper(btrim(estilo)), upper(btrim(color)));
 
-create index if not exists inventory_items_user_style_color_size_idx
-  on public.inventory_items (user_id, upper(btrim(estilo)), upper(btrim(color)), upper(btrim(talla)));
-
 create table if not exists public.saz_registration_batches (
   id uuid primary key default gen_random_uuid(),
   organization_id uuid not null references public.organizations(id) on delete cascade,

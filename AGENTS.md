@@ -11,6 +11,7 @@ Eres un agente o ingeniero en el inventario y futuro POS de Zapatería CLAREMM. 
 | Workflow de trabajo | [docs/WORKFLOW.md](docs/WORKFLOW.md) |
 | Búsqueda (plan + índice) | `claremmscan/inventory-search.js` |
 | Carga por sucursal | `claremmscan/lib/branch-upload-core.js`, `claremmscan/api/v1/[...path].js` |
+| Corridas (reglas + tabla + API) | `claremmscan/lib/corridas-core.js`, `claremmscan/supabase/corridas-schema.sql`, `claremmscan/api/v1.js` |
 | Reglas Cursor | `.cursor/rules/*.mdc` |
 
 ## Innegociable
@@ -29,5 +30,6 @@ Eres un agente o ingeniero en el inventario y futuro POS de Zapatería CLAREMM. 
 3. Si toca búsqueda, pasa por `ClaremmInventorySearch.plan`.
 4. Prueba el camino de 50k+ fichas y el de `000034` / `00`.
 5. Verifica en el cliente si cambia UI.
+6. Si toca corridas, conserva medios números, valida contra `corridas` y no cambies existencias al relacionar un estilo.
 
 El escáner PWA (`claremmscan/`) es el producto actual. El POS se diseña contra los mismos puertos; no se mezcla en `app.js`.

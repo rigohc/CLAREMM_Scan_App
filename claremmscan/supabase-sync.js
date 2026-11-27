@@ -1,7 +1,7 @@
 'use strict';
 
 (() => {
-  const QUEUE_KEY = 'claremmscan-cloud-queue-v1';
+  const QUEUE_KEY = 'claremmscan-relational-captures-v1:';
   const OWNER_KEY = 'claremmscan-cloud-owner-v1';
   const BUCKET = 'product-images';
   const DEFAULT_BRANCH = 'CLAREMM ZAPATERIA JUAREZ';
@@ -9,7 +9,7 @@
   let client = null;
   let user = null;
   let syncing = false;
-  let flushTimer = null;
+  let flushPromise = null;
   let branchStockContext = null;
   let branchStockContextPromise = null;
   const relationalImageUrls = new Map();
@@ -27,12 +27,7 @@
   const plannedSearch = query => inventorySearch()?.plan?.(query) || null;
 
   const byId = id => document.getElementById(id);
-  const emptyQueue = () => ({ upserts: {}, deletes: {}, images: {}, catalog: {}, imageClear: false });
-  const loadQueue = () => {
-    try { return { ...emptyQueue(), ...JSON.parse(localStorage.getItem(QUEUE_KEY) || '{}') }; }
-    catch { return emptyQueue(); }
-  };
-  const saveQueue = queue => localStorage.setItem(QUEUE_KEY, JSON.stringify(queue));
+  const captureKeys = owner => Object.keys(localStorage).filter(key => key.startsWith(`${QUEUE_KEY}${owner}:`));
   const authRedirectUrl = () => {
     const url = new URL(window.location.href);
     url.hash = '';
@@ -57,6 +52,11 @@
   const catalogPrice = value => { const raw = String(value ?? '').trim().replace(/[^0-9,.-]/g, ''); if (!raw) return NaN; const comma = raw.lastIndexOf(','), dot = raw.lastIndexOf('.'); const normalized = comma > dot ? raw.replace(/\./g, '').replace(',', '.') : raw.replace(/,/g, ''); return Number(normalized); };
   const productLookupKey = value => `${catalogText(value?.estilo)}|${catalogText(value?.color)}`;
   const compactEstilo = value => catalogText(value).replace(/\s+/g, '').replace(/^0+(?=\d)/, '');
+  const inventoryColor = value => {
+    if (window.ClaremmSazPrepExcel) return window.ClaremmSazPrepExcel.colorKey(value);
+    const color = catalogText(value);
+    return ({'NB':'NEGRO BLANCO','N/B':'NEGRO BLANCO','BN':'BLANCO NEGRO','B/N':'BLANCO NEGRO','FUCSIA':'FIUSHA','FUCHSIA':'FIUSHA'})[color] || color;
+  };
   const catalogCorrida = value => catalogText(value).replace(/[–—]/g, '-').replace(/\s+/g, '').replace(/(\d+)\.0(?!\d)/g, '$1');
   const matchesStyleCorrida = (product, estilo, corrida) => compactEstilo(product.estilo) === compactEstilo(estilo) && catalogCorrida(product.corrida) === catalogCorrida(corrida);
   const colorTokens = value => catalogText(value).replace(/[\/\-_,+|.]/g, ' ').replace(/\s+/g, ' ').trim();
@@ -85,7 +85,7 @@
     const sazPreloaded = !explicitPending && (product.source_system === 'saz_precargado' || /PRECARGADO EN SAZ/i.test(String(product.estado || '')));
     return { sazRegistered, sazPreloaded, sazStockAuditPending, sazPreloadedWithoutStock, isNew: isNuevoFicha(product, totalQuantity) };
   };
-  const compactLookupKey = value => `${compactEstilo(value?.estilo)}|${catalogText(value?.color)}`;
+  const compactLookupKey = value => `${compactEstilo(value?.estilo)}|${inventoryColor(value?.color)}`;
   const productLookupKeys = value => {
     const estilos = [...new Set([catalogText(value?.estilo), compactEstilo(value?.estilo)].filter(Boolean))];
     const colors = [...new Set([catalogText(value?.color), colorTokens(value?.color), foldedColor(value?.color), catalogText(sazResolve('color', value?.color))].filter(Boolean))];
@@ -121,7 +121,7 @@
         if (colorsMatch(product.color, row.color)) add(product);
       }
     }
-    return candidates;
+    return candidates.filter(product => compactLookupKey(product) === compactLookupKey(row));
   };
   const productsOfEstilo = (context, estilo) => context.products.filter(product => product.activo !== false && compactEstilo(product.estilo) === compactEstilo(estilo));
   const imageNamePart = value => catalogText(value).replace(/[^A-Z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -135,11 +135,9 @@
     return blob.type === 'image/png' ? blob : new Blob([blob], { type: 'image/png' });
   };
   const resolveCaptureBranch = (context, sucursal) => {
-    const name = catalogText(sucursal || DEFAULT_BRANCH);
+    const name = catalogText(sucursal || DEFAULT_BRANCH).replace(/^MATRIZ$/, 'JUAREZ');
     return context.branches.find(branch => catalogText(branch.name) === name)
-      || context.branches.find(branch => catalogText(branch.code) === name)
-      || context.branches.find(branch => catalogText(branch.code) === 'JUAREZ')
-      || context.branches[0];
+      || context.branches.find(branch => catalogText(branch.code) === name);
   };
   const estiloSearchValues = value => inventorySearch()?.estiloKeys?.(value) || [...new Set([catalogText(value), compactEstilo(value)].filter(Boolean))];
   const looksLikeEstilo = value => /\d/.test(catalogText(value));
@@ -172,7 +170,7 @@
       context.variantsByProduct.set(variant.product_id, list);
     }
   };
-  async function queryProductsByEstilo(context, estilo, limit, signal) {
+  async function queryProductsByEstilo(context, estilo, limit, signal, fresh = false) {
     const planned = plannedSearch(estilo);
     if (planned && !planned.ready) return [];
     const values = planned?.keys?.length ? planned.keys : estiloSearchValues(estilo);
@@ -181,7 +179,7 @@
     if (!context.queriedEstilos) context.queriedEstilos = new Set();
     if (!context.productsByEstilo) context.productsByEstilo = new Map();
     const compact = compactEstilo(estilo);
-    if (compact && context.queriedEstilos?.has(compact)) {
+    if (!fresh && compact && context.queriedEstilos?.has(compact)) {
       const keys = new Set(values.map(compactEstilo).filter(Boolean));
       if (/^\d+$/.test(compact)) keys.add(`PI${compact}`);
       const seen = new Set();
@@ -275,14 +273,14 @@
     }
     return totals;
   }
-  async function findCatalogProducts(context, query, scope = 'all', limit, signal) {
+  async function findCatalogProducts(context, query, scope = 'all', limit, signal, fresh = false) {
     await sazCatalog()?.ready;
     const planned = plannedSearch(query);
     if (planned && !planned.ready) return [];
     const terms = planned?.terms?.length ? planned.terms : catalogText(query).split(' ').filter(Boolean);
     if (!terms.length) return [];
     const cap = Math.min(Number(limit) || planned?.limit || 40, planned?.limit || 40, 40);
-    let products = await queryProductsByEstilo(context, terms[0], cap, signal);
+    let products = await queryProductsByEstilo(context, terms[0], cap, signal, fresh);
     if (!products.length && scope !== 'style' && planned?.mode === 'text') products = await queryProductsFallback(context, terms[0], cap, signal);
     const matcher = inventorySearch()?.matchesPlannedProduct;
     return products.filter(product => {
@@ -323,7 +321,7 @@
     if (code === 'PGRST204' || /(?:marca|sucursal|saz_cargado|origen).*column|column.*(?:marca|sucursal|saz_cargado|origen)/i.test(message)) {
       return 'Falta actualizar las columnas de inventario en Supabase. Ejecuta supabase/saz-status-migration.sql en el SQL Editor; no borrará ni mezclará tus registros.';
     }
-    if (code === 'PGRST205' || code === '42P01' || message.includes('inventory_items')) {
+    if (code === 'PGRST205' || code === '42P01') {
       return 'Falta crear la tabla de inventario. Ejecuta supabase/schema.sql en el SQL Editor de Supabase.';
     }
     if (message.toLowerCase().includes('bucket') && message.toLowerCase().includes('not found')) {
@@ -334,30 +332,6 @@
     }
     return message;
   };
-  const recordKey = item => store.itemSyncKey(item);
-  const toRow = item => ({
-    user_id: user.id,
-    item_key: recordKey(item),
-    sucursal: String(item.sucursal || DEFAULT_BRANCH).toUpperCase() === 'MATRIZ' ? DEFAULT_BRANCH : String(item.sucursal || DEFAULT_BRANCH),
-    estilo: String(item.estilo || ''),
-    marca: String(item.marca || ''),
-    color: String(item.color || ''),
-    linea: String(item.linea || ''),
-    talla: String(item.talla || ''),
-    cantidad: Math.max(1, Number(item.cantidad) || 1),
-    material: String(item.material || ''),
-    precio: String(item.precio || ''),
-    notas: String(item.notas || ''),
-    saz_cargado: item.saz_cargado === true,
-    saz_cargado_at: item.saz_cargado && item.saz_cargado_at ? item.saz_cargado_at : null,
-    origen: String(item.origen || 'app_capture'),
-    updated_at: new Date().toISOString(),
-  });
-  const fromRow = row => ({
-    estilo: row.estilo || '', marca: row.marca || '', sucursal: String(row.sucursal || DEFAULT_BRANCH).toUpperCase() === 'MATRIZ' ? DEFAULT_BRANCH : String(row.sucursal || DEFAULT_BRANCH), color: row.color || '', linea: row.linea || '', talla: row.talla || '',
-    cantidad: String(row.cantidad || 1), material: row.material || '', precio: row.precio || '', notas: row.notas || '',
-    saz_cargado: row.saz_cargado === true, saz_cargado_at: row.saz_cargado_at || '', origen: row.origen || 'supabase_legacy',
-  });
 
   function updateAuthUi() {
     byId('cloudSignedOut').hidden = !!user;
@@ -483,8 +457,8 @@
   }
 
   const sizeKeyOf = value => {
-    const number = Number(String(value ?? '').trim().replace(',', '.'));
-    return Number.isFinite(number) ? number.toFixed(1) : '';
+    const raw = catalogText(value).replace(',', '.');
+    return /^\d+(?:\.\d+)?$/.test(raw) ? String(Number(raw)).replace(/^(\d+)$/, '$1.0') : raw;
   };
 
   function mergeBranchStocks(left, right) {
@@ -494,24 +468,21 @@
       if (!id) continue;
       const current = byId.get(id);
       if (!current) {
-        byId.set(id, {
-          branch: stock.branch,
-          sizes: [...(stock.sizes || [])].map(item => ({ size: sizeKeyOf(item.size) || String(item.size || ''), quantity: Math.trunc(Number(item.quantity) || 0) })).filter(item => item.size && item.quantity > 0),
-          totalQuantity: Number(stock.totalQuantity || 0),
-        });
-        continue;
+        byId.set(id, { branch: stock.branch, quantities: new Map() });
       }
-      const qty = new Map(current.sizes.map(item => [item.size, item.quantity]));
+      const qty = byId.get(id).quantities;
       for (const item of stock.sizes || []) {
         const size = sizeKeyOf(item.size) || String(item.size || '');
         const quantity = Math.trunc(Number(item.quantity) || 0);
         if (!size || quantity <= 0) continue;
         qty.set(size, (qty.get(size) || 0) + quantity);
       }
-      current.sizes = [...qty.entries()].map(([size, quantity]) => ({ size, quantity })).sort((a, b) => Number(a.size) - Number(b.size));
-      current.totalQuantity = current.sizes.reduce((sum, item) => sum + item.quantity, 0);
     }
-    return [...byId.values()];
+    return [...byId.values()].map(({ branch, quantities }) => ({
+      branch,
+      sizes: [...quantities].map(([size, quantity]) => ({ size, quantity })).sort((a, b) => a.size.localeCompare(b.size, 'es', { numeric: true })),
+      totalQuantity: [...quantities.values()].reduce((sum, quantity) => sum + quantity, 0),
+    }));
   }
 
   function mergeDuplicateSearchResults(results) {
@@ -523,17 +494,11 @@
         byKey.set(key, {
           ...result,
           branchStocks: mergeBranchStocks(result.branchStocks, []),
-          sizes: [...(result.sizes || [])],
         });
         continue;
       }
       current.product = pickCanonicalProduct([current.product, result.product]);
       current.branchStocks = mergeBranchStocks(current.branchStocks, result.branchStocks);
-      current.sizes = current.branchStocks.flatMap(stock => (stock.sizes || []).map(item => ({
-        ...item,
-        branch: stock.branch?.name,
-        branchCode: stock.branch?.code,
-      })));
       current.totalQuantity = current.branchStocks.reduce((sum, stock) => sum + Number(stock.totalQuantity || 0), 0);
       current.branch = current.branchStocks.find(stock => stock.totalQuantity > 0)?.branch || current.branch;
       current.imageUrl = current.imageUrl || result.imageUrl;
@@ -543,7 +508,40 @@
       current.sazPreloadedWithoutStock = Boolean(current.sazPreloadedWithoutStock || result.sazPreloadedWithoutStock);
       current.notice = 'Misma ficha unida: estilo + color. Las tallas se suman; si no existía, se agrega.';
     }
-    return [...byKey.values()];
+    return [...byKey.values()].map(result => ({
+      ...result,
+      sizes: result.branchStocks.flatMap(stock => stock.sizes.map(item => ({
+        ...item, branch: stock.branch.name, branchCode: stock.branch.code,
+      }))),
+    }));
+  }
+
+  async function listRelationalStock() {
+    const context = await loadBranchStockContext();
+    const branches = new Map(context.branches.map(branch => [branch.id, branch]));
+    const levels = await pagedQuery(() => client.from('inventory_levels')
+      .select(`branch_id,variant_id,quantity,product_variants!inner(size,products!inner(${PRODUCT_CATALOG_SELECT},organization_id))`)
+      .eq('product_variants.products.organization_id', context.organization.id)
+      .eq('product_variants.products.activo', true)
+      .in('branch_id', [...branches.keys()]).gt('quantity', 0).order('branch_id').order('variant_id'));
+    const groups = new Map();
+    for (const level of levels) {
+      const { products: product, size } = level.product_variants;
+      const key = `${level.branch_id}|${compactLookupKey(product)}`;
+      if (!groups.has(key)) groups.set(key, { branch: branches.get(level.branch_id), products: new Map(), sizes: [] });
+      const group = groups.get(key);
+      group.products.set(product.id, product);
+      group.sizes.push({ size, quantity: level.quantity });
+    }
+    return [...groups.values()].flatMap(group => {
+      const product = pickCanonicalProduct([...group.products.values()]);
+      const [stock] = mergeBranchStocks([group], []);
+      return stock.sizes.map(item => ({
+        sucursal: stock.branch.name, estilo: product.estilo, color: inventoryColor(product.color), talla: item.size,
+        cantidad: item.quantity, marca: product.marca, linea: product.linea, precio: product.precio,
+        material: product.acabado, notas: product.observaciones, estado: product.estado,
+      }));
+    });
   }
 
   async function searchRelationalInventory(query, scope = 'all', sazFilter = 'all', options = {}) {
@@ -553,17 +551,8 @@
     try {
     const context = await loadBranchStockContext();
     const includeEmpty = options.includeEmpty !== false;
-    const found = await findCatalogProducts(context, query, scope, planned?.limit || 40, signal);
-    const products = found.filter(product => {
-      const { sazRegistered: registered, sazPreloaded: preloaded } = catalogSazFlags(context, product);
-      const sinImagen = !String(product.imagen || '').trim();
-      const sinPrecio = !(Number(product.precio) > 0);
-      if (sazFilter === 'loaded') return registered;
-      if (sazFilter === 'pending') return !registered && !preloaded;
-      if (sazFilter === 'prep') return !registered && !preloaded && (sinImagen || sinPrecio);
-      return true;
-    });
-    await loadVariantsFor(context, products.map(product => product.id));
+    const products = await findCatalogProducts(context, query, scope, planned?.limit || 40, signal, true);
+    await loadVariantsFor(context, products.map(product => product.id), { refresh: true });
     const variantIds = products.flatMap(product => (context.variantsByProduct.get(product.id) || []).map(variant => variant.id));
     const levels = [];
     for (const group of chunks(variantIds, 200)) {
@@ -620,6 +609,13 @@
         };
       });
     return mergeDuplicateSearchResults(mapped)
+      .filter(result => {
+        const loaded = !result.sazStockAuditPending && (result.sazRegistered || result.sazPreloaded);
+        if (sazFilter === 'loaded') return loaded;
+        if (sazFilter === 'pending') return !loaded;
+        if (sazFilter === 'prep') return !loaded && (!result.product.imagen || !(Number(result.product.precio) > 0));
+        return true;
+      })
       .sort((a, b) => catalogText(`${a.product.estilo}|${a.product.color}`).localeCompare(catalogText(`${b.product.estilo}|${b.product.color}`)));
     } catch (error) {
       if (isAbortError(error)) {
@@ -650,47 +646,19 @@
     }));
   }
 
-  async function addRelationalStock({ context, productId, branchId, size, quantity, reason, importKey }) {
-    const qty = Math.trunc(Number(quantity));
-    const nextSize = String(size ?? '').trim().replace(',', '.');
-    if (!Number.isInteger(qty) || qty < 1) throw new Error('La cantidad debe ser un entero de al menos 1.');
-    if (!Number.isFinite(Number(nextSize)) || Number(nextSize) <= 0) throw new Error('Escribe una talla válida.');
-    let variant = (context.variantsByProduct.get(productId) || []).find(item => catalogText(item.size) === catalogText(nextSize));
-    if (!variant) {
-      const { data, error } = await client.from('product_variants').upsert(
-        { product_id: productId, size: nextSize },
-        { onConflict: 'product_id,size' }
-      ).select('id,size').single();
-      if (error) throw error;
-      variant = data;
-      const list = context.variantsByProduct.get(productId) || [];
-      list.push({ id: variant.id, product_id: productId, size: String(variant.size) });
-      context.variantsByProduct.set(productId, list);
-    }
-    const { data: level, error: readError } = await client.from('inventory_levels').select('quantity').eq('branch_id', branchId).eq('variant_id', variant.id).maybeSingle();
-    if (readError) throw readError;
-    const previous = Number(level?.quantity || 0), next = previous + qty;
-    const { error: levelError } = await client.from('inventory_levels').upsert({
-      branch_id: branchId, variant_id: variant.id, quantity: next, updated_by: user.id,
-    }, { onConflict: 'branch_id,variant_id' });
-    if (levelError) throw levelError;
-    const { error: movementError } = await client.from('inventory_movements_relational').insert({
-      organization_id: context.organization.id,
-      branch_id: branchId,
-      variant_id: variant.id,
-      operation: 'add',
-      previous_quantity: previous,
-      quantity: qty,
-      new_quantity: next,
-      reason: reason || 'Entrada de inventario',
-      import_key: importKey || `add:${productId}:${variant.id}:${Date.now()}`,
-      created_by: user.id,
-    });
-    if (movementError && !/duplicate|unique/i.test(String(movementError.message || movementError.code || ''))) throw movementError;
-    return { added: qty, size: nextSize, quantity: next, variantId: variant.id };
+  async function addRelationalStock({ productId, branchId, size, quantity, reason, eventKey = crypto.randomUUID() }) {
+    const qty = Number(quantity), nextSize = sizeKeyOf(size);
+    if (!Number.isSafeInteger(qty) || qty < 1) throw new Error('La cantidad debe ser un entero de al menos 1.');
+    if (!/^\d+\.[05]$/.test(nextSize) || Number(nextSize) <= 0) throw new Error('Escribe una talla entera o media válida.');
+    const { data, error } = await client.rpc('claremm_increase_stock', {
+      p_product: productId, p_branch: branchId, p_size: nextSize,
+      p_quantity: qty, p_reason: reason, p_event_key: eventKey,
+    }).single();
+    if (error) throw error;
+    return { added: qty, size: data.size, quantity: data.quantity, variantId: data.variant_id };
   }
 
-  async function uploadRelationalProductImage({ productId, blob }) {
+  async function uploadRelationalProductImage({ productId, blob, preserveExisting = false }) {
     if (!client || !user) throw new Error('Inicia sesión antes de guardar una imagen.');
     const png = asPngBlob(blob);
     if (png.size > 100 * 1024) throw new Error('La imagen supera el límite de 100 KB.');
@@ -700,12 +668,24 @@
     const fileName = catalogImageName(product);
     if (!fileName) throw new Error('La foto debe nombrarse con estilo y color. Completa ambos datos de la ficha.');
     const ofStyle = await queryProductsByEstilo(context, product.estilo, 200);
-    const matchingProducts = ofStyle.filter(item => productLookupKey(item) === productLookupKey(product));
+    const matchingProducts = ofStyle.filter(item => compactLookupKey(item) === compactLookupKey(product));
+    if (preserveExisting && matchingProducts.some(item => item.imagen)) return { path: '' };
     const path = `${context.organization.id}/products/${fileName}`;
-    const { error: uploadError } = await client.storage.from(BUCKET).upload(path, png, { contentType: 'image/png', upsert: true, cacheControl: '60' });
+    const { error: uploadError } = await client.storage.from(BUCKET).upload(path, png, { contentType: 'image/png', upsert: !preserveExisting, cacheControl: '60' });
+    if (preserveExisting && uploadError && !/^(409|Duplicate)$/.test(String(uploadError.statusCode || uploadError.code || ''))) throw uploadError;
+    if (preserveExisting && uploadError) {
+      // A prior attempt reached Storage. Link the existing PNG without replacing it.
+      for (const group of chunks(matchingProducts.map(item => item.id), 200)) {
+        const { error } = await client.from('products').update({ imagen: path }).eq('organization_id', context.organization.id).in('id', group).eq('imagen', '');
+        if (error) throw error;
+      }
+      return { path: '' };
+    }
     if (uploadError) throw uploadError;
     for (const group of chunks(matchingProducts.map(item => item.id), 200)) {
-      const { error: productError } = await client.from('products').update({ imagen: path }).eq('organization_id', context.organization.id).in('id', group);
+      let query = client.from('products').update({ imagen: path }).eq('organization_id', context.organization.id).in('id', group);
+      if (preserveExisting) query = query.eq('imagen', '');
+      const { error: productError } = await query;
       if (productError) throw productError;
     }
     for (const item of matchingProducts) item.imagen = path;
@@ -715,25 +695,6 @@
     return { path, fileName, imageUrl: `${signedUrl}${signedUrl.includes('?') ? '&' : '?'}v=${Date.now()}`, size: png.size };
   }
 
-  async function removeRelationalProductImage({ estilo, color }) {
-    const context = await loadBranchStockContext();
-    const ofStyle = await queryProductsByEstilo(context, estilo, 200);
-    const matchingProducts = ofStyle.filter(product => productLookupKey(product) === productLookupKey({ estilo, color }));
-    if (!matchingProducts.length) return { removed: 0 };
-    const organizationPrefix = `${context.organization.id}/products/`;
-    const paths = [...new Set(matchingProducts.map(product => product.imagen).filter(path => path?.startsWith(organizationPrefix)))];
-    for (const group of chunks(matchingProducts.map(product => product.id), 200)) {
-      const { error } = await client.from('products').update({ imagen: '' }).eq('organization_id', context.organization.id).in('id', group);
-      if (error) throw error;
-    }
-    if (paths.length) {
-      const { error } = await client.storage.from(BUCKET).remove(paths);
-      if (error) throw error;
-    }
-    for (const product of matchingProducts) product.imagen = '';
-    for (const path of paths) relationalImageUrls.delete(path);
-    return { removed: matchingProducts.length };
-  }
 
   async function updateRelationalStylePrice(estilo, precio, corrida) {
     if (!client || !user) throw new Error('Inicia sesión antes de actualizar precios.');
@@ -816,13 +777,11 @@
     if (createError) throw createError;
     rememberProducts(context, [created]);
     const added = await addRelationalStock({
-      context,
       productId: created.id,
       branchId: juarez.id,
       size: nextSize,
       quantity: qty,
       reason: `Ficha duplicada desde ${source.estilo} · ${source.color}`,
-      importKey: `ficha-duplicate:${created.id}:${nextSize}:${Date.now()}`,
     });
     let priced = { updated: 1, precio: value, corrida: nextCorrida };
     try {
@@ -859,20 +818,23 @@
     };
   }
 
-  async function syncCaptureToCatalog(item) {
-    if (!client || !user) return null;
-    const estilo = catalogText(item?.estilo), color = sazResolve('color', item?.color);
-    if (!estilo || !color) return null;
-    const qty = Math.trunc(Number(item.cantidad));
-    const size = String(item.talla || '').trim().replace(',', '.');
-    let context = await loadBranchStockContext();
-    if (estilo) await findCatalogProducts(context, `${estilo} ${color}`.trim(), 'all', 40);
+  async function syncCaptureToCatalog(item, eventKey) {
+    if (!client || !user) throw new Error('Inicia sesión para sincronizar la captura.');
+    const estilo = catalogText(item?.estilo), color = inventoryColor(item?.color);
+    const qty = Number(item.cantidad), size = sizeKeyOf(item.talla);
+    if (!estilo || !color || !/^\d+\.[05]$/.test(size) || Number(size) <= 0 || !Number.isSafeInteger(qty) || qty < 1) {
+      throw new Error('Captura sin estilo, color, talla válida o cantidad entera positiva.');
+    }
+    const context = await loadBranchStockContext();
+    const branch = resolveCaptureBranch(context, item.sucursal);
+    if (!branch) throw new Error('No se encontró la sucursal de la captura.');
+    await findCatalogProducts(context, `${estilo} ${color}`.trim(), 'all', 40, null, true);
     let product = resolveCatalogProduct(context, { ...item, color }).product;
     if (!product) {
       const payload = {
         organization_id: context.organization.id,
         source_system: 'app_capture',
-        source_id: `${estilo}|${color}`,
+        source_id: compactLookupKey({ estilo, color }),
         match_key: [estilo, color, catalogText(item.marca)].join('|'),
         estilo,
         color,
@@ -887,10 +849,12 @@
         activo: true,
         imagen: '',
       };
-      const { data, error } = await client.from('products').upsert(payload, { onConflict: 'organization_id,source_system,source_id' }).select(PRODUCT_CATALOG_SELECT).single();
+      const { data, error } = await client.from('products').upsert(payload, { onConflict: 'organization_id,source_system,source_id', ignoreDuplicates: true }).select(PRODUCT_CATALOG_SELECT).maybeSingle();
       if (error) throw error;
-      rememberProducts(context, [data]);
-      product = context.productsById.get(data.id) || data;
+      if (data) rememberProducts(context, [data]);
+      const stored = data || (await queryProductsByEstilo(context, estilo, 40, null, true)).find(row => compactLookupKey(row) === compactLookupKey({ estilo, color }));
+      if (!stored) throw new Error('La ficha se creó en otra sesión. Reintenta la captura.');
+      product = context.productsById.get(stored.id) || stored;
     } else {
       const patch = {};
       if (!(Number(product.precio) > 0) && catalogPrice(item.precio) > 0) patch.precio = catalogPrice(item.precio);
@@ -899,49 +863,30 @@
       if (!catalogText(product.acabado) && catalogText(item.material || item.acabado)) patch.acabado = sazResolve('acabado', item.material || item.acabado);
       if (!catalogCorrida(product.corrida) && String(item.corrida || '').trim()) patch.corrida = String(item.corrida).trim();
       if (Object.keys(patch).length) {
-        const { error } = await client.from('products').update(patch).eq('id', product.id).eq('organization_id', context.organization.id);
+        let query = client.from('products').update(patch).eq('id', product.id).eq('organization_id', context.organization.id);
+        if (patch.precio) query = query.eq('precio', 0);
+        const { error } = await query;
         if (error) throw error;
         Object.assign(product, patch);
       }
     }
-    const branch = resolveCaptureBranch(context, item.sucursal);
-    if (!branch) throw new Error('No se encontró la sucursal para guardar la captura.');
-    let sizes = [], totalQuantity = 0;
-    if (Number.isFinite(Number(size)) && Number(size) > 0 && Number.isInteger(qty) && qty > 0) {
-      const added = await addRelationalStock({
-        context,
-        productId: product.id,
-        branchId: branch.id,
-        size,
-        quantity: qty,
-        reason: `Captura scanner · ${estilo} · ${color}`,
-        importKey: `app-capture:${product.id}:${size}:${Date.now()}`,
-      });
-      sizes = [{ size: added.size, quantity: added.quantity }];
-      totalQuantity = added.quantity;
-    }
+    await addRelationalStock({
+      productId: product.id, branchId: branch.id, size, quantity: qty, eventKey,
+      reason: `Captura scanner · ${estilo} · ${color}`,
+    });
     const fileName = catalogImageName(product);
-    let imageUrl = '', imageMessage = fileName ? `La foto de este color se guarda como ${fileName}.` : '';
     if (fileName) {
-      const localBlob = await store.getProductImage(fileName).catch(() => null);
+      const localBlob = item.imageKey ? await store.getProductImage(item.imageKey) : null;
       if (localBlob && !product.imagen) {
-        const savedImage = await uploadRelationalProductImage({ productId: product.id, blob: localBlob });
-        imageUrl = savedImage.imageUrl;
-        imageMessage = `Imagen ${savedImage.fileName}`;
-        product.imagen = savedImage.path;
+        const savedImage = await uploadRelationalProductImage({ productId: product.id, blob: localBlob, preserveExisting: true });
+        if (savedImage.path) {
+          await store.putImageFromCloud(fileName, localBlob);
+          product.imagen = savedImage.path;
+        }
       }
+      if (item.imageKey) await store.deleteImageFromCloud(item.imageKey);
     }
-    return {
-      product,
-      branch,
-      sizes,
-      totalQuantity,
-      ...catalogSazFlags(context, product, totalQuantity),
-      fileName,
-      imageUrl,
-      imageMessage,
-      notice: `Captura lista en ${product.estilo} · ${product.color}.`,
-    };
+    return { product };
   }
 
   async function getRelationalStylePrice(estilo, corrida, color) {
@@ -1052,16 +997,17 @@
     }
     const consolidated = new Map();
     for (const row of validation.known) {
-      const size = String(row.talla || '').trim().replace(',', '.'), key = `${row.productId}|${size}`;
+      const size = sizeKeyOf(row.talla), key = `${row.productId}|${size}`;
       if (!consolidated.has(key)) consolidated.set(key, { ...row, size, cantidad: 0 });
       consolidated.get(key).cantidad += Math.max(0, Number(row.cantidad) || 0);
     }
     const stockRows = [...consolidated.values()], missingVariants = [];
     await loadVariantsFor(context, [...new Set(stockRows.map(row => row.productId))], { refresh: true });
+    const equivalentVariants = row => (context.variantsByProduct.get(row.productId) || [])
+      .filter(variant => sizeKeyOf(variant.size) === row.size)
+      .sort((a, b) => Number(b.size === row.size) - Number(a.size === row.size) || a.id.localeCompare(b.id));
     for (const row of stockRows) {
-      const existing = (context.variantsByProduct.get(row.productId) || []).find(variant => catalogText(variant.size) === catalogText(row.size));
-      if (existing) row.variantId = existing.id;
-      else missingVariants.push({ product_id: row.productId, size: row.size });
+      if (!equivalentVariants(row).length) missingVariants.push({ product_id: row.productId, size: row.size });
     }
     for (const group of chunks(missingVariants, 200)) {
       if (!group.length) continue;
@@ -1070,19 +1016,21 @@
     }
     if (missingVariants.length) await loadVariantsFor(context, [...new Set(stockRows.map(row => row.productId))], { refresh: true });
     for (const row of stockRows) {
-      if (!row.variantId) row.variantId = (context.variantsByProduct.get(row.productId) || []).find(variant => catalogText(variant.size) === catalogText(row.size))?.id;
-      if (!row.variantId) throw new Error(`No se pudo preparar la talla ${row.size} de ${row.estilo} ${row.color}.`);
+      row.variantIds = equivalentVariants(row).map(variant => variant.id);
+      if (!row.variantIds.length) throw new Error(`No se pudo preparar la talla ${row.size} de ${row.estilo} ${row.color}.`);
     }
     const current = new Map();
-    for (const group of chunks(stockRows.map(row => row.variantId), 200)) {
+    for (const group of chunks([...new Set(stockRows.flatMap(row => row.variantIds))], 200)) {
       if (!group.length) continue;
       const { data, error } = await client.from('inventory_levels').select('variant_id,quantity').eq('branch_id', branch.id).in('variant_id', group);
       if (error) throw error;
       for (const row of data || []) current.set(row.variant_id, Number(row.quantity || 0));
     }
     const levels = [], movements = [], protectedRows = [], unchangedRows = [];
+    let appliedRows = 0;
     for (const row of stockRows) {
-      const previous = current.get(row.variantId) || 0, next = mode === 'add' ? previous + row.cantidad : row.cantidad;
+      const previous = row.variantIds.reduce((sum, id) => sum + (current.get(id) || 0), 0);
+      const next = mode === 'add' ? previous + row.cantidad : row.cantidad;
       if (isJuarez && next < previous) {
         protectedRows.push({ ...row, previous, next, reason: `JUÁREZ no baja: la talla ${row.size} tiene ${previous} y no se deja en ${next}.` });
         continue;
@@ -1092,10 +1040,19 @@
         continue;
       }
       const operation = isJuarez || mode === 'add' ? 'add' : 'set';
-      const movementQuantity = operation === 'add' ? next - previous : row.cantidad;
       const event = operation === 'add' ? 'StockIncreased' : 'StockSet';
-      levels.push({ branch_id: branch.id, variant_id: row.variantId, quantity: next, updated_by: user.id });
-      movements.push({ organization_id: context.organization.id, branch_id: branch.id, variant_id: row.variantId, operation, previous_quantity: previous, quantity: movementQuantity, new_quantity: next, reason: `${event} · Carga por sucursal · ${sourceName}`, import_key: `branch-stock:${crypto.randomUUID()}`, created_by: user.id });
+      appliedRows++;
+      let remaining = next - previous;
+      for (const variantId of row.variantIds) {
+        const before = current.get(variantId) || 0;
+        const delta = Math.max(-before, remaining);
+        if (!delta) continue;
+        const after = before + delta;
+        levels.push({ branch_id: branch.id, variant_id: variantId, quantity: after, updated_by: user.id });
+        movements.push({ organization_id: context.organization.id, branch_id: branch.id, variant_id: variantId, operation, previous_quantity: before, quantity: operation === 'add' ? delta : after, new_quantity: after, reason: `${event} · Carga por sucursal · ${sourceName}`, import_key: `branch-stock:${crypto.randomUUID()}`, created_by: user.id });
+        remaining -= delta;
+        if (!remaining) break;
+      }
     }
     for (const group of chunks(levels, 200)) {
       const { error } = await client.from('inventory_levels').upsert(group, { onConflict: 'branch_id,variant_id' });
@@ -1109,7 +1066,7 @@
     return {
       branch,
       event: isJuarez || mode === 'add' ? 'StockIncreased' : 'StockSet',
-      appliedRows: levels.length,
+      appliedRows,
       appliedPairs: movements.reduce((sum, movement) => sum + Math.abs(Number(movement.new_quantity || 0) - Number(movement.previous_quantity || 0)), 0),
       createdProducts,
       protectedRows,
@@ -1172,176 +1129,52 @@
     }));
   }
 
-  function scheduleFlush() {
-    clearTimeout(flushTimer);
-    flushTimer = setTimeout(() => flushQueue().catch(error => setCloudStatus(`Pendiente de sincronizar: ${cloudErrorMessage(error)}`, 'warn')), 700);
-  }
-
-  function recordMutation(change) {
-    const queue = loadQueue();
-    for (const item of change.upserts || []) {
-      const key = recordKey(item);
-      queue.upserts[key] = item;
-      delete queue.deletes[key];
-    }
-    for (const item of change.deletes || []) {
-      const key = recordKey(item);
-      queue.deletes[key] = true;
-      delete queue.upserts[key];
-    }
-    saveQueue(queue);
-    if (user) scheduleFlush();
-    else setCloudStatus('Cambios guardados localmente; inicia sesión para subirlos.', 'muted');
-  }
-
-  function recordImageMutation(change) {
-    const queue = loadQueue();
-    if (change.type === 'clear') {
-      queue.imageClear = true;
-      queue.images = {};
-    } else {
-      queue.images[change.name] = change.type;
-    }
-    saveQueue(queue);
-    if (user) scheduleFlush();
-  }
-
-  function recordCatalogMutation(change) {
-    const queue = loadQueue(), estilo = catalogText(change?.estilo), color = catalogText(change?.color);
-    if (!estilo) return;
-    const key = change.type === 'price' ? `price:${estilo}|${catalogCorrida(change.corrida)}` : `image:${estilo}|${color}`;
-    queue.catalog[key] = { ...change, estilo, color, corrida: catalogCorrida(change.corrida) };
-    saveQueue(queue);
-    if (user) scheduleFlush();
-    else setCloudStatus('Cambios guardados localmente; inicia sesión para relacionarlos con el catálogo.', 'muted');
-  }
-
-  async function applyCatalogMutation(change) {
-    if (change.type === 'price') {
-      let corrida = change.corrida;
-      if (!catalogCorrida(corrida) && change.color) {
-    const context = await loadBranchStockContext();
-        const ofStyle = await queryProductsByEstilo(context, change.estilo, 200);
-        const hit = ofStyle.find(item => colorsMatch(item.color, change.color) || catalogText(item.color) === catalogText(change.color));
-        corrida = hit?.corrida || '';
+  async function recordCaptures(rows) {
+    const owner = user?.id || localStorage.getItem(OWNER_KEY);
+    if (!owner) throw new Error('Inicia sesión en este dispositivo antes de capturar.');
+    const key = `${QUEUE_KEY}${owner}:${crypto.randomUUID()}`;
+    localStorage.setItem(key, JSON.stringify(rows.map(row => ({ row, id: crypto.randomUUID() }))));
+    if (user && navigator.onLine !== false) {
+      try {
+        if (flushPromise) await flushPromise.catch(() => {});
+        await flushQueue();
+      } catch (error) {
+        setCloudStatus(`Capturas pendientes de sincronizar: ${cloudErrorMessage(error)}`, 'warn');
       }
-      return updateRelationalStylePrice(change.estilo, change.precio, corrida);
     }
-    const context = await loadBranchStockContext();
-    await queryProductsByEstilo(context, change.estilo, 200);
-    let product = context.products.find(item => productLookupKey(item) === productLookupKey(change));
-    if (!product && change.action !== 'delete') {
-      const created = await syncCaptureToCatalog({ estilo: change.estilo, color: change.color, talla: '', cantidad: 0 });
-      product = created?.product;
-    }
-    if (!product) return { updated: 0 };
-    if (change.action === 'delete') return removeRelationalProductImage(change);
-    const name = catalogImageName(change) || change.name, blob = await store.getProductImage(name);
-    if (!blob) return { updated: 0 };
-    return uploadRelationalProductImage({ productId: product.id, blob });
+    return { pending: localStorage.getItem(key) ? rows.length : 0 };
   }
 
-  async function upsertRecords(records) {
-    for (const group of chunks(records, 250)) {
-      if (!group.length) continue;
-      const { error } = await client.from('inventory_items').upsert(group.map(toRow), { onConflict: 'user_id,item_key' });
-      if (error) throw error;
-    }
-  }
-
-  async function deleteKeys(keys) {
-    for (const group of chunks(keys, 250)) {
-      if (!group.length) continue;
-      const { error } = await client.from('inventory_items').delete().eq('user_id', user.id).in('item_key', group);
-      if (error) throw error;
-    }
-  }
-
-  async function listRemoteImageNames() {
-    const names = [];
-    for (let offset = 0; ; offset += 100) {
-      const { data, error } = await client.storage.from(BUCKET).list(user.id, { limit: 100, offset, sortBy: { column: 'name', order: 'asc' } });
-      if (error) throw error;
-      names.push(...(data || []).filter(file => file.name && file.id).map(file => file.name));
-      if (!data || data.length < 100) break;
-    }
-    return names;
-  }
-
-  async function removeAllRemoteImages() {
-    const names = await listRemoteImageNames();
-    for (const group of chunks(names.map(name => `${user.id}/${name}`), 100)) {
-      const { error } = await client.storage.from(BUCKET).remove(group);
-      if (error) throw error;
-    }
-  }
-
-  async function flushQueue() {
-    if (!client || !user || syncing) return;
+  function flushQueue() {
+    if (!client || !user) return Promise.resolve();
+    if (flushPromise) return flushPromise;
+    const owner = user.id;
     syncing = true;
     updateAuthUi();
-    const snapshot = loadQueue();
-    try {
-      setCloudStatus('Sincronizando cambios con Supabase…');
-      await upsertRecords(Object.values(snapshot.upserts));
-      await deleteKeys(Object.keys(snapshot.deletes));
-      if (snapshot.imageClear) await removeAllRemoteImages();
-      for (const [name, action] of Object.entries(snapshot.images)) {
-        const path = `${user.id}/${name}`;
-        if (action === 'delete') {
-          const { error } = await client.storage.from(BUCKET).remove([path]);
-          if (error) throw error;
-        } else {
-          const blob = await store.getProductImage(name);
-          if (!blob) continue;
-          const { error } = await client.storage.from(BUCKET).upload(path, blob, { contentType: 'image/png', upsert: true, cacheControl: '3600' });
-          if (error) throw error;
-        }
+    flushPromise = (async () => {
+      let firstError;
+      for (const key of captureKeys(owner)) {
+        try {
+          const stored = localStorage.getItem(key);
+          if (!stored) continue;
+          for (const change of JSON.parse(stored)) {
+            if (user?.id !== owner) return;
+            await syncCaptureToCatalog(change.row, change.id);
+          }
+          localStorage.removeItem(key);
+        } catch (error) { firstError ||= error; }
       }
-      for (const change of Object.values(snapshot.catalog || {})) await applyCatalogMutation(change);
-      const latest = loadQueue();
-      for (const [key, value] of Object.entries(snapshot.upserts)) if (JSON.stringify(latest.upserts[key]) === JSON.stringify(value)) delete latest.upserts[key];
-      for (const key of Object.keys(snapshot.deletes)) if (latest.deletes[key]) delete latest.deletes[key];
-      for (const [name, action] of Object.entries(snapshot.images)) if (latest.images[name] === action) delete latest.images[name];
-      for (const [key, change] of Object.entries(snapshot.catalog || {})) if (JSON.stringify(latest.catalog[key]) === JSON.stringify(change)) delete latest.catalog[key];
-      if (snapshot.imageClear) latest.imageClear = false;
-      saveQueue(latest);
-      setCloudStatus('Cambios guardados en Supabase.', 'ok');
-    } finally {
+      if (firstError) throw firstError;
+      setCloudStatus('Capturas sincronizadas con el inventario relacional.', 'ok');
+    })().finally(() => {
       syncing = false;
+      flushPromise = null;
       updateAuthUi();
-    }
-  }
-
-  async function fetchRemoteRecords() {
-    const rows = [];
-    for (let from = 0; ; from += 1000) {
-      const { data, error } = await client.from('inventory_items')
-        .select('item_key,sucursal,estilo,marca,color,linea,talla,cantidad,material,precio,notas,saz_cargado,saz_cargado_at,origen,updated_at')
-        .eq('user_id', user.id).order('item_key').range(from, from + 999);
-      if (error) throw error;
-      rows.push(...(data || []));
-      if (!data || data.length < 1000) break;
-    }
-    return rows;
-  }
-
-  async function fetchSazStats() {
-    const { data, error } = await client.from('saz_registration_summary')
-      .select('registered_products,registered_variants,registered_pairs,last_registered_at')
-      .eq('branch_code', 'JUAREZ').maybeSingle();
-    if (error) {
-      const missing = String(error.code || '') === 'PGRST205' || /saz_registration_summary/i.test(String(error.message || ''));
-      if (missing) return;
-      throw error;
-    }
-    store.setSazStats({
-      registeredProducts: Number(data?.registered_products || 0),
-      registeredVariants: Number(data?.registered_variants || 0),
-      registeredPairs: Number(data?.registered_pairs || 0),
-      lastRegisteredAt: data?.last_registered_at || '',
     });
+    return flushPromise;
   }
+
+
 
   async function syncRelationalImages() {
     const context = await loadBranchStockContext(), localImages = await store.listProductImages();
@@ -1377,52 +1210,10 @@
     return { images: await store.listProductImages(), cloudComplete: true };
   }
 
-  async function syncImages() {
-    setCloudStatus('Sincronizando imágenes…');
-    const canonicalNames = await syncRelationalImages();
-    const localImages = await store.listProductImages();
-    const localNames = new Set(localImages.map(image => image.name));
-    const remoteNames = new Set(await listRemoteImageNames());
-    for (const image of localImages) {
-      if (remoteNames.has(image.name) && !canonicalNames.has(image.name)) continue;
-      const { error } = await client.storage.from(BUCKET).upload(`${user.id}/${image.name}`, image.blob, { contentType: 'image/png', upsert: canonicalNames.has(image.name), cacheControl: '3600' });
-      if (error && String(error.statusCode) !== '409') throw error;
-    }
-    for (const name of remoteNames) {
-      if (localNames.has(name)) continue;
-      const { data, error } = await client.storage.from(BUCKET).download(`${user.id}/${name}`);
-      if (error) throw error;
-      await store.putImageFromCloud(name, data);
-    }
-    await store.refreshImageIndicators();
-  }
 
   async function syncAll() {
     if (!user || syncing) return;
     await flushQueue();
-    syncing = true;
-    updateAuthUi();
-    try {
-      setCloudStatus('Comparando inventario local y Supabase…');
-      const remoteRows = await fetchRemoteRecords();
-      const remoteMap = new Map(remoteRows.map(row => [row.item_key, fromRow(row)]));
-      const local = store.getItems();
-      const localOnly = local.filter(item => !remoteMap.has(recordKey(item)));
-      await upsertRecords(localOnly);
-      for (const item of localOnly) remoteMap.set(recordKey(item), item);
-      store.replaceItemsFromCloud([...remoteMap.values()]);
-      try { await fetchSazStats(); }
-      catch (error) { console.warn('SAZ stats', error); }
-      try { await syncImages(); }
-      catch (error) {
-        setCloudStatus(`Inventario sincronizado (${remoteMap.size} artículos). Las imágenes no se completaron: ${cloudErrorMessage(error)}`, 'warn');
-        return;
-      }
-      setCloudStatus(`Sincronizado: ${remoteMap.size} artículos protegidos en Supabase.`, 'ok');
-    } finally {
-      syncing = false;
-      updateAuthUi();
-    }
   }
 
   async function handleSession(session) {
@@ -1433,9 +1224,7 @@
       const previousOwner = localStorage.getItem(OWNER_KEY);
       if (previousOwner && previousOwner !== user.id) {
         store.clearSazPrepCatalog?.();
-        store.replaceItemsFromCloud([]);
         await store.clearImagesFromCloud();
-        saveQueue(emptyQueue());
       }
       localStorage.setItem(OWNER_KEY, user.id);
       setCloudStatus(`Sesión iniciada como ${user.email}.`);
@@ -1683,7 +1472,7 @@
   function classifySazReconcile(context, parsed) {
     const missing = [], scanner = [], preloaded = [];
     for (const item of parsed.products || []) {
-      const candidates = candidatesFor(context, item);
+      const candidates = candidatesFor(context, item).filter(product => product.activo !== false);
       const registered = productLookupKeys(item).map(key => context.registryRowsByKey?.get(key)).find(Boolean);
       const registeredId = registered?.product_id;
       const canonical = candidates.find(product => product.id === registeredId) || pickCanonicalProduct(candidates);
@@ -1711,22 +1500,48 @@
       levels.push(...(data || []));
     }
     const levelByVariant = new Map(levels.map(row => [row.variant_id, Number(row.quantity || 0)]));
-    const variantByKey = new Map(), totalByProduct = new Map();
+    const variantByKey = new Map(), quantitiesByProduct = new Map();
     for (const variant of variants) {
-      const key = `${variant.product_id}|${window.ClaremmSazReconcile.sizeKey(variant.size)}`;
+      const size = sizeKeyOf(variant.size), key = `${variant.product_id}|${size}`;
       const current = variantByKey.get(key);
       if (!current || (levelByVariant.get(variant.id) || 0) > (levelByVariant.get(current.id) || 0)) variantByKey.set(key, variant);
-      totalByProduct.set(variant.product_id, (totalByProduct.get(variant.product_id) || 0) + (levelByVariant.get(variant.id) || 0));
+      if (!quantitiesByProduct.has(variant.product_id)) quantitiesByProduct.set(variant.product_id, new Map());
+      const quantities = quantitiesByProduct.get(variant.product_id);
+      quantities.set(size, (quantities.get(size) || 0) + (levelByVariant.get(variant.id) || 0));
     }
-    return { variants, levelByVariant, variantByKey, totalByProduct };
+    return { variantByKey, quantitiesByProduct };
   }
 
-  function flattenedSazRows(rows) {
-    return rows.flatMap(row => Object.entries(row.item.quantities || {}).map(([talla, cantidad]) => ({
+  function sazFichaStock(snapshot, row) {
+    const quantities = new Map();
+    for (const product of row.candidates) {
+      for (const [size, count] of snapshot.quantitiesByProduct.get(product.id) || []) {
+        quantities.set(size, (quantities.get(size) || 0) + count);
+      }
+    }
+    return quantities;
+  }
+
+  function sazStockStatus(snapshot, row, preloaded) {
+    const hasGap = [...sazFichaStock(snapshot, row)].some(([size, count]) => count > (row.item.quantities[size] || 0));
+    return preloaded ? (hasGap ? 'PRECARGADO SIN STOCK' : 'YA PRECARGADO EN SAZ')
+      : (hasGap ? 'PENDIENTE EN SAZ' : 'REGISTRADO EN SAZ');
+  }
+
+  function sazRowsToRaise(rows, stock) {
+    return rows.flatMap(row => {
+      const current = sazFichaStock(stock, row);
+      const canonical = stock.quantitiesByProduct.get(row.canonical.id);
+      return Object.entries(row.item.quantities || {}).flatMap(([talla, quantity]) => {
+        const missing = quantity - (current.get(talla) || 0);
+        if (missing <= 0) return [];
+        return [{
       productId: row.canonical.id, estilo: row.canonical.estilo, color: row.canonical.color,
-      talla, cantidad: Number(cantidad), marca: row.canonical.marca || row.item.marca || '',
+      talla, cantidad: (canonical?.get(talla) || 0) + missing, added: missing, marca: row.canonical.marca || row.item.marca || '',
       linea: row.canonical.linea || row.item.linea || '', material: row.canonical.acabado || row.item.acabado || '',
-    })));
+        }];
+      });
+    });
   }
 
   async function prepareSazReconciliation(parsed, onProgress) {
@@ -1738,20 +1553,19 @@
     await warmSazReconcileCatalog(context, parsed, onProgress);
     const classified = classifySazReconcile(context, parsed);
     const matched = [...classified.scanner, ...classified.preloaded];
-    const stock = await stockSnapshotForProducts(juarez.id, matched.map(row => row.canonical.id));
-    const preloadedWithoutStock = classified.preloaded.filter(row => !(stock.totalByProduct.get(row.canonical.id) > 0));
-    let stockRowsToRaise = 0, pairsToAdd = 0;
-    for (const row of [...classified.scanner, ...preloadedWithoutStock]) {
-      for (const [size, raw] of Object.entries(row.item.quantities || {})) {
-        const variant = stock.variantByKey.get(`${row.canonical.id}|${size}`), previous = variant ? (stock.levelByVariant.get(variant.id) || 0) : 0, quantity = Number(raw || 0);
-        if (previous < quantity) { stockRowsToRaise += 1; pairsToAdd += quantity - previous; }
-      }
-    }
+    const stock = await stockSnapshotForProducts(juarez.id, matched.flatMap(row => row.candidates.map(product => product.id)));
+    const preloadedWithoutStock = classified.preloaded.filter(row => ![...sazFichaStock(stock, row).values()].some(count => count > 0));
+    const rowsToRaise = sazRowsToRaise([...classified.scanner, ...preloadedWithoutStock], stock);
+    let stockRowsToRaise = rowsToRaise.length, pairsToAdd = rowsToRaise.reduce((sum, row) => sum + row.added, 0);
     stockRowsToRaise += classified.missing.reduce((sum, row) => sum + Object.keys(row.quantities || {}).length, 0);
     pairsToAdd += classified.missing.reduce((sum, row) => sum + Number(row.pairs || 0), 0);
-    const statusRowsToUpdate = classified.scanner.flatMap(row => row.candidates).filter(product => product.activo !== false && product.estado !== 'REGISTRADO EN SAZ').length;
+    const preloaded = new Set(classified.preloaded);
+    const statusRowsToUpdate = matched.reduce((sum, row) => {
+      const state = sazStockStatus(stock, row, preloaded.has(row));
+      return sum + row.candidates.filter(product => product.estado !== state).length;
+    }, 0);
     return {
-      context, juarez, classified, stock, preloadedWithoutStock,
+      context, juarez, classified, rowsToRaise,
       summary: {
         fileName: parsed.fileName, sourceRows: parsed.sourceRows, validProducts: parsed.products.length,
         variants: parsed.variants, pairs: parsed.pairs, blockedRows: parsed.blockedRows || [],
@@ -1795,12 +1609,7 @@
       prepared = await prepareSazReconciliation(parsed, onProgress);
       if (prepared.classified.missing.length) throw new Error(`No se pudieron crear ${prepared.classified.missing.length} ficha(s).`);
     }
-    const now = new Date().toISOString(), { context, juarez, classified, preloadedWithoutStock } = prepared;
-    const statusIds = [...new Set(classified.scanner.flatMap(row => row.candidates.filter(product => product.activo !== false).map(product => product.id)))];
-    for (const group of chunks(statusIds, 80)) {
-      const { error } = await client.from('products').update({ estado: 'REGISTRADO EN SAZ' }).eq('organization_id', context.organization.id).in('id', group);
-      if (error) throw error;
-    }
+    const now = new Date().toISOString(), { context, juarez, classified, rowsToRaise } = prepared;
     onProgress?.('Actualizando registro SAZ…');
     const registryAfter = new Map();
     const registryBodies = classified.scanner.map(row => {
@@ -1825,15 +1634,17 @@
       if (!registered) throw new Error(`No se pudo registrar ${row.canonical.estilo} · ${row.canonical.color} en SAZ.`);
       registryAfter.set(row.item.key, registered);
     }
-    const targetRows = [...classified.scanner, ...preloadedWithoutStock];
-    const stockResult = await applyBranchStock({ branchId: juarez.id, rows: flattenedSazRows(targetRows), mode: 'set', sourceName: parsed.fileName });
-    const productIds = classified.scanner.map(row => row.canonical.id);
+    const stockResult = await applyBranchStock({ branchId: juarez.id, rows: rowsToRaise, mode: 'set', sourceName: parsed.fileName });
+    const matched = [...classified.scanner, ...classified.preloaded];
+    const preloaded = new Set(classified.preloaded);
+    const productIds = matched.flatMap(row => row.candidates.map(product => product.id));
     const afterStock = await stockSnapshotForProducts(juarez.id, productIds);
     const projectionRows = [], desiredSizes = new Set();
     for (const row of classified.scanner) {
       const registered = registryAfter.get(row.item.key);
       for (const [size, quantity] of Object.entries(row.item.quantities || {})) {
-        const variant = afterStock.variantByKey.get(`${row.canonical.id}|${size}`);
+        const variant = afterStock.variantByKey.get(`${row.canonical.id}|${size}`)
+          || row.candidates.map(product => afterStock.variantByKey.get(`${product.id}|${size}`)).find(Boolean);
         if (!variant) continue;
         desiredSizes.add(`${registered.id}|${size}`);
         projectionRows.push({ organization_id: context.organization.id, branch_id: juarez.id, registry_id: registered.id, variant_id: variant.id, size, quantity: Number(quantity), source_files: [parsed.fileName], registered_at: now });
@@ -1853,15 +1664,18 @@
         if (error) throw error;
       }
     }
-    const scannerFlat = flattenedSazRows(classified.scanner);
-    const wanted = new Set(scannerFlat.map(row => `${window.ClaremmSazReconcile.compactKey(row.estilo, row.color)}|${window.ClaremmSazReconcile.sizeKey(row.talla)}`));
-    const remoteFlat = await pagedQuery(() => client.from('inventory_items').select('user_id,item_key,sucursal,estilo,color,talla,saz_cargado').eq('user_id', user.id));
-    const pending = remoteFlat.filter(row => wanted.has(`${window.ClaremmSazReconcile.compactKey(row.estilo, row.color)}|${window.ClaremmSazReconcile.sizeKey(row.talla)}`) && !row.saz_cargado);
-    for (const group of chunks(pending, 16)) await Promise.all(group.map(async row => {
-      const { error } = await client.from('inventory_items').update({ saz_cargado: true, saz_cargado_at: now }).eq('user_id', row.user_id).eq('item_key', row.item_key);
-      if (error) throw error;
-    }));
-    store.markSazLoadedFromReconcile?.(scannerFlat, now);
+    const statusGroups = new Map();
+    for (const row of matched) {
+      const estado = sazStockStatus(afterStock, row, preloaded.has(row));
+      if (!statusGroups.has(estado)) statusGroups.set(estado, new Set());
+      for (const product of row.candidates) if (product.estado !== estado) statusGroups.get(estado).add(product.id);
+    }
+    for (const [estado, ids] of statusGroups) {
+      for (const group of chunks([...ids], 80)) {
+        const { error } = await client.from('products').update({ estado }).eq('organization_id', context.organization.id).in('id', group);
+        if (error) throw error;
+      }
+    }
     const { error: batchError } = await client.from('saz_registration_batches').upsert({
       organization_id: context.organization.id, branch_id: juarez.id, source_file: parsed.fileName, registered_on: now.slice(0, 10),
       product_count: classified.scanner.length, variant_count: projectionRows.length,
@@ -1877,12 +1691,12 @@
     });
     if (runError) throw runError;
     branchStockContext = null;
-    await fetchSazStats();
     try { await store.refreshSazPrepCatalog?.(); } catch {}
-    return { completed: true, productsCreated, scannerProducts: classified.scanner.length, preloadedProducts: classified.preloaded.length, stockRowsRaised: stockResult.appliedRows, pairsAdded: stockResult.appliedPairs, protectedRows: stockResult.protectedRows, legacyRowsMarked: pending.length, blockedRows: parsed.blockedRows || [] };
+    return { completed: true, productsCreated, scannerProducts: classified.scanner.length, preloadedProducts: classified.preloaded.length, stockRowsRaised: stockResult.appliedRows, pairsAdded: stockResult.appliedPairs, protectedRows: stockResult.protectedRows, blockedRows: parsed.blockedRows || [] };
   }
 
-  window.claremmCloud = { recordMutation, recordImageMutation, recordCatalogMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, hydrateRelationalImages, uploadRelationalProductImage, updateRelationalStylePrice, updateRelationalProductField, duplicateRelationalProduct, syncCaptureToCatalog, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock, listRecentBranchStock, listCatalogReview, reviewCatalogProduct, listSazPrepGaps, previewSazReconciliation, applySazReconciliation };
+  window.claremmCloud = { recordCaptures, syncAll, listRelationalStock, captureBranches: () => branchStockContext?.branches || [], loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, hydrateRelationalImages, uploadRelationalProductImage, updateRelationalStylePrice, updateRelationalProductField, duplicateRelationalProduct, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock, listRecentBranchStock, listCatalogReview, reviewCatalogProduct, listSazPrepGaps, previewSazReconciliation, applySazReconciliation };
+  window.addEventListener('online', () => syncAll().then(() => store.refreshSazPrepCatalog?.()).catch(error => setCloudStatus(cloudErrorMessage(error), 'warn')));
 
   byId('cloudLogin').onclick = async () => {
     if (!client) return alert('Supabase aún no está configurado.');

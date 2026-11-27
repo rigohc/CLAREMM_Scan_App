@@ -276,25 +276,16 @@
     <div class="headerInner">
       <div class="headerTop">
         <div class="headerText">
-          <div class="brandLine"><h1>CLAREMM Scan <span>v20</span></h1><div class="tagline">Cámara · Lectura con IA · Revisión · Excel</div></div>
+          <div class="brandLine"><h1>CLAREMM Scan <span>v51</span></h1><div class="tagline">Cámara · Lectura con IA · Revisión · Excel</div></div>
           <small id="installHelp" hidden></small>
         </div>
         <div class="headerActions"><button id="catalogReviewOpen" type="button" class="secondary">Revisión pendiente</button><button id="branchStockOpen" type="button" class="secondary">Carga por sucursal</button><button id="installApp" type="button" class="secondary" hidden>Instalar app</button></div>
-      </div>
-      <div class="metrics" aria-label="Resumen del inventario">
-        <div class="metric"><span>Registros</span><strong id="statRecords">0</strong></div>
-        <div class="metric"><span>Pares</span><strong id="statPairs">0</strong></div>
-        <div class="metric"><span>Estilos</span><strong id="statStyles">0</strong></div>
-        <div class="metric"><span>Valor</span><strong id="statValue">$0.00</strong></div>
-        <div class="metric"><span>Pares en SAZ</span><strong id="statSazPairs">0</strong></div>
-        <div class="metric"><span>Pares pendientes</span><strong id="statSazPending">0</strong></div>
-        <div class="metric"><span>Avance SAZ</span><strong id="statSazProgress">0.0%</strong></div>
       </div>
     </div>
   </header>
   <main>
     <section class="card" id="cloudCard">
-      <div class="cardHead"><h2>Respaldo y sincronización</h2><small>Nube privada</small></div>
+      <div class="cardHead"><h2>Inventario y sincronización</h2><small>Nube privada</small></div>
       <div id="cloudSignedOut" class="cloudAuth">
         <label for="cloudEmail">Correo electrónico<input id="cloudEmail" type="email" autocomplete="email" placeholder="nombre@empresa.com"></label>
         <label for="cloudPassword">Contraseña<input id="cloudPassword" type="password" minlength="6" autocomplete="current-password" placeholder="6 caracteres o más"></label>
@@ -304,7 +295,7 @@
       </div>
       <div id="cloudSignedIn" class="cloudSession" hidden><strong id="cloudUser"></strong><button id="cloudSync" type="button">Sincronizar ahora</button><button id="cloudLogout" type="button" class="secondary">Cerrar sesión</button></div>
       <p id="cloudStatus" class="muted" aria-live="polite">Comprobando Supabase…</p>
-      <small>El inventario queda en este dispositivo y se respalda en Supabase cuando inicias sesión.</small>
+      <small>Supabase guarda la existencia oficial. Las capturas sin conexión se envían al recuperar la red.</small>
     </section>
     <div class="workspace">
       <section class="card scanPanel" id="scanCard">
@@ -363,7 +354,7 @@
       </section>
       <section class="card inventoryPanel" id="inventoryCard">
         <div class="cardHead"><h2>4. Inventario <span id="count">(0)</span></h2><small>JUÁREZ · mismas fichas editables que al buscar por estilo</small></div>
-        <div class="inventoryPrimaryActions"><button id="importInventory" type="button">Importar inventario</button><button id="sazReconcileOpen" type="button" class="secondary">Conciliar existencias SAZ</button><button id="exportImages" type="button" class="secondary">Exportar imágenes</button><small id="imageExportInfo">Importa JSON, CSV o Excel. “Conciliar existencias SAZ” cruza el reporte diario con Supabase sin bajar JUÁREZ.</small><input id="importFile" type="file" accept=".json,.csv,.xlsx,.xls,application/json,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" hidden><input id="sazReconcileFile" type="file" accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" hidden></div>
+        <div class="inventoryPrimaryActions"><button id="importInventory" type="button">Cargar por sucursal</button><button id="sazReconcileOpen" type="button" class="secondary">Conciliar existencias SAZ</button><button id="exportImages" type="button" class="secondary">Exportar imágenes</button><small id="imageExportInfo">Exporta existencia actual o prepara fichas para SAZ. La conciliación usa un reporte de SAZ como referencia.</small><input id="sazReconcileFile" type="file" accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" hidden></div>
         <div class="inventoryFilters">
           <div class="inventorySearchRow">
             <label for="inventorySearch">Buscar inventario<input id="inventorySearch" type="search" autocomplete="off" enterkeyhint="search" placeholder="Estilo, sucursal, marca, color, talla…"></label>
@@ -375,36 +366,16 @@
             <input id="inventorySearchGalleryFile" type="file" accept="image/*" class="fileCapture">
           </div>
           <label for="inventorySearchScope">Buscar en<select id="inventorySearchScope"><option value="all">Todos los campos</option><option value="style">Solo estilo</option></select></label>
-          <label for="inventorySazFilter">Estado SAZ<select id="inventorySazFilter"><option value="prep" selected>Faltantes SAZ</option><option value="all">Todos</option><option value="pending">Pendientes</option><option value="loaded">Cargados</option></select></label>
+          <label for="inventorySazFilter">Estado SAZ<select id="inventorySazFilter"><option value="prep" selected>Fichas por preparar</option><option value="all">Todos</option><option value="pending">Pendientes</option><option value="loaded">Cargados</option></select></label>
         </div>
         <p id="inventoryResultInfo" class="inventoryResultInfo" aria-live="polite">Mostrando todos los registros.</p>
         <section id="relationalSearchPanel" class="relationalResults" hidden aria-labelledby="relationalSearchTitle"><div class="relationalResultsHead"><div><h3 id="relationalSearchTitle">Inventario relacional</h3><p id="relationalSearchInfo">Buscando en catálogo y existencias por sucursal…</p></div><small>Supabase</small></div><div id="stylePriceReview" class="stylePriceReview" hidden><strong>Precio leído de la foto</strong><p id="stylePriceReviewInfo">Revisa el precio antes de aplicarlo a los colores del mismo estilo y la misma corrida.</p><label for="stylePriceProposal">Precio para estilo y corrida<input id="stylePriceProposal" inputmode="decimal" autocomplete="off"></label><div class="stylePriceReviewActions"><button type="button" id="stylePriceConfirm">Confirmar y aplicar</button><button type="button" class="secondary" id="stylePriceCancel">Descartar</button></div></div><div id="productDuplicate" class="productDuplicate" hidden><strong>Duplicar ficha</strong><p id="productDuplicateInfo">Mismo estilo, otro color. Ajusta corrida, precio, talla y foto.</p><div class="productDuplicateForm"><label for="productDuplicateEstilo">Estilo<input id="productDuplicateEstilo" readonly></label><label for="productDuplicateColor">Color nuevo<input id="productDuplicateColor" list="sazColorOptions" autocomplete="off"></label><label for="productDuplicateCorrida">Corrida<input id="productDuplicateCorrida" list="sazCorridaOptions" autocomplete="off"></label><label for="productDuplicatePrecio">Precio<input id="productDuplicatePrecio" inputmode="decimal" autocomplete="off"></label><label for="productDuplicateTalla">Talla<input id="productDuplicateTalla" inputmode="decimal" autocomplete="off"></label><label for="productDuplicateCantidad">Cantidad<input id="productDuplicateCantidad" inputmode="numeric" value="1" autocomplete="off"></label><div class="productDuplicatePhoto"><button type="button" id="productDuplicateCamera">Tomar foto</button><button type="button" class="secondary" id="productDuplicateGallery">Elegir imagen</button><small id="productDuplicatePhotoInfo">Sin foto. La imagen es de este color, no se copia.</small><input id="productDuplicateCameraFile" type="file" accept="image/*" capture="environment" class="fileCapture"><input id="productDuplicateGalleryFile" type="file" accept="image/*" hidden></div><div class="productDuplicateActions"><button type="button" id="productDuplicateSave">Guardar ficha</button><button type="button" class="secondary" id="productDuplicateCancel">Cancelar</button></div></div></div><div id="relationalSearchResults" class="relationalResultGrid"></div><input id="relationalProductImageCamera" type="file" accept="image/*" capture="environment" class="fileCapture"><input id="relationalProductImageGallery" type="file" accept="image/*" class="fileCapture"></section>
-        <details class="exportMenu"><summary>Exportar datos y respaldo</summary><div class="exportActions"><button id="xlsx">Excel (.xlsx)</button><button id="xlsxSazGaps" type="button" class="secondary">Excel faltantes SAZ</button><button id="csv" class="secondary">CSV</button><button id="backup" class="secondary">Respaldo JSON</button><button id="clear" class="danger">Borrar todo</button></div></details>
+        <details class="exportMenu"><summary>Exportar datos y respaldo</summary><div class="exportActions"><button id="xlsx">Excel existencia actual</button><button id="xlsxSazGaps" type="button" class="secondary">Excel fichas por preparar</button><button id="csv" class="secondary">CSV</button><button id="backup" class="secondary">Respaldo JSON</button></div></details>
         <div class="tablewrap"><table><thead id="inventoryTableHead"><tr><th>Estilo</th><th>Color</th><th>Marca</th><th>Corrida</th><th>Precio</th><th>Pares</th><th>Imagen</th><th>Falta</th><th>Estado SAZ</th><th>Acciones</th></tr></thead><tbody id="rows"></tbody></table></div>
         <nav id="inventoryPagination" class="inventoryPagination" aria-label="Páginas del inventario" hidden><button id="pagePrev" type="button" class="secondary">Anterior</button><div id="pageNumbers" class="pageNumbers"></div><button id="pageNext" type="button" class="secondary">Siguiente</button></nav>
       </section>
     </div>
   </main>
-  <dialog id="importDialog" aria-labelledby="importTitle">
-    <div class="importDialogBody">
-      <div class="cardHead"><div><h2 id="importTitle">Revisar importación</h2><small id="importFileName"></small></div><button id="importClose" type="button" class="secondary" aria-label="Cerrar">Cerrar</button></div>
-      <p id="importSummary">Revisa el archivo antes de modificar el inventario.</p>
-      <div class="importStats" aria-label="Resumen del archivo">
-        <div class="importStat"><span>Registros</span><strong id="importRecords">0</strong></div>
-        <div class="importStat"><span>Pares</span><strong id="importPairs">0</strong></div>
-        <div class="importStat"><span>Valor</span><strong id="importValue">$0.00</strong></div>
-        <div class="importStat"><span>Filas omitidas</span><strong id="importInvalid">0</strong></div>
-      </div>
-      <fieldset class="importMode">
-        <legend>¿Cómo quieres cargarlo?</legend>
-        <label class="importOption"><input type="radio" name="importMode" value="replace" checked><span>Reemplazar todo<small>Descarga automáticamente un respaldo del inventario actual y luego coloca únicamente los registros del archivo.</small></span></label>
-        <label class="importOption"><input type="radio" name="importMode" value="merge"><span>Sumar al inventario<small>Agrega registros nuevos y acumula cantidades cuando coincidan sucursal, estilo, color y talla.</small></span></label>
-      </fieldset>
-      <details id="importErrors" class="importErrors" hidden><summary>Ver filas que no se pueden importar</summary><ul id="importErrorList"></ul></details>
-      <small>Columnas compatibles: Sucursal, Estilo, Marca, Color, Tipo de línea, Talla, Cantidad, Material, Precio, Notas, Cargado en SAZ, Fecha carga SAZ y Origen. Si falta Sucursal se usa la sucursal activa.</small>
-      <div class="importDialogActions"><button id="importCancel" type="button" class="secondary">Cancelar</button><button id="importConfirm" type="button">Reemplazar inventario</button></div>
-    </div>
-  </dialog>
   <dialog id="sazReconcileDialog" aria-labelledby="sazReconcileTitle">
     <div class="importDialogBody">
       <div class="cardHead"><div><h2 id="sazReconcileTitle">Conciliar existencias SAZ</h2><small id="sazReconcileFileName"></small></div><button id="sazReconcileClose" type="button" class="secondary">Cerrar</button></div>
@@ -500,19 +471,19 @@
     <button type="button" id="imagePreviewClose" class="secondary">Cerrar</button>
     <img id="imagePreviewFull" alt="Foto ampliada">
   </dialog>
-  <footer class="footLine">CLAREMM Scan v20 · Inventario local con respaldo privado en Supabase.</footer>
+  <footer class="footLine">CLAREMM Scan v51 · Inventario relacional en Supabase.</footer>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
   <script src="saz-catalog.js?v=49-busqueda-supabase"></script>
   <script src="inventory-search.js?v=49-busqueda-supabase"></script>
-  <script src="saz-prep-excel.js?v=49-busqueda-supabase"></script>
+  <script src="saz-prep-excel.js?v=51-relacional"></script>
   <script src="saz-reconcile.js?v=50-estados-saz"></script>
-  <script src="app.js?v=49-busqueda-supabase"></script>
-  <script src="supabase-sync.js?v=50-estados-saz"></script>
-  <script src="branch-stock.js?v=50-estados-saz"></script>
+  <script src="app.js?v=51-relacional"></script>
+  <script src="supabase-sync.js?v=51-relacional"></script>
+  <script src="branch-stock.js?v=51-relacional"></script>
   <script src="review-queue.js?v=49-busqueda-supabase"></script>
-  <script src="saz-reconcile-ui.js?v=49-busqueda-supabase"></script>
+  <script src="saz-reconcile-ui.js?v=51-relacional"></script>
 </body>
 </html>

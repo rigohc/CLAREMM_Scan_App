@@ -2,6 +2,7 @@
 
 const crypto = require('node:crypto');
 const core = require('../lib/branch-upload-core.js');
+const corridasCore = require('../lib/corridas-core.js');
 
 const ORG_NAME = 'CLAREMM';
 const PRODUCT_SELECT = 'id,estilo,color,marca,proveedor,temporada,sublinea,departamento,clasificacion,linea,corrida,acabado,precio,source_system,estado,imagen,descripcion,activo,created_at,organization_id';
@@ -81,6 +82,10 @@ const API_ROUTES = [
   'GET /api/v1/branches',
   'GET /api/v1/catalog/products?estilo=&color=&marca=',
   'GET /api/v1/catalog/products/{ficha_id}',
+  'GET /api/v1/catalog/corridas?linea=&estilo=',
+  'POST /api/v1/catalog/corridas',
+  'GET /api/v1/catalog/styles/{estilo}/corridas',
+  'POST /api/v1/catalog/styles/{estilo}/corridas',
   'GET /api/v1/branches/{JUAREZ|NUEVO_LEON}/inventory?estilo=&color=&talla=',
   'POST /api/v1/branches/{branch}/upload/preview',
   'POST /api/v1/branches/{branch}/upload/apply',
@@ -320,11 +325,15 @@ function requireMotivo(body, query) {
   return motivo;
 }
 
-function parseFichaId(value) {
+function parseUuid(value, field = 'ficha_id') {
   const id = core.text(value);
   if (!id) return '';
-  if (!UUID_RE.test(id)) throw fail(400, 'ficha_invalid', 'ficha_id debe ser el UUID de la ficha.');
+  if (!UUID_RE.test(id)) throw fail(400, `${field}_invalid`, `${field} debe ser un UUID.`);
   return id;
+}
+
+function parseFichaId(value) {
+  return parseUuid(value, 'ficha_id');
 }
 
 async function loadProductById(db, org, fichaId) {
@@ -402,6 +411,154 @@ async function auditRun(db, session, org, summary, counts = {}) {
 
 async function handleBranches(db, org) {
   return org.branches.map(row => ({ id: row.id, code: row.code, name: row.name }));
+}
+
+function styleKey(value) {
+  return core.compactEstilo(value).replace(/-/g, '');
+}
+
+async function corridaSources(db, org, corridaIds) {
+  const rows = [];
+  for (const group of chunks(corridaIds, READ_CHUNK)) {
+    if (!group.length) continue;
+    rows.push(...await db.allRows(`corrida_fuentes?select=corrida_id,sistema,external_id,etiqueta_original,evidencia&organization_id=eq.${org.organization.id}&corrida_id=in.(${group.join(',')})`));
+  }
+  const byCorrida = new Map();
+  for (const row of rows) {
+    if (!byCorrida.has(row.corrida_id)) byCorrida.set(row.corrida_id, []);
+    byCorrida.get(row.corrida_id).push({
+      sistema: row.sistema,
+      external_id: row.external_id,
+      etiqueta_original: row.etiqueta_original || '',
+      evidencia: row.evidencia || '',
+    });
+  }
+  return byCorrida;
+}
+
+async function handleCorridas(db, org, query = {}) {
+  const estilo = styleKey(query.estilo);
+  const linea = corridasCore.normalizeLine(query.linea);
+  let relations = [];
+  let corridaFilter = '';
+  if (estilo) {
+    relations = await db.allRows(`estilo_corridas?select=estilo_key,corrida_id,orden,fuente,notas&organization_id=eq.${org.organization.id}&estilo_key=eq.${encodeURIComponent(estilo)}&order=orden`);
+    const ids = [...new Set(relations.map(row => row.corrida_id).filter(Boolean))];
+    if (!ids.length) return { estilo, corridas: [] };
+    corridaFilter = `&id=in.(${ids.join(',')})`;
+  }
+  if (linea) corridaFilter += `&linea=eq.${encodeURIComponent(linea)}`;
+  if (query.activa != null && query.activa !== '') corridaFilter += `&activa=eq.${/^(1|true|si|sí|yes)$/i.test(String(query.activa).trim())}`;
+  const corridas = await db.allRows(`corridas?select=id,linea,nombre,talla_inicial,talla_final,incremento,activa,fuente,created_at,updated_at&organization_id=eq.${org.organization.id}${corridaFilter}&order=linea,talla_inicial,talla_final`);
+  const sources = await corridaSources(db, org, corridas.map(row => row.id));
+  const relationById = new Map(relations.map(row => [row.corrida_id, row]));
+  return {
+    ...(estilo ? { estilo } : {}),
+    corridas: corridas.map(row => ({
+      ...row,
+      talla_inicial: Number(row.talla_inicial),
+      talla_final: Number(row.talla_final),
+      incremento: Number(row.incremento),
+      fuentes: sources.get(row.id) || [],
+      ...(relationById.has(row.id) ? {
+        orden: Number(relationById.get(row.id).orden),
+        relacion_fuente: relationById.get(row.id).fuente,
+        notas: relationById.get(row.id).notas || '',
+      } : {}),
+    })),
+  };
+}
+
+async function handleCreateCorrida(db, session, org, body = {}) {
+  const motivo = requireMotivo(body, {});
+  const checked = corridasCore.validateCorrida(body);
+  if (!checked.valid) throw fail(400, 'corrida_invalid', 'La corrida no cumple el deber ser.', { detalles: checked.errors });
+  const payload = {
+    organization_id: org.organization.id,
+    linea: checked.linea,
+    nombre: checked.nombre,
+    talla_inicial: checked.inicial,
+    talla_final: checked.final,
+    incremento: checked.incremento,
+    activa: body.activa !== false,
+    fuente: core.text(body.fuente) || 'api-v1',
+    created_by: session.userId,
+  };
+  const saved = await db.rest('corridas?on_conflict=organization_id%2Clinea%2Ctalla_inicial%2Ctalla_final%2Cincremento', {
+    method: 'POST',
+    body: payload,
+    prefer: 'resolution=merge-duplicates,return=representation',
+  });
+  const corrida = saved?.[0];
+  if (!corrida?.id) throw fail(502, 'corrida_not_saved', 'Supabase no devolvió la corrida guardada.');
+  const externalId = core.text(body.saz_id || body.external_id);
+  if (externalId) {
+    await db.rest('corrida_fuentes?on_conflict=organization_id%2Csistema%2Cexternal_id', {
+      method: 'POST',
+      body: {
+        organization_id: org.organization.id,
+        corrida_id: corrida.id,
+        sistema: core.text(body.sistema) || 'SAZ',
+        external_id: externalId,
+        etiqueta_original: core.text(body.etiqueta_original) || checked.nombre,
+        evidencia: core.text(body.evidencia),
+      },
+      prefer: 'resolution=merge-duplicates,return=minimal',
+    });
+  }
+  await db.rest('corrida_events', {
+    method: 'POST',
+    body: {
+      organization_id: org.organization.id,
+      event_type: 'SizeRunDefined',
+      corrida_id: corrida.id,
+      motivo,
+      payload: { linea: checked.linea, inicial: checked.inicial, final: checked.final, incremento: checked.incremento, external_id: externalId || null },
+      created_by: session.userId,
+    },
+    prefer: 'return=minimal',
+  });
+  return { evento: 'SizeRunDefined', motivo, corrida: { ...corrida, fuentes: externalId ? [{ sistema: core.text(body.sistema) || 'SAZ', external_id: externalId }] : [] } };
+}
+
+async function handleAssignCorrida(db, session, org, estiloValue, body = {}) {
+  const motivo = requireMotivo(body, {});
+  const estilo = styleKey(estiloValue || body.estilo);
+  if (!estilo) throw fail(400, 'style_required', 'Indica el estilo que recibirá la corrida.');
+  const corridaId = parseUuid(body.corrida_id, 'corrida_id');
+  if (!corridaId) throw fail(400, 'corrida_id_required', 'Indica corrida_id.');
+  const rows = await db.rest(`corridas?select=id,linea,nombre,talla_inicial,talla_final,incremento,activa&id=eq.${corridaId}&organization_id=eq.${org.organization.id}`);
+  const corrida = rows?.[0];
+  if (!corrida) throw fail(404, 'corrida_not_found', 'No existe esa corrida en CLAREMM.');
+  if (corrida.activa === false) throw fail(409, 'corrida_inactive', 'La corrida está inactiva y no puede asignarse.');
+  const orden = Math.max(1, Math.trunc(Number(body.orden) || 1));
+  await db.rest('estilo_corridas?on_conflict=organization_id%2Cestilo_key%2Ccorrida_id', {
+    method: 'POST',
+    body: {
+      organization_id: org.organization.id,
+      estilo_key: estilo,
+      corrida_id: corrida.id,
+      orden,
+      fuente: core.text(body.fuente) || 'api-v1',
+      notas: core.text(body.notas),
+      created_by: session.userId,
+    },
+    prefer: 'resolution=merge-duplicates,return=minimal',
+  });
+  await db.rest('corrida_events', {
+    method: 'POST',
+    body: {
+      organization_id: org.organization.id,
+      event_type: 'StyleSizeRunAssigned',
+      corrida_id: corrida.id,
+      estilo_key: estilo,
+      motivo,
+      payload: { orden },
+      created_by: session.userId,
+    },
+    prefer: 'return=minimal',
+  });
+  return { evento: 'StyleSizeRunAssigned', motivo, estilo, orden, corrida };
 }
 
 async function handleCatalog(db, org, query) {
@@ -1087,6 +1244,10 @@ async function handler(req, res) {
     const org = await loadOrg(db);
     let result;
     if (req.method === 'GET' && parts.length === 1 && parts[0] === 'branches') result = await handleBranches(db, org);
+    else if (req.method === 'GET' && parts[0] === 'catalog' && parts[1] === 'corridas') result = await handleCorridas(db, org, query);
+    else if (req.method === 'POST' && parts[0] === 'catalog' && parts[1] === 'corridas') result = await handleCreateCorrida(db, session, org, body);
+    else if (req.method === 'GET' && parts[0] === 'catalog' && parts[1] === 'styles' && parts[3] === 'corridas') result = await handleCorridas(db, org, { ...query, estilo: parts[2] });
+    else if (req.method === 'POST' && parts[0] === 'catalog' && parts[1] === 'styles' && parts[3] === 'corridas') result = await handleAssignCorrida(db, session, org, parts[2], body);
     else if (req.method === 'GET' && parts[0] === 'catalog' && parts[1] === 'products' && parts[2]) result = await handleGetProduct(db, org, parts[2]);
     else if (req.method === 'GET' && parts[0] === 'catalog' && parts[1] === 'products' && !parts[2]) result = await handleCatalog(db, org, query);
     else if (req.method === 'GET' && parts[0] === 'branches' && parts[2] === 'inventory') result = await handleInventory(db, org, parts[1], query);
@@ -1112,4 +1273,7 @@ module.exports.handlePatchProduct = handlePatchProduct;
 module.exports.handleDeleteProduct = handleDeleteProduct;
 module.exports.handleSizes = handleSizes;
 module.exports.handleGetProduct = handleGetProduct;
+module.exports.handleCorridas = handleCorridas;
+module.exports.handleCreateCorrida = handleCreateCorrida;
+module.exports.handleAssignCorrida = handleAssignCorrida;
 module.exports.supabaseSession = supabaseSession;

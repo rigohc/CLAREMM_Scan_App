@@ -1,6 +1,6 @@
 # Catálogo de reglas CLAREMM
 
-Cualquier agente, ingeniero o módulo POS debe cumplirlas. El código que las implementa hoy: `claremmscan/inventory-search.js`, `claremmscan/lib/branch-upload-core.js`.
+Cualquier agente, ingeniero o módulo POS debe cumplirlas. El código que las implementa hoy: `claremmscan/inventory-search.js`, `claremmscan/lib/branch-upload-core.js`, `claremmscan/lib/corridas-core.js`.
 
 ## Identidad
 
@@ -14,6 +14,17 @@ Cualquier agente, ingeniero o módulo POS debe cumplirlas. El código que las im
 | R-ID-06 | Tipo por talla si no viene: &lt; 25 DAMA, ≥ 25 CABALLERO. No inferir si ya hay línea. |
 | R-ID-07 | Material por defecto SINTETICO. No pisar acabado existente. PIEL vs SINTETICO → revisión. |
 
+## Corridas
+
+| ID | Regla |
+|---|---|
+| R-CO-01 | La corrida canónica pertenece a una línea y se define por talla inicial, talla final e incremento. Los ids de SAZ son fuentes/alias, no la identidad de la regla. |
+| R-CO-02 | Se prefieren incrementos de `0.5`. Solo se admite `1.0` cuando el catálogo del negocio lo indique expresamente. Inicio, final y cada talla deben caer en la cuadrícula del incremento. |
+| R-CO-03 | Un estilo puede relacionarse con dos o más corridas sin duplicar la identidad estilo+color. La relación no mueve ni modifica existencias. |
+| R-CO-04 | Los extremos son inclusivos. Una frontera media como `21.5` puede pertenecer a dos corridas contiguas para no dejar ninguna talla fuera. |
+| R-CO-05 | Una relación propuesta debe cubrir todas las tallas observadas. Datos inválidos como `17.8`, `17.7` o un rango invertido se guardan como incidencia, nunca como corrida activa. |
+| R-CO-06 | Alta de corrida emite `SizeRunDefined`; relación estilo→corrida emite `StyleSizeRunAssigned`. Toda escritura por API exige motivo. |
+
 ## Existencias
 
 | ID | Regla |
@@ -21,13 +32,15 @@ Cualquier agente, ingeniero o módulo POS debe cumplirlas. El código que las im
 | R-ST-01 | JUÁREZ nunca baja. Ni SET, ni Excel, ni escáner, ni API. Solo suma o no toca. |
 | R-ST-02 | Carga masiva `upload/preview` y `upload/apply` rechaza JUÁREZ (409). Corrección de tallas `POST /api/v1/branches/JUAREZ/sizes` sí aplica, sin bajar existencias. |
 | R-ST-03 | Escáner y Excel en modo ADD no hacen SET hacia abajo en JUÁREZ. |
-| R-ST-04 | `inventory_items` (legado) no se borra ni se usa como destino de migraciones relacionales. |
+| R-ST-04 | `inventory_items` queda como archivo histórico. La PWA no lo lee ni escribe. Los registros y colas históricas tampoco se reproducen como entradas. |
 | R-ST-05 | Idempotencia de lote: `batch_id` + `import_key` `api-v1:{batchId}:{productId}:{size}`. |
 | R-ST-06 | Agrupar duplicados de la misma carga por estilo+color+talla antes de escribir. |
 | R-ST-07 | API de catálogo: actualizar ficha (`PATCH`) o baja lógica (`DELETE` → `activo=false`). Tallas `set`/`sum` en JUÁREZ y NUEVO_LEON; en JUÁREZ nunca `next < previous`. |
-| R-ST-08 | Conciliación SAZ: ficha del escáner → `REGISTRADO EN SAZ`; ficha ausente → alta `YA PRECARGADO EN SAZ`; una ficha precargada solo toma el Excel cuando su existencia total en JUÁREZ es cero. |
+| R-ST-08 | Conciliación SAZ: las fichas nuevas se crean como precargadas. Una precargada solo toma el Excel cuando su existencia total en JUÁREZ es cero. El estado cargado requiere que SAZ cubra cada talla del aplicativo. Los faltantes mantienen la ficha pendiente según su origen. |
 | R-ST-09 | La conciliación SAZ bloquea el estilo+color completo si una fila tiene existencia negativa o si su total no cuadra. Nunca modifica precio ni imagen. |
 | R-ST-10 | La auditoría del corte SAZ de JUÁREZ compara por estilo compacto + color + talla. Los faltantes se calculan por talla, sin compensarlos con excedentes de otras tallas. Si una ficha con pares faltantes estaba marcada como cargada, se corrige a `PENDIENTE EN SAZ` o `PRECARGADO SIN STOCK` según su origen. El reporte contiene el saldo por cargar. La corrección de estado no modifica existencias. |
+| R-ST-11 | Consulta y exportación de existencia actual usan las mismas tablas relacionales. Las tallas equivalentes como `21` y `21.0` se suman dentro de la misma ficha y sucursal. Un reporte de carga SAZ identifica por separado la existencia y el saldo pendiente. |
+| R-ST-12 | La captura manual y por cámara registra `StockIncreased` con identificador perdurable. La base confirma cantidad y movimiento juntos. Capturas pendientes quedan en el dispositivo y se excluyen de la existencia oficial hasta la confirmación. |
 
 ## Precio e imagen
 

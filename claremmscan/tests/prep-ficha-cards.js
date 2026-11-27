@@ -75,7 +75,8 @@ async function run() {
           updateRelationalProductField:async({field,value})=>{window.__prepField={field,value};return {updated:1,field,value,precio:field==='precio'?Number(String(value).replace(',','.')):undefined}},
           loadBranchStockContext:async()=>({branches:[{id:'juarez',code:'JUAREZ',name:'CLAREMM ZAPATERIA JUAREZ',active:true}]}),
         };
-        window.ClaremmStore.replaceItemsFromCloud([{estilo:'FALSOLOCAL',color:'ROJO',sucursal:'CLAREMM ZAPATERIA JUAREZ',talla:'23',cantidad:'9',precio:'',saz_cargado:false}]);
+        const legacy=JSON.stringify([{estilo:'FALSOLOCAL',color:'ROJO',sucursal:'CLAREMM ZAPATERIA JUAREZ',talla:'23',cantidad:'9'}]);
+        localStorage.setItem('claremmscan-v1',legacy);
         await window.ClaremmStore.refreshSazPrepCatalog();
         for(let i=0;i<80&&!document.querySelector('.relationalResultCard [data-edit-field="precio"]');i++)await new Promise(resolve=>setTimeout(resolve,25));
         const card=document.querySelector('.relationalResultCard');
@@ -92,6 +93,9 @@ async function run() {
         const prepTitle=document.getElementById('relationalSearchTitle')?.textContent||'';
         const prepText=document.getElementById('relationalSearchPanel')?.textContent||'';
         const branch={id:'juarez',name:'CLAREMM ZAPATERIA JUAREZ'};
+        window.claremmCloud.listRelationalStock=async()=>[{sucursal:branch.name,estilo:'435501',color:'NEGRO',talla:'21.0',cantidad:17}];
+        window.XLSX={utils:{book_new:()=>({}),json_to_sheet:rows=>rows,book_append_sheet:(_book,rows)=>{window.__exportInventory=rows}},writeFile:()=>{}};
+        await document.getElementById('xlsx').onclick();
         window.claremmCloud.searchRelationalInventory=async(query, scope, filter)=>filter==='pending'
           ? [{product:{id:'scanner',estilo:'MI4425',color:'NEGRO'},branch,sazStockAuditPending:true},
              {product:{id:'preloaded',estilo:'MI4425',color:'ROJO'},branch,sazStockAuditPending:true,sazPreloadedWithoutStock:true}]
@@ -113,6 +117,8 @@ async function run() {
           title:prepTitle,
           text:prepText,
           saved:window.__prepField,
+          exportRows:window.__exportInventory,
+          legacyUnchanged:localStorage.getItem('claremmscan-v1')===legacy,
           pendingLabels:[...document.querySelectorAll('#relationalSearchResults .sazStatus.isPending')].map(node=>node.textContent),
         };
       })()`,
@@ -122,10 +128,11 @@ async function run() {
     if (result.exceptionDetails) throw new Error(result.exceptionDetails.exception?.description || result.exceptionDetails.text || 'Falló la prueba de fichas.');
     const value = result.result.value;
     console.log(JSON.stringify(value, null, 2));
-    if (!value.cardVisible || !value.tableHidden || value.tableDisplay !== 'none' || !value.hasEditFields || !value.noActualizar || !value.noLocalLeak || value.title !== 'Faltantes SAZ' || !/MI4425/.test(value.text) || value.saved?.field !== 'precio') {
+    if (!value.cardVisible || !value.tableHidden || value.tableDisplay !== 'none' || !value.hasEditFields || !value.noActualizar || !value.noLocalLeak || value.title !== 'Fichas por preparar' || !/MI4425/.test(value.text) || value.saved?.field !== 'precio') {
       process.exitCode = 2;
     }
     if (!value.pendingLabels.includes('Pendiente en SAZ') || !value.pendingLabels.includes('Precargado sin stock')) process.exitCode = 2;
+    if (value.exportRows?.length !== 1 || value.exportRows[0].Cantidad !== 17 || !value.legacyUnchanged) process.exitCode = 2;
     socket.close();
   } finally {
     const stopped = new Promise(resolve => chrome.once('exit', resolve));

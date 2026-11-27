@@ -8,41 +8,37 @@ Aplicación PWA para Vercel. Configura **Root Directory** en Vercel para que apu
 - Cámara en vivo (HTTPS o localhost) y captura de múltiples fotografías.
 - Carga de imágenes desde el dispositivo.
 - Gemini en servidor para leer las etiquetas, OpenAI como respaldo opcional y OCR Tesseract.js como respaldo local.
-- Captura manual con marca, edición, suma de cantidades ante duplicados, exportación XLSX/CSV/JSON y restauración de JSON.
-- Importación masiva desde JSON, CSV o Excel con validación previa y elección explícita entre reemplazar o sumar.
-- Al reemplazar el inventario descarga automáticamente una copia JSON de seguridad de los datos anteriores.
+- Captura manual y OCR con cola local de entradas. La existencia oficial, la consulta y XLSX/CSV/JSON salen de las tablas relacionales.
+- Carga por sucursal con validación previa. El escáner no ofrece reemplazar el inventario.
 - Limpia automáticamente la fotografía de etiqueta después de guardar para preparar el siguiente producto.
 - Imagen opcional por estilo + color, convertida a PNG de máximo 100 KB y exportación conjunta en ZIP.
 - Captura directa de la imagen del producto con la cámara trasera del teléfono, además de selección desde la galería.
-- Al editar un precio, lo aplica a todas las tallas y colores del mismo estilo tanto en el inventario anterior como en el catálogo relacional.
+- Un precio confirmado aplica a los colores del mismo estilo y corrida.
 - Respaldo y sincronización con Supabase mediante correo/contraseña, RLS y Storage privado.
 - Existencias separadas por sucursal; el stock actual se asigna a `CLAREMM ZAPATERIA JUAREZ`.
 - Esquema relacional para catálogo SAZ, tallas, sucursales, existencias y movimientos históricos.
-- Control de envío a SAZ por registro: `Pendiente`/`Cargado`, fecha de carga y origen, sin mezclar la tabla histórica de Supabase con las fuentes SQLite/Excel.
-- Registro oficial de lotes SAZ, búsqueda indexada por estilo + color e indicadores de pares registrados, pendientes y porcentaje de avance.
+- Registro oficial de lotes SAZ y estados por ficha. Una ficha con faltantes en alguna talla sigue pendiente.
 - Módulo independiente de carga por sucursal: búsqueda del catálogo, captura individual, importación masiva y descarga de productos desconocidos.
-- El buscador del inventario consulta también el catálogo y las existencias relacionales de Supabase, y muestra esos resultados en una sección separada del inventario histórico.
+- Buscador relacional por estilo y color. Las variantes con tallas equivalentes se agrupan por sucursal.
 - Las tarjetas del inventario relacional indican si el producto está registrado en SAZ y permiten tomar o elegir una imagen compartida por estilo + color, comprimida como PNG de máximo 100 KB.
-- La imagen relacional es la referencia principal: también se copia al almacenamiento anterior, y **Exportar imágenes** reúne ambas fuentes sin duplicar nombres.
+- Las imágenes del catálogo se consultan desde Storage y pueden conservar una copia local.
 - Interfaz oscura tipo estación de trabajo, adaptable a teléfonos de 320 px, tablets y escritorio.
-- Mantiene la clave `claremmscan-v1` de localStorage para preservar los registros del navegador existente.
+- La tabla `inventory_items` y las copias locales anteriores se conservan como archivo histórico.
 
 ## Configurar Supabase
 
 1. Crea un proyecto en Supabase.
-2. Abre **SQL Editor**, pega y ejecuta todo [supabase/schema.sql](supabase/schema.sql). Esto actualiza la tabla compatible, agrega `marca` y `sucursal`, crea el bucket privado y conserva los registros existentes.
-3. Para el catálogo final SAZ y existencias por sucursal, ejecuta también [supabase/relational-schema.sql](supabase/relational-schema.sql) y sigue [la guía de migración relacional](supabase/RELATIONAL_MIGRATION.md). Este esquema no borra `inventory_items` durante la transición.
-4. Si las tablas ya existían antes del control de SAZ, ejecuta [supabase/saz-status-migration.sql](supabase/saz-status-migration.sql). Todos los registros de `inventory_items` existentes quedan como `Pendiente de SAZ` y con origen `supabase_legacy`; no se copian a las tablas relacionales.
-5. Para incorporar archivos confirmados como cargados en SAZ, ejecuta [supabase/saz-registered-schema.sql](supabase/saz-registered-schema.sql). Crea el registro oficial por estilo + color, existencias SAZ por sucursal, auditoría de archivos e índices de búsqueda.
-6. Ejecuta [supabase/relational-product-images.sql](supabase/relational-product-images.sql) para permitir que los miembros autorizados de la organización consulten y actualicen las imágenes del catálogo relacional.
-7. En **Authentication → URL Configuration**, configura **Site URL** como `https://scamapp-phi.vercel.app/` y agrega esa misma dirección en **Redirect URLs**. Si también registrarás cuentas desde previews de Vercel, agrega el patrón de preview que corresponda a tu proyecto.
-8. Si personalizaste la plantilla **Confirm signup**, usa `{{ .ConfirmationURL }}` en el enlace. Si construiste el enlace manualmente, usa `{{ .RedirectTo }}` en lugar de `{{ .SiteURL }}` para respetar la URL enviada por la app.
-9. En Vercel agrega `SUPABASE_URL` y `SUPABASE_PUBLISHABLE_KEY` para Production, Preview y Development.
-10. Vuelve a desplegar. Crea una cuenta desde la app, confirma el correo y pulsa **Sincronizar ahora**.
+2. En **SQL Editor**, ejecuta [supabase/relational-schema.sql](supabase/relational-schema.sql) para crear el catálogo e inventario por sucursal.
+3. Ejecuta [supabase/saz-registered-schema.sql](supabase/saz-registered-schema.sql) para el registro de existencias SAZ y [supabase/relational-product-images.sql](supabase/relational-product-images.sql) para habilitar Storage.
+4. Ejecuta [corridas-schema.sql](supabase/corridas-schema.sql) para crear el catálogo maestro de corridas, sus fuentes SAZ y las relaciones por estilo.
+5. Ejecuta [relational-stock-increase.sql](supabase/relational-stock-increase.sql) después de esos esquemas.
+6. En **Authentication → URL Configuration**, configura **Site URL** como `https://scamapp-phi.vercel.app/` y agrega esa misma dirección en **Redirect URLs**. Para una plantilla personalizada, usa `{{ .ConfirmationURL }}` o `{{ .RedirectTo }}` según corresponda.
+7. Configura `SUPABASE_URL` y `SUPABASE_PUBLISHABLE_KEY` en Vercel. Publica la PWA y verifica una captura y una exportación.
+8. En una instalación con inventario anterior, revisa las capturas pendientes de los escáneres antes de actualizar. Después ejecuta [retire-legacy-inventory-access.sql](supabase/retire-legacy-inventory-access.sql) para retirar el acceso de la app al archivo histórico.
 
 Si el enlace indica `otp_expired`, escribe el correo en la app y pulsa **Reenviar correo**. Abre únicamente el mensaje más reciente: los enlaces anteriores dejan de ser válidos.
 
-La primera sincronización sube los registros e imágenes que ya existan localmente. Después, cada cambio queda en una cola local hasta que Supabase confirma que se guardó.
+La sincronización envía las capturas en cola de la cuenta del escáner. Una captura solo cuenta como existencia oficial después de que Supabase confirme el movimiento.
 
 ## Configurar el reconocimiento por visión
 
@@ -58,7 +54,7 @@ Nunca pongas la clave en `app.js`, `index.html`, una captura de pantalla o un co
 
 Aunque la visión mejora considerablemente fotos inclinadas o con poco contraste, cada lectura sigue requiriendo revisión. Si la función de visión no está configurada o falla, la app usa Tesseract local; ese respaldo no reconoce de forma confiable todas las etiquetas.
 
-El inventario mantiene una copia local para trabajar sin conexión. Al iniciar sesión también se guarda en Supabase y puede recuperarse en otro dispositivo con la misma cuenta.
+Después de iniciar sesión por primera vez, el escáner puede guardar capturas sin red. La consulta y las exportaciones de existencia actual requieren acceso a Supabase.
 
 Las imágenes se guardan por separado en IndexedDB. El respaldo JSON no las incluye; usa **Exportar imágenes (.zip)** para respaldarlas.
 
@@ -71,20 +67,15 @@ Las imágenes se guardan por separado en IndexedDB. El respaldo JSON no las incl
 
 En celulares y tablets, cada tarjeta tiene un botón **Ocultar/Mostrar** para reducir el desplazamiento. La app recuerda qué secciones cerraste en ese dispositivo; las secciones de revisión y edición se abren automáticamente cuando el flujo las necesita.
 
-## Importación masiva
+## Exportaciones
 
-Pulsa **Importar inventario** y selecciona un archivo `.json`, `.csv`, `.xlsx` o `.xls`. La app muestra registros, pares, valor, duplicados y filas inválidas antes de hacer cambios.
-
-Las columnas compatibles son: `Sucursal`, `Estilo`, `Marca`, `Color`, `Tipo de línea`, `Talla`, `Cantidad`, `Material`, `Precio`, `Notas`, `Cargado en SAZ`, `Fecha carga SAZ` y `Origen`. En JSON también se aceptan las claves internas en minúsculas. Si un archivo anterior no contiene `Sucursal`, se asigna `CLAREMM ZAPATERIA JUAREZ`; cualquier valor provisional `MATRIZ` también se convierte automáticamente. Si no incluye estado SAZ, se importa como pendiente.
-
-- **Reemplazar todo:** crea primero un respaldo JSON automático y sustituye el inventario.
-- **Sumar al inventario:** agrega registros nuevos y acumula cantidades cuando coinciden sucursal, estilo, color y talla.
+**Excel existencia actual** muestra el stock de cada sucursal. **Excel fichas por preparar** usa fichas de JUÁREZ pendientes de precio o imagen. El informe **Por cargar** de la auditoría SAZ reporta el saldo contra un corte de SAZ, con columnas separadas para la existencia del aplicativo y la de SAZ.
 
 ### Conciliación diaria de existencias SAZ
 
 En **Inventario**, pulsa **Conciliar existencias SAZ** y selecciona el Excel de existencias exportado por SAZ. La vista previa indica productos válidos, pares, fichas nuevas e incidencias antes de escribir en Supabase.
 
-- Los productos originados en el escáner quedan como `REGISTRADO EN SAZ`.
+- Los productos originados en el escáner quedan como `REGISTRADO EN SAZ` cuando el corte cubre todas las tallas. Si falta algún par quedan como `PENDIENTE EN SAZ`.
 - Los productos que no existen en Supabase se crean como `YA PRECARGADO EN SAZ`.
 - Una ficha ya precargada solo recibe la existencia del archivo cuando todavía no tiene existencia en JUÁREZ.
 - JUÁREZ puede aumentar o agregar tallas, pero nunca disminuirlas.
@@ -93,7 +84,7 @@ En **Inventario**, pulsa **Conciliar existencias SAZ** y selecciona el Excel de 
 
 ## Carga de existencias por sucursal
 
-El botón **Carga por sucursal** abre un espacio separado del inventario principal. La tienda base `CLAREMM ZAPATERIA JUAREZ` queda excluida: el módulo solo se habilita cuando existe otra sucursal activa en la tabla relacional `branches`.
+El botón **Carga por sucursal** abre un espacio para trabajar con sucursales activas de `branches`. JUÁREZ admite altas y aumentos individuales. La carga masiva por sucursal corresponde a sucursales distintas de JUÁREZ.
 
 - **Captura individual:** busca el catálogo por estilo o color, selecciona la ficha, escribe talla y cantidad, y elige entre establecer la existencia o sumar una entrada.
 - **Importación masiva:** acepta JSON, CSV y Excel con una fila por talla. Las columnas mínimas son `Estilo`, `Color`, `Talla` y `Cantidad`; la sucursal se selecciona una sola vez en la app.
@@ -111,6 +102,10 @@ Pensada para un agente externo. Autenticación: header `X-API-Key` (variable `CL
 - `GET /api/v1/branches`
 - `GET /api/v1/catalog/products?estilo=&color=&marca=`
 - `GET /api/v1/catalog/products/{ficha_id}`
+- `GET /api/v1/catalog/corridas?linea=&estilo=` — lista reglas canónicas y sus ids fuente de SAZ
+- `POST /api/v1/catalog/corridas` — agrega una regla validada (`linea`, `inicial`, `final`, `incremento`, `motivo`; `saz_id` opcional)
+- `GET /api/v1/catalog/styles/{estilo}/corridas`
+- `POST /api/v1/catalog/styles/{estilo}/corridas` — relaciona `corrida_id`, `orden` y `motivo`; no toca existencias
 - `GET /api/v1/branches/{JUAREZ|NUEVO_LEON}/inventory?estilo=&color=&talla=`
 - `POST /api/v1/branches/{branch}/upload/preview` — nunca escribe
 - `POST /api/v1/branches/{branch}/upload/apply` — `mode` obligatorio (`set` o `sum`), `batch_id` único, `create_unknowns` para altas
