@@ -24,7 +24,8 @@ Cualquier agente, ingeniero o módulo POS debe cumplirlas. El código que las im
 | R-CO-04 | Los extremos son inclusivos. Una frontera media como `21.5` puede pertenecer a dos corridas contiguas para no dejar ninguna talla fuera. |
 | R-CO-05 | Una relación propuesta debe cubrir todas las tallas observadas. Datos inválidos como `17.8`, `17.7` o un rango invertido se guardan como incidencia, nunca como corrida activa. |
 | R-CO-06 | Alta de corrida emite `SizeRunDefined`; relación estilo→corrida emite `StyleSizeRunAssigned`. Toda escritura por API exige motivo. |
-| R-CO-07 | Para altas en SAZ, se cruza estilo compacto + color + talla contra las corridas del catálogo y la existencia del corte. Una talla ya registrada solo puede tener saldo de existencia. Las propuestas de alta excluyen todas las tallas cubiertas por corridas existentes y las que ya constan en el corte. |
+| R-CO-07 | Para altas en SAZ, se cruza estilo compacto + color + talla contra las corridas del catálogo y la existencia del corte. El saldo de una talla ya registrada corresponde a existencia; el saldo de alta corresponde a las tallas que aún faltan. La excepción de frontera del rango se rige por R-CO-08. |
+| R-CO-08 | Una corrida consecutiva confirmada conserva sus dos límites, aunque el corte solo tenga stock en parte de ese rango. Cuando dos corridas comparten una media talla, el saldo se asigna una sola vez. |
 
 ## Existencias
 

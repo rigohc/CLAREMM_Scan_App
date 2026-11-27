@@ -26,6 +26,8 @@ Las relaciones de `435501` se infirieron a partir del catálogo histórico. Para
 
 El catálogo exportado de SAZ aporta las corridas registradas por estilo y color. El corte de JUÁREZ aporta cantidades por talla. El script `claremmscan/scripts/plan-saz-catalog-coverage.mjs` cruza ambos usando el comparativo de `audit-saz-stock.mjs`. Genera las hojas de solo existencia, altas y revisión. Cada saldo aparece en una sola hoja de detalle. Las tallas de frontera, las presentaciones ambiguas y las diferencias entre fuentes requieren confirmar el destino.
 
+Para `059601` NEGRO se conserva la corrida existente de NIÑAS `18.0–21.5` y se programa el alta de JOVEN `21.5–27.5`, incremento `0.5`. El segundo rango se usa completo, incluso cuando la existencia por cargar solo incluye tallas entre 23 y 26.
+
 ## Evidencia rechazada, no perdida
 
 | SAZ id | Línea | Texto visible | Incidencia |

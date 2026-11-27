@@ -52,6 +52,7 @@
   const catalogPrice = value => { const raw = String(value ?? '').trim().replace(/[^0-9,.-]/g, ''); if (!raw) return NaN; const comma = raw.lastIndexOf(','), dot = raw.lastIndexOf('.'); const normalized = comma > dot ? raw.replace(/\./g, '').replace(',', '.') : raw.replace(/,/g, ''); return Number(normalized); };
   const productLookupKey = value => `${catalogText(value?.estilo)}|${catalogText(value?.color)}`;
   const compactEstilo = value => catalogText(value).replace(/\s+/g, '').replace(/^0+(?=\d)/, '');
+  const corridaStyleKey = estilo => compactEstilo(estilo).replace(/-/g, '');
   const inventoryColor = value => {
     if (window.ClaremmSazPrepExcel) return window.ClaremmSazPrepExcel.colorKey(value);
     const color = catalogText(value);
@@ -544,6 +545,35 @@
     });
   }
 
+  async function loadStyleRuns(context, products, signal) {
+    const keys = [...new Set(products.map(product => corridaStyleKey(product.estilo)).filter(Boolean))].slice(0, 40);
+    const byStyle = new Map();
+    if (!keys.length) return byStyle;
+    const { data, error } = await withSignal(client.from('estilo_corridas')
+      .select('estilo_key,orden,fuente,corridas!inner(linea,talla_inicial,talla_final,incremento)')
+      .eq('organization_id', context.organization.id)
+      .eq('corridas.activa', true)
+      .in('estilo_key', keys)
+      .order('orden')
+      .order('corrida_id'), signal);
+    if (isAbortError(error)) throw error;
+    if (error) return byStyle;
+    for (const row of data || []) {
+      if (!row.corridas) continue;
+      const runs = byStyle.get(row.estilo_key) || [];
+      runs.push({ ...row.corridas, fuente: row.fuente });
+      byStyle.set(row.estilo_key, runs);
+    }
+    return byStyle;
+  }
+
+  async function hydrateRelationalRuns(results) {
+    if (!results?.length) return [];
+    const context = await loadBranchStockContext();
+    const byStyle = await loadStyleRuns(context, results.map(result => result.product));
+    return results.map(result => ({ ...result, corridas: byStyle.get(corridaStyleKey(result.product.estilo)) || [] }));
+  }
+
   async function searchRelationalInventory(query, scope = 'all', sazFilter = 'all', options = {}) {
     const planned = plannedSearch(query);
     if (planned && !planned.ready) return [];
@@ -552,7 +582,10 @@
     const context = await loadBranchStockContext();
     const includeEmpty = options.includeEmpty !== false;
     const products = await findCatalogProducts(context, query, scope, planned?.limit || 40, signal, true);
-    await loadVariantsFor(context, products.map(product => product.id), { refresh: true });
+    const [, runsByStyle] = await Promise.all([
+      loadVariantsFor(context, products.map(product => product.id), { refresh: true }),
+      loadStyleRuns(context, products, signal),
+    ]);
     const variantIds = products.flatMap(product => (context.variantsByProduct.get(product.id) || []).map(variant => variant.id));
     const levels = [];
     for (const group of chunks(variantIds, 200)) {
@@ -600,6 +633,7 @@
           : branchStocks.flatMap(item => item.sizes.map(size => ({ ...size, branch: item.branch.name, branchCode: item.branch.code })));
         return {
           product: result.product,
+          corridas: runsByStyle.get(corridaStyleKey(result.product.estilo)) || [],
           branch,
           branchStocks: sazFilter === 'prep' ? branchStocks.filter(item => catalogText(item.branch.code) === 'JUAREZ') : branchStocks,
           sizes,
@@ -1695,7 +1729,7 @@
     return { completed: true, productsCreated, scannerProducts: classified.scanner.length, preloadedProducts: classified.preloaded.length, stockRowsRaised: stockResult.appliedRows, pairsAdded: stockResult.appliedPairs, protectedRows: stockResult.protectedRows, blockedRows: parsed.blockedRows || [] };
   }
 
-  window.claremmCloud = { recordCaptures, syncAll, listRelationalStock, captureBranches: () => branchStockContext?.branches || [], loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, hydrateRelationalImages, uploadRelationalProductImage, updateRelationalStylePrice, updateRelationalProductField, duplicateRelationalProduct, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock, listRecentBranchStock, listCatalogReview, reviewCatalogProduct, listSazPrepGaps, previewSazReconciliation, applySazReconciliation };
+  window.claremmCloud = { recordCaptures, syncAll, listRelationalStock, captureBranches: () => branchStockContext?.branches || [], loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, hydrateRelationalImages, hydrateRelationalRuns, uploadRelationalProductImage, updateRelationalStylePrice, updateRelationalProductField, duplicateRelationalProduct, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock, listRecentBranchStock, listCatalogReview, reviewCatalogProduct, listSazPrepGaps, previewSazReconciliation, applySazReconciliation };
   window.addEventListener('online', () => syncAll().then(() => store.refreshSazPrepCatalog?.()).catch(error => setCloudStatus(cloudErrorMessage(error), 'warn')));
 
   byId('cloudLogin').onclick = async () => {

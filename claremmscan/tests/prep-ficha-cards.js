@@ -72,6 +72,7 @@ async function run() {
           listSazPrepGaps:async()=>({rows:[{ficha_id:'aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee',estilo:'MI4425',color:'NEGRO',marca:'MIRLO',proveedor:'MIRLO',corrida:'22-26',linea:'DAMA',precio:0,imagen:'',qtyBySize:{'23.0':1},pares:1,sin_precio:true,sin_imagen:true}],skipKeys:[]}),
           searchRelationalInventory:async()=>[],
           hydrateRelationalImages:async results=>results,
+          hydrateRelationalRuns:async results=>results.map(result=>({...result,corridas:[{linea:'NIÑAS',talla_inicial:18,talla_final:21.5},{linea:'DAMA',talla_inicial:21.5,talla_final:27}]})),
           updateRelationalProductField:async({field,value})=>{window.__prepField={field,value};return {updated:1,field,value,precio:field==='precio'?Number(String(value).replace(',','.')):undefined}},
           loadBranchStockContext:async()=>({branches:[{id:'juarez',code:'JUAREZ',name:'CLAREMM ZAPATERIA JUAREZ',active:true}]}),
         };
@@ -80,6 +81,9 @@ async function run() {
         await window.ClaremmStore.refreshSazPrepCatalog();
         for(let i=0;i<80&&!document.querySelector('.relationalResultCard [data-edit-field="precio"]');i++)await new Promise(resolve=>setTimeout(resolve,25));
         const card=document.querySelector('.relationalResultCard');
+        for(let i=0;i<40&&!card?.querySelector('[aria-label="Corridas del estilo"]');i++)await new Promise(resolve=>setTimeout(resolve,20));
+        const runs=Array.from(card?.querySelectorAll('[aria-label="Corridas del estilo"] span')||[],node=>node.textContent);
+        if(runs.join('|')!=='NIÑAS 18.0–21.5|DAMA 21.5–27.0')throw new Error('Faltantes SAZ debe mostrar las corridas del estilo');
         const tableHidden=document.getElementById('inventoryCard').classList.contains('isPrepCards');
         const tableWrap=document.querySelector('.inventoryPanel .tablewrap');
         const tableDisplay=tableWrap?getComputedStyle(tableWrap).display:'';

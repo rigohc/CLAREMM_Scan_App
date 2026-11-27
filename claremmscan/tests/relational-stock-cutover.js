@@ -63,6 +63,10 @@ const client = {
           products: [{ ...style }],
           product_variants: variants,
           saz_product_registry: [{ product_id: style.id, lookup_key: '435501|NEGRO' }],
+          estilo_corridas: [
+            { estilo_key: '435501', fuente: 'catalogo_verificado', corridas: { linea: 'NIÑOS', talla_inicial: 18, talla_final: 21.5, incremento: 0.5 } },
+            { estilo_key: '435501', fuente: 'alta_planificada_2026-11-27', corridas: { linea: 'JOVEN', talla_inicial: 21.5, talla_final: 27, incremento: 0.5 } },
+          ],
           inventory_levels: select.includes('products!inner') ? levels.map(level => ({
             ...level,
             product_variants: { size: variants.find(row => row.id === level.variant_id).size, products: style },
@@ -107,6 +111,7 @@ async function run() {
   await new Promise(resolve => setImmediate(resolve));
   const cloud = window.claremmCloud;
   const [card] = await cloud.searchRelationalInventory('435501', 'style', 'pending');
+  assert.deepEqual(Array.from(card.corridas, run => [run.linea, run.talla_final]), [['NIÑOS', 21.5], ['JOVEN', 27]]);
   assert.equal(card.sazStockAuditPending, true);
   assert.deepEqual(Array.from(card.branchStocks, row => row.totalQuantity), [17, 3]);
   assert.equal(card.branchStocks[0].sizes.filter(row => row.size === '21.0').length, 1);

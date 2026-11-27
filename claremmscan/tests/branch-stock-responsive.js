@@ -91,8 +91,12 @@ async function run() {
         transfer.items.add(new File([JSON.stringify([{Estilo:'ROD410',Color:'NEGRO',Talla:'26.5',Cantidad:2},{Estilo:'NUEVO1',Color:'CAMEL',Talla:'25.0',Cantidad:1}])],'existencias.json',{type:'application/json'}));
         input.files=transfer.files;input.dispatchEvent(new Event('change',{bubbles:true}));
         for(let i=0;i<100&&document.getElementById('branchStockRows').textContent==='0';i++)await new Promise(resolve=>setTimeout(resolve,20));
+        const originalSearch=window.claremmCloud.searchRelationalInventory;
+        window.claremmCloud.searchRelationalInventory=async (...args)=>(await originalSearch(...args)).map(result=>result.product.id==='rel-product-1'?{...result,corridas:[{linea:'NIÑAS',talla_inicial:12,talla_final:17.5},{linea:'NIÑAS',talla_inicial:18,talla_final:21.5},{linea:'NIÑAS',talla_inicial:21.5,talla_final:27}]}:result);
         const inventorySearch=document.getElementById('inventorySearch');inventorySearch.value='COM011';inventorySearch.dispatchEvent(new Event('input',{bubbles:true}));
         for(let i=0;i<150&&!/COM011 · NEGRO/.test(document.getElementById('relationalSearchPanel')?.textContent||'');i++)await new Promise(resolve=>setTimeout(resolve,20));
+        const runLabels=[...document.querySelectorAll('[data-relational-product-id="rel-product-1"] [aria-label="Corridas del estilo"] span')].map(node=>node.textContent);
+        if(runLabels.join('|')!=='NIÑAS 12.0–17.5|NIÑAS 18.0–21.5|NIÑAS 21.5–27.0')throw new Error('Las tres corridas del estilo deben aparecer en una sola tarjeta');
         window.ClaremmStore.compressProductImage=async()=>new Blob(['png'],{type:'image/png'});window.ClaremmStore.putImageFromCloud=async name=>{window.__putImageName=name};window.ClaremmStore.applyStylePriceFromCloud=()=>3;
         document.querySelector('[data-relational-price]')?.click();
         for(let i=0;i<50&&!document.querySelector('[data-edit-input="precio"]');i++)await new Promise(resolve=>setTimeout(resolve,20));

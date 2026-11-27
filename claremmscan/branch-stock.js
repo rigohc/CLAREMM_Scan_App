@@ -115,21 +115,32 @@
     return text(product[key]) || '—';
   }
 
-  function fichaMarkup(product, productId) {
+  function fichaMarkup(product, productId, hasStyleRuns) {
     return FICHA_FIELDS.map(field => {
+      const label = hasStyleRuns && field.key === 'corrida' ? 'Corrida de la ficha' : field.label;
       const editing = relationalEdit?.productId === productId && relationalEdit.field === field.key;
       const proposed = field.key === 'precio' ? proposedPriceFor(product) : '';
       const value = field.key === 'precio' ? String(proposed || product.precio || '') : text(product[field.key]);
       const body = editing
-        ? `<input data-edit-input="${esc(field.key)}" value="${esc(value)}" inputmode="${field.key === 'precio' ? 'decimal' : 'text'}" aria-label="${esc(field.label)}"${window.ClaremmSazCatalog?.datalistId?.(field.key) ? ` list="${esc(window.ClaremmSazCatalog.datalistId(field.key))}"` : ''}>`
+        ? `<input data-edit-input="${esc(field.key)}" value="${esc(value)}" inputmode="${field.key === 'precio' ? 'decimal' : 'text'}" aria-label="${esc(label)}"${window.ClaremmSazCatalog?.datalistId?.(field.key) ? ` list="${esc(window.ClaremmSazCatalog.datalistId(field.key))}"` : ''}>`
         : `<button type="button" data-edit-field="${esc(field.key)}"${field.key === 'precio' ? ` data-relational-price="${esc(productId)}"` : ''}>${esc(fieldValue(product, field.key))}</button>`;
-      return `<div class="relationalField${editing ? ' isEditing' : ''}${proposed ? ' isProposed' : ''}" data-field="${esc(field.key)}"><dt>${esc(field.label)}</dt><dd>${body}</dd></div>`;
+      return `<div class="relationalField${editing ? ' isEditing' : ''}${proposed ? ' isProposed' : ''}" data-field="${esc(field.key)}"><dt>${esc(label)}</dt><dd>${body}</dd></div>`;
     }).join('');
+  }
+
+  function lineageMarkup(result) {
+    const runs = result.corridas || [];
+    const lineage = runs.length ? runs.map(run => {
+      const range = `${Number(run.talla_inicial).toFixed(1)}–${Number(run.talla_final).toFixed(1)}`;
+      const pending = text(run.fuente).startsWith('alta_planificada_') ? ' · Alta pendiente' : '';
+      return `${run.linea} ${range}${pending}`;
+    }) : [text(result.product.linea) || 'Sin línea', text(result.product.corrida) || 'Sin corrida'];
+    return lineage.map(label => `<span>${esc(label)}</span>`).join('');
   }
 
   function cardMarkup(result) {
     const product = result.product, productId = product.id;
-    const lineage = [text(product.linea) || 'Sin línea', text(product.corrida) || 'Sin corrida'];
+    const hasStyleRuns = Boolean(result.corridas?.length);
     const proposed = proposedPriceFor(product);
     const priceLabel = proposed
       ? `<span class="priceShift">${esc(currency.format(Number(product.precio || 0)))} → ${esc(currency.format(Number(proposed)))}</span>`
@@ -160,9 +171,9 @@
     const nuevoTag = isNew ? '<span class="sazStatus isNew">NUEVO</span>' : '';
     return `<article class="relationalResultCard${result.sazPreloaded ? ' isPreloaded' : ''}${isNew ? ' isNew' : ''}" data-relational-product-id="${esc(productId)}" data-relational-branch-id="${esc(result.branch?.id || '')}">
       <div class="relationalResultTitle"><strong>${esc(product.estilo)} · ${esc(product.color)}</strong>${priceLabel}</div>
-      <p class="relationalLineage"><span>${esc(lineage[0])}</span><span>${esc(lineage[1])}</span></p>
+      <p class="relationalLineage"${hasStyleRuns ? ' aria-label="Corridas del estilo"' : ''}>${lineageMarkup(result)}</p>
       <div class="relationalResultMeta"><span>${esc(product.marca || 'Sin marca')}</span>${branchMeta}${nuevoTag}<span class="sazStatus ${sazClass}">${sazLabel}</span></div>
-      <dl class="relationalFicha">${fichaMarkup(product, productId)}</dl>
+      <dl class="relationalFicha">${fichaMarkup(product, productId, hasStyleRuns)}</dl>
       <small class="relationalEditHint" data-relational-notice="${esc(productId)}">${esc(preloadedNotice)}</small>
       <div class="relationalProductActions"><button type="button" class="secondary" data-relational-duplicate="${esc(productId)}">Duplicar ficha</button></div>
       <div class="relationalSizes">${sizeChips}</div>
@@ -818,6 +829,24 @@
     }
   }
 
+  function applyHydratedRuns(results, hydrated) {
+    const runsByProduct = new Map(hydrated.map(result => [result.product.id, result.corridas]));
+    for (const result of results) {
+      const runs = runsByProduct.get(result.product.id);
+      if (!runs?.length) continue;
+      result.corridas = runs;
+      const card = document.querySelector(`[data-relational-product-id="${CSS.escape(result.product.id)}"]`);
+      const lineage = card?.querySelector('.relationalLineage');
+      if (!lineage) continue;
+      lineage.setAttribute('aria-label', 'Corridas del estilo');
+      lineage.innerHTML = lineageMarkup(result);
+      const field = card.querySelector('[data-field="corrida"]');
+      const label = field?.querySelector('dt');
+      if (label) label.textContent = 'Corrida de la ficha';
+      field?.querySelector('input')?.setAttribute('aria-label', 'Corrida de la ficha');
+    }
+  }
+
   async function showFichas(fichas, options = {}) {
     const excel = window.ClaremmSazPrepExcel;
     const branch = juarezBranch();
@@ -848,15 +877,19 @@
       emptyHtml: options.emptyHtml || '<p class="muted">No hay fichas pendientes de SAZ para mostrar. Cuando aparezcan, toca un dato para corregirlo al instante.</p>',
     });
     const sequence = ++prepHydrateSequence;
-    if (!cloud()?.hydrateRelationalImages) return;
-    try {
-      const hydrated = await cloud().hydrateRelationalImages(results);
-      if (sequence !== prepHydrateSequence) return;
-      applyHydratedImages(relationalInventoryResults, hydrated);
-    } catch {}
+    if (!results.length) return;
+    await Promise.allSettled([
+      cloud()?.hydrateRelationalImages?.(results).then(hydrated => {
+        if (sequence === prepHydrateSequence) applyHydratedImages(relationalInventoryResults, hydrated);
+      }),
+      cloud()?.hydrateRelationalRuns?.(results).then(hydrated => {
+        if (sequence === prepHydrateSequence) applyHydratedRuns(relationalInventoryResults, hydrated);
+      }),
+    ]);
   }
 
   function clearPrepCards() {
+    prepHydrateSequence++;
     byId('inventoryCard')?.classList.remove('isPrepCards');
     const title = byId('relationalSearchTitle');
     if (title) title.textContent = 'Inventario relacional';
