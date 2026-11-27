@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="tokens.css?v=47-juarez-tallas">
+  <link rel="stylesheet" href="tokens.css?v=49-busqueda-supabase">
   <style>
     /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 · genre: atmospheric · macrostructure: Workbench · theme: Midnight · enrichment: none · nav: N9 · footer: Ft2 · contrast: pass (40–41) · slop: pass (42–49) · mobile: pass (34,49–57) */
     *,*::before,*::after{box-sizing:border-box}
@@ -363,7 +363,7 @@
       </section>
       <section class="card inventoryPanel" id="inventoryCard">
         <div class="cardHead"><h2>4. Inventario <span id="count">(0)</span></h2><small>JUÁREZ · mismas fichas editables que al buscar por estilo</small></div>
-        <div class="inventoryPrimaryActions"><button id="importInventory" type="button">Importar inventario</button><button id="exportImages" type="button" class="secondary">Exportar imágenes</button><small id="imageExportInfo">Importa JSON, CSV o Excel. Las imágenes se exportan aparte en un ZIP.</small><input id="importFile" type="file" accept=".json,.csv,.xlsx,.xls,application/json,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" hidden></div>
+        <div class="inventoryPrimaryActions"><button id="importInventory" type="button">Importar inventario</button><button id="sazReconcileOpen" type="button" class="secondary">Conciliar existencias SAZ</button><button id="exportImages" type="button" class="secondary">Exportar imágenes</button><small id="imageExportInfo">Importa JSON, CSV o Excel. “Conciliar existencias SAZ” cruza el reporte diario con Supabase sin bajar JUÁREZ.</small><input id="importFile" type="file" accept=".json,.csv,.xlsx,.xls,application/json,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" hidden><input id="sazReconcileFile" type="file" accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" hidden></div>
         <div class="inventoryFilters">
           <div class="inventorySearchRow">
             <label for="inventorySearch">Buscar inventario<input id="inventorySearch" type="search" autocomplete="off" enterkeyhint="search" placeholder="Estilo, sucursal, marca, color, talla…"></label>
@@ -403,6 +403,23 @@
       <details id="importErrors" class="importErrors" hidden><summary>Ver filas que no se pueden importar</summary><ul id="importErrorList"></ul></details>
       <small>Columnas compatibles: Sucursal, Estilo, Marca, Color, Tipo de línea, Talla, Cantidad, Material, Precio, Notas, Cargado en SAZ, Fecha carga SAZ y Origen. Si falta Sucursal se usa la sucursal activa.</small>
       <div class="importDialogActions"><button id="importCancel" type="button" class="secondary">Cancelar</button><button id="importConfirm" type="button">Reemplazar inventario</button></div>
+    </div>
+  </dialog>
+  <dialog id="sazReconcileDialog" aria-labelledby="sazReconcileTitle">
+    <div class="importDialogBody">
+      <div class="cardHead"><div><h2 id="sazReconcileTitle">Conciliar existencias SAZ</h2><small id="sazReconcileFileName"></small></div><button id="sazReconcileClose" type="button" class="secondary">Cerrar</button></div>
+      <p id="sazReconcileSummary">Selecciona el Excel exportado desde SAZ para compararlo con Supabase.</p>
+      <div class="importStats" aria-label="Resumen de conciliación">
+        <div class="importStat"><span>Productos válidos</span><strong id="sazReconcileProducts">0</strong></div>
+        <div class="importStat"><span>Pares del archivo</span><strong id="sazReconcilePairs">0</strong></div>
+        <div class="importStat"><span>Nuevos precargados</span><strong id="sazReconcileMissing">0</strong></div>
+        <div class="importStat"><span>Filas omitidas</span><strong id="sazReconcileBlocked">0</strong></div>
+      </div>
+      <p id="sazReconcilePlan">La vista previa no modifica datos.</p>
+      <details id="sazReconcileIssues" class="importErrors" hidden><summary>Ver incidencias y productos nuevos</summary><ul id="sazReconcileIssueList"></ul></details>
+      <small>Protecciones: JUÁREZ nunca baja; `REGISTRADO EN SAZ` se conserva para productos del escáner; los faltantes se crean como `YA PRECARGADO EN SAZ`; precio e imagen no se modifican.</small>
+      <p id="sazReconcileStatus" class="branchStockStatus" role="status" aria-live="polite">Esperando archivo.</p>
+      <div class="importDialogActions"><button id="sazReconcileCancel" type="button" class="secondary">Cancelar</button><button id="sazReconcileApply" type="button" disabled>Aplicar conciliación</button></div>
     </div>
   </dialog>
   <dialog id="branchStockDialog" class="branchStockDialog" aria-labelledby="branchStockTitle">
@@ -488,12 +505,14 @@
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <script src="saz-catalog.js?v=47-juarez-tallas"></script>
-  <script src="inventory-search.js?v=47-juarez-tallas"></script>
-  <script src="saz-prep-excel.js?v=47-juarez-tallas"></script>
-  <script src="app.js?v=47-juarez-tallas"></script>
-  <script src="supabase-sync.js?v=47-juarez-tallas"></script>
-  <script src="branch-stock.js?v=47-juarez-tallas"></script>
-  <script src="review-queue.js?v=47-juarez-tallas"></script>
+  <script src="saz-catalog.js?v=49-busqueda-supabase"></script>
+  <script src="inventory-search.js?v=49-busqueda-supabase"></script>
+  <script src="saz-prep-excel.js?v=49-busqueda-supabase"></script>
+  <script src="saz-reconcile.js?v=50-estados-saz"></script>
+  <script src="app.js?v=49-busqueda-supabase"></script>
+  <script src="supabase-sync.js?v=50-estados-saz"></script>
+  <script src="branch-stock.js?v=50-estados-saz"></script>
+  <script src="review-queue.js?v=49-busqueda-supabase"></script>
+  <script src="saz-reconcile-ui.js?v=49-busqueda-supabase"></script>
 </body>
 </html>

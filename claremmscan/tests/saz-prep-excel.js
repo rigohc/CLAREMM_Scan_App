@@ -173,4 +173,21 @@ if (fs.existsSync(referencePath) && fs.existsSync(xlsxPath)) {
   assert(workbook.SheetNames[1] === excel.RESUMEN_SHEET, 'Excel de referencia: nombre de hoja resumen');
 }
 
-console.log('saz-prep-excel ok');
+const largeSnapshot = Array.from({ length: 50000 }, (_, index) => ({
+  estilo: `MOD${String(index).padStart(5, '0')}`,
+  color: index % 2 ? 'NEGRO' : 'CAFE',
+  marca: index === 43210 ? 'RIK-LAND' : 'OTRA',
+  linea: 'TENIS',
+}));
+const largeIndex = excel.createSearchIndex();
+const rebuildStarted = process.hrtime.bigint();
+largeIndex.rebuild(largeSnapshot);
+const rebuildMs = Number(process.hrtime.bigint() - rebuildStarted) / 1e6;
+const started = process.hrtime.bigint();
+const largeHits = largeIndex.lookup('RIK-LAND', 'all', { ready: true, wait: false, mode: 'text', terms: ['RIK-LAND'] });
+const elapsedMs = Number(process.hrtime.bigint() - started) / 1e6;
+assert(largeHits.length === 1 && largeHits[0].estilo === 'MOD43210', 'snapshot de 50k devuelve únicamente la marca solicitada');
+assert(rebuildMs < 200, `índice de 50k debe construirse en menos de 200 ms (tomó ${rebuildMs.toFixed(1)} ms)`);
+assert(elapsedMs < 50, `snapshot indexado de 50k debe filtrar en menos de 50 ms (tomó ${elapsedMs.toFixed(1)} ms)`);
+
+console.log(JSON.stringify({ ok: true, rebuild_50k_ms: Math.round(rebuildMs), search_50k_ms: Math.round(elapsedMs), hits: largeHits.length }));

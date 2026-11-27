@@ -359,6 +359,48 @@
     return source.filter(ficha => fichaMatchesQuery(ficha, query, scope, planned));
   }
 
+  function createSearchIndex() {
+    let snapshot = [];
+    let entries = [];
+    let byCompact = new Map();
+
+    function rebuild(rows) {
+      snapshot = Array.isArray(rows) ? rows : [];
+      entries = snapshot.map((row, index) => ({
+        row,
+        index,
+        estilo: normalize(row.estilo),
+        compact: compactEstilo(row.estilo),
+        haystack: normalize([row.estilo, row.color, row.marca, row.linea, row.corrida, row.proveedor].join(' ')),
+      }));
+      byCompact = new Map();
+      for (const entry of entries) {
+        if (!byCompact.has(entry.compact)) byCompact.set(entry.compact, []);
+        byCompact.get(entry.compact).push(entry);
+      }
+      return snapshot.length;
+    }
+
+    function lookup(query, scope, planned) {
+      if (!normalize(query)) return snapshot;
+      if (!planned || planned.wait || planned.mode === 'idle' || !planned.ready) return [];
+      if (planned.mode === 'exact-estilo') {
+        const keys = new Set((planned.keys || []).map(compactEstilo).filter(Boolean));
+        return [...keys].flatMap(key => byCompact.get(key) || []).map(entry => entry.row);
+      }
+      if (planned.mode === 'prefix-estilo') {
+        const prefix = compactEstilo(planned.terms?.[0] || query);
+        if (!prefix) return [];
+        return entries.filter(entry => entry.compact.startsWith(prefix)).map(entry => entry.row);
+      }
+      const terms = normalize(query).split(/\s+/).filter(Boolean);
+      if (!terms.length) return snapshot;
+      return entries.filter(entry => terms.every(term => (scope === 'style' ? entry.estilo : entry.haystack).includes(term))).map(entry => entry.row);
+    }
+
+    return { rebuild, lookup, size: () => snapshot.length };
+  }
+
   function toRelationalResult(ficha, branch) {
     const sizes = Object.entries(ficha?.qtyBySize || {})
       .map(([size, quantity]) => ({ size, quantity: Math.trunc(Number(quantity) || 0) }))
@@ -454,6 +496,7 @@
     groupLocalGaps,
     fichaMatchesQuery,
     filterFichas,
+    createSearchIndex,
     toRelationalResult,
     applyFichaPatch,
   };

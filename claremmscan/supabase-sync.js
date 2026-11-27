@@ -76,11 +76,14 @@
     && !String(product.imagen || '').trim()
     && !(Number(product.precio) > 0)
     && !(Number(totalQuantity) > 0);
+  const isSazStockAuditPending = product => /^(PENDIENTE EN SAZ|PRECARGADO SIN STOCK)$/i.test(String(product.estado || ''));
   const catalogSazFlags = (context, product, totalQuantity = 0) => {
-    const explicitPending = /PENDIENTE DE SAZ/i.test(String(product.estado || ''));
+    const sazStockAuditPending = isSazStockAuditPending(product);
+    const sazPreloadedWithoutStock = /^PRECARGADO SIN STOCK$/i.test(String(product.estado || ''));
+    const explicitPending = sazStockAuditPending || /PENDIENTE DE SAZ/i.test(String(product.estado || ''));
     const sazRegistered = !explicitPending && context.registryByKey.get(productLookupKey(product)) === product.id;
     const sazPreloaded = !explicitPending && (product.source_system === 'saz_precargado' || /PRECARGADO EN SAZ/i.test(String(product.estado || '')));
-    return { sazRegistered, sazPreloaded, isNew: isNuevoFicha(product, totalQuantity) };
+    return { sazRegistered, sazPreloaded, sazStockAuditPending, sazPreloadedWithoutStock, isNew: isNuevoFicha(product, totalQuantity) };
   };
   const compactLookupKey = value => `${compactEstilo(value?.estilo)}|${catalogText(value?.color)}`;
   const productLookupKeys = value => {
@@ -389,18 +392,20 @@
     if (!organization) throw new Error('No se encontró la organización CLAREMM.');
     const [{ data: branches, error: branchError }, registry] = await Promise.all([
       client.from('branches').select('id,code,name,active').eq('organization_id', organization.id).eq('active', true).order('name'),
-      pagedQuery(() => client.from('saz_product_registry').select('product_id,lookup_key').eq('organization_id', organization.id)),
+      pagedQuery(() => client.from('saz_product_registry').select('id,product_id,lookup_key,estilo,color,source_files,last_registered_at').eq('organization_id', organization.id)),
     ]);
     if (branchError) throw branchError;
     const nextBranches = await ensureNuevoLeonBranch(organization, branches || []);
     const previous = branchStockContext?.userId === user.id ? branchStockContext : null;
-    const registryByKey = new Map();
+    const registryByKey = new Map(), registryRowsByKey = new Map();
     for (const row of registry) {
       const exact = catalogText(row.lookup_key);
       registryByKey.set(exact, row.product_id);
+      registryRowsByKey.set(exact, row);
       const [estilo, color = ''] = exact.split('|');
       const compact = `${compactEstilo(estilo)}|${catalogText(color)}`;
       if (!registryByKey.has(compact)) registryByKey.set(compact, row.product_id);
+      if (!registryRowsByKey.has(compact)) registryRowsByKey.set(compact, row);
     }
     const productsByEstilo = previous?.productsByEstilo || new Map();
     if (!previous?.productsByEstilo && previous?.products?.length) {
@@ -415,7 +420,7 @@
       userId: user.id, organization, branches: nextBranches, products: previous?.products || [],
       productsById: previous?.productsById || new Map(), productsByKey: previous?.productsByKey || new Map(),
       productsByEstilo, queriedEstilos: previous?.queriedEstilos || new Set(),
-      registryByKey, variantsByProduct: previous?.variantsByProduct || new Map(),
+      registryByKey, registryRowsByKey, variantsByProduct: previous?.variantsByProduct || new Map(),
       variantsLoaded: previous?.variantsLoaded || new Set(),
     };
     return branchStockContext;
@@ -534,6 +539,8 @@
       current.imageUrl = current.imageUrl || result.imageUrl;
       current.sazRegistered = Boolean(current.sazRegistered || result.sazRegistered);
       current.sazPreloaded = Boolean(current.sazPreloaded || result.sazPreloaded);
+      current.sazStockAuditPending = Boolean(current.sazStockAuditPending || result.sazStockAuditPending);
+      current.sazPreloadedWithoutStock = Boolean(current.sazPreloadedWithoutStock || result.sazPreloadedWithoutStock);
       current.notice = 'Misma ficha unida: estilo + color. Las tallas se suman; si no existía, se agrega.';
     }
     return [...byKey.values()];
@@ -548,9 +555,7 @@
     const includeEmpty = options.includeEmpty !== false;
     const found = await findCatalogProducts(context, query, scope, planned?.limit || 40, signal);
     const products = found.filter(product => {
-      const explicitPending = /PENDIENTE DE SAZ/i.test(String(product.estado || ''));
-      const registered = !explicitPending && context.registryByKey.get(productLookupKey(product)) === product.id;
-      const preloaded = !explicitPending && (product.source_system === 'saz_precargado' || /PRECARGADO EN SAZ/i.test(String(product.estado || '')));
+      const { sazRegistered: registered, sazPreloaded: preloaded } = catalogSazFlags(context, product);
       const sinImagen = !String(product.imagen || '').trim();
       const sinPrecio = !(Number(product.precio) > 0);
       if (sazFilter === 'loaded') return registered;
@@ -1004,9 +1009,9 @@
       const template = pickCanonicalProduct(productsOfEstilo(context, row.estilo)) || {};
       const precio = catalogPrice(row.precio);
       return {
-        organization_id: context.organization.id,
-        source_system: 'branch_import',
-        source_id: key,
+      organization_id: context.organization.id,
+      source_system: 'branch_import',
+      source_id: key,
         match_key: [row.estilo, row.color, row.marca || template.marca].map(catalogText).join('|'),
         estilo: catalogText(row.estilo || template.estilo),
         color: sazResolve('color', row.color),
@@ -1215,7 +1220,7 @@
     if (change.type === 'price') {
       let corrida = change.corrida;
       if (!catalogCorrida(corrida) && change.color) {
-        const context = await loadBranchStockContext();
+    const context = await loadBranchStockContext();
         const ofStyle = await queryProductsByEstilo(context, change.estilo, 200);
         const hit = ofStyle.find(item => colorsMatch(item.color, change.color) || catalogText(item.color) === catalogText(change.color));
         corrida = hit?.corrida || '';
@@ -1427,6 +1432,7 @@
     if (user) {
       const previousOwner = localStorage.getItem(OWNER_KEY);
       if (previousOwner && previousOwner !== user.id) {
+        store.clearSazPrepCatalog?.();
         store.replaceItemsFromCloud([]);
         await store.clearImagesFromCloud();
         saveQueue(emptyQueue());
@@ -1438,6 +1444,7 @@
       catch (error) { setCloudStatus(`No se pudo sincronizar: ${cloudErrorMessage(error)}`, 'warn'); }
       store.refreshSazPrepCatalog?.().catch(() => {});
     } else {
+      store.clearSazPrepCatalog?.();
       setCloudStatus(client ? 'Inicia sesión para respaldar y sincronizar el inventario.' : 'Supabase no está configurado; los datos siguen guardándose localmente.', 'muted');
     }
   }
@@ -1515,7 +1522,9 @@
       kind: row.review.kind || 'created',
       batch_id: row.review.batch_id || '',
       created_at: row.product.created_at,
-      estado_saz: /CARGADO EN SAZ|PRECARGADO EN SAZ/i.test(String(row.product.estado || '')) ? 'En SAZ' : 'Pendiente de SAZ',
+      estado_saz: row.product.estado === 'PRECARGADO SIN STOCK' ? 'Precargado sin stock'
+        : row.product.estado === 'PENDIENTE EN SAZ' ? 'Pendiente en SAZ'
+        : /CARGADO EN SAZ|PRECARGADO EN SAZ/i.test(String(row.product.estado || '')) ? 'En SAZ' : 'Pendiente de SAZ',
       tallas: (sizesByProduct.get(row.product.id) || []).map(item => item.size),
       pares: quantityByProduct.get(row.product.id) || 0,
       imagen: row.product.imagen || '',
@@ -1548,7 +1557,7 @@
       return Number.isFinite(number) ? number.toFixed(1) : '';
     });
     const fichaKey = prep?.fichaKey || ((estilo, color) => `${compactEstilo(estilo)}|${catalogText(color)}`);
-    const context = await loadBranchStockContext();
+    const context = await loadBranchStockContext(true);
     const juarez = context.branches.find(branch => catalogText(branch.code) === 'JUAREZ');
     if (!juarez) throw new Error('No está configurada la sucursal JUÁREZ.');
     const registeredIds = new Set(context.registryByKey.values());
@@ -1615,7 +1624,9 @@
       const sinImagen = !String(canonical?.imagen || '').trim();
       const sinPrecio = !(Number(canonical?.precio) > 0);
       const pares = Object.values(group.qtyBySize).reduce((sum, quantity) => sum + Math.trunc(Number(quantity) || 0), 0);
-      if (inSaz || (!sinImagen && !sinPrecio)) {
+      // Use the audit workbook for these fichas. This export uses full branch
+      // stock and could duplicate pairs already in SAZ.
+      if (group.products.some(isSazStockAuditPending) || inSaz || (!sinImagen && !sinPrecio)) {
         skipKeys.push(key);
         continue;
       }
@@ -1662,6 +1673,10 @@
       const { data, error } = await client.from('products').select(PRODUCT_CATALOG_SELECT).eq('organization_id', context.organization.id).in('estilo', values.slice(index, index + 50));
       if (error) throw error;
       rememberProducts(context, data || []);
+      for (const value of values.slice(index, index + 50)) {
+        const key = compactEstilo(value);
+        if (key) context.queriedEstilos.add(key);
+      }
     }
   }
 
@@ -1669,10 +1684,11 @@
     const missing = [], scanner = [], preloaded = [];
     for (const item of parsed.products || []) {
       const candidates = candidatesFor(context, item);
-      const registeredId = productLookupKeys(item).map(key => context.registryByKey.get(key)).find(Boolean);
+      const registered = productLookupKeys(item).map(key => context.registryRowsByKey?.get(key)).find(Boolean);
+      const registeredId = registered?.product_id;
       const canonical = candidates.find(product => product.id === registeredId) || pickCanonicalProduct(candidates);
       if (!canonical) { missing.push(item); continue; }
-      const row = { item, candidates, canonical };
+      const row = { item, candidates, canonical, registered };
       if (canonical.source_system === 'saz_precargado' || /PRECARGADO EN SAZ/i.test(String(canonical.estado || ''))) preloaded.push(row);
       else scanner.push(row);
     }
@@ -1731,6 +1747,8 @@
         if (previous < quantity) { stockRowsToRaise += 1; pairsToAdd += quantity - previous; }
       }
     }
+    stockRowsToRaise += classified.missing.reduce((sum, row) => sum + Object.keys(row.quantities || {}).length, 0);
+    pairsToAdd += classified.missing.reduce((sum, row) => sum + Number(row.pairs || 0), 0);
     const statusRowsToUpdate = classified.scanner.flatMap(row => row.candidates).filter(product => product.activo !== false && product.estado !== 'REGISTRADO EN SAZ').length;
     return {
       context, juarez, classified, stock, preloadedWithoutStock,
@@ -1769,6 +1787,7 @@
 
   async function applySazReconciliation(parsed, onProgress) {
     let prepared = await prepareSazReconciliation(parsed, onProgress);
+    const productsCreated = prepared.classified.missing.length;
     if (prepared.classified.missing.length) {
       onProgress?.(`Creando ${prepared.classified.missing.length} ficha(s) YA PRECARGADO EN SAZ…`);
       await createSazPreloadedProducts(prepared.context, prepared.classified.missing, parsed.fileName);
@@ -1784,15 +1803,27 @@
     }
     onProgress?.('Actualizando registro SAZ…');
     const registryAfter = new Map();
-    for (const row of classified.scanner) {
-      const lookupKey = productLookupKey(row.canonical);
-      const { data, error } = await client.from('saz_product_registry').upsert({
-        organization_id: context.organization.id, product_id: row.canonical.id, lookup_key: lookupKey,
+    const registryBodies = classified.scanner.map(row => {
+      const body = {
+        organization_id: context.organization.id, product_id: row.canonical.id,
         estilo: catalogText(row.canonical.estilo), color: catalogText(row.canonical.color),
-        source_files: [parsed.fileName], last_registered_at: now,
-      }, { onConflict: 'organization_id,lookup_key' }).select('id,product_id,lookup_key').single();
+        source_files: [...new Set([...(row.registered?.source_files || []), parsed.fileName])], last_registered_at: now,
+      };
+      const lookupKey = row.registered?.lookup_key || productLookupKey(row.canonical);
+      body.lookup_key = lookupKey;
+      return body;
+    });
+    const savedRegistry = [];
+    for (const group of chunks(registryBodies, 80)) {
+      const { data, error } = await client.from('saz_product_registry').upsert(group, { onConflict: 'organization_id,lookup_key' }).select('id,product_id,lookup_key');
       if (error) throw error;
-      registryAfter.set(row.item.key, data);
+      savedRegistry.push(...(data || []));
+    }
+    const registryByProduct = new Map(savedRegistry.map(row => [row.product_id, row]));
+    for (const row of classified.scanner) {
+      const registered = registryByProduct.get(row.canonical.id);
+      if (!registered) throw new Error(`No se pudo registrar ${row.canonical.estilo} · ${row.canonical.color} en SAZ.`);
+      registryAfter.set(row.item.key, registered);
     }
     const targetRows = [...classified.scanner, ...preloadedWithoutStock];
     const stockResult = await applyBranchStock({ branchId: juarez.id, rows: flattenedSazRows(targetRows), mode: 'set', sourceName: parsed.fileName });
@@ -1814,7 +1845,8 @@
     }
     const registryIds = [...registryAfter.values()].map(row => row.id);
     if (registryIds.length) {
-      const existing = await pagedQuery(() => client.from('saz_registered_stock').select('id,registry_id,size,quantity').eq('branch_id', juarez.id).in('registry_id', registryIds));
+      const existing = [];
+      for (const group of chunks(registryIds, 100)) existing.push(...await pagedQuery(() => client.from('saz_registered_stock').select('id,registry_id,size,quantity').eq('branch_id', juarez.id).in('registry_id', group)));
       const stale = existing.filter(row => Number(row.quantity) > 0 && !desiredSizes.has(`${row.registry_id}|${window.ClaremmSazReconcile.sizeKey(row.size)}`));
       for (const group of chunks(stale.map(row => row.id), 80)) {
         const { error } = await client.from('saz_registered_stock').update({ quantity: 0, updated_at: now }).in('id', group);
@@ -1846,7 +1878,8 @@
     if (runError) throw runError;
     branchStockContext = null;
     await fetchSazStats();
-    return { completed: true, productsCreated: prepared.summary.missingProducts, scannerProducts: classified.scanner.length, preloadedProducts: classified.preloaded.length, stockRowsRaised: stockResult.appliedRows, pairsAdded: stockResult.appliedPairs, protectedRows: stockResult.protectedRows, legacyRowsMarked: pending.length, blockedRows: parsed.blockedRows || [] };
+    try { await store.refreshSazPrepCatalog?.(); } catch {}
+    return { completed: true, productsCreated, scannerProducts: classified.scanner.length, preloadedProducts: classified.preloaded.length, stockRowsRaised: stockResult.appliedRows, pairsAdded: stockResult.appliedPairs, protectedRows: stockResult.protectedRows, legacyRowsMarked: pending.length, blockedRows: parsed.blockedRows || [] };
   }
 
   window.claremmCloud = { recordMutation, recordImageMutation, recordCatalogMutation, syncAll, loadBranchStockContext, searchBranchCatalog, searchRelationalInventory, hydrateRelationalImages, uploadRelationalProductImage, updateRelationalStylePrice, updateRelationalProductField, duplicateRelationalProduct, syncCaptureToCatalog, getRelationalStylePrice, listAllProductImages, validateBranchStockRows, applyBranchStock, listRecentBranchStock, listCatalogReview, reviewCatalogProduct, listSazPrepGaps, previewSazReconciliation, applySazReconciliation };

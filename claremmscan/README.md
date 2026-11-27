@@ -80,6 +80,17 @@ Las columnas compatibles son: `Sucursal`, `Estilo`, `Marca`, `Color`, `Tipo de l
 - **Reemplazar todo:** crea primero un respaldo JSON automático y sustituye el inventario.
 - **Sumar al inventario:** agrega registros nuevos y acumula cantidades cuando coinciden sucursal, estilo, color y talla.
 
+### Conciliación diaria de existencias SAZ
+
+En **Inventario**, pulsa **Conciliar existencias SAZ** y selecciona el Excel de existencias exportado por SAZ. La vista previa indica productos válidos, pares, fichas nuevas e incidencias antes de escribir en Supabase.
+
+- Los productos originados en el escáner quedan como `REGISTRADO EN SAZ`.
+- Los productos que no existen en Supabase se crean como `YA PRECARGADO EN SAZ`.
+- Una ficha ya precargada solo recibe la existencia del archivo cuando todavía no tiene existencia en JUÁREZ.
+- JUÁREZ puede aumentar o agregar tallas, pero nunca disminuirlas.
+- El conciliador no modifica precio ni imagen.
+- Una fila con cantidades negativas o cuyo total no cuadre bloquea ese estilo + color completo y se muestra como incidencia para corregirlo en el Excel.
+
 ## Carga de existencias por sucursal
 
 El botón **Carga por sucursal** abre un espacio separado del inventario principal. La tienda base `CLAREMM ZAPATERIA JUAREZ` queda excluida: el módulo solo se habilita cuando existe otra sucursal activa en la tabla relacional `branches`.

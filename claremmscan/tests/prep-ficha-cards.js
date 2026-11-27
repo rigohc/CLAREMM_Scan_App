@@ -75,6 +75,7 @@ async function run() {
           updateRelationalProductField:async({field,value})=>{window.__prepField={field,value};return {updated:1,field,value,precio:field==='precio'?Number(String(value).replace(',','.')):undefined}},
           loadBranchStockContext:async()=>({branches:[{id:'juarez',code:'JUAREZ',name:'CLAREMM ZAPATERIA JUAREZ',active:true}]}),
         };
+        window.ClaremmStore.replaceItemsFromCloud([{estilo:'FALSOLOCAL',color:'ROJO',sucursal:'CLAREMM ZAPATERIA JUAREZ',talla:'23',cantidad:'9',precio:'',saz_cargado:false}]);
         await window.ClaremmStore.refreshSazPrepCatalog();
         for(let i=0;i<80&&!document.querySelector('.relationalResultCard [data-edit-field="precio"]');i++)await new Promise(resolve=>setTimeout(resolve,25));
         const card=document.querySelector('.relationalResultCard');
@@ -88,15 +89,31 @@ async function run() {
         const input=document.querySelector('[data-edit-input="precio"]');
         if(input){input.value='759';input.dispatchEvent(new KeyboardEvent('keydown',{key:'Enter',bubbles:true}))}
         for(let i=0;i<60&&!window.__prepField;i++)await new Promise(resolve=>setTimeout(resolve,20));
+        const prepTitle=document.getElementById('relationalSearchTitle')?.textContent||'';
+        const prepText=document.getElementById('relationalSearchPanel')?.textContent||'';
+        const branch={id:'juarez',name:'CLAREMM ZAPATERIA JUAREZ'};
+        window.claremmCloud.searchRelationalInventory=async(query, scope, filter)=>filter==='pending'
+          ? [{product:{id:'scanner',estilo:'MI4425',color:'NEGRO'},branch,sazStockAuditPending:true},
+             {product:{id:'preloaded',estilo:'MI4425',color:'ROJO'},branch,sazStockAuditPending:true,sazPreloadedWithoutStock:true}]
+          : [];
+        const filter=document.getElementById('inventorySazFilter');
+        filter.value='pending';
+        filter.dispatchEvent(new Event('change',{bubbles:true}));
+        const search=document.getElementById('inventorySearch');
+        search.value='MI4425';
+        search.dispatchEvent(new Event('input',{bubbles:true}));
+        for(let i=0;i<80&&!document.querySelector('[data-relational-product-id="preloaded"]');i++)await new Promise(resolve=>setTimeout(resolve,25));
         return {
           cardVisible:Boolean(card),
           tableHidden,
           tableDisplay,
           hasEditFields,
           noActualizar,
-          title:document.getElementById('relationalSearchTitle')?.textContent||'',
-          text:document.getElementById('relationalSearchPanel')?.textContent||'',
+          noLocalLeak:!/FALSOLOCAL/.test(prepText),
+          title:prepTitle,
+          text:prepText,
           saved:window.__prepField,
+          pendingLabels:[...document.querySelectorAll('#relationalSearchResults .sazStatus.isPending')].map(node=>node.textContent),
         };
       })()`,
       awaitPromise: true,
@@ -105,9 +122,10 @@ async function run() {
     if (result.exceptionDetails) throw new Error(result.exceptionDetails.exception?.description || result.exceptionDetails.text || 'Falló la prueba de fichas.');
     const value = result.result.value;
     console.log(JSON.stringify(value, null, 2));
-    if (!value.cardVisible || !value.tableHidden || value.tableDisplay !== 'none' || !value.hasEditFields || !value.noActualizar || value.title !== 'Faltantes SAZ' || !/MI4425/.test(value.text) || value.saved?.field !== 'precio') {
+    if (!value.cardVisible || !value.tableHidden || value.tableDisplay !== 'none' || !value.hasEditFields || !value.noActualizar || !value.noLocalLeak || value.title !== 'Faltantes SAZ' || !/MI4425/.test(value.text) || value.saved?.field !== 'precio') {
       process.exitCode = 2;
     }
+    if (!value.pendingLabels.includes('Pendiente en SAZ') || !value.pendingLabels.includes('Precargado sin stock')) process.exitCode = 2;
     socket.close();
   } finally {
     const stopped = new Promise(resolve => chrome.once('exit', resolve));

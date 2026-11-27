@@ -25,6 +25,9 @@ Cualquier agente, ingeniero o módulo POS debe cumplirlas. El código que las im
 | R-ST-05 | Idempotencia de lote: `batch_id` + `import_key` `api-v1:{batchId}:{productId}:{size}`. |
 | R-ST-06 | Agrupar duplicados de la misma carga por estilo+color+talla antes de escribir. |
 | R-ST-07 | API de catálogo: actualizar ficha (`PATCH`) o baja lógica (`DELETE` → `activo=false`). Tallas `set`/`sum` en JUÁREZ y NUEVO_LEON; en JUÁREZ nunca `next < previous`. |
+| R-ST-08 | Conciliación SAZ: ficha del escáner → `REGISTRADO EN SAZ`; ficha ausente → alta `YA PRECARGADO EN SAZ`; una ficha precargada solo toma el Excel cuando su existencia total en JUÁREZ es cero. |
+| R-ST-09 | La conciliación SAZ bloquea el estilo+color completo si una fila tiene existencia negativa o si su total no cuadra. Nunca modifica precio ni imagen. |
+| R-ST-10 | La auditoría del corte SAZ de JUÁREZ compara por estilo compacto + color + talla. Los faltantes se calculan por talla, sin compensarlos con excedentes de otras tallas. Si una ficha con pares faltantes estaba marcada como cargada, se corrige a `PENDIENTE EN SAZ` o `PRECARGADO SIN STOCK` según su origen. El reporte contiene el saldo por cargar. La corrección de estado no modifica existencias. |
 
 ## Precio e imagen
 
@@ -47,6 +50,7 @@ Cualquier agente, ingeniero o módulo POS debe cumplirlas. El código que las im
 | R-SE-05 | Índice local por estilo compacto. Rebuild al persistir. Objetivo: 50k+ fichas en &lt; 200 ms. |
 | R-SE-06 | Abortar la búsqueda anterior al teclear. No `IndexedDB.getAll()` de blobs en cada tecla. |
 | R-SE-07 | La UI no espera a 54k productos. Tope duro 40 fichas / 40 tarjetas. |
+| R-SE-08 | `Faltantes SAZ` usa exclusivamente un snapshot verificado de catálogo, registro SAZ y existencia de Supabase. No mezcla `inventory_items` locales ni muestra fichas “solo local”. |
 
 ## Sync, git y operaciones
 

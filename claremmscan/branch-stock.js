@@ -137,8 +137,11 @@
     const notice = proposed
       ? 'Precio precargado desde la foto. Revisa y confirma arriba para aplicarlo a los colores de este estilo y corrida.'
       : (result.notice || 'Toca un dato para editarlo en la ficha. El precio se aplica a los colores del mismo estilo y la misma corrida.');
-    const sazClass = result.sazRegistered ? 'isLoaded' : result.sazPreloaded ? 'isPreloaded' : 'isPending';
-    const sazLabel = result.sazRegistered ? 'Registrado en SAZ' : result.sazPreloaded ? 'Ya precargado en SAZ' : 'Pendiente de SAZ';
+    const sazClass = result.sazStockAuditPending ? 'isPending' : result.sazRegistered ? 'isLoaded' : result.sazPreloaded ? 'isPreloaded' : 'isPending';
+    const sazLabel = result.sazPreloadedWithoutStock ? 'Precargado sin stock'
+      : result.sazStockAuditPending ? 'Pendiente en SAZ'
+      : result.sazRegistered ? 'Registrado en SAZ'
+      : result.sazPreloaded ? 'Ya precargado en SAZ' : 'Pendiente de SAZ';
     const branchStocks = result.branchStocks?.length
       ? result.branchStocks
       : (result.branch ? [{ branch: result.branch, sizes: result.sizes || [], totalQuantity: result.totalQuantity || 0 }] : []);
